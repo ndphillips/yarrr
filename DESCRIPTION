@@ -1,9 +1,9 @@
-Package: yarrr
-Title: A companion package to YaRrr! The Pirate’s Guide to R
+Package: mypackage
+Title: What The Package Does (one line, title case required)
 Version: 0.1
-Authors@R: person("Nathaniel", "Phillips", email = "yarrr.book@gmail.com",
+Authors@R: person("First", "Last", email = "first.last@example.com",
                   role = c("aut", "cre"))
-Description: testtest
+Description: What the package does (one paragraph)
 Depends: R (>= 3.1.0)
 License: What license is it under?
 LazyData: true
