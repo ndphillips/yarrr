@@ -7,5 +7,3 @@ Description: This package contains a mixture of functions and datasets referred 
 Depends: R (>= 3.1.0)
 License: What license is it under?
 LazyData: true
-Suggests: plyr,dplyr,RColorBrewer
-BugReports: https://github.com/ndphillips/yarrr/issues
