@@ -3,15 +3,15 @@
 \docType{data}
 \name{hsurvey}
 \alias{hsurvey}
-\title{Prices of 50,000 round cut diamonds.}
-\format{A data frame with 53940 rows and 10 variables:
+\title{Survey of pirates}
+\format{A data frame containing results from a survey of
 \describe{
-  \item{price}{price, in US dollars}
-  \item{carat}{weight of the diamond, in carats}
+  \item{sex}{price, in US dollars}
+  \item{age}{weight of the diamond, in carats}
   ...
 }}
 \source{
-\url{http://www.diamondse.info/}
+1645 annual international pirate meeting
 }
 \usage{
 hsurvey
