@@ -3,7 +3,7 @@ Title: A companion package to YaRrr! The Pirate’s Guide to R
 Version: 0.1
 Authors@R: person("Nathaniel", "Phillips", email = "yarrr.book@gmail.com",
                   role = c("aut", "cre"))
-Description: This package contains a mixture of functions and datasets referred to in the introductory e-book YaRrr! The Pirate’s Guide to R (the latest version of the e-book is available for free here: https://goo.gl/tbPP9K). See http://nathanieldphillips.com/yarrr for additional information.
+Description: testtest
 Depends: R (>= 3.1.0)
 License: What license is it under?
 LazyData: true
