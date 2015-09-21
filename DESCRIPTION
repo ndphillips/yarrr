@@ -1,5 +1,5 @@
 Package: yarrr
-Title: A companion package to YaRrr The Pirates Guide to R
+Title: A companion package to YaRrr!: The Pirate's Guide to R
 Version: 0.1
 Authors@R: person("First", "Last", email = "first.last@example.com",
                   role = c("aut", "cre"))
