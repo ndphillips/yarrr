@@ -1,4 +1,4 @@
-Package: mypackage
+Package: yarrr
 Title: What The Package Does (one line, title case required)
 Version: 0.1
 Authors@R: person("First", "Last", email = "first.last@example.com",
