@@ -1,4 +1,4 @@
-#' pirate.pal
+#' piratepal
 #'
 #' This function provides a number of color palettes
 #'
@@ -11,23 +11,23 @@
 #' # Show all palettes
 #'
 #
-#' pirate.pal(palette = "all", action = "show")
+#' piratepal(palette = "all", action = "show")
 #'
 #'# Show som2 palettes
 #'
-#'pirate.pal(palette = "nemo", action = "show")
-#'pirate.pal(palette = "espresso", action = "show")
-#'pirate.pal(palette = "bugs", action = "show")
+#'piratepal(palette = "nemo", action = "show")
+#'piratepal(palette = "espresso", action = "show")
+#'piratepal(palette = "bugs", action = "show")
 #'
 #'# Scatterplot using the "up" palette
 #'
 #'x <- rnorm(100)
 #'y <- x + rnorm(100, 0, .3)
 #'
-#'plot(x, y, pch = 16, col = sample(pirate.pal("up"), 100, replace = T))
+#'plot(x, y, pch = 16, col = sample(piratepal("up"), 100, replace = T))
 #'
 
-pirate.pal <- function(palette = "random", action = "return", trans = 0) {
+piratepal <- function(palette = "random", action = "return", trans = 0) {
 
 
   palette.names <- c("ipod", "espresso", "info", "info2", "google", "drugs",
