@@ -10,6 +10,8 @@ pirate.colors(palette = "random", action = "return", trans = 1)
 \item{palette}{A string defining the color palette to use (see examples). To use a random palette, use "random"}
 
 \item{action}{Either "return" to return a vector of colors, "s" to show the full palette, or "showall" to plot all palettes}
+
+\item{trans}{A number in the interval [0, 1] indicating how transparent to make the colors}
 }
 \description{
 This function takes a standard color as an argument and returns a
@@ -18,10 +20,19 @@ transparent version of that color
 \examples{
 # Show all palettes
 
-pirate.colors(palette = "all", action = "show", trans = 1)
+pirate.colors(palette = "all", action = "show")
 
-# Show Finding Nemo palette
+# Show som palettes
+
 pirate.colors(palette = "nemo", action = "show")
+pirate.colors(palette = "espresso", action = "show")
+
+# Scatterplot using the "up" palette
+
+x <- rnorm(100)
+y <- x + rnorm(100, 0, .3)
+
+plot(x, y, pch = 16, col = sample(pirate.colors("up"), 100, replace = T))
 }
 \keyword{colors}
 
