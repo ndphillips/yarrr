@@ -19,13 +19,23 @@
 #'piratepal(palette = "espresso", action = "show")
 #'piratepal(palette = "bugs", action = "show")
 #'
-#'# Scatterplot using the "up" palette
+#'# Plot some baloons using the "up" palette
+#'x <- rnorm(100, 0)
+#' y <- rnorm(100, 2, 1.3)
+#' plot(1, xlim = c(-7, 7), ylim = c(-7, 7),
+#'      xlab = "", ylab = "", type = "n", xaxt = "n", yaxt = "n", bty = "n")
 #'
-#'x <- rnorm(100)
-#'y <- x + rnorm(100, 0, .3)
-#'
-#'plot(x, y, pch = 16, col = sample(piratepal("up"), 100, replace = T))
-#'
+#' rect(-2, -6, 2, -2)
+#' polygon(c(-2, 0, 2),
+#'         c(-2, 0, -2)
+#' )
+#' rect(-7, -7, -2, 100)
+#' rect(2, -7, 7, 100)
+#' rect(-.5, -6, .5, -4)
+#' points(.3, -5)
+
+
+
 
 piratepal <- function(palette = "random", action = "return", trans = 0) {
 
