@@ -1,7 +1,6 @@
-#' transparent function
+#' pirate.pal
 #'
-#' This function takes a standard color as an argument and returns a
-#' transparent version of that color
+#' This function provides a number of color palettes
 #'
 #' @param palette A string defining the color palette to use (see examples). To use a random palette, use "random"
 #' @param action Either "return" to return a vector of colors, "s" to show the full palette, or "showall" to plot all palettes
@@ -11,22 +10,22 @@
 #'
 #' # Show all palettes
 #'
-#' pirate.colors(palette = "all", action = "show")
+#' pirate.pal(palette = "all", action = "show")
 #'
 #'# Show som palettes
 #'
-#'pirate.colors(palette = "nemo", action = "show")
-#'pirate.colors(palette = "espresso", action = "show")
+#'pirate.pal(palette = "nemo", action = "show")
+#'pirate.pal(palette = "espresso", action = "show")
 #'
 #'# Scatterplot using the "up" palette
 #'
 #'x <- rnorm(100)
 #'y <- x + rnorm(100, 0, .3)
 #'
-#'plot(x, y, pch = 16, col = sample(pirate.colors("up"), 100, replace = T))
+#'plot(x, y, pch = 16, col = sample(pirate.pal("up"), 100, replace = T))
 #'
 
-pirate.colors <- function(palette = "random", action = "return", trans = 1) {
+pirate.pal <- function(palette = "random", action = "return", trans = 1) {
 
 
   palette.names <- c("ipod", "espresso", "info", "info2", "google", "drugs",
