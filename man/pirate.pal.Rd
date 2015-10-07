@@ -4,7 +4,7 @@
 \alias{pirate.pal}
 \title{pirate.pal}
 \usage{
-pirate.pal(palette = "random", action = "return", trans = 1)
+pirate.pal(palette = "random", action = "return", trans = 0)
 }
 \arguments{
 \item{palette}{A string defining the color palette to use (see examples). To use a random palette, use "random"}
@@ -21,10 +21,11 @@ This function provides a number of color palettes
 
 pirate.pal(palette = "all", action = "show")
 
-# Show som palettes
+# Show som2 palettes
 
 pirate.pal(palette = "nemo", action = "show")
 pirate.pal(palette = "espresso", action = "show")
+pirate.pal(palette = "bugs", action = "show")
 
 # Scatterplot using the "up" palette
 

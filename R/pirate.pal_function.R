@@ -10,12 +10,14 @@
 #'
 #' # Show all palettes
 #'
+#
 #' pirate.pal(palette = "all", action = "show")
 #'
-#'# Show som palettes
+#'# Show som2 palettes
 #'
 #'pirate.pal(palette = "nemo", action = "show")
 #'pirate.pal(palette = "espresso", action = "show")
+#'pirate.pal(palette = "bugs", action = "show")
 #'
 #'# Scatterplot using the "up" palette
 #'
@@ -25,7 +27,7 @@
 #'plot(x, y, pch = 16, col = sample(pirate.pal("up"), 100, replace = T))
 #'
 
-pirate.pal <- function(palette = "random", action = "return", trans = 1) {
+pirate.pal <- function(palette = "random", action = "return", trans = 0) {
 
 
   palette.names <- c("ipod", "espresso", "info", "info2", "google", "drugs",
