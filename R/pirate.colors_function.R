@@ -4,17 +4,16 @@
 #' transparent version of that color
 #'
 #' @param palette A string defining the color palette to use (see examples). To use a random palette, use "random"
-#' @param action Either "return" to return a vector of colors, "plot" to plot the full palette, or "showall" to plot all palettes
+#' @param action Either "return" to return a vector of colors, "s" to show the full palette, or "showall" to plot all palettes
 #' @keywords colors
 #' @examples
 #'
 #' # Show all palettes
 #'
-#' palette.names <- c("ipod", "nyt", "espresso", "info", "info2", "stork", "google", "drugs",
-#' "goldfish", "provoking", "emo", "cake", "pancake", "lubitel")
+#' pirate.colors(palette = "all", action = "show", trans = 1)
 #'
-#' plot(1, xlim = c(0, 10),
-#' ylim = c(0, 1))
+#'# Show Finding Nemo palette
+#'pirate.colors(palette = "nemo", action = "show")
 #'
 #'
 #'
@@ -30,7 +29,7 @@ pirate.colors <- function(palette = "random", action = "return", trans = 1) {
                      "brave", "bugs", "cars", "nemo", "rat", "up"
                      )
 
-  if(!(palette %in% c(palette.names, "random"))) {
+  if(!(palette %in% c(palette.names, "random", "all"))) {
 
     return("You did not specify a valid palette. Please try again!")
 
@@ -290,7 +289,9 @@ pirate.colors <- function(palette = "random", action = "return", trans = 1) {
 
 if(palette == "random") {palette <- sample(palette.names[palette.names != "random"], 1)}
 
-palette.df <- get(paste(palette, ".pal", sep = ""))
+if(palette != "all") {palette.df <- get(paste(palette, ".pal", sep = ""))}
+
+
 
 if(substr(action, 1, 1) == "r") {
 
@@ -298,10 +299,39 @@ return(unlist(palette.df))
 
 }
 
-if(substr(action, 1, 1) == "p") {
+
+# Plot single palette
+
+if(substr(action, 1, 1) == "s" & palette %in% palette.names) {
 
   palette.df <- get(paste(palette, ".pal", sep = ""))
   col.vec <- unlist(palette.df)
+
+if(palette %in% c("up", "brave", "rat", "nemo", "cars", "bug")) {
+
+  library("jpeg")
+
+
+  par(mfrow = c(1, 2))
+
+
+plot_jpeg = function(path, add=FALSE)
+{
+  require('jpeg')
+  jpg = readJPEG(path, native=T) # read the file
+  res = dim(jpg)[1:2] # get the resolution
+  if (!add) # initialize an empty plot area if add==FALSE
+    plot(1,1,xlim=c(1,res[1]),ylim=c(1,res[2]),asp=1,type='n',xaxs='i',yaxs='i',xaxt='n',yaxt='n',xlab='',ylab='',bty='n')
+  rasterImage(jpg,1,1,res[1],res[2])
+}
+
+plot_jpeg(system.file(paste(palette, ".jpg", sep = ""), package="yarrr"))
+
+}
+
+
+}
+
 
 plot(1, xlim = c(0, length(col.vec) + 1), ylim = c(0, 1), xaxt = "n", yaxt = "n", bty = "n", type = "n", xlab = "", ylab = "")
 
@@ -311,11 +341,11 @@ mtext(text = palette, side = 3)
 
 }
 
-if(substr(action, 1, 1) == "s") {
+# Plot all palettes
+
+if(substr(action, 1, 1) == "s" & palette == "all") {
 
   n.palettes <- length(palette.names)
-
-
 
   plot(1, xlim = c(0, 12), ylim = c(0, n.palettes), xaxt = "n", yaxt = "n", bty = "n", type = "n", xlab = "", ylab = "",
        main = "pirate palettes"
