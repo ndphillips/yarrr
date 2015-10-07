@@ -21,6 +21,7 @@ transparent version of that color
 # Diagram of some examples
 plot(1, ylim = c(0, 1), xlim = c(0, 12), bty = "n", xaxt = "n", yaxt = "n", ylab = "", xlab = "", type = "na")
 
+
 text(6, .9, "transparent('red', trans.val = x)")
 points(x = 1:11, y = rep(.8, 11), pch = 16, col = transparent("red", seq(0, 1, .1)), cex = 2)
 text(x = 1:11, y = rep(.85, 11), seq(0, 1, .1))
