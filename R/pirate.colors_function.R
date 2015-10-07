@@ -330,7 +330,6 @@ plot_jpeg(system.file(paste(palette, ".jpg", sep = ""), package="yarrr"))
 }
 
 
-}
 
 
 plot(1, xlim = c(0, length(col.vec) + 1), ylim = c(0, 1), xaxt = "n", yaxt = "n", bty = "n", type = "n", xlab = "", ylab = "")

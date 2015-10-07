@@ -9,7 +9,7 @@ pirate.colors(palette = "random", action = "return", trans = 1)
 \arguments{
 \item{palette}{A string defining the color palette to use (see examples). To use a random palette, use "random"}
 
-\item{action}{Either "return" to return a vector of colors, "plot" to plot the full palette, or "showall" to plot all palettes}
+\item{action}{Either "return" to return a vector of colors, "s" to show the full palette, or "showall" to plot all palettes}
 }
 \description{
 This function takes a standard color as an argument and returns a
@@ -18,11 +18,10 @@ transparent version of that color
 \examples{
 # Show all palettes
 
-palette.names <- c("ipod", "nyt", "espresso", "info", "info2", "stork", "google", "drugs",
-"goldfish", "provoking", "emo", "cake", "pancake", "lubitel")
+pirate.colors(palette = "all", action = "show", trans = 1)
 
-plot(1, xlim = c(0, 10),
-ylim = c(0, 1))
+# Show Finding Nemo palette
+pirate.colors(palette = "nemo", action = "show")
 }
 \keyword{colors}
 
