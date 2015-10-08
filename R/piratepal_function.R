@@ -6,6 +6,7 @@
 #' @param action Either "return" to return a vector of colors, "s" to show the full palette, or "showall" to plot all palettes
 #' @param trans A number in the interval [0, 1] indicating how transparent to make the colors
 #' @keywords colors
+#' @export
 #' @examples
 #'
 #' # Show all palettes

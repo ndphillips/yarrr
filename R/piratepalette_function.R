@@ -332,8 +332,6 @@ if(substr(action, 1, 1) == "s" & palette %in% palette.names) {
     text.heights <- .2
     pic.center <- c(.5, .65)
 
-    require('jpeg')
-
     jpg <-  readJPEG(system.file(paste(palette, ".jpg", sep = ""), package="yarrr"), native=T) # read the file
     res <-  dim(jpg)[1:2] # get the resolution
     ar <- res[2] / res[1]
