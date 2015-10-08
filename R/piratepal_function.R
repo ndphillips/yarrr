@@ -597,11 +597,12 @@ if(substr(action, 1, 1) == "s" & palette == "all") {
 
     n.colors <- length(palette.df)
 
-  #  rect(1:n.colors - .5, i - .25, 1:n.colors + .5, i + .25, col = palette.df, border = NA)
+    rect(0:(n.colors - 1),  rep(y.locations[i], n.colors) - 1 / (n.palettes * 2.2), 1:(n.colors), rep(y.locations[i], n.colors) + 1 / (n.palettes * 2.2), col = palette.df, border = NA)
 
-  points(1:n.colors, rep(y.locations[i], n.colors) * 1, col = palette.df, pch = 16, cex = 1.4)
 
-    mtext(palette.names[i], side = 2, at = y.locations[i], las = 1, cex = .9)
+ # points(1:n.colors, rep(y.locations[i], n.colors) * 1, col = palette.df, pch = 16, cex = 1.4)
+
+    mtext(palette.names[i], side = 2, at = y.locations[i], las = 1, cex = .9, line = 0)
 
   }
 
@@ -612,4 +613,4 @@ if(substr(action, 1, 1) == "s" & palette == "all") {
 
 
 }
-piratepal(palette = "monalisa", action = "show")
+piratepal(palette = "all", action = "show")
