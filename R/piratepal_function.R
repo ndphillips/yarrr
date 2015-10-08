@@ -9,6 +9,7 @@
 #' @export
 #' @examples
 #'
+#'
 #' # Show all palettes
 #'
 #
