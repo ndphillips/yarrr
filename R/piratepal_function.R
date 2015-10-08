@@ -35,6 +35,10 @@
 #' rect(2, -7, 7, 100)
 #' rect(-.5, -6, .5, -4)
 #' points(.3, -5)
+#'
+#' segments(x, y - 3, x, y, lty = 3, col = gray(.7))
+#' points(x, y, pch = 21, bg = sample(piratepal("up"), 100, replace = T),
+#'      xlim = c(-7, 7), ylim = c(-7, 7), cex = 2, col = gray(.9))
 
 
 

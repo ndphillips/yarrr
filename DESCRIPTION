@@ -4,7 +4,7 @@ Version: 0.1
 Authors@R: person("Nathaniel", "Phillips", email = "yarrr.book@gmail.com",
                   role = c("aut", "cre"))
 Description: This package contains a mixture of functions and datasets referred to in the introductory e-book YaRrr!: The Pirate's Guide to R. The latest version of the e-book is available for free at https://googl/tbPP9K). See http://nathanieldphillips.com/yarrr for more information.
-Depends: jpeg, plyr, dplyr, BEST
+Depends: jpeg, plyr, dplyr
 License: What license is it under?
 LazyData: true
 Suggests: plyr,dplyr,RColorBrewer
