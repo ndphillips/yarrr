@@ -66,7 +66,8 @@ piratepal <- function(palette = "random", action = "return", trans = 0) {
                      "goldfish", "provoking", "emo", "cake", "pancake", "lubitel",
                      "brave", "bugs", "cars", "nemo", "rat", "up", "compote", "scholar",
                      "harbor", "iguana", "fall", "pebble", "scuba", "monalisa", "memento",
-                     "malcovich", "toystory", "usualsuspects", "ohbrother", "ghostbusters"
+                     "malcovich", "toystory", "usualsuspects", "ohbrother", "ghostbusters",
+                     "evildead"
                      )
 
   if(!(palette %in% c(palette.names, "random", "all"))) {
@@ -78,6 +79,15 @@ piratepal <- function(palette = "random", action = "return", trans = 0) {
 
 # Define all palettes
 {
+
+  evildead.pal <- data.frame(
+    "brown" = rgb(25, 24, 13, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "green" = rgb(33, 37, 16, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "red" = rgb(46, 16, 11, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "brown2" = rgb(57, 46, 18, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "brown3" = rgb(87, 81, 43, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "tan" = rgb(150, 142, 76, alpha = (1 - trans) * 255, maxColorValue = 255),
+    stringsAsFactors = F)
 
   monalisa.pal <- data.frame(
     "tan" = rgb(187, 163, 112, alpha = (1 - trans) * 255, maxColorValue = 255),
@@ -482,7 +492,7 @@ if(substr(action, 1, 1) == "s" & palette %in% palette.names) {
   col.vec <- unlist(palette.df)
   n.colors <- length(col.vec)
 
-  par(mar = c(0, 0, 0, 0))
+  par(mar = c(1, 1, 1, 1))
   plot(1, xlim = c(0, 1), ylim = c(0, 1),
        type='n',xaxs='i',xaxt = "n", yaxt = "n",
        bty = "n", yaxs='i',xlab='',ylab='')
@@ -494,7 +504,7 @@ if(substr(action, 1, 1) == "s" & palette %in% palette.names) {
   if(system.file(paste(palette, ".jpg", sep = ""), package="yarrr") != "") {
 
   point.heights <- .3
-  text.heights <- .1
+  text.heights <- .05
   pic.center <- c(.5, .65)
 
   require('jpeg')
@@ -505,7 +515,7 @@ if(substr(action, 1, 1) == "s" & palette %in% palette.names) {
 
   if(res[2] >= res[1]) {
 
-  desired.width <- .50
+  desired.width <- .75
   required.height <- desired.width / ar
 
   rasterImage(jpg,
@@ -567,7 +577,7 @@ segments(locations.to.use, text.heights + .05, locations.to.use, point.heights, 
 
   text(locations.to.use, text.heights, names(col.vec), srt = 45)
 
-  text(.5, .9, palette, cex = 2)
+  text(.5, .95, palette, cex = 2)
 
 
 }
@@ -613,4 +623,4 @@ if(substr(action, 1, 1) == "s" & palette == "all") {
 
 
 }
-piratepal(palette = "all", action = "show")
+
