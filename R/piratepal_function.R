@@ -2,9 +2,9 @@
 #'
 #' This function provides a number of color palettes
 #'
-#' @param palette A string defining the color palette to use (see examples). To use a random palette, use "random"
-#' @param action Either "return" to return a vector of colors, "s" to show the full palette, or "showall" to plot all palettes
-#' @param trans A number in the interval [0, 1] indicating how transparent to make the colors
+#' @param palette A string defining the color palette to use (see examples). To use a random palette, use "random". To view all palettes, use "all" combined with action = "show"
+#' @param action Either "return" to return a vector of colors, or "show" to show the palette. You can also use "r" or "s" for shorthand.
+#' @param trans A number in the interval [0, 1] indicating how transparent to make the colors. A value of 0 means no transparency and a value of 1 means completely transparency.
 #' @keywords colors
 #' @export
 #' @examples
@@ -12,18 +12,19 @@
 #'
 #' # Show all palettes
 #'
-#
 #' piratepal(palette = "all", action = "show")
 #'
-#'# Show som2 palettes
+#'# Show some palettes
 #'
 #'piratepal(palette = "nemo", action = "show")
 #'piratepal(palette = "espresso", action = "show")
 #'piratepal(palette = "bugs", action = "show")
+#'piratepal(palette = "ohbrother", action = "show")
 #'
-#'# Plot some baloons using the "up" palette
+#'# Plot the Up house using the "up" palette
+#'
 #'x <- rnorm(100, 0)
-#' y <- rnorm(100, 2, 1.3)
+#' y <- rnorm(100, 2, 1)
 #' plot(1, xlim = c(-7, 7), ylim = c(-7, 7),
 #'      xlab = "", ylab = "", type = "n", xaxt = "n", yaxt = "n", bty = "n")
 #'
@@ -38,7 +39,22 @@
 #'
 #' segments(x, y - 3, x, y, lty = 3, col = gray(.7))
 #' points(x, y, pch = 21, bg = sample(piratepal("up"), 100, replace = T),
-#'      xlim = c(-7, 7), ylim = c(-7, 7), cex = 2, col = gray(.9))
+#'        xlim = c(-7, 7), ylim = c(-7, 7), col = gray(.9), cex = rnorm(100, 2, .2))
+#'
+#'
+#' # Plot a Google Universe
+#'
+#'plot(rnorm(100, 0, 3), rnorm(100, 0, 3),
+#'     xaxt = "n", yaxt = "n", ylab = "", xlab = "",
+#'     bty = "n",
+#'     pch = 16, col = piratepal("google", trans = .2),
+#'     cex = rnorm(100, 2), xlim = c(-10, 10), ylim = c(-10, 10))
+#'
+#'
+#'
+#'
+#'
+#'
 
 
 
@@ -48,18 +64,154 @@ piratepal <- function(palette = "random", action = "return", trans = 0) {
 
   palette.names <- c("ipod", "espresso", "info", "info2", "google", "drugs",
                      "goldfish", "provoking", "emo", "cake", "pancake", "lubitel",
-                     "brave", "bugs", "cars", "nemo", "rat", "up"
+                     "brave", "bugs", "cars", "nemo", "rat", "up", "compote", "scholar",
+                     "harbor", "iguana", "fall", "pebble", "scuba", "monalisa", "memento",
+                     "malcovich", "toystory", "usualsuspects", "ohbrother", "ghostbusters"
                      )
 
   if(!(palette %in% c(palette.names, "random", "all"))) {
 
-    return("You did not specify a valid palette. Please try again!")
+    return(c("You did not specify a valid palette. Please try one of the following: ", palette.names))
 
   }
 
 
 # Define all palettes
 {
+
+  monalisa.pal <- data.frame(
+    "tan" = rgb(187, 163, 112, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "yellow" = rgb(202, 162, 65, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "green1" = rgb(187, 190, 112, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "green2" = rgb(89, 89, 41, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "brown" = rgb(42, 20, 1, alpha = (1 - trans) * 255, maxColorValue = 255),
+    stringsAsFactors = F)
+
+
+  memento.pal <- data.frame(
+    "gray1" = rgb(13, 13, 33, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "blue1" = rgb(11, 29, 81, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "green" = rgb(48, 53, 47, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "blue2" = rgb(49, 67, 95, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "blue3" = rgb(27, 71, 148, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "tan" = rgb(135, 120, 117, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "green" = rgb(94, 135, 122, alpha = (1 - trans) * 255, maxColorValue = 255),
+
+    stringsAsFactors = F)
+
+  malcovich.pal <- data.frame(
+    "gray1" = rgb(5, 5, 5, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "blue1" = rgb(20, 24, 27, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "green" = rgb(46, 77, 73, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "brown" = rgb(77, 64, 57, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "blue2" = rgb(48, 92, 110, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "blue3" = rgb(117, 125, 139, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "gray" = rgb(164, 160, 159, alpha = (1 - trans) * 255, maxColorValue = 255),
+
+    stringsAsFactors = F)
+
+  toystory.pal <- data.frame(
+    "gray1" = rgb(15, 10, 10, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "blue1" = rgb(36, 24, 40, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "red" = rgb(251, 27, 34, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "brown" = rgb(94, 72, 57, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "green" = rgb(125, 153, 58, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "yellow" = rgb(227, 191, 71, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "blue2" = rgb(167, 208, 235, alpha = (1 - trans) * 255, maxColorValue = 255),
+
+    stringsAsFactors = F)
+
+  usualsuspects.pal <- data.frame(
+    "gray1" = rgb(50, 51, 55, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "gray2" = rgb(83, 76, 83, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "blue" = rgb(63, 81, 106, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "brown" = rgb(155, 102, 89, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "red" = rgb(232, 59, 65, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "gray3" = rgb(159, 156, 162, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "tan" = rgb(234, 174, 157, alpha = (1 - trans) * 255, maxColorValue = 255),
+
+    stringsAsFactors = F)
+
+
+  ohbrother.pal <- data.frame(
+    "brown1" = rgb(26, 15, 10, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "brown2" = rgb(61, 41, 26, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "brown3" = rgb(113, 86, 57, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "green" = rgb(116, 125, 109, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "tan1" = rgb(173, 157, 11, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "blue" = rgb(148, 196, 223, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "tan2" = rgb(230, 221, 168, alpha = (1 - trans) * 255, maxColorValue = 255),
+
+    stringsAsFactors = F)
+
+  ghostbusters.pal <- data.frame(
+    "black" = rgb(0, 0, 0, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "brown" = rgb(42, 24, 16, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "green1" = rgb(58, 53, 32, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "red" = rgb(98, 0, 7, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "gray" = rgb(101, 91, 92, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "green2" = rgb(119, 120, 107, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "tan" = rgb(155, 142, 114, alpha = (1 - trans) * 255, maxColorValue = 255),
+
+    stringsAsFactors = F)
+
+
+
+  compote.pal <- data.frame(
+    "purple1" = rgb(137, 62, 86, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "blue" = rgb(78, 90, 131, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "purple2" = rgb(187, 172, 209, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "gray" = rgb(225, 225, 225, alpha = (1 - trans) * 255, maxColorValue = 255),
+    stringsAsFactors = F)
+
+
+    scholar.pal <- data.frame(
+      "blue1" = rgb(43, 62, 86, alpha = (1 - trans) * 255, maxColorValue = 255),
+      "yellow" = rgb(205, 167, 37, alpha = (1 - trans) * 255, maxColorValue = 255),
+      "blue2" = rgb(197, 203, 211, alpha = (1 - trans) * 255, maxColorValue = 255),
+      "gray" = rgb(241, 241, 231, alpha = (1 - trans) * 255, maxColorValue = 255),
+      stringsAsFactors = F)
+
+
+      harbor.pal <- data.frame(
+        "blue1" = rgb(45, 61, 64, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "blue2" = rgb(99, 112, 128, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "blue3" = rgb(156, 193, 190, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "gray" = rgb(220, 228, 229, alpha = (1 - trans) * 255, maxColorValue = 255),
+        stringsAsFactors = F)
+
+
+      iguana.pal <- data.frame(
+        "purple1" = rgb(150, 50, 144, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "green" = rgb(202, 220, 42, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "purple2" = rgb(203, 166, 206, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "gray" = rgb(226, 227, 229, alpha = (1 - trans) * 255, maxColorValue = 255),
+        stringsAsFactors = F)
+
+
+      fall.pal <- data.frame(
+        "blue1" = rgb(67, 60, 77, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "red" = rgb(124, 25, 57, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "yellow" = rgb(242, 188, 32, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "blue2" = rgb(154, 205, 247, alpha = (1 - trans) * 255, maxColorValue = 255),
+        stringsAsFactors = F)
+
+      pebble.pal <- data.frame(
+        "blue1" = rgb(58, 53, 64, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "blue2" = rgb(137, 122, 135, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "brown" = rgb(214, 187, 166, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "pink" = rgb(240, 228, 232, alpha = (1 - trans) * 255, maxColorValue = 255),
+        stringsAsFactors = F)
+
+
+      scuba.pal <- data.frame(
+        "blue1" = rgb(13, 65, 87, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "orange" = rgb(233, 96, 44, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "blue2" = rgb(165, 219, 239, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "gray" = rgb(221, 217, 215, alpha = (1 - trans) * 255, maxColorValue = 255),
+        stringsAsFactors = F)
+
+
 
    # http://a.dilcdn.com/bl/wp-content/uploads/sites/2/2015/05/disneyPixar_PixarPalette_BRA_01.jpg
 
@@ -151,6 +303,7 @@ piratepal <- function(palette = "random", action = "return", trans = 0) {
 
     )
 
+  # Colors of apple ipods (can't remember which year)
 
     ipod.pal  <- data.frame(
     "lightgray" = rgb(215, 215, 215, alpha = (1 - trans) * 255, maxColorValue = 255),
@@ -163,20 +316,22 @@ piratepal <- function(palette = "random", action = "return", trans = 0) {
     stringsAsFactors = F
   )
 
+  # Colors from an infographic (can't remember which one)
+
     info.pal <- data.frame(
     "red" = rgb(231, 105, 93, alpha = (1 - trans) * 255, maxColorValue = 255),
     "darkblue" = rgb(107, 137, 147, alpha = (1 - trans) * 255, maxColorValue = 255),
     "creme" = rgb(246, 240, 212, alpha = (1 - trans) * 255, maxColorValue = 255),
     "green" = rgb(149, 206, 138, alpha = (1 - trans) * 255, maxColorValue = 255),
-    "lightgray" = rgb(210, 210, 210, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "gray1" = rgb(210, 210, 210, alpha = (1 - trans) * 255, maxColorValue = 255),
     "lightblue" = rgb(148, 212, 212, alpha = (1 - trans) * 255, maxColorValue = 255),
-    "lightgray" = rgb(150, 150, 150, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "gray2" = rgb(150, 150, 150, alpha = (1 - trans) * 255, maxColorValue = 255),
     "background" = rgb(241, 243, 232, alpha = (1 - trans) * 255, maxColorValue = 255),
     "brown" = rgb(136, 119, 95, alpha = (1 - trans) * 255, maxColorValue = 255),
     stringsAsFactors = F
   )
 
-
+  # Colors from another mystery infographic
 
     info2.pal <- data.frame(
     "darkblue" = rgb(0, 106, 64, alpha = (1 - trans) * 255, maxColorValue = 255),
@@ -301,9 +456,13 @@ piratepal <- function(palette = "random", action = "return", trans = 0) {
 
 }
 
+
+
 if(palette == "random") {palette <- sample(palette.names[palette.names != "random"], 1)}
 
 if(palette != "all") {palette.df <- get(paste(palette, ".pal", sep = ""))}
+
+
 
 
 # Return color vector
@@ -334,8 +493,8 @@ if(substr(action, 1, 1) == "s" & palette %in% palette.names) {
 
   if(system.file(paste(palette, ".jpg", sep = ""), package="yarrr") != "") {
 
-  point.heights <- .4
-  text.heights <- .2
+  point.heights <- .3
+  text.heights <- .1
   pic.center <- c(.5, .65)
 
   require('jpeg')
@@ -343,6 +502,8 @@ if(substr(action, 1, 1) == "s" & palette %in% palette.names) {
   jpg <-  readJPEG(system.file(paste(palette, ".jpg", sep = ""), package="yarrr"), native=T) # read the file
   res <-  dim(jpg)[1:2] # get the resolution
   ar <- res[2] / res[1]
+
+  if(res[2] >= res[1]) {
 
   desired.width <- .50
   required.height <- desired.width / ar
@@ -352,6 +513,21 @@ if(substr(action, 1, 1) == "s" & palette %in% palette.names) {
               pic.center[2] - required.height / 2,
               pic.center[1] + desired.width / 2,
               pic.center[2] + required.height / 2)
+
+  }
+
+  if(res[2] < res[1]) {
+
+    desired.height <- .40
+    required.width <- desired.height * ar
+
+    rasterImage(jpg,
+                pic.center[1] - required.width / 2,
+                pic.center[2] - desired.height / 2,
+                pic.center[1] + required.width / 2,
+                pic.center[2] + desired.height / 2)
+
+  }
 
 
 }
@@ -381,7 +557,7 @@ if(system.file(paste(palette, ".jpg", sep = ""), package = "yarrr") == "") {
 
 # Add segments
 
-segments(locations.to.use, text.heights + .1, locations.to.use, point.heights, lwd = 1, lty = 2)
+segments(locations.to.use, text.heights + .05, locations.to.use, point.heights, lwd = 1, lty = 2)
 
 
   # Add points
@@ -436,4 +612,4 @@ if(substr(action, 1, 1) == "s" & palette == "all") {
 
 
 }
-
+piratepal(palette = "monalisa", action = "show")

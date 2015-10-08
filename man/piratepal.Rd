@@ -7,11 +7,11 @@
 piratepal(palette = "random", action = "return", trans = 0)
 }
 \arguments{
-\item{palette}{A string defining the color palette to use (see examples). To use a random palette, use "random"}
+\item{palette}{A string defining the color palette to use (see examples). To use a random palette, use "random". To view all palettes, use "all" combined with action = "show"}
 
-\item{action}{Either "return" to return a vector of colors, "s" to show the full palette, or "showall" to plot all palettes}
+\item{action}{Either "return" to return a vector of colors, or "show" to show the palette. You can also use "r" or "s" for shorthand.}
 
-\item{trans}{A number in the interval [0, 1] indicating how transparent to make the colors}
+\item{trans}{A number in the interval [0, 1] indicating how transparent to make the colors. A value of 0 means no transparency and a value of 1 means completely transparency.}
 }
 \description{
 This function provides a number of color palettes
@@ -21,15 +21,17 @@ This function provides a number of color palettes
 
 piratepal(palette = "all", action = "show")
 
-# Show som2 palettes
+# Show some palettes
 
 piratepal(palette = "nemo", action = "show")
 piratepal(palette = "espresso", action = "show")
 piratepal(palette = "bugs", action = "show")
+piratepal(palette = "ohbrother", action = "show")
 
-# Plot some baloons using the "up" palette
+# Plot the Up house using the "up" palette
+
 x <- rnorm(100, 0)
-y <- rnorm(100, 2, 1.3)
+y <- rnorm(100, 2, 1)
 plot(1, xlim = c(-7, 7), ylim = c(-7, 7),
      xlab = "", ylab = "", type = "n", xaxt = "n", yaxt = "n", bty = "n")
 
@@ -41,6 +43,19 @@ rect(-7, -7, -2, 100)
 rect(2, -7, 7, 100)
 rect(-.5, -6, .5, -4)
 points(.3, -5)
+
+segments(x, y - 3, x, y, lty = 3, col = gray(.7))
+points(x, y, pch = 21, bg = sample(piratepal("up"), 100, replace = T),
+       xlim = c(-7, 7), ylim = c(-7, 7), col = gray(.9), cex = rnorm(100, 2, .2))
+
+
+# Plot a Google Universe
+
+plot(rnorm(100, 0, 3), rnorm(100, 0, 3),
+    xaxt = "n", yaxt = "n", ylab = "", xlab = "",
+    bty = "n",
+    pch = 16, col = piratepal("google", trans = .2),
+    cex = rnorm(100, 2), xlim = c(-10, 10), ylim = c(-10, 10))
 }
 \keyword{colors}
 
