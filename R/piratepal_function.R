@@ -21,7 +21,7 @@
 #'piratepal(palette = "bugs", action = "show")
 #'piratepal(palette = "ohbrother", action = "show")
 #'
-#'# Plot the Up house using the "up" palette
+#'# Plot the Up house using colors from the "google" palette
 #'
 #'x <- rnorm(100, 0)
 #' y <- rnorm(100, 2, 1)
@@ -38,17 +38,10 @@
 #' points(.3, -5)
 #'
 #' segments(x, y - 3, x, y, lty = 3, col = gray(.7))
-#' points(x, y, pch = 21, bg = sample(piratepal("up"), 100, replace = T),
+#' points(x, y, pch = 21, bg = sample(piratepal("google", trans = .1), 100, replace = T),
 #'        xlim = c(-7, 7), ylim = c(-7, 7), col = gray(.9), cex = rnorm(100, 2, .2))
 #'
 #'
-#' # Plot a Google Universe
-#'
-#'plot(rnorm(100, 0, 3), rnorm(100, 0, 3),
-#'     xaxt = "n", yaxt = "n", ylab = "", xlab = "",
-#'     bty = "n",
-#'     pch = 16, col = piratepal("google", trans = .2),
-#'     cex = rnorm(100, 2), xlim = c(-10, 10), ylim = c(-10, 10))
 #'
 #'
 #'
@@ -67,7 +60,7 @@ piratepal <- function(palette = "random", action = "return", trans = 0) {
                      "brave", "bugs", "cars", "nemo", "rat", "up", "compote", "scholar",
                      "harbor", "iguana", "fall", "pebble", "scuba", "monalisa", "memento",
                      "malcovich", "toystory", "usualsuspects", "ohbrother", "ghostbusters",
-                     "evildead"
+                     "evildead", "eternal"
                      )
 
   if(!(palette %in% c(palette.names, "random", "all"))) {
@@ -79,6 +72,17 @@ piratepal <- function(palette = "random", action = "return", trans = 0) {
 
 # Define all palettes
 {
+
+  eternal.pal <- data.frame(
+    "purple1" = rgb(23, 12, 46, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "red" = rgb(117, 16, 41, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "purple2" = rgb(82, 25, 76, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "purple3" = rgb(71, 59, 117, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "blue1" = rgb(77, 112, 156, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "tan" = rgb(111, 118, 107, alpha = (1 - trans) * 255, maxColorValue = 255),
+    "blue2" = rgb(146, 173, 196, alpha = (1 - trans) * 255, maxColorValue = 255),
+
+    stringsAsFactors = F)
 
   evildead.pal <- data.frame(
     "brown" = rgb(25, 24, 13, alpha = (1 - trans) * 255, maxColorValue = 255),
@@ -515,7 +519,7 @@ if(substr(action, 1, 1) == "s" & palette %in% palette.names) {
 
   if(res[2] >= res[1]) {
 
-  desired.width <- .75
+  desired.width <- .6
   required.height <- desired.width / ar
 
   rasterImage(jpg,
@@ -578,6 +582,7 @@ segments(locations.to.use, text.heights + .05, locations.to.use, point.heights, 
   text(locations.to.use, text.heights, names(col.vec), srt = 45)
 
   text(.5, .95, palette, cex = 2)
+  text(.5, .9, paste("trans = ", trans, sep = ""))
 
 
 }
@@ -586,7 +591,7 @@ segments(locations.to.use, text.heights + .05, locations.to.use, point.heights, 
 
 if(substr(action, 1, 1) == "s" & palette == "all") {
 
-  par(mar = c(1, 4, 4, 0))
+  par(mar = c(1, 6, 4, 0))
 
   n.palettes <- length(palette.names)
 

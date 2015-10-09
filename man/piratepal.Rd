@@ -28,7 +28,7 @@ piratepal(palette = "espresso", action = "show")
 piratepal(palette = "bugs", action = "show")
 piratepal(palette = "ohbrother", action = "show")
 
-# Plot the Up house using the "up" palette
+# Plot the Up house using colors from the "google" palette
 
 x <- rnorm(100, 0)
 y <- rnorm(100, 2, 1)
@@ -45,17 +45,8 @@ rect(-.5, -6, .5, -4)
 points(.3, -5)
 
 segments(x, y - 3, x, y, lty = 3, col = gray(.7))
-points(x, y, pch = 21, bg = sample(piratepal("up"), 100, replace = T),
+points(x, y, pch = 21, bg = sample(piratepal("google", trans = .1), 100, replace = T),
        xlim = c(-7, 7), ylim = c(-7, 7), col = gray(.9), cex = rnorm(100, 2, .2))
-
-
-# Plot a Google Universe
-
-plot(rnorm(100, 0, 3), rnorm(100, 0, 3),
-    xaxt = "n", yaxt = "n", ylab = "", xlab = "",
-    bty = "n",
-    pch = 16, col = piratepal("google", trans = .2),
-    cex = rnorm(100, 2), xlim = c(-10, 10), ylim = c(-10, 10))
 }
 \keyword{colors}
 
