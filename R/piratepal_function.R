@@ -23,23 +23,28 @@
 #'
 #'# Plot the Up house using colors from the "google" palette
 #'
-#'x <- rnorm(100, 0)
-#' y <- rnorm(100, 2, 1)
-#' plot(1, xlim = c(-7, 7), ylim = c(-7, 7),
-#'      xlab = "", ylab = "", type = "n", xaxt = "n", yaxt = "n", bty = "n")
+#'google.colors <- piratepal("google", trans = .1)
+#'n.balloons <- 500
+#'x <- rnorm(n.balloons, 0)
+#'y <- rnorm(n.balloons, 2, 1)
+#'plot(1, xlim = c(-7, 7), ylim = c(-7, 7),
+#'     xlab = "", ylab = "", type = "n", xaxt = "n", yaxt = "n", bty = "n")
 #'
-#' rect(-2, -6, 2, -2)
-#' polygon(c(-2, 0, 2),
-#'         c(-2, 0, -2)
-#' )
-#' rect(-7, -7, -2, 100)
-#' rect(2, -7, 7, 100)
-#' rect(-.5, -6, .5, -4)
-#' points(.3, -5)
+#'rect(-2, -6, 2, -2)
+#'polygon(c(-2, 0, 2),
+#'        c(-2, 0, -2)
+#')
+#'rect(-7, -7, -2, 100)
+#'rect(2, -7, 7, 100)
+#'rect(-.5, -6, .5, -4)
+#'points(.3, -5)
 #'
-#' segments(x, y - 3, x, y, lty = 3, col = gray(.7))
-#' points(x, y, pch = 21, bg = sample(piratepal("google", trans = .1), 100, replace = T),
-#'        xlim = c(-7, 7), ylim = c(-7, 7), col = gray(.9), cex = rnorm(100, 2, .2))
+#'line.start.x <- rnorm(n.balloons, 0, .4)
+#'line.start.y <- -1 + rnorm(n.balloons, 0, .1)
+#'
+#'segments(line.start, line.start.y, x, y, lty = 1, col = gray(.7), lwd = .2)
+#'points(x, y, pch = 21, bg = sample(google.colors, 100, replace = T),
+#'       xlim = c(-7, 7), ylim = c(-7, 7), col = gray(.9), cex = rnorm(100, 2, .3))
 #'
 #'
 #'
