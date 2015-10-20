@@ -5,6 +5,7 @@
 #' @param palette A string defining the color palette to use (see examples). To use a random palette, use "random". To view all palettes, use "all" combined with action = "show"
 #' @param action Either "return" to return a vector of colors, or "show" to show the palette. You can also use "r" or "s" for shorthand.
 #' @param trans A number in the interval [0, 1] indicating how transparent to make the colors. A value of 0 means no transparency and a value of 1 means completely transparency.
+#' @param length.out An integer indicating how many colors to return. If length.out is larger than the number of colors in the palette, colors will be repeated.
 #' @keywords colors
 #' @export
 #' @examples
@@ -57,7 +58,7 @@
 
 
 
-piratepal <- function(palette = "random", action = "return", trans = 0) {
+piratepal <- function(palette = "random", action = "return", trans = 0, length.out = NA) {
 
 
   palette.names <- c("ipod", "espresso", "info", "info2", "google", "drugs",
@@ -488,7 +489,11 @@ if(palette != "all") {palette.df <- get(paste(palette, ".pal", sep = ""))}
 
 if(substr(action, 1, 1) == "r") {
 
-return(unlist(palette.df))
+  if(is.finite(length.out)) {output <- rep(unlist(palette.df), length.out = length.out)}
+  if(!is.finite(length.out)) {output <- unlist(palette.df)}
+
+
+return(output)
 
 }
 
