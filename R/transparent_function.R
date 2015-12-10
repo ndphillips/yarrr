@@ -7,7 +7,9 @@
 #' @param trans.val A number in the interval [0, 1] indicating how transparent to make the color.
 #' @param maxColorValue The maximum color value (only used when orig.col is an rgb vector)
 #' @keywords colors
+#' @export
 #' @examples
+#'
 #' # Diagram of some examples
 #'plot(1, ylim = c(0, 1), xlim = c(0, 12), bty = "n", xaxt = "n", yaxt = "n", ylab = "", xlab = "", type = "na")
 #'
