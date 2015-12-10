@@ -1,7 +1,6 @@
 #' pirbean
 #'
-#' The pirbean ("Pirate Bean") function creates the pirate version of the fantastic beanplot function in the beanplot package. The plot takes a discrete iv and a continuous dv, and creates a plot showing raw data, smoothed densities, central tendency, and 95% Highest Density Intervals (HDI).
-#' beanplot.
+#' The pirbean (short for "Pirate Bean") function creates the pirate version of the fantastic beanplot function in the beanplot package. Just like a beanplot, pirbean takes a discrete iv and a continuous dv, and creates a plot showing raw data, smoothed densities and central tendency. In addition, pirbean adds the option for a 95% Highest Density Intervals (HDI), and has a few aesthetic differences preferred by pirates.
 #'
 #' @param dv.name, iv.name Two strings indicating the names of the dv and iv in the dataframe
 #' @param data which to perform the beanplot on. This data can consist of dataframes, vectors and/or formulas. For each formula, a dataset can be specified with data=[dataset], and a subset can be specified with subset=[subset]. If subset/data arguments are passed, but there are not enough subset/data arguments, they are reused. Additionally, na.action, drop.unused.levels and xlev can be passed to model.frame in the same way. Also, parameters for axis and title can be passed.
@@ -14,6 +13,7 @@
 #' @param min.width The minimum width of a bean. Defaults to 0.1
 #' @param my.palette A string (or vector of strings) indicating the colors of the beans. This can either be the name of a color palette in the piratepal function (run piratepal(action = "p") to see the names of all the palettes), or a vector of strings referring to colors.
 #' @param trans.vec A numeric vector of 4 values between 0 and 1 that indicate how transparent to make the colors in each bean. The four numbers correspond to the points, bean outlines, hdi band, and average line respectively.
+#' @param add.margin.desc A logical value indicating whether or not to add a description of the average line (and possible HDI) to the plot margins.
 #' @param ... other arguments passed on to the plot function (e.g.; main)
 #' @keywords plot
 #' @export
@@ -59,15 +59,15 @@
 #'
 #'
 
-
 pirbean <- function(dv.name,
                     iv.name,
                     data,
                     jitter.val = .05,
                     my.palette = "appletv",
-                    average.fun = "median",
+                    average.fun = "mean",
                     background = 1,
                     add.hdi = T,
+                    add.margin.desc = T,
                     max.width = .45,
                     min.width = .1,
                     trans.vec = c(.5, .8, .5, 0),
@@ -171,7 +171,10 @@ for (i in 1:n.iv) {
 
   if(add.hdi == T) {
 
-    hdi.i <- hdi(BESTmcmc(dv.i, numSavedSteps = n.iter))
+    hdi.i <- hdi(BESTmcmc(dv.i,
+                          numSavedSteps = n.iter,
+                          verbose = F))
+
     hdi.lb <- hdi.i[1, 1]
     hdi.ub <- hdi.i[2, 1]
 
@@ -228,6 +231,18 @@ mtext(unique(iv.v),
       side = 1,
       at = 1:n.iv,
       line = 1)
+
+
+# Add margin description
+
+if(add.margin.desc) {
+
+ if(add.hdi) {margin.text <- paste("Horizontal lines = sample ", average.fun, ". Horizontal bands are 95% HDIs of the population mean.", sep = "")}
+ if(add.hdi == F) {margin.text <- paste("Horizontal lines = ", average.fun, sep = "")}
+
+  mtext(margin.text, side = 3, line = .1, cex = .7)
+
+}
 
 # Add x and y labels
 
