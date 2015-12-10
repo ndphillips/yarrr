@@ -56,17 +56,17 @@
 #'
 
 
-
-
-piratepal <- function(palette = "random", action = "return", trans = 0, length.out = NA) {
+piratepal <- function(palette = "random",
+                      action = "return",
+                      trans = 0,
+                      length.out = NA) {
 
 
   palette.names <- c("ipod", "espresso", "info", "info2", "google", "drugs",
                      "goldfish", "provoking", "emo", "cake", "pancake", "lubitel",
-                     "brave", "bugs", "cars", "nemo", "rat", "up", "compote", "scholar",
-                     "harbor", "iguana", "fall", "pebble", "scuba", "monalisa", "memento",
+                     "brave", "bugs", "cars", "nemo", "rat", "up", "monalisa", "memento",
                      "malcovich", "toystory", "usualsuspects", "ohbrother", "ghostbusters",
-                     "evildead", "eternal"
+                     "evildead", "eternal", "appletv"
                      )
 
   if(!(palette %in% c(palette.names, "random", "all"))) {
@@ -176,61 +176,15 @@ piratepal <- function(palette = "random", action = "return", trans = 0, length.o
     stringsAsFactors = F)
 
 
-
-  compote.pal <- data.frame(
-    "purple1" = rgb(137, 62, 86, alpha = (1 - trans) * 255, maxColorValue = 255),
-    "blue" = rgb(78, 90, 131, alpha = (1 - trans) * 255, maxColorValue = 255),
-    "purple2" = rgb(187, 172, 209, alpha = (1 - trans) * 255, maxColorValue = 255),
-    "gray" = rgb(225, 225, 225, alpha = (1 - trans) * 255, maxColorValue = 255),
-    stringsAsFactors = F)
-
-
-    scholar.pal <- data.frame(
-      "blue1" = rgb(43, 62, 86, alpha = (1 - trans) * 255, maxColorValue = 255),
-      "yellow" = rgb(205, 167, 37, alpha = (1 - trans) * 255, maxColorValue = 255),
-      "blue2" = rgb(197, 203, 211, alpha = (1 - trans) * 255, maxColorValue = 255),
-      "gray" = rgb(241, 241, 231, alpha = (1 - trans) * 255, maxColorValue = 255),
-      stringsAsFactors = F)
-
-
-      harbor.pal <- data.frame(
-        "blue1" = rgb(45, 61, 64, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "blue2" = rgb(99, 112, 128, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "blue3" = rgb(156, 193, 190, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "gray" = rgb(220, 228, 229, alpha = (1 - trans) * 255, maxColorValue = 255),
-        stringsAsFactors = F)
-
-
-      iguana.pal <- data.frame(
-        "purple1" = rgb(150, 50, 144, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "green" = rgb(202, 220, 42, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "purple2" = rgb(203, 166, 206, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "gray" = rgb(226, 227, 229, alpha = (1 - trans) * 255, maxColorValue = 255),
-        stringsAsFactors = F)
-
-
-      fall.pal <- data.frame(
-        "blue1" = rgb(67, 60, 77, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "red" = rgb(124, 25, 57, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "yellow" = rgb(242, 188, 32, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "blue2" = rgb(154, 205, 247, alpha = (1 - trans) * 255, maxColorValue = 255),
-        stringsAsFactors = F)
-
-      pebble.pal <- data.frame(
-        "blue1" = rgb(58, 53, 64, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "blue2" = rgb(137, 122, 135, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "brown" = rgb(214, 187, 166, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "pink" = rgb(240, 228, 232, alpha = (1 - trans) * 255, maxColorValue = 255),
-        stringsAsFactors = F)
-
-
-      scuba.pal <- data.frame(
-        "blue1" = rgb(13, 65, 87, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "orange" = rgb(233, 96, 44, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "blue2" = rgb(165, 219, 239, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "gray" = rgb(221, 217, 215, alpha = (1 - trans) * 255, maxColorValue = 255),
-        stringsAsFactors = F)
-
+      appletv.pal <- data.frame(
+        "green" = rgb(95, 178, 51, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "gray" = rgb(106, 127, 147, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "orange" = rgb(245, 114, 6, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "red" = rgb(235, 15, 19, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "purple" = rgb(143, 47, 139, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "blue" = rgb(19, 150, 219, alpha = (1 - trans) * 255, maxColorValue = 255),
+        stringsAsFactors = F
+      )
 
 
    # http://a.dilcdn.com/bl/wp-content/uploads/sites/2/2015/05/disneyPixar_PixarPalette_BRA_01.jpg

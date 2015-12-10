@@ -23,8 +23,6 @@
 #'
 
 
-
-
 apa <- function(test.object, tails = 2, sig.digits = 2, p.lb = .01) {
 
   statistic.id <- substr(names(test.object$statistic), start = 1, stop = 1)
