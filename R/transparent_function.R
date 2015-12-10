@@ -52,7 +52,7 @@ transparent <- function(orig.col = "red", trans.val = 1, maxColorValue = 255) {
   if(length(orig.col) == 1) {orig.col <- col2rgb(orig.col)}
   if(!(length(orig.col) %in% c(1, 3))) {return(paste("length of original color must be 1 or 3!"))}
 
-  final.col <- rgb(orig.col[1], orig.col[2], orig.col[3], alpha = trans.val * 255, maxColorValue = maxColorValue)
+  final.col <- rgb(orig.col[1], orig.col[2], orig.col[3], alpha = (1 - trans.val) * 255, maxColorValue = maxColorValue)
 
   return(final.col)
 }

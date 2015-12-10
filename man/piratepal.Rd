@@ -10,7 +10,7 @@ piratepal(palette = "random", action = "return", trans = 0,
 \arguments{
 \item{palette}{A string defining the color palette to use (see examples). To use a random palette, use "random". To view all palettes, use "all" combined with action = "show"}
 
-\item{action}{Either "return" to return a vector of colors, or "show" to show the palette. You can also use "r" or "s" for shorthand.}
+\item{action}{Either "return" to return a vector of colors, "show" to show the palette, or "printnames" to print all the palette names. You can also use "r" or "s" for shorthand.}
 
 \item{trans}{A number in the interval [0, 1] indicating how transparent to make the colors. A value of 0 means no transparency and a value of 1 means completely transparency.}
 
