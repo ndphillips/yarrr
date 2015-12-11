@@ -66,7 +66,7 @@ piratepal <- function(palette = "random",
                      "goldfish", "provoking", "emo", "cake", "pancake", "lubitel",
                      "brave", "bugs", "cars", "nemo", "rat", "up", "monalisa", "memento",
                      "malcovich", "toystory", "usualsuspects", "ohbrother", "ghostbusters",
-                     "evildead", "eternal", "appletv"
+                     "evildead", "eternal", "appletv", "southpark"
                      )
 
   if(!(palette %in% c(palette.names, "random", "all"))) {
@@ -78,6 +78,15 @@ piratepal <- function(palette = "random",
 
 # Define all palettes
 {
+
+
+southpark.pal <- data.frame(
+  "blue" = rgb(47, 134, 255, alpha = (1 - trans) * 255, maxColorValue = 255),
+  "red" = rgb(222, 0, 18, alpha = (1 - trans) * 255, maxColorValue = 255),
+  "orange" = rgb(241, 72, 9, alpha = (1 - trans) * 255, maxColorValue = 255),
+  "green" = rgb(34, 196, 8, alpha = (1 - trans) * 255, maxColorValue = 255),
+  "tan" = rgb(254, 205, 170, alpha = (1 - trans) * 255, maxColorValue = 255),
+  stringsAsFactors = F)
 
   eternal.pal <- data.frame(
     "purple1" = rgb(23, 12, 46, alpha = (1 - trans) * 255, maxColorValue = 255),

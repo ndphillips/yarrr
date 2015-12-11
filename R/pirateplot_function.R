@@ -1,6 +1,6 @@
-#' pirbean
+#' pirateplot
 #'
-#' The pirbean (short for "Pirate Bean") function creates the pirate version of the fantastic beanplot function in the beanplot package. Just like a beanplot, pirbean takes a discrete iv and a continuous dv, and creates a plot showing raw data, smoothed densities and central tendency. In addition, pirbean adds the option for a 95% Highest Density Intervals (HDI), and has a few aesthetic differences preferred by pirates.
+#' The pirateplot (short for "Pirate Bean") function creates the pirate version of the fantastic beanplot function in the beanplot package. Just like a beanplot, pirateplot takes a discrete iv and a continuous dv, and creates a plot showing raw data, smoothed densities and central tendency. In addition, pirateplot adds the option for a 95% Highest Density Intervals (HDI), and has a few aesthetic differences preferred by pirates.
 #'
 #' @param dv.name, iv.name Two strings indicating the names of the dv and iv in the dataframe
 #' @param data which to perform the beanplot on. This data can consist of dataframes, vectors and/or formulas. For each formula, a dataset can be specified with data=[dataset], and a subset can be specified with subset=[subset]. If subset/data arguments are passed, but there are not enough subset/data arguments, they are reused. Additionally, na.action, drop.unused.levels and xlev can be passed to model.frame in the same way. Also, parameters for axis and title can be passed.
@@ -12,7 +12,7 @@
 #' @param max.width The maximum width of a bean. Defaults to 0.5
 #' @param min.width The minimum width of a bean. Defaults to 0.1
 #' @param my.palette A string (or vector of strings) indicating the colors of the beans. This can either be the name of a color palette in the piratepal function (run piratepal(action = "p") to see the names of all the palettes), or a vector of strings referring to colors.
-#' @param trans.vec A numeric vector of 4 values between 0 and 1 that indicate how transparent to make the colors in each bean. The four numbers correspond to the points, bean outlines, hdi band, and average line respectively.
+#' @param trans.vec A numeric vector of 5 values between 0 and 1 that indicate how transparent to make the colors in each bean. The four numbers correspond to the points, bean outlines, hdi band, the average line, and the white background respectively.
 #' @param add.margin.desc A logical value indicating whether or not to add a description of the average line (and possible HDI) to the plot margins.
 #' @param ... other arguments passed on to the plot function (e.g.; main)
 #' @keywords plot
@@ -21,13 +21,13 @@
 #'
 #'
 #' # ChickWeight Dataset
-#' pirbean(dv.name = "weight",
+#' pirateplot(dv.name = "weight",
 #'         iv.name = "Diet",
 #'         data = ChickWeight)
 #'
 #'
 #' # pirates dataset
-#' pirbean(dv.name = "age",
+#' pirateplot(dv.name = "age",
 #'         iv.name = "sword.type",
 #'         data = pirates,
 #'         my.palette = "google"
@@ -44,7 +44,7 @@
 #'                        stringsAsFactors = F
 #'                        )
 #'
-#'  pirbean(dv.name = "Age",
+#'  pirateplot(dv.name = "Age",
 #'          iv.name = "Phone",
 #'          data = PhoneData,
 #'          min.width = .45,
@@ -59,18 +59,18 @@
 #'
 #'
 
-pirbean <- function(dv.name,
+pirateplot <- function(dv.name,
                     iv.name,
                     data,
-                    jitter.val = .05,
+                    jitter.val = .03,
                     my.palette = "appletv",
                     average.fun = "mean",
                     background = 1,
                     add.hdi = T,
                     add.margin.desc = T,
                     max.width = .45,
-                    min.width = .1,
-                    trans.vec = c(.5, .8, .5, 0),
+                    min.width = .2,
+                    trans.vec = c(.5, .8, .5, 0, .2),
                     n.iter = 1e4,
                     ...
                     ) {
@@ -137,7 +137,7 @@ abline(h = seq(floor(min(dv.v) - total.dv.sd * .5),
 
 for (i in 1:n.iv) {
 
-  dv.i <- dv.v[iv.v == unique(iv.v)[i]]
+  dv.i <- dv.v[iv.v == sort(unique(iv.v))[i]]
   dens.i <- density(dv.i)
 
   dens.y.i <- dens.i$y
@@ -162,7 +162,7 @@ for (i in 1:n.iv) {
 
   polygon(c(i - dens.y.i[1:(length(dens.x.i))], i + rev(dens.y.i[1:(length(dens.x.i))])),
           c(dens.x.i[1:(length(dens.x.i))], rev(dens.x.i[1:(length(dens.x.i))])),
-          col = gray(1, alpha = .8),
+          col = gray(1, alpha = 1 - trans.vec[5]),
           border = bean.border.col[i],
           lwd = 2
   )
@@ -227,7 +227,7 @@ for (i in 1:n.iv) {
 
 # Add bean names
 
-mtext(unique(iv.v),
+mtext(sort(unique(iv.v)),
       side = 1,
       at = 1:n.iv,
       line = 1)
