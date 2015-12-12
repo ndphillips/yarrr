@@ -7,7 +7,7 @@
 #' @param average.fun The name of a function to use to calculate the average of each bean (e.g.; "mean", "median")
 #' @param background A number indicating which type of background to use. 1 creates a gray background with white horizontal gridlines.
 #' @param jitter.val A number indicaing how much to jitter the points. Defaults to 0.05.
-#' @param add.hdi A logical value indicating whether or not to add 95% Highest Density Interval (HDI) bands. If T, HDIs will be calculated using the BESTmcmc function from the BEST package. Note: Calculating HDIs can be time-consuming!
+#' @param add.hdi A logical value indicating whether or not to add 95\% Highest Density Interval (HDI) bands. If T, HDIs will be calculated using the BESTmcmc function from the BEST package. Note: Calculating HDIs can be time-consuming!
 #' @param n.iter An integer indicating how many iterations to run when calculating the HDI.
 #' @param max.width The maximum width of a bean. Defaults to 0.5
 #' @param min.width The minimum width of a bean. Defaults to 0.1

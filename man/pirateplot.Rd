@@ -22,7 +22,7 @@ pirateplot(dv.name, iv.name, data, jitter.val = 0.03,
 
 \item{background}{A number indicating which type of background to use. 1 creates a gray background with white horizontal gridlines.}
 
-\item{add.hdi}{A logical value indicating whether or not to add 95% Highest Density Interval (HDI) bands. If T, HDIs will be calculated using the BESTmcmc function from the BEST package. Note: Calculating HDIs can be time-consuming!}
+\item{add.hdi}{A logical value indicating whether or not to add 95\% Highest Density Interval (HDI) bands. If T, HDIs will be calculated using the BESTmcmc function from the BEST package. Note: Calculating HDIs can be time-consuming!}
 
 \item{add.margin.desc}{A logical value indicating whether or not to add a description of the average line (and possible HDI) to the plot margins.}
 
