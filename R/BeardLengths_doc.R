@@ -10,7 +10,13 @@
 
 #' }
 #' @source 2015 annual international pirate meeting at the Bodensee in Konstanz, Germany
+#' @examples
 #'
+#' pirateplot(dv.name = "Beard",
+#' iv.name = "Ship",
+#' data = BeardLengths,
+#' main = "Beard Length by Ship"
+#' )
 #'
 #'
 "BeardLengths"

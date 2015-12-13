@@ -18,5 +18,12 @@ BeardLengths
 \description{
 A dataframe containing the ship and beard lengths of 150 pirates.
 }
+\examples{
+pirateplot(dv.name = "Beard",
+iv.name = "Ship",
+data = BeardLengths,
+main = "Beard Length by Ship"
+)
+}
 \keyword{datasets}
 
