@@ -82,10 +82,11 @@ piratepal <- function(palette = "random",
 
 southpark.pal <- data.frame(
   "blue" = rgb(47, 134, 255, alpha = (1 - trans) * 255, maxColorValue = 255),
+  "yellow" = rgb(235, 171, 22, alpha = (1- trans) * 255, maxColorValue = 255),
   "red" = rgb(222, 0, 18, alpha = (1 - trans) * 255, maxColorValue = 255),
-  "orange" = rgb(241, 72, 9, alpha = (1 - trans) * 255, maxColorValue = 255),
   "green" = rgb(34, 196, 8, alpha = (1 - trans) * 255, maxColorValue = 255),
   "tan" = rgb(254, 205, 170, alpha = (1 - trans) * 255, maxColorValue = 255),
+  "orange" = rgb(241, 72, 9, alpha = (1 - trans) * 255, maxColorValue = 255),
   stringsAsFactors = F)
 
   eternal.pal <- data.frame(
