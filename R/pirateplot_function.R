@@ -9,12 +9,13 @@
 #' @param jitter.val A number indicaing how much to jitter the points. Defaults to 0.05.
 #' @param add.hdi A logical value indicating whether or not to add 95\% Highest Density Interval (HDI) bands. If T, HDIs will be calculated using the BESTmcmc function from the BEST package. Note: Calculating HDIs can be time-consuming!
 #' @param n.iter An integer indicating how many iterations to run when calculating the HDI.
+#' @param labels A string vector indicating the names of the beans
 #' @param max.width The maximum width of a bean. Defaults to 0.5
 #' @param min.width The minimum width of a bean. Defaults to 0.1
 #' @param my.palette A string (or vector of strings) indicating the colors of the beans. This can either be the name of a color palette in the piratepal function (run piratepal(action = "p") to see the names of all the palettes), or a vector of strings referring to colors.
 #' @param trans.vec A numeric vector of 5 values between 0 and 1 that indicate how transparent to make the colors in each bean. The four numbers correspond to the points, bean outlines, hdi band, the average line, and the white background respectively.
 #' @param add.margin.desc A logical value indicating whether or not to add a description of the average line (and possible HDI) to the plot margins.
-#' @param ... other arguments passed on to the plot function (e.g.; main)
+#' @param ... other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim)
 #' @keywords plot
 #' @export
 #' @examples
@@ -66,6 +67,10 @@ pirateplot <- function(dv.name,
                     my.palette = "appletv",
                     average.fun = "mean",
                     background = 1,
+                    labels = "",
+                    ylim = "",
+                    ylab = "",
+                    xlab = "",
                     add.hdi = T,
                     add.margin.desc = T,
                     max.width = .45,
@@ -108,9 +113,12 @@ if(mean(my.palette %in% piratepal(action = "p")) != 1) {
 
 total.dv.sd <- sd(dv.v)
 
+if(mean(ylim == "") == 1) {my.ylim <- c(min(dv.v) - total.dv.sd * .5, max(dv.v) + total.dv.sd * .5)}
+if(mean(ylim == "") != 1) {my.ylim <- ylim ; rm(ylim)}
+
 plot(1,
      xlim = c(.5, n.iv + .5),
-     ylim = c(min(dv.v) - total.dv.sd * .5, max(dv.v) + total.dv.sd * .5),
+     ylim = my.ylim,
      type = "n",
      xlab = "",
      ylab = "",
@@ -227,7 +235,9 @@ for (i in 1:n.iv) {
 
 # Add bean names
 
-mtext(sort(unique(iv.v)),
+if(mean(labels == "") == 1) {labels <- sort(unique(iv.v))}
+
+mtext(labels,
       side = 1,
       at = 1:n.iv,
       line = 1)
@@ -246,13 +256,20 @@ if(add.margin.desc) {
 
 # Add x and y labels
 
-mtext(iv.name,
+if(mean(xlab == "") == 1) {my.xlab <- iv.name}
+if(mean(xlab == "") != 1) {my.xlab <- xlab ; rm(xlab)}
+
+mtext(my.xlab,
       side = 1,
       at = (n.iv + 1) / 2,
       line = 2.5
       )
 
-mtext(dv.name,
+if(mean(ylab == "") == 1) {my.ylab <- dv.name}
+if(mean(ylab == "") != 1) {my.ylab <- ylab ; rm(ylab)}
+
+
+mtext(my.ylab,
       side = 2,
       line = 2.5,
       las = 1

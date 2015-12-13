@@ -6,7 +6,8 @@
 \usage{
 pirateplot(dv.name, iv.name, data, jitter.val = 0.03,
   my.palette = "appletv", average.fun = "mean", background = 1,
-  add.hdi = T, add.margin.desc = T, max.width = 0.45, min.width = 0.2,
+  labels = "", ylim = "", ylab = "", xlab = "", add.hdi = T,
+  add.margin.desc = T, max.width = 0.45, min.width = 0.2,
   trans.vec = c(0.5, 0.8, 0.5, 0, 0.2), n.iter = 10000, ...)
 }
 \arguments{
@@ -22,6 +23,8 @@ pirateplot(dv.name, iv.name, data, jitter.val = 0.03,
 
 \item{background}{A number indicating which type of background to use. 1 creates a gray background with white horizontal gridlines.}
 
+\item{labels}{A string vector indicating the names of the beans}
+
 \item{add.hdi}{A logical value indicating whether or not to add 95\% Highest Density Interval (HDI) bands. If T, HDIs will be calculated using the BESTmcmc function from the BEST package. Note: Calculating HDIs can be time-consuming!}
 
 \item{add.margin.desc}{A logical value indicating whether or not to add a description of the average line (and possible HDI) to the plot margins.}
@@ -34,7 +37,7 @@ pirateplot(dv.name, iv.name, data, jitter.val = 0.03,
 
 \item{n.iter}{An integer indicating how many iterations to run when calculating the HDI.}
 
-\item{...}{other arguments passed on to the plot function (e.g.; main)}
+\item{...}{other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim)}
 }
 \description{
 The pirateplot (short for "Pirate Bean") function creates the pirate version of the fantastic beanplot function in the beanplot package. Just like a beanplot, pirateplot takes a discrete iv and a continuous dv, and creates a plot showing raw data, smoothed densities and central tendency. In addition, pirateplot adds the option for a 95% Highest Density Intervals (HDI), and has a few aesthetic differences preferred by pirates.
