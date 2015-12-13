@@ -7,5 +7,4 @@ Description: This package contains a mixture of functions and datasets referred 
 Depends: jpeg, dplyr, BEST,rjags
 License: What license is it under?
 LazyData: true
-Suggests: dplyr,RColorBrewer
 BugReports: https://github.com/ndphillips/yarrr/issues
