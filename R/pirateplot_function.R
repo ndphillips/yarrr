@@ -6,6 +6,7 @@
 #' @param data which to perform the beanplot on. This data can consist of dataframes, vectors and/or formulas. For each formula, a dataset can be specified with data=[dataset], and a subset can be specified with subset=[subset]. If subset/data arguments are passed, but there are not enough subset/data arguments, they are reused. Additionally, na.action, drop.unused.levels and xlev can be passed to model.frame in the same way. Also, parameters for axis and title can be passed.
 #' @param average.fun The name of a function to use to calculate the average of each bean (e.g.; "mean", "median")
 #' @param background A number indicating which type of background to use. 1 creates a gray background with white horizontal gridlines.
+#' @param point.cex A number indicaing the size of the raw data points. Defaults to 1.
 #' @param jitter.val A number indicaing how much to jitter the points. Defaults to 0.05.
 #' @param add.hdi A logical value indicating whether or not to add 95\% Highest Density Interval (HDI) bands. If T, HDIs will be calculated using the BESTmcmc function from the BEST package. Note: Calculating HDIs can be time-consuming!
 #' @param n.iter An integer indicating how many iterations to run when calculating the HDI.
@@ -72,6 +73,7 @@ pirateplot <- function(dv.name,
                     ylab = "",
                     xlab = "",
                     add.hdi = T,
+                    point.cex = 1,
                     add.margin.desc = T,
                     max.width = .45,
                     min.width = .2,
@@ -222,8 +224,8 @@ for (i in 1:n.iv) {
   points(rep(i, length(dv.i)) + rnorm(length(dv.i), mean = 0, sd = jitter.val),
          dv.i,
          pch = 1,
-         col = point.col[i]
-
+         col = point.col[i],
+         cex = point.cex
          )
 
 

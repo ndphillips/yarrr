@@ -7,7 +7,7 @@
 pirateplot(dv.name, iv.name, data, jitter.val = 0.03,
   my.palette = "appletv", average.fun = "mean", background = 1,
   labels = "", ylim = "", ylab = "", xlab = "", add.hdi = T,
-  add.margin.desc = T, max.width = 0.45, min.width = 0.2,
+  point.cex = 1, add.margin.desc = T, max.width = 0.45, min.width = 0.2,
   trans.vec = c(0.5, 0.8, 0.5, 0, 0.2), n.iter = 10000, ...)
 }
 \arguments{
@@ -26,6 +26,8 @@ pirateplot(dv.name, iv.name, data, jitter.val = 0.03,
 \item{labels}{A string vector indicating the names of the beans}
 
 \item{add.hdi}{A logical value indicating whether or not to add 95\% Highest Density Interval (HDI) bands. If T, HDIs will be calculated using the BESTmcmc function from the BEST package. Note: Calculating HDIs can be time-consuming!}
+
+\item{point.cex}{A number indicaing the size of the raw data points. Defaults to 1.}
 
 \item{add.margin.desc}{A logical value indicating whether or not to add a description of the average line (and possible HDI) to the plot margins.}
 
