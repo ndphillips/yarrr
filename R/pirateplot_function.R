@@ -317,7 +317,7 @@ if(mean(ylab == "") != 1) {my.ylab <- ylab ; rm(ylab)}
 mtext(my.ylab,
       side = 2,
       line = 2.5,
-      las = 1
+      las = 0
 )
 
 
