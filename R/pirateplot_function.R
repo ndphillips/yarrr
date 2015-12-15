@@ -1,21 +1,21 @@
 #' pirateplot
 #'
-#' The pirateplot (short for "Pirate Bean") function creates the pirate version of the fantastic beanplot function in the beanplot package. Just like a beanplot, pirateplot takes a discrete iv and a continuous dv, and creates a plot showing raw data, smoothed densities and central tendency. In addition, pirateplot adds the option for a 95% Highest Density Intervals (HDI), and has a few aesthetic differences preferred by pirates.
+#' The pirateplot function creates an RDI plot (Raw data, Descriptive and Inferential statistic) pirate version of the fantastic beanplot function in the beanplot package. Just like a beanplot, pirateplot takes a discrete iv and a continuous dv, and creates a plot showing raw data, smoothed densities and central tendency. In addition, pirateplot adds the option for a 95% Highest Density Intervals (HDI), and has a few aesthetic differences preferred by pirates.
 #'
-#' @param dv.name, iv.name Two strings indicating the names of the dv and iv in the dataframe
-#' @param data which to perform the beanplot on. This data can consist of dataframes, vectors and/or formulas. For each formula, a dataset can be specified with data=[dataset], and a subset can be specified with subset=[subset]. If subset/data arguments are passed, but there are not enough subset/data arguments, they are reused. Additionally, na.action, drop.unused.levels and xlev can be passed to model.frame in the same way. Also, parameters for axis and title can be passed.
-#' @param average.fun The name of a function to use to calculate the average of each bean (e.g.; "mean", "median")
-#' @param background A number indicating which type of background to use. 1 creates a gray background with white horizontal gridlines.
-#' @param point.cex A number indicaing the size of the raw data points. Defaults to 1.
-#' @param jitter.val A number indicaing how much to jitter the points. Defaults to 0.05.
-#' @param add.hdi A logical value indicating whether or not to add 95\% Highest Density Interval (HDI) bands. If T, HDIs will be calculated using the BESTmcmc function from the BEST package. Note: Calculating HDIs can be time-consuming!
-#' @param n.iter An integer indicating how many iterations to run when calculating the HDI.
-#' @param labels A string vector indicating the names of the beans
-#' @param max.width The maximum width of a bean. Defaults to 0.5
-#' @param min.width The minimum width of a bean. Defaults to 0.1
-#' @param my.palette A string (or vector of strings) indicating the colors of the beans. This can either be the name of a color palette in the piratepal function (run piratepal(action = "p") to see the names of all the palettes), or a vector of strings referring to colors.
-#' @param trans.vec A numeric vector of 5 values between 0 and 1 that indicate how transparent to make the colors in each bean. The four numbers correspond to the points, bean outlines, hdi band, the average line, and the white background respectively.
-#' @param add.margin.desc A logical value indicating whether or not to add a description of the average line (and possible HDI) to the plot margins.
+#' @param dv.name, iv.name (string) Two strings indicating the names of the dv and iv in the dataframe
+#' @param data, (dataframe) Data which to perform the beanplot on. This data can consist of dataframes, vectors and/or formulas. For each formula, a dataset can be specified with data=[dataset], and a subset can be specified with subset=[subset]. If subset/data arguments are passed, but there are not enough subset/data arguments, they are reused. Additionally, na.action, drop.unused.levels and xlev can be passed to model.frame in the same way. Also, parameters for axis and title can be passed.
+#' @param add.mean, add.median (logical) Logical values indicating whether or not to include median and median lines.
+#' @param background (binary) A number indicating which type of background to use. 1 creates a gray background with white horizontal gridlines.
+#' @param point.cex (numeric) A number indicaing the size of the raw data points. Defaults to 1.
+#' @param jitter.val (numeric) A number indicaing how much to jitter the points. Defaults to 0.05.
+#' @param add.hdi (logical) A logical value indicating whether or not to add 95\% Highest Density Interval (HDI) bands. If T, HDIs will be calculated using the BESTmcmc function from the BEST package. Note: Calculating HDIs can be time-consuming!
+#' @param n.iter (integer) An integer indicating how many iterations to run when calculating the HDI.
+#' @param labels (string) A string vector indicating the names of the beans
+#' @param width.min, width.max (numeric) The minimum and maximum width of a bean. Defaults to 0.5
+#' @param cut.min, cut.max (numeric) The minimum and maximum width of a bean. Defaults to 0.5
+#' @param my.palette (string) A string (or vector of strings) indicating the colors of the beans. This can either be the name of a color palette in the piratepal function (run piratepal(action = "p") to see the names of all the palettes), or a vector of strings referring to colors.
+#' @param trans.vec (numeric) A numeric vector of 5 values between 0 and 1 that indicate how transparent to make the colors in each bean. The four numbers correspond to the points, bean outlines, hdi band, the average line, and the white background respectively.
+#' @param add.margin.desc (logical) A logical value indicating whether or not to add a description of the average line (and possible HDI) to the plot margins.
 #' @param ... other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim)
 #' @keywords plot
 #' @export
@@ -49,7 +49,7 @@
 #'  pirateplot(dv.name = "Age",
 #'          iv.name = "Phone",
 #'          data = PhoneData,
-#'          min.width = .45,
+#'          width.min = .45,
 #'          my.palette = "black",
 #'          main = "Age of Phone Users"
 #'          )
@@ -66,7 +66,8 @@ pirateplot <- function(dv.name,
                     data,
                     jitter.val = .03,
                     my.palette = "appletv",
-                    average.fun = "mean",
+                    add.mean = T,
+                    add.median = T,
                     background = 1,
                     labels = "",
                     ylim = "",
@@ -74,9 +75,11 @@ pirateplot <- function(dv.name,
                     xlab = "",
                     add.hdi = T,
                     point.cex = 1,
+                    cut.min = "",
+                    cut.max = "",
                     add.margin.desc = T,
-                    max.width = .45,
-                    min.width = .2,
+                    width.max = .45,
+                    width.min = .2,
                     trans.vec = c(.5, .8, .5, 0, .2),
                     n.iter = 1e4,
                     ...
@@ -153,25 +156,45 @@ for (i in 1:n.iv) {
   dens.y.i <- dens.i$y
   dens.x.i <- dens.i$x
 
-  # Rescale density according to max.width and min.width
+  # Rescale density according to width.max and width.min
 
-  if(max(dens.y.i) < min.width) {
+  if(max(dens.y.i) < width.min) {
 
-    dens.y.i <- dens.y.i / max(dens.y.i) * min.width
+    dens.y.i <- dens.y.i / max(dens.y.i) * width.min
 
   }
 
-  if(max(dens.y.i) > max.width) {
+  if(max(dens.y.i) > width.max) {
 
-    dens.y.i <- dens.y.i / max(dens.y.i) * max.width
+    dens.y.i <- dens.y.i / max(dens.y.i) * width.max
+
+  }
+
+  # adjust to cut.min and cut.max
+
+  dens.x.plot.i <- dens.x.i
+  dens.y.plot.i <- dens.y.i
+
+  if(is.numeric(cut.min)) {
+
+    dens.x.plot.i <- dens.x.i[dens.x.i > cut.min]
+    dens.y.plot.i <- dens.y.i[dens.x.i > cut.min]
+
+  }
+
+
+  if(is.numeric(cut.max)) {
+
+    dens.x.plot.i <- dens.x.i[dens.x.i < cut.max]
+    dens.y.plot.i <- dens.y.i[dens.x.i < cut.max]
 
   }
 
 
   # Add bean
 
-  polygon(c(i - dens.y.i[1:(length(dens.x.i))], i + rev(dens.y.i[1:(length(dens.x.i))])),
-          c(dens.x.i[1:(length(dens.x.i))], rev(dens.x.i[1:(length(dens.x.i))])),
+  polygon(c(i - dens.y.plot.i[1:(length(dens.x.plot.i))], i + rev(dens.y.plot.i[1:(length(dens.x.plot.i))])),
+          c(dens.x.plot.i[1:(length(dens.x.plot.i))], rev(dens.x.plot.i[1:(length(dens.x.plot.i))])),
           col = gray(1, alpha = 1 - trans.vec[5]),
           border = bean.border.col[i],
           lwd = 2
@@ -202,20 +225,39 @@ for (i in 1:n.iv) {
   }
 
 
-  # Add average line
+  # Add mean and median line(s)
 
-  average.i <- get(average.fun)(dv.i)
-  average.i.dens <- dens.y.i[abs(dens.x.i - average.i) == min(abs(dens.x.i - average.i))]
+  mean.i <- mean(dv.i)
+  median.i <- median(dv.i)
 
+  mean.i.dens <-  dens.y.i[abs(dens.x.i - mean.i) == min(abs(dens.x.i - mean.i))]
+  median.i.dens <-  dens.y.i[abs(dens.x.i - median.i) == min(abs(dens.x.i - median.i))]
 
-  segments(i - average.i.dens,
-           average.i,
-           i + average.i.dens,
-           average.i,
+  if(add.mean == T) {
+
+  segments(i - mean.i.dens,
+           mean.i,
+           i + mean.i.dens,
+           mean.i,
          col = average.line.col[i],
          lty = 1,
          lwd = 4
   )
+
+  }
+
+  if(add.median == T) {
+
+  segments(i - median.i.dens,
+           median.i,
+           i + median.i.dens,
+           median.i,
+           col = average.line.col[i],
+           lty = 2,
+           lwd = 2
+  )
+
+  }
 
 
 
@@ -249,8 +291,9 @@ mtext(labels,
 
 if(add.margin.desc) {
 
- if(add.hdi) {margin.text <- paste("Horizontal lines = sample ", average.fun, ". Horizontal bands are 95% HDIs of the population mean.", sep = "")}
- if(add.hdi == F) {margin.text <- paste("Horizontal lines = ", average.fun, sep = "")}
+ if(add.hdi) {margin.text <- paste("Horizontal bands are 95% HDIs of the population mean.", sep = "")}
+if(add.hdi == F) {margin.text <- ""}
+
 
   mtext(margin.text, side = 3, line = .1, cex = .7)
 
@@ -280,6 +323,5 @@ mtext(my.ylab,
 
 
 }
-
 
 
