@@ -5,7 +5,7 @@
 #'
 #' @format A data frame containing 1000 rows and 10 columns
 #' \describe{
-#'   \item{size}{(integer) - The size (length) of the ship}
+#'   \item{size}{(integer) - The size (length) of the ship (maybe in meters?)}
 #'   \item{cannons}{(integer) - The number of cannons on the ship}
 #'   \item{style}{(string) - The style of the ship (either modern or classic)}
 #'   \item{warnshot}{(binary) - Did the ship fire a warning shot at the Perilous Pigeon when it got close?}
