@@ -6,7 +6,7 @@
 \usage{
 pirateplot(dv.name, iv.name, data, jitter.val = 0.03,
   my.palette = "appletv", add.mean = T, add.median = T, background = 1,
-  labels = "", ylim = "", ylab = "", xlab = "", add.hdi = T,
+  labels = "", ylim = "", ylab = "", xlab = "", add.hdi = F,
   point.cex = 1, cut.min = "", cut.max = "", add.margin.desc = T,
   width.max = 0.45, width.min = 0.2, trans.vec = c(0.5, 0.8, 0.5, 0, 0.2),
   n.iter = 10000, ...)
