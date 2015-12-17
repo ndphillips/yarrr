@@ -73,7 +73,7 @@ pirateplot <- function(dv.name,
                     ylim = "",
                     ylab = "",
                     xlab = "",
-                    add.hdi = T,
+                    add.hdi = F,
                     point.cex = 1,
                     cut.min = "",
                     cut.max = "",
@@ -204,7 +204,7 @@ for (i in 1:n.iv) {
 
   if(add.hdi == T) {
 
-    hdi.i <- hdi(BESTmcmc(dv.i,
+    hdi.i <- BEST::hdi(BEST::BESTmcmc(dv.i,
                           numSavedSteps = n.iter,
                           verbose = F))
 
