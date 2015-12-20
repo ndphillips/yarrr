@@ -62,11 +62,12 @@ piratepal <- function(palette = "random",
                       length.out = NA) {
 
 
-  palette.names <- c("ipod", "espresso", "info", "info2", "google", "drugs",
+  palette.names <- c("monalisa", "memento", "eternal", "evildead",
+                     "malcovich", "toystory", "usualsuspects", "ohbrother", "ghostbusters","ipod", "espresso",
                      "goldfish", "provoking", "emo", "cake", "pancake", "lubitel",
-                     "brave", "bugs", "cars", "nemo", "rat", "up", "monalisa", "memento",
-                     "malcovich", "toystory", "usualsuspects", "ohbrother", "ghostbusters",
-                     "evildead", "eternal", "appletv", "southpark"
+                     "brave", "bugs", "cars", "nemo", "rat", "up",
+                     "info", "info2", "google", "drugs",
+                     "appletv", "southpark", "basel"
                      )
 
   if(!(palette %in% c(palette.names, "random", "all"))) {
@@ -78,6 +79,21 @@ piratepal <- function(palette = "random",
 
 # Define all palettes
 {
+
+basel.pal <- data.frame(
+  "blue1" = rgb(12, 91, 176, alpha = (1 - trans) * 255, maxColorValue = 255),
+  "red" = rgb(238, 0, 17, alpha = (1- trans) * 255, maxColorValue = 255),
+  "green" = rgb(161, 199, 32, alpha = (1 - trans) * 255, maxColorValue = 255),
+  "blue2" = rgb(20, 155, 237, alpha = (1 - trans) * 255, maxColorValue = 255),
+  "turquoise" = rgb(22, 160, 140, alpha = (1 - trans) * 255, maxColorValue = 255),
+  "pink" = rgb(236, 87, 154, alpha = (1 - trans) * 255, maxColorValue = 255),
+  "orange" = rgb(250, 107, 9, alpha = (1 - trans) * 255, maxColorValue = 255),
+  "yellow" = rgb(254, 193, 11, alpha = (1 - trans) * 255, maxColorValue = 255),
+  "green2" = rgb(21, 152, 61, alpha = (1 - trans) * 255, maxColorValue = 255),
+  "poop" = rgb(154, 112, 62, alpha = (1 - trans) * 255, maxColorValue = 255),
+
+  stringsAsFactors = F)
+
 
 
 southpark.pal <- data.frame(
@@ -479,7 +495,7 @@ if(substr(action, 1, 1) == "s" & palette %in% palette.names) {
 
   # is there a picture?
 
-  if(system.file(paste(palette, ".jpg", sep = ""), package="yarrr") != "") {
+  if(system.file(paste(palette, ".jpg", sep = ""), package = "yarrr") != "") {
 
   point.heights <- .3
   text.heights <- .05
