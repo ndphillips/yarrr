@@ -84,7 +84,7 @@ pirateplot <- function(dv.name,
                     width.max = .45,
                     width.min = .2,
                     trans.vec = c(.5, .8, .5, 0, .2),
-                    n.iter = 1e4,
+                    n.iter = 1e3,
                     ...
                     ) {
 
