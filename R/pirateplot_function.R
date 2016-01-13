@@ -6,7 +6,7 @@
 #' @param data, (dataframe) Data which to perform the beanplot on. This data can consist of dataframes, vectors and/or formulas. For each formula, a dataset can be specified with data=[dataset], and a subset can be specified with subset=[subset]. If subset/data arguments are passed, but there are not enough subset/data arguments, they are reused. Additionally, na.action, drop.unused.levels and xlev can be passed to model.frame in the same way. Also, parameters for axis and title can be passed.
 #' @param add.mean, add.median (logical) Logical values indicating whether or not to include median and median lines.
 #' @param background (binary) A number indicating which type of background to use. 1 creates a gray background with white horizontal gridlines.
-#' @param point.cex (numeric) A number indicaing the size of the raw data points. Defaults to 1.
+#' @param point.cex, point.pch, point.lwd (numeric) Numbers indicating the size, pch type, and line width of raw data points.
 #' @param jitter.val (numeric) A number indicaing how much to jitter the points. Defaults to 0.05.
 #' @param add.hdi (logical) A logical value indicating whether or not to add 95\% Highest Density Interval (HDI) bands. If T, HDIs will be calculated using the BESTmcmc function from the BEST package. Note: Calculating HDIs can be time-consuming!
 #' @param n.iter (integer) An integer indicating how many iterations to run when calculating the HDI.
@@ -73,8 +73,11 @@ pirateplot <- function(dv.name,
                     ylim = "",
                     ylab = "",
                     xlab = "",
+                    cex.lab = 1,
                     add.hdi = F,
                     point.cex = 1,
+                    point.pch = 1,
+                    point.lwd = 1,
                     cut.min = "",
                     cut.max = "",
                     add.margin.desc = T,
@@ -265,9 +268,10 @@ for (i in 1:n.iv) {
 
   points(rep(i, length(dv.i)) + rnorm(length(dv.i), mean = 0, sd = jitter.val),
          dv.i,
-         pch = 1,
+         pch = point.pch,
          col = point.col[i],
-         cex = point.cex
+         cex = point.cex,
+         lwd = point.lwd
          )
 
 
@@ -295,7 +299,10 @@ if(add.margin.desc) {
 if(add.hdi == F) {margin.text <- ""}
 
 
-  mtext(margin.text, side = 3, line = .1, cex = .7)
+  mtext(margin.text,
+        side = 3,
+        line = .1,
+        cex = cex.lab)
 
 }
 
@@ -307,7 +314,8 @@ if(mean(xlab == "") != 1) {my.xlab <- xlab ; rm(xlab)}
 mtext(my.xlab,
       side = 1,
       at = (n.iv + 1) / 2,
-      line = 2.5
+      line = 2.5,
+      cex = cex.lab
       )
 
 if(mean(ylab == "") == 1) {my.ylab <- dv.name}
@@ -317,7 +325,8 @@ if(mean(ylab == "") != 1) {my.ylab <- ylab ; rm(ylab)}
 mtext(my.ylab,
       side = 2,
       line = 2.5,
-      las = 0
+      las = 0,
+      cex = cex.lab
 )
 
 
