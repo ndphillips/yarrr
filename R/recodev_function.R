@@ -27,7 +27,7 @@
 
 
 
-recode.v <- function(original.vector,
+recodev <- function(original.vector,
                      old.values,
                      new.values,
                      others = NULL) {

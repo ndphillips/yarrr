@@ -3,5 +3,5 @@
 export(apa)
 export(piratepal)
 export(pirateplot)
-export(recode.v)
+export(recodev)
 export(transparent)
