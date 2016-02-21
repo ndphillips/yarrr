@@ -20,12 +20,9 @@
   \item{year}{Release year}
   \item{sequel}{Was the movie a sequel?}
   \item{boxoffice.domestic.inflationadj}{Inflation adjusted domestic box office revenue (in millions of USD)}
-
-
-  ...
 }}
 \source{
-1645 annual international pirate meeting
+www.the-numbers.com
 }
 \usage{
 movies
