@@ -4,16 +4,15 @@
 \alias{pirateplot}
 \title{pirateplot}
 \usage{
-pirateplot(dv.name, iv.name, data, jitter.val = 0.03,
-  my.palette = "appletv", add.mean = T, add.median = T, background = 1,
-  labels = "", ylim = "", ylab = "", xlab = "", cex.lab = 1,
-  add.hdi = F, point.cex = 1, point.pch = 1, point.lwd = 1,
-  cut.min = "", cut.max = "", add.margin.desc = T, width.max = 0.45,
-  width.min = 0.2, trans.vec = c(0.5, 0.8, 0.5, 0, 0.2), n.iter = 1000,
-  ...)
+pirateplot(formula, data, jitter.val = 0.03, my.palette = "appletv",
+  add.mean = T, add.median = T, background = 1, labels = "",
+  ylim = "", ylab = "", xlab = "", cex.lab = 1, add.hdi = F,
+  point.cex = 1, point.pch = 1, point.lwd = 1, cut.min = "",
+  cut.max = "", add.margin.desc = T, width.max = 0.45, width.min = 0.2,
+  trans.vec = c(0.5, 0.8, 0.5, 0, 0.2), n.iter = 1000, ...)
 }
 \arguments{
-\item{dv.name, }{iv.name (string) Two strings indicating the names of the dv and iv in the dataframe}
+\item{formula}{(formula) A formula in the form dv ~ iv indicating the dv and iv to be plotted.}
 
 \item{data, }{(dataframe) Data which to perform the beanplot on. This data can consist of dataframes, vectors and/or formulas. For each formula, a dataset can be specified with data=[dataset], and a subset can be specified with subset=[subset]. If subset/data arguments are passed, but there are not enough subset/data arguments, they are reused. Additionally, na.action, drop.unused.levels and xlev can be passed to model.frame in the same way. Also, parameters for axis and title can be passed.}
 
@@ -50,17 +49,9 @@ The pirateplot function creates an RDI plot (Raw data, Descriptive and Inferenti
 
 
 # ChickWeight Dataset
-pirateplot(dv.name = "weight",
-        iv.name = "Diet",
+pirateplot(formula = weight ~ Diet,
         data = ChickWeight)
 
-
-# pirates dataset
-pirateplot(dv.name = "age",
-        iv.name = "sword.type",
-        data = pirates,
-        my.palette = "google"
-        )
 
 
  # Some made-up survey data
@@ -73,8 +64,7 @@ PhoneData <- data.frame("Phone" = rep(c("iPhone", "Android", "Windows"), each = 
                        stringsAsFactors = F
                        )
 
- pirateplot(dv.name = "Age",
-         iv.name = "Phone",
+ pirateplot(formula = Age ~ Phone,
          data = PhoneData,
          width.min = .45,
          my.palette = "black",

@@ -2,7 +2,7 @@
 #'
 #' The pirateplot function creates an RDI plot (Raw data, Descriptive and Inferential statistic) pirate version of the fantastic beanplot function in the beanplot package. Just like a beanplot, pirateplot takes a discrete iv and a continuous dv, and creates a plot showing raw data, smoothed densities and central tendency. In addition, pirateplot adds the option for a 95% Highest Density Intervals (HDI), and has a few aesthetic differences preferred by pirates.
 #'
-#' @param dv.name, iv.name (string) Two strings indicating the names of the dv and iv in the dataframe
+#' @param formula (formula) A formula in the form dv ~ iv indicating the dv and iv to be plotted.
 #' @param data, (dataframe) Data which to perform the beanplot on. This data can consist of dataframes, vectors and/or formulas. For each formula, a dataset can be specified with data=[dataset], and a subset can be specified with subset=[subset]. If subset/data arguments are passed, but there are not enough subset/data arguments, they are reused. Additionally, na.action, drop.unused.levels and xlev can be passed to model.frame in the same way. Also, parameters for axis and title can be passed.
 #' @param add.mean, add.median (logical) Logical values indicating whether or not to include median and median lines.
 #' @param background (binary) A number indicating which type of background to use. 1 creates a gray background with white horizontal gridlines.
@@ -23,17 +23,9 @@
 #'
 #'
 #' # ChickWeight Dataset
-#' pirateplot(dv.name = "weight",
-#'         iv.name = "Diet",
+#' pirateplot(formula = weight ~ Diet,
 #'         data = ChickWeight)
 #'
-#'
-#' # pirates dataset
-#' pirateplot(dv.name = "age",
-#'         iv.name = "sword.type",
-#'         data = pirates,
-#'         my.palette = "google"
-#'         )
 #'
 #'
 #'  # Some made-up survey data
@@ -46,8 +38,7 @@
 #'                        stringsAsFactors = F
 #'                        )
 #'
-#'  pirateplot(dv.name = "Age",
-#'          iv.name = "Phone",
+#'  pirateplot(formula = Age ~ Phone,
 #'          data = PhoneData,
 #'          width.min = .45,
 #'          my.palette = "black",
@@ -61,8 +52,8 @@
 #'
 #'
 
-pirateplot <- function(dv.name,
-                    iv.name,
+pirateplot <- function(
+                    formula,
                     data,
                     jitter.val = .03,
                     my.palette = "appletv",
@@ -88,8 +79,17 @@ pirateplot <- function(dv.name,
                     ...
                     ) {
 
-iv.v <- unlist(data[iv.name])
-dv.v <- unlist(data[dv.name])
+  #
+  # formula <- as.formula(weight ~ Time)
+  # data <- ChickWeight
+
+data.2 <- model.frame(formula = formula,
+                      data = data)
+
+iv.v <- unlist(data.2[,2])
+dv.v <- unlist(data.2[,1])
+iv.name <- names(data.2)[2]
+dv.name <- names(data.2)[1]
 
 n.iv <- length(unique(iv.v))
 
