@@ -182,7 +182,7 @@ total.dv.sd <- sd(dv.v)
 if(mean(ylim == "") == 1) {my.ylim <- c(min(dv.v) - total.dv.sd * .5, max(dv.v) + total.dv.sd * .5)}
 if(mean(ylim == "") != 1) {my.ylim <- ylim ; rm(ylim)}
 
-par(mar = c(5, 4, 4, 1) + 1)
+par(mar = c(5, 4, 4, 1) + .1)
 
 plot(1,
      xlim = c(.5, n.iv + .5),
