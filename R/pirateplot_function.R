@@ -410,7 +410,8 @@ if(add.margin.desc) {
     legend("left",
            legend = c("Mean", "Median"),
            lty = c(1, 2),
-           bty = "n"
+           bty = "n",
+           cex = .7
     )
 
   }
@@ -423,7 +424,8 @@ if(add.margin.desc) {
            pch = c(NA, NA, NA),
            col = c("black", "black", gray(.5, .5)),
            lwd = c(1, 1, 10),
-           bty = "n"
+           bty = "n",
+           cex = .7
     )
 
   }
