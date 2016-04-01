@@ -22,9 +22,59 @@
 #' @examples
 #'
 #'
-#' # ChickWeight Dataset
-#' pirateplot(formula = weight ~ Diet,
-#'         data = ChickWeight)
+#'
+#' # Plot 1: Terrible Barplot
+#'
+#'mean.agg <- aggregate(formula = weight ~ Diet,
+#'                      data = ChickWeight,
+#'                      FUN = mean
+#')
+#'
+#'barplot(height = mean.agg$weight,
+#'        names.arg = mean.agg$Diet,
+#'        xlab = "Diet", ylab = "Weight (mean)",
+#'        main = "Barplot of ChickWeight"
+#')
+#'
+#' # Plot 2: Better Boxplot
+#'
+#'boxplot(formula = weight ~ Diet,
+#'        data = ChickWeight, xlab = "Diet",
+#'        ylab = "Weight", main = "Boxplot of ChickWeight"
+#')
+#'
+#'
+#' # Plot 3: Colorful pirateplot
+#'
+#'pirateplot(formula = weight ~ Diet,
+#'           data = ChickWeight,
+#'           main = "Color Pirateplot")
+#'
+#'# Plot 4: Black and white pirateplot with smaller points
+#'#   and different transparencies
+#'
+#'pirateplot(formula = weight ~ Diet,
+#'           data = ChickWeight,
+#'           my.palette = "black",
+#'           trans.vec = c(.8, .9, .5, .1, 0),
+#'           point.cex = .7,
+#'           main = "B&W Pirateplot"
+#')
+#'
+#'# Plot 5: Pirateplot with a 95% HDI using
+#'#   the South Park palette
+#'
+#'pirateplot(formula = weight ~ Diet,
+#'           my.palette = "southpark",
+#'           main = "Pirateplot of Chicken Weights\nwith 95% HDI and South Park palette",
+#'           data = ChickWeight,
+#'           point.cex = .7,
+#'           add.hdi = T
+#')
+#'
+#'
+#'
+#'
 #'
 #'
 #'
@@ -119,10 +169,20 @@ if(mean(my.palette %in% piratepal(action = "p")) != 1) {
 
 # Create plotting space
 
+if(add.margin.desc) {
+
+  layout(mat = matrix(c(1, 2), byrow = T, ncol = 2, nrow = 1), widths = c(5, 1), heights = 5)
+
+}
+
+
+
 total.dv.sd <- sd(dv.v)
 
 if(mean(ylim == "") == 1) {my.ylim <- c(min(dv.v) - total.dv.sd * .5, max(dv.v) + total.dv.sd * .5)}
 if(mean(ylim == "") != 1) {my.ylim <- ylim ; rm(ylim)}
+
+par(mar = c(5, 4, 4, 1) + 1)
 
 plot(1,
      xlim = c(.5, n.iv + .5),
@@ -218,12 +278,29 @@ for (i in 1:n.iv) {
     dens.hdi.x <- dens.x.i[dens.x.i >= hdi.lb & dens.x.i <= hdi.ub]
     dens.hdi.y <- dens.y.i[dens.x.i >= hdi.lb & dens.x.i <= hdi.ub]
 
+
+    band.type <- "wide"
+
+    if(band.type == "constrained") {
+
     polygon(c(i - dens.hdi.y, i + rev(dens.hdi.y)),
            c(dens.hdi.x, rev(dens.hdi.x)),
             col = hdi.band.col[i],
             border = NA,
             lwd = 2
     )
+
+    }
+
+
+    if(band.type == "wide") {
+
+
+      rect(i - width.max, hdi.lb, i + width.max, hdi.ub, col = hdi.band.col[i], border = NA)
+
+
+
+    }
 
   }
 
@@ -293,18 +370,6 @@ mtext(labels,
 
 # Add margin description
 
-if(add.margin.desc) {
-
- if(add.hdi) {margin.text <- paste("Horizontal bands are 95% HDIs of the population mean.", sep = "")}
-if(add.hdi == F) {margin.text <- ""}
-
-
-  mtext(margin.text,
-        side = 3,
-        line = .1,
-        cex = cex.lab)
-
-}
 
 # Add x and y labels
 
@@ -330,7 +395,45 @@ mtext(my.ylab,
 )
 
 
+# Add legend
+
+
+if(add.margin.desc) {
+
+  par(mar = rep(0, 4))
+  plot(1, xlim = c(0, 1), ylim = c(0, 1), bty = "n", xaxt = "n", yaxt = "n",
+       type = "n", xlab = "", ylab = "")
+
+
+  if(add.hdi == F) {
+
+    legend("left",
+           legend = c("Mean", "Median"),
+           lty = c(1, 2),
+           bty = "n"
+    )
+
+  }
+
+  if(add.hdi == T) {
+
+    legend("left",
+           legend = c("Mean", "Median", "95% HDI"),
+           lty = c(1, 2, 1),
+           pch = c(NA, NA, NA),
+           col = c("black", "black", gray(.5, .5)),
+           lwd = c(1, 1, 10),
+           bty = "n"
+    )
+
+  }
+
+  par(mar = c(5, 4, 4, 1) + .1)
+  par(mfrow = c(1, 1))
 
 }
 
+
+
+}
 

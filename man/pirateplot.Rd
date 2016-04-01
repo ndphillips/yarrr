@@ -48,9 +48,59 @@ The pirateplot function creates an RDI plot (Raw data, Descriptive and Inferenti
 \examples{
 
 
-# ChickWeight Dataset
+
+# Plot 1: Terrible Barplot
+
+mean.agg <- aggregate(formula = weight ~ Diet,
+                     data = ChickWeight,
+                     FUN = mean
+)
+
+barplot(height = mean.agg$weight,
+       names.arg = mean.agg$Diet,
+       xlab = "Diet", ylab = "Weight (mean)",
+       main = "Barplot of ChickWeight"
+)
+
+# Plot 2: Better Boxplot
+
+boxplot(formula = weight ~ Diet,
+       data = ChickWeight, xlab = "Diet",
+       ylab = "Weight", main = "Boxplot of ChickWeight"
+)
+
+
+# Plot 3: Colorful pirateplot
+
 pirateplot(formula = weight ~ Diet,
-        data = ChickWeight)
+          data = ChickWeight,
+          main = "Color Pirateplot")
+
+# Plot 4: Black and white pirateplot with smaller points
+#   and different transparencies
+
+pirateplot(formula = weight ~ Diet,
+          data = ChickWeight,
+          my.palette = "black",
+          trans.vec = c(.8, .9, .5, .1, 0),
+          point.cex = .7,
+          main = "B&W Pirateplot"
+)
+
+# Plot 5: Pirateplot with a 95\% HDI using
+#   the South Park palette
+
+pirateplot(formula = weight ~ Diet,
+          my.palette = "southpark",
+          main = "Pirateplot of Chicken Weights\\nwith 95\% HDI and South Park palette",
+          data = ChickWeight,
+          point.cex = .7,
+          add.hdi = T
+)
+
+
+
+
 
 
 
