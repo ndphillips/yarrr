@@ -21,12 +21,10 @@ A dataframe containing travel times of chartered ships from three pirate compani
 }
 \examples{
 
-pirateplot(dv.name = "treasure",
-iv.name = "decorations",
-data = capture,
-add.hdi = F,
-cex = .5
-)
+pirateplot(formula = time ~ company
+           data = pircharter,
+           )
+
 
 
 }
