@@ -42,78 +42,98 @@ The pirateplot function creates an RDI plot (Raw data, Descriptive and Inferenti
 
 
 
-# Plot 1: Terrible Barplot
+# Pirateplots of the ChickWeight dataframe
 
-mean.agg <- aggregate(formula = weight ~ Diet,
-                     data = ChickWeight,
-                     FUN = mean
-)
+par(mfrow = c(2, 3))
 
-barplot(height = mean.agg$weight,
-       names.arg = mean.agg$Diet,
-       xlab = "Diet", ylab = "Weight (mean)",
-       main = "Barplot of ChickWeight"
-)
-
-# Plot 2: Better Boxplot
-
-boxplot(formula = weight ~ Diet,
-       data = ChickWeight, xlab = "Diet",
-       ylab = "Weight", main = "Boxplot of ChickWeight"
-)
-
-
-# Plot 3: Colorful pirateplot
+# Plot 1: Colorful pirateplot
 
 pirateplot(formula = weight ~ Diet,
           data = ChickWeight,
-          main = "Color Pirateplot")
+          main = "All Elements",
+          hdi.o = .7,
+          bar.o = .1,
+          line.o = 1
+)
 
-# Plot 4: Black and white pirateplot with smaller points
-#   and different transparencies
+
+# Plot 2: Black and white, turn down the beans and points,
+#   Turn up the HDI
 
 pirateplot(formula = weight ~ Diet,
           data = ChickWeight,
+          main = "B&W with 95\% HDI",
           pal = "black",
-          bar.o = 1,
-          bean.o = .1,
-          point.cex = .7,
-          main = "B&W Pirateplot"
+          bar.o = .1,
+          hdi.o = .5,
+          point.o = .1,
+          bean.o = 0
 )
 
-# Plot 5: Pirateplot with a 95\% HDI using
-#   the South Park palette
+# Plot 3: Turn everything off except the bars
 
 pirateplot(formula = weight ~ Diet,
-          pal = "southpark",
-          main = "Pirateplot of Chicken Weights\\nwith 95\% HDI and South Park palette",
           data = ChickWeight,
-          point.cex = .7,
-          add.hdi = T
+          main = "Super boring bars",
+          pal = "black",
+          bar.o = .9,
+          hdi.o = 0,
+          point.o = 0,
+          bean.o = 0,
+          back.col = "white",
+          line.o = 0
 )
 
 
+# Plot 3: Only points, but larger with more jitter
+
+pirateplot(formula = weight ~ Diet,
+          data = ChickWeight,
+          main = "Large, jittered points\\nGoogle colors",
+          pal = "google",
+          bar.o = 0,
+          hdi.o = 0,
+          point.o = .1,
+          bean.o = 0,
+          back.col = "white",
+          line.o = 1,
+          point.pch = 16,
+          point.cex = 1.5,
+          jitter.val = .1
+)
+
+# Plot 3: Beans and HDI
+
+pirateplot(formula = weight ~ Diet,
+          data = ChickWeight,
+          main = "Beans and HDI\\nSouth Park colors",
+          pal = "southpark",
+          bar.o = 0,
+          hdi.o = .5,
+          point.o = 0,
+          bean.o = 1,
+          back.col = "white",
+          line.o = 0,
+          point.pch = 16
+)
 
 
+# Plot 3: Beans and HDI
 
+pirateplot(formula = weight ~ Diet,
+          data = ChickWeight,
+          main = "HDI and points\\nDark background",
+          pal = "ipod",
+          bar.o = .2,
+          point.o = .3,
+          bean.o = 0,
+          back.col = gray(.3),
+          line.o = 0,
+          hdi.o = .8,
+          point.pch = 16
+)
 
-
- # Some made-up survey data
-
-PhoneData <- data.frame("Phone" = rep(c("iPhone", "Android", "Windows"), each = 50),
-                       "Age" = c(rnorm(50, mean = 25, sd = 4),
-                                 rnorm(50, mean = 20, sd = 3),
-                                 rnorm(50, mean = 30, sd = 3)
-                                 ),
-                       stringsAsFactors = F
-                       )
-
- pirateplot(formula = Age ~ Phone,
-         data = PhoneData,
-         width.min = .45,
-         pal = "black",
-         main = "Age of Phone Users"
-         )
+par(mfrow = c(1, 1))
 
 
 
