@@ -4,18 +4,15 @@
 #'
 #' @param formula (formula) A formula in the form dv ~ iv indicating the dv and iv to be plotted.
 #' @param data, (dataframe) Data which to perform the beanplot on. This data can consist of dataframes, vectors and/or formulas. For each formula, a dataset can be specified with data=[dataset], and a subset can be specified with subset=[subset]. If subset/data arguments are passed, but there are not enough subset/data arguments, they are reused. Additionally, na.action, drop.unused.levels and xlev can be passed to model.frame in the same way. Also, parameters for axis and title can be passed.
-#' @param add.mean, add.median (logical) Logical values indicating whether or not to include median and median lines.
-#' @param background (binary) A number indicating which type of background to use. 1 creates a gray background with white horizontal gridlines.
+#' @param line.fun (function) A function that determines how average lines and bar heights are determined (default is mean).
+#' @param pal (string) A string indicating the color palette of the plot. Can be a single color, or the name of a palette in the piratepal() function (e.g.; "basel", "google", "southpark")
+#' @param backcol (string) A string indicating the color of the plotting background
 #' @param point.cex, point.pch, point.lwd (numeric) Numbers indicating the size, pch type, and line width of raw data points.
+#' @param width.min, width.max (numeric) The minimum and maximum width of a bean.
+#' @param cut.min, cut.max (numeric) Optimal minimum and maximum values of the beans.
+#' @param bar.o, point.o, hdi.o, line.o, bean.o (numeric) A number between 0 and 1 indicating how opaque to make the bars, points, hdi band, average line, and beans respectively.
+#' @param hdi.iter (integer) An integer indicating how many iterations to run when calculating the HDI.
 #' @param jitter.val (numeric) A number indicaing how much to jitter the points. Defaults to 0.05.
-#' @param add.hdi (logical) A logical value indicating whether or not to add 95\% Highest Density Interval (HDI) bands. If T, HDIs will be calculated using the BESTmcmc function from the BEST package. Note: Calculating HDIs can be time-consuming!
-#' @param n.iter (integer) An integer indicating how many iterations to run when calculating the HDI.
-#' @param labels (string) A string vector indicating the names of the beans
-#' @param width.min, width.max (numeric) The minimum and maximum width of a bean. Defaults to 0.5
-#' @param cut.min, cut.max (numeric) The minimum and maximum width of a bean. Defaults to 0.5
-#' @param my.palette (string) A string (or vector of strings) indicating the colors of the beans. This can either be the name of a color palette in the piratepal function (run piratepal(action = "p") to see the names of all the palettes), or a vector of strings referring to colors.
-#' @param trans.vec (numeric) A numeric vector of 5 values between 0 and 1 that indicate how transparent to make the colors in each bean. The four numbers correspond to the points, bean outlines, hdi band, the average line, and the white background respectively.
-#' @param add.margin.desc (logical) A logical value indicating whether or not to add a description of the average line (and possible HDI) to the plot margins.
 #' @param ... other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim)
 #' @keywords plot
 #' @export
@@ -55,8 +52,9 @@
 #'
 #'pirateplot(formula = weight ~ Diet,
 #'           data = ChickWeight,
-#'           my.palette = "black",
-#'           trans.vec = c(.8, .9, .5, .1, 0),
+#'           pal = "black",
+#'           bar.o = 1,
+#'           bean.o = .1,
 #'           point.cex = .7,
 #'           main = "B&W Pirateplot"
 #')
@@ -65,7 +63,7 @@
 #'#   the South Park palette
 #'
 #'pirateplot(formula = weight ~ Diet,
-#'           my.palette = "southpark",
+#'           pal = "southpark",
 #'           main = "Pirateplot of Chicken Weights\nwith 95% HDI and South Park palette",
 #'           data = ChickWeight,
 #'           point.cex = .7,
@@ -91,7 +89,7 @@
 #'  pirateplot(formula = Age ~ Phone,
 #'          data = PhoneData,
 #'          width.min = .45,
-#'          my.palette = "black",
+#'          pal = "black",
 #'          main = "Age of Phone Users"
 #'          )
 #'
@@ -103,337 +101,386 @@
 #'
 
 pirateplot <- function(
-                    formula,
-                    data,
-                    jitter.val = .03,
-                    my.palette = "appletv",
-                    add.mean = T,
-                    add.median = T,
-                    background = 1,
-                    labels = "",
-                    ylim = "",
-                    ylab = "",
-                    xlab = "",
-                    cex.lab = 1,
-                    add.hdi = F,
-                    point.cex = 1,
-                    point.pch = 1,
-                    point.lwd = 1,
-                    cut.min = "",
-                    cut.max = "",
-                    add.margin.desc = T,
-                    width.max = .45,
-                    width.min = .2,
-                    trans.vec = c(.5, .8, .5, 0, .2),
-                    n.iter = 1e3,
-                    ...
-                    ) {
+  formula,
+  data,
+  line.fun = mean,
+  pal = "appletv",
+  back.col = gray(1),
+  point.cex = 1,
+  point.pch = 1,
+  point.lwd = 1,
+  cut.min = "",
+  cut.max = "",
+  width.min = .3,
+  width.max = NA,
+  bean.o = .5,
+  point.o = .5,
+  bar.o = .5,
+  hdi.o = 0,
+  line.o = .5,
+  hdi.iter = 1e3,
+  jitter.val = .03,
+  ylim = "",
+  xlim = "",
+  ...
+) {
 
+## TESTING
+
+  #   jitter.val = .03
+  #   pal = "black"
+  #   line.fun = mean
+  #   background = 1
+  #   labels = ""
+  #   cex.lab = 1
+  #   point.cex = 1
+  #   point.pch = 1
+  #   point.lwd = 1
+  #   cut.min = ""
+  #   cut.max = ""
+  #   width.max = .45
+  #   width.min = .2
+  #   bean.o = .5
+  #   point.o = .5
+  #   bar.o = .5
+  #   hdi.o = 1
+  #   line.o = .5
+  #   hdi.iter = 1e3
+  #   ylim = ""
+  #   xlim = ""
   #
-  # formula <- as.formula(weight ~ Time)
-  # data <- ChickWeight
-
-data.2 <- model.frame(formula = formula,
-                      data = data)
-
-iv.v <- unlist(data.2[,2])
-dv.v <- unlist(data.2[,1])
-iv.name <- names(data.2)[2]
-dv.name <- names(data.2)[1]
-
-n.iv <- length(unique(iv.v))
-
-# Get colors
-
-if(mean(my.palette %in% piratepal(action = "p")) == 1) {
-
-col.vec <- piratepal(palette = my.palette, length.out = n.iv)
-point.col <- piratepal(palette = my.palette, length.out = n.iv, trans = trans.vec[1])
-bean.border.col <- piratepal(palette = my.palette, length.out = n.iv, trans = trans.vec[2])
-hdi.band.col <- piratepal(palette = my.palette, length.out = n.iv, trans = trans.vec[3])
-average.line.col <- piratepal(palette = my.palette, length.out = n.iv, trans = trans.vec[4])
-
-}
+  #
+  #
+  #
+  #
+  # formula = time.s ~ Company
+  # line.fun = mean
+  # data = df
 
 
-if(mean(my.palette %in% piratepal(action = "p")) != 1) {
+  data.2 <- model.frame(formula = formula,
+                        data = data)
 
-  if(length(my.palette) < n.iv) {my.palette <- rep(my.palette, n.iv)}
-  col.vec <- my.palette
-  point.col <- sapply(1:length(my.palette), function(x) {transparent(my.palette[x], trans.val = trans.vec[1])})
-  bean.border.col <- sapply(1:length(my.palette), function(x) {transparent(my.palette[x], trans.val = trans.vec[2])})
-  hdi.band.col <- sapply(1:length(my.palette), function(x) {transparent(my.palette[x], trans.val = trans.vec[3])})
-  average.line.col <- sapply(1:length(my.palette), function(x) {transparent(my.palette[x], trans.val = trans.vec[4])})
+  dv.name <- names(data.2)[1]
+  dv.v <- data.2[,1]
 
-}
+  # Determine levels of each IV
 
-# Create plotting space
+  iv.levels <- lapply(2:ncol(data.2), FUN = function(x) {sort(unique(data.2[,x]))})
+  iv.lengths <- sapply(1:length(iv.levels), FUN = function(x) {length(iv.levels[[x]])})
+  n.iv <- length(iv.levels)
 
-if(add.margin.desc) {
+  if(is.na(width.max)) {
 
-  layout(mat = matrix(c(1, 2), byrow = T, ncol = 2, nrow = 1), widths = c(5, 1), heights = 5)
-
-}
-
-
-
-total.dv.sd <- sd(dv.v)
-
-if(mean(ylim == "") == 1) {my.ylim <- c(min(dv.v) - total.dv.sd * .5, max(dv.v) + total.dv.sd * .5)}
-if(mean(ylim == "") != 1) {my.ylim <- ylim ; rm(ylim)}
-
-par(mar = c(5, 4, 4, 1) + .1)
-
-plot(1,
-     xlim = c(.5, n.iv + .5),
-     ylim = my.ylim,
-     type = "n",
-     xlab = "",
-     ylab = "",
-     xaxt = "n", ...
-     )
-
-# Add background
-
-if(background == 1) {
-
-  rect(-1000, -1000, 10000, 10000, col = gray(.97))
-
-y.range <- max(dv.v) + total.dv.sd * .5 - min(dv.v) - total.dv.sd * .5
-
-abline(h = seq(floor(min(dv.v) - total.dv.sd * .5),
-               ceiling(max(dv.v) + total.dv.sd * .5),
-               length.out = 10),
-       col = "white")
-
-
-}
-
-# Add beans
-
-for (i in 1:n.iv) {
-
-  dv.i <- dv.v[iv.v == sort(unique(iv.v))[i]]
-  dens.i <- density(dv.i)
-
-  dens.y.i <- dens.i$y
-  dens.x.i <- dens.i$x
-
-  # Rescale density according to width.max and width.min
-
-  if(max(dens.y.i) < width.min) {
-
-    dens.y.i <- dens.y.i / max(dens.y.i) * width.min
+  if(n.iv == 1) {width.max <- .45}
+  if(n.iv == 2) {width.max <- .5}
 
   }
 
-  if(max(dens.y.i) > width.max) {
+  # Set up bean info
 
-    dens.y.i <- dens.y.i / max(dens.y.i) * width.max
+  bean.mtx <- expand.grid(iv.levels)
+  names(bean.mtx) <- names(data.2)[2:ncol(data.2)]
+  n.beans <- nrow(bean.mtx)
+  bean.mtx$bean.num <- 1:nrow(bean.mtx)
 
-  }
+  # Determine bean x locations
 
-  # adjust to cut.min and cut.max
+  bean.loc <- 1:n.beans
 
-  dens.x.plot.i <- dens.x.i
-  dens.y.plot.i <- dens.y.i
+  group.spacing <- 1
 
-  if(is.numeric(cut.min)) {
+  if(n.iv == 2) {
 
-    dens.x.plot.i <- dens.x.i[dens.x.i > cut.min]
-    dens.y.plot.i <- dens.y.i[dens.x.i > cut.min]
-
-  }
-
-
-  if(is.numeric(cut.max)) {
-
-    dens.x.plot.i <- dens.x.i[dens.x.i < cut.max]
-    dens.y.plot.i <- dens.y.i[dens.x.i < cut.max]
+    bean.loc <- bean.loc + rep(group.spacing * (0:(iv.lengths[2] - 1)), each = iv.lengths[1])
 
   }
 
+  bean.mtx$x.loc <- bean.loc
 
-  # Add bean
-
-  polygon(c(i - dens.y.plot.i[1:(length(dens.x.plot.i))], i + rev(dens.y.plot.i[1:(length(dens.x.plot.i))])),
-          c(dens.x.plot.i[1:(length(dens.x.plot.i))], rev(dens.x.plot.i[1:(length(dens.x.plot.i))])),
-          col = gray(1, alpha = 1 - trans.vec[5]),
-          border = bean.border.col[i],
-          lwd = 2
-  )
-
-  # Add HDI band
-
-  if(add.hdi == T) {
-
-    hdi.i <- BEST::hdi(BEST::BESTmcmc(dv.i,
-                          numSavedSteps = n.iter,
-                          verbose = F))
-
-    hdi.lb <- hdi.i[1, 1]
-    hdi.ub <- hdi.i[2, 1]
+  data.2 <- merge(data.2, bean.mtx)
 
 
-    dens.hdi.x <- dens.x.i[dens.x.i >= hdi.lb & dens.x.i <= hdi.ub]
-    dens.hdi.y <- dens.y.i[dens.x.i >= hdi.lb & dens.x.i <= hdi.ub]
+  n.cols <- iv.lengths[1]
 
+  # Get colors
 
-    band.type <- "wide"
+  if(mean(pal %in% piratepal(action = "p")) == 1) {
 
-    if(band.type == "constrained") {
-
-    polygon(c(i - dens.hdi.y, i + rev(dens.hdi.y)),
-           c(dens.hdi.x, rev(dens.hdi.x)),
-            col = hdi.band.col[i],
-            border = NA,
-            lwd = 2
-    )
-
-    }
-
-
-    if(band.type == "wide") {
-
-
-      rect(i - width.max, hdi.lb, i + width.max, hdi.ub, col = hdi.band.col[i], border = NA)
-
-
-
-    }
+    col.vec <- rep(piratepal(palette = pal, length.out = n.cols))
+    point.col <- piratepal(palette = pal, length.out = n.cols, trans = 1 - point.o)
+    bean.border.col <- piratepal(palette = pal, length.out = n.cols, trans = 1 - bean.o)
+    hdi.band.col <- piratepal(palette = pal, length.out = n.cols, trans = 1 - hdi.o)
+    average.line.col <- piratepal(palette = pal, length.out = n.cols, trans = 1 - line.o)
+    bar.col <- piratepal(palette = pal, length.out = n.cols, trans = 1 - bar.o)
 
   }
 
+  if(mean(pal %in% piratepal(action = "p")) != 1) {
 
-  # Add mean and median line(s)
+    if(length(pal) < n.cols) {pal <- rep(pal, n.cols)}
 
-  mean.i <- mean(dv.i)
-  median.i <- median(dv.i)
-
-  mean.i.dens <-  dens.y.i[abs(dens.x.i - mean.i) == min(abs(dens.x.i - mean.i))]
-  median.i.dens <-  dens.y.i[abs(dens.x.i - median.i) == min(abs(dens.x.i - median.i))]
-
-  if(add.mean == T) {
-
-  segments(i - mean.i.dens,
-           mean.i,
-           i + mean.i.dens,
-           mean.i,
-         col = average.line.col[i],
-         lty = 1,
-         lwd = 4
-  )
+    col.vec <- pal
+    point.col <- sapply(1:length(pal), function(x) {transparent(pal[x], trans.val = 1 - point.o)})
+    bean.border.col <- sapply(1:length(pal), function(x) {transparent(pal[x], trans.val = 1 - bean.o)})
+    hdi.band.col <- sapply(1:length(pal), function(x) {transparent(pal[x], trans.val = 1 - hdi.o)})
+    average.line.col <- sapply(1:length(pal), function(x) {transparent(pal[x], trans.val = 1 - line.o)})
+    bar.col <- sapply(1:length(pal), function(x) {transparent(pal[x], trans.val = 1 - bar.o)})
 
   }
 
-  if(add.median == T) {
+  if(n.iv == 2) {
 
-  segments(i - median.i.dens,
-           median.i,
-           i + median.i.dens,
-           median.i,
-           col = average.line.col[i],
-           lty = 2,
-           lwd = 2
-  )
+    col.vec <- rep(col.vec, times = iv.lengths[2])
+    point.col <- rep(point.col, times = iv.lengths[2])
+    bean.border.col <- rep(bean.border.col, times = iv.lengths[2])
+    hdi.band.col <- rep(hdi.band.col, times = iv.lengths[2])
+    average.line.col <- rep(average.line.col, times = iv.lengths[2])
+    bar.col <- rep(bar.col, times = iv.lengths[2])
 
   }
 
 
 
-  # Add raw data
+  # Create plotting space
+  total.dv.sd <- sd(dv.v)
 
-  points(rep(i, length(dv.i)) + rnorm(length(dv.i), mean = 0, sd = jitter.val),
-         dv.i,
-         pch = point.pch,
-         col = point.col[i],
-         cex = point.cex,
-         lwd = point.lwd
-         )
-
-
-
-
-
-
-}
-
-# Add bean names
-
-if(mean(labels == "") == 1) {labels <- sort(unique(iv.v))}
-
-mtext(labels,
-      side = 1,
-      at = 1:n.iv,
-      line = 1)
-
-
-# Add margin description
-
-
-# Add x and y labels
-
-if(mean(xlab == "") == 1) {my.xlab <- iv.name}
-if(mean(xlab == "") != 1) {my.xlab <- xlab ; rm(xlab)}
-
-mtext(my.xlab,
-      side = 1,
-      at = (n.iv + 1) / 2,
-      line = 2.5,
-      cex = cex.lab
-      )
-
-if(mean(ylab == "") == 1) {my.ylab <- dv.name}
-if(mean(ylab == "") != 1) {my.ylab <- ylab ; rm(ylab)}
-
-
-mtext(my.ylab,
-      side = 2,
-      line = 2.5,
-      las = 0,
-      cex = cex.lab
-)
-
-
-# Add legend
-
-
-if(add.margin.desc) {
-
-  par(mar = rep(0, 4))
-  plot(1, xlim = c(0, 1), ylim = c(0, 1), bty = "n", xaxt = "n", yaxt = "n",
-       type = "n", xlab = "", ylab = "")
-
-
-  if(add.hdi == F) {
-
-    legend("left",
-           legend = c("Mean", "Median"),
-           lty = c(1, 2),
-           bty = "n",
-           cex = .7
-    )
-
-  }
-
-  if(add.hdi == T) {
-
-    legend("left",
-           legend = c("Mean", "Median", "95% HDI"),
-           lty = c(1, 2, 1),
-           pch = c(NA, NA, NA),
-           col = c("black", "black", gray(.5, .5)),
-           lwd = c(1, 1, 10),
-           bty = "n",
-           cex = .7
-    )
-
-  }
+  if(mean(ylim == "") == 1) {my.ylim <- c(min(dv.v) - total.dv.sd * .5, max(dv.v) + total.dv.sd * .5)}
+  if(mean(ylim == "") != 1) {my.ylim <- ylim ; rm(ylim)}
 
   par(mar = c(5, 4, 4, 1) + .1)
-  par(mfrow = c(1, 1))
 
-}
+  plot(1,
+       xlim = c(min(bean.loc) - .5, max(bean.loc) + .5),
+       ylim = my.ylim,
+       type = "n",
+       xaxt = "n",
+       ...
+  )
+
+  # Add background
+
+    rect(-1000, -1000, 10000, 10000, col = back.col)
+
+#    y.range <- max(dv.v) + total.dv.sd * .5 - min(dv.v) - total.dv.sd * .5
+#
+#     abline(h = seq(floor(min(dv.v) - total.dv.sd * .5),
+#                    ceiling(max(dv.v) + total.dv.sd * .5),
+#                    length.out = 10),
+#            col = "white")
+
+
+
+  # Add beans
+
+  for (bean.i in 1:n.beans) {
+
+    dv.i <- data.2[data.2$bean.num == bean.i, dv.name]
+    fun.val <- line.fun(dv.i)
+
+    x.loc.i <- bean.mtx$x.loc[bean.i]
+
+    # Add bar
+
+    rect(x.loc.i - width.max,
+         0,
+         x.loc.i + width.max,
+         fun.val,
+         col = bar.col[bean.i],
+         border = bar.col[bean.i],
+         lwd = 0
+    )
+
+
+
+    # Add bean
+    {
+      # Calculate bean densities
+
+      dens.i <- density(dv.i)
+
+      dens.y.i <- dens.i$y
+      dens.x.i <- dens.i$x
+
+      # Rescale density according to width.max and width.min
+
+      if(max(dens.y.i) < width.min) {
+
+        dens.y.i <- dens.y.i / max(dens.y.i) * width.min
+
+      }
+
+      if(max(dens.y.i) > width.max) {
+
+        dens.y.i <- dens.y.i / max(dens.y.i) * width.max
+
+      }
+
+      # adjust to cut.min and cut.max
+
+      dens.x.plot.i <- dens.x.i
+      dens.y.plot.i <- dens.y.i
+
+      if(is.numeric(cut.min)) {
+
+        dens.x.plot.i <- dens.x.i[dens.x.i > cut.min]
+        dens.y.plot.i <- dens.y.i[dens.x.i > cut.min]
+
+      }
+
+
+      if(is.numeric(cut.max)) {
+
+        dens.x.plot.i <- dens.x.i[dens.x.i < cut.max]
+        dens.y.plot.i <- dens.y.i[dens.x.i < cut.max]
+
+      }
+
+
+      polygon(c(x.loc.i - dens.y.plot.i[1:(length(dens.x.plot.i))],
+                x.loc.i + rev(dens.y.plot.i[1:(length(dens.x.plot.i))])),
+              c(dens.x.plot.i[1:(length(dens.x.plot.i))],
+                rev(dens.x.plot.i[1:(length(dens.x.plot.i))])),
+              col = gray(1, alpha = bean.o),
+              border = bean.border.col[bean.i],
+              lwd = 2
+      )
+
+    }
+
+
+
+    # Add Line
+    segments(x.loc.i - width.max,
+             fun.val,
+             x.loc.i + width.max,
+             fun.val,
+             col = average.line.col[bean.i],
+             lwd = 4
+    )
+
+
+
+    # Add HDI band
+
+    if(hdi.o > 0) {
+
+      hdi.i <- BEST::hdi(BEST::BESTmcmc(dv.i,
+                                        numSavedSteps = hdi.iter,
+                                        verbose = F))
+
+      hdi.lb <- hdi.i[1, 1]
+      hdi.ub <- hdi.i[2, 1]
+
+
+      dens.hdi.x <- dens.x.i[dens.x.i >= hdi.lb & dens.x.i <= hdi.ub]
+      dens.hdi.y <- dens.y.i[dens.x.i >= hdi.lb & dens.x.i <= hdi.ub]
+
+
+      band.type <- "wide"
+
+      if(band.type == "constrained") {
+
+        polygon(c(x.loc.i - dens.hdi.y, x.loc.i + rev(dens.hdi.y)),
+                c(dens.hdi.x, rev(dens.hdi.x)),
+                col = hdi.band.col[bean.i],
+                border = NA,
+                lwd = 2
+        )
+
+      }
+
+
+      if(band.type == "wide") {
+
+
+        rect(x.loc.i - width.max,
+             hdi.lb,
+             x.loc.i + width.max,
+             hdi.ub,
+             col = hdi.band.col[bean.i], border = NA)
+
+
+
+      }
+
+    }
+
+
+    # Add function lines
+
+    # fun.dens <- dens.y.i[abs(dens.x.i - fun.val) == min(abs(dens.x.i - fun.val))]
+    #
+    # if(band.type == "wide") {
+    #
+    #   segments(x.loc.i - width.max / 2,
+    #            fun.val,
+    #            x.loc.i + width.max / 2,
+    #            fun.val,
+    #            col = average.line.col[bean.i],
+    #            lty = 1,
+    #            lwd = 4
+    #   )
+    #
+    # }
+    #
+    # if(band.type == "constrained") {
+    #
+    #
+    #   segments(x.loc.i - fun.dens,
+    #            fun.val,
+    #            x.loc.i + fun.dens,
+    #            fun.val,
+    #            col = average.line.col[bean.i],
+    #            lty = 1,
+    #            lwd = 4
+    #   )
+    #
+    # }
+
+
+
+
+    # Add raw data
+
+    points(rep(x.loc.i, length(dv.i)) + rnorm(length(dv.i), mean = 0, sd = jitter.val),
+           dv.i,
+           pch = point.pch,
+           col = point.col[bean.i],
+           cex = point.cex,
+           lwd = point.lwd
+    )
+
+
+
+
+
+
+  }
+
+  # Add bean names for IV 1
+
+  mtext(bean.mtx[,1],
+        side = 1,
+        at = bean.mtx$x.loc,
+        line = .5)
+
+  # Add names for IV 2
+
+  if(n.iv == 2) {
+
+
+      text.loc <- (iv.lengths[1] + 1) / 2 * (2 *(1:iv.lengths[2]) - 1)
+
+
+    mtext(text = paste(names(bean.mtx)[2], "=", unique(bean.mtx[,2])),
+          side = 1,
+          line = 2,
+          at = text.loc
+    )
+
+  }
+
 
 
 

@@ -4,43 +4,36 @@
 \alias{pirateplot}
 \title{pirateplot}
 \usage{
-pirateplot(formula, data, jitter.val = 0.03, my.palette = "appletv",
-  add.mean = T, add.median = T, background = 1, labels = "",
-  ylim = "", ylab = "", xlab = "", cex.lab = 1, add.hdi = F,
-  point.cex = 1, point.pch = 1, point.lwd = 1, cut.min = "",
-  cut.max = "", add.margin.desc = T, width.max = 0.45, width.min = 0.2,
-  trans.vec = c(0.5, 0.8, 0.5, 0, 0.2), n.iter = 1000, ...)
+pirateplot(formula, data, line.fun = mean, pal = "appletv",
+  back.col = gray(1), point.cex = 1, point.pch = 1, point.lwd = 1,
+  cut.min = "", cut.max = "", width.min = 0.3, width.max = NA,
+  bean.o = 0.5, point.o = 0.5, bar.o = 0.5, hdi.o = 0, line.o = 0.5,
+  hdi.iter = 1000, jitter.val = 0.03, ylim = "", xlim = "", ...)
 }
 \arguments{
 \item{formula}{(formula) A formula in the form dv ~ iv indicating the dv and iv to be plotted.}
 
 \item{data, }{(dataframe) Data which to perform the beanplot on. This data can consist of dataframes, vectors and/or formulas. For each formula, a dataset can be specified with data=[dataset], and a subset can be specified with subset=[subset]. If subset/data arguments are passed, but there are not enough subset/data arguments, they are reused. Additionally, na.action, drop.unused.levels and xlev can be passed to model.frame in the same way. Also, parameters for axis and title can be passed.}
 
-\item{jitter.val}{(numeric) A number indicaing how much to jitter the points. Defaults to 0.05.}
+\item{line.fun}{(function) A function that determines how average lines and bar heights are determined (default is mean).}
 
-\item{my.palette}{(string) A string (or vector of strings) indicating the colors of the beans. This can either be the name of a color palette in the piratepal function (run piratepal(action = "p") to see the names of all the palettes), or a vector of strings referring to colors.}
-
-\item{add.mean, }{add.median (logical) Logical values indicating whether or not to include median and median lines.}
-
-\item{background}{(binary) A number indicating which type of background to use. 1 creates a gray background with white horizontal gridlines.}
-
-\item{labels}{(string) A string vector indicating the names of the beans}
-
-\item{add.hdi}{(logical) A logical value indicating whether or not to add 95\% Highest Density Interval (HDI) bands. If T, HDIs will be calculated using the BESTmcmc function from the BEST package. Note: Calculating HDIs can be time-consuming!}
+\item{pal}{(string) A string indicating the color palette of the plot. Can be a single color, or the name of a palette in the piratepal() function (e.g.; "basel", "google", "southpark")}
 
 \item{point.cex, }{point.pch, point.lwd (numeric) Numbers indicating the size, pch type, and line width of raw data points.}
 
-\item{cut.min, }{cut.max (numeric) The minimum and maximum width of a bean. Defaults to 0.5}
+\item{cut.min, }{cut.max (numeric) Optimal minimum and maximum values of the beans.}
 
-\item{add.margin.desc}{(logical) A logical value indicating whether or not to add a description of the average line (and possible HDI) to the plot margins.}
+\item{width.min, }{width.max (numeric) The minimum and maximum width of a bean.}
 
-\item{width.min, }{width.max (numeric) The minimum and maximum width of a bean. Defaults to 0.5}
+\item{bar.o, }{point.o, hdi.o, line.o, bean.o (numeric) A number between 0 and 1 indicating how opaque to make the bars, points, hdi band, average line, and beans respectively.}
 
-\item{trans.vec}{(numeric) A numeric vector of 5 values between 0 and 1 that indicate how transparent to make the colors in each bean. The four numbers correspond to the points, bean outlines, hdi band, the average line, and the white background respectively.}
+\item{hdi.iter}{(integer) An integer indicating how many iterations to run when calculating the HDI.}
 
-\item{n.iter}{(integer) An integer indicating how many iterations to run when calculating the HDI.}
+\item{jitter.val}{(numeric) A number indicaing how much to jitter the points. Defaults to 0.05.}
 
 \item{...}{other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim)}
+
+\item{backcol}{(string) A string indicating the color of the plotting background}
 }
 \description{
 The pirateplot function creates an RDI plot (Raw data, Descriptive and Inferential statistic) pirate version of the fantastic beanplot function in the beanplot package. Just like a beanplot, pirateplot takes a discrete iv and a continuous dv, and creates a plot showing raw data, smoothed densities and central tendency. In addition, pirateplot adds the option for a 95% Highest Density Intervals (HDI), and has a few aesthetic differences preferred by pirates.
@@ -81,8 +74,9 @@ pirateplot(formula = weight ~ Diet,
 
 pirateplot(formula = weight ~ Diet,
           data = ChickWeight,
-          my.palette = "black",
-          trans.vec = c(.8, .9, .5, .1, 0),
+          pal = "black",
+          bar.o = 1,
+          bean.o = .1,
           point.cex = .7,
           main = "B&W Pirateplot"
 )
@@ -91,7 +85,7 @@ pirateplot(formula = weight ~ Diet,
 #   the South Park palette
 
 pirateplot(formula = weight ~ Diet,
-          my.palette = "southpark",
+          pal = "southpark",
           main = "Pirateplot of Chicken Weights\\nwith 95\% HDI and South Park palette",
           data = ChickWeight,
           point.cex = .7,
@@ -117,7 +111,7 @@ PhoneData <- data.frame("Phone" = rep(c("iPhone", "Android", "Windows"), each = 
  pirateplot(formula = Age ~ Phone,
          data = PhoneData,
          width.min = .45,
-         my.palette = "black",
+         pal = "black",
          main = "Age of Phone Users"
          )
 
