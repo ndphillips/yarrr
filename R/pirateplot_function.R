@@ -317,6 +317,8 @@ pirateplot <- function(
     {
       # Calculate bean densities
 
+    if(length(dv.i) > 5) {  # only if n > 5
+
       dens.i <- density(dv.i)
 
       dens.y.i <- dens.i$y
@@ -365,6 +367,8 @@ pirateplot <- function(
               border = bean.border.col[bean.i],
               lwd = 2
       )
+
+    }
 
     }
 
