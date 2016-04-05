@@ -8,7 +8,8 @@ pirateplot(formula, data, line.fun = mean, pal = "appletv",
   back.col = gray(1), point.cex = 1, point.pch = 1, point.lwd = 1,
   cut.min = "", cut.max = "", width.min = 0.3, width.max = NA,
   bean.o = 0.5, point.o = 0.5, bar.o = 0.5, hdi.o = 0, line.o = 0.5,
-  hdi.iter = 1000, jitter.val = 0.03, ylim = "", xlim = "", ...)
+  hdi.iter = 1000, jitter.val = 0.03, ylim = "", xlim = "", add = F,
+  ...)
 }
 \arguments{
 \item{formula}{(formula) A formula in the form dv ~ iv indicating the dv and iv to be plotted.}
@@ -30,6 +31,8 @@ pirateplot(formula, data, line.fun = mean, pal = "appletv",
 \item{hdi.iter}{(integer) An integer indicating how many iterations to run when calculating the HDI.}
 
 \item{jitter.val}{(numeric) A number indicaing how much to jitter the points. Defaults to 0.05.}
+
+\item{add}{(logical) A logical value indicating whether to add the pirateplot to an existing plotting space or not.}
 
 \item{...}{other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim)}
 

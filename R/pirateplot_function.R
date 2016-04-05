@@ -13,6 +13,8 @@
 #' @param bar.o, point.o, hdi.o, line.o, bean.o (numeric) A number between 0 and 1 indicating how opaque to make the bars, points, hdi band, average line, and beans respectively.
 #' @param hdi.iter (integer) An integer indicating how many iterations to run when calculating the HDI.
 #' @param jitter.val (numeric) A number indicaing how much to jitter the points. Defaults to 0.05.
+#' @param add (logical) A logical value indicating whether to add the pirateplot to an existing plotting space or not.
+
 #' @param ... other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim)
 #' @keywords plot
 #' @export
@@ -142,6 +144,7 @@ pirateplot <- function(
   jitter.val = .03,
   ylim = "",
   xlim = "",
+  add = F,
   ...
 ) {
 
@@ -268,7 +271,9 @@ pirateplot <- function(
   if(mean(ylim == "") == 1) {my.ylim <- c(min(dv.v) - total.dv.sd * .5, max(dv.v) + total.dv.sd * .5)}
   if(mean(ylim == "") != 1) {my.ylim <- ylim ; rm(ylim)}
 
-  par(mar = c(5, 4, 4, 1) + .1)
+
+  if(add == F) {
+    par(mar = c(5, 4, 4, 1) + .1)
 
   plot(1,
        xlim = c(min(bean.loc) - .5, max(bean.loc) + .5),
@@ -281,6 +286,8 @@ pirateplot <- function(
   # Add background
 
     rect(-1000, -1000, 10000, 10000, col = back.col)
+
+  }
 
 #    y.range <- max(dv.v) + total.dv.sd * .5 - min(dv.v) - total.dv.sd * .5
 #
