@@ -87,7 +87,7 @@
 #'           back.col = gray(.2)
 #')
 #'
-#'# Plot 7: Theme 4 - Fully customised
+#'# Plot 7: Theme 0 - Fully customised
 #'
 #'pirateplot(formula = weight ~ Diet,
 #'           data = ChickWeight,
@@ -95,7 +95,7 @@
 #'           pal = "google",
 #'           point.o = .2,
 #'           line.o = 1,
-#'           theme.o = 4,
+#'           theme.o = 0,
 #'           line.lwd = 10,
 #'           point.pch = 16,
 #'           point.cex = 1.5,
@@ -103,7 +103,7 @@
 #')
 #'
 #'
-#'# Plot 8: Theme 4\nFully customised
+#'# Plot 8: Theme 0\nFully customised
 #'
 #'pirateplot(formula = weight ~ Diet,
 #'           data = ChickWeight,
@@ -112,7 +112,7 @@
 #'           point.o = .03,
 #'           line.o = 0,
 #'           bean.o = 1,
-#'           theme.o = 4,
+#'           theme.o = 0,
 #'           back.col = transparent("steelblue4", .5),
 #'           line.lwd = 10,
 #'           point.pch = 16,
@@ -265,7 +265,7 @@ pirateplot <- function(
 
   }
 
-  if(theme.o == 4) {
+  if(theme.o == 0) {
 
     point.o <- ifelse(is.null(point.o), 0, point.o)
     bean.o <- ifelse(is.null(bean.o), 0, bean.o)
