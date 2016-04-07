@@ -3,16 +3,18 @@
 #' The pirateplot function creates an RDI plot (Raw data, Descriptive and Inferential statistic) pirate version of the fantastic beanplot function in the beanplot package. Just like a beanplot, pirateplot takes a discrete iv and a continuous dv, and creates a plot showing raw data, smoothed densities and central tendency. In addition, pirateplot adds the option for a 95% Highest Density Intervals (HDI), and has a few aesthetic differences preferred by pirates.
 #'
 #' @param formula (formula) A formula in the form dv ~ iv indicating the dv and iv to be plotted.
-#' @param data, (dataframe) Data which to perform the beanplot on. This data can consist of dataframes, vectors and/or formulas. For each formula, a dataset can be specified with data=[dataset], and a subset can be specified with subset=[subset]. If subset/data arguments are passed, but there are not enough subset/data arguments, they are reused. Additionally, na.action, drop.unused.levels and xlev can be passed to model.frame in the same way. Also, parameters for axis and title can be passed.
+#' @param data (dataframe) Data which to perform the beanplot on. This data can consist of dataframes, vectors and/or formulas. For each formula, a dataset can be specified with data=[dataset], and a subset can be specified with subset=[subset]. If subset/data arguments are passed, but there are not enough subset/data arguments, they are reused. Additionally, na.action, drop.unused.levels and xlev can be passed to model.frame in the same way. Also, parameters for axis and title can be passed.
 #' @param line.fun (function) A function that determines how average lines and bar heights are determined (default is mean).
+#' @param line.lwd (numeric) A number indicating the width of the average lines.
 #' @param pal (string) A string indicating the color palette of the plot. Can be a single color, or the name of a palette in the piratepal() function (e.g.; "basel", "google", "southpark")
 #' @param backcol (string) A string indicating the color of the plotting background
-#' @param point.cex, point.pch, point.lwd (numeric) Numbers indicating the size, pch type, and line width of raw data points.
-#' @param width.min, width.max (numeric) The minimum and maximum width of a bean.
+#' @param point.cex,point.pch point.lwd (numeric) Numbers indicating the size, pch type, and line width of raw data points.
+#' @param width.min,width.max (numeric) The minimum and maximum width of a bean.
 #' @param cut.min, cut.max (numeric) Optimal minimum and maximum values of the beans.
-#' @param bar.o, point.o, hdi.o, line.o, bean.o (numeric) A number between 0 and 1 indicating how opaque to make the bars, points, hdi band, average line, and beans respectively.
+#' @param theme.o (integer) An integer in the set 1, 2, 3, 4 specifying an opacity theme (that is, specific values of bar.o, point.o, etc.). You can override specific opacity values in a theme by specifying bar.o, hdi.o (etc.)
+#' @param bar.o,point.o,hdi.o,line.o,bean.o (numeric) A number between 0 and 1 indicating how opaque to make the bars, points, hdi band, average line, and beans respectively. These values override
 #' @param hdi.iter (integer) An integer indicating how many iterations to run when calculating the HDI.
-#' @param jitter.val (numeric) A number indicaing how much to jitter the points. Defaults to 0.05.
+#' @param jitter.val (numeric) A number indicaing how much to jitter the points horizontally. Defaults to 0.05.
 #' @param add (logical) A logical value indicating whether to add the pirateplot to an existing plotting space or not.
 
 #' @param ... other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim)
@@ -24,100 +26,102 @@
 #'
 #'# Pirateplots of the ChickWeight dataframe
 #'
-#'par(mfrow = c(2, 3))
+# Matrix of Pirate Plots of the ChickWeight dataframe
 #'
-#'# Plot 1: Colorful pirateplot
+#'par(mfrow = c(4, 2))
+#'
+#'# Plot 1: Theme 1
 #'
 #'pirateplot(formula = weight ~ Diet,
 #'           data = ChickWeight,
-#'           main = "All Elements",
-#'           hdi.o = .7,
-#'           bar.o = .1,
-#'           line.o = 1
+#'           main = "Theme 1",
+#'           theme.o = 1
+#')
+#'
+#'# Plot 2: Theme 1 + grayscale
+#'
+#'pirateplot(formula = weight ~ Diet,
+#'           data = ChickWeight,
+#'           main = "Theme 1 + grayscale",
+#'           theme.o = 1,
+#'           pal = "black"
 #')
 #'
 #'
-#'# Plot 2: Black and white, turn down the beans and points,
-#'#   Turn up the HDI
+#'# Plot 3: Theme 2
 #'
 #'pirateplot(formula = weight ~ Diet,
 #'           data = ChickWeight,
-#'           main = "B&W with 95% HDI",
+#'           main = "Theme 2",
+#'           theme.o = 2
+#')
+#'
+#'# Plot 4: Theme 2 + grayscale
+#'
+#'pirateplot(formula = weight ~ Diet,
+#'           data = ChickWeight,
+#'           main = "Theme 2 + grayscale",
 #'           pal = "black",
-#'           bar.o = .1,
-#'           hdi.o = .5,
-#'           point.o = .1,
-#'           bean.o = 0
-#')
-#'
-#'# Plot 3: Turn everything off except the bars
-#'
-#'pirateplot(formula = weight ~ Diet,
-#'           data = ChickWeight,
-#'           main = "Super boring bars",
-#'           pal = "black",
-#'           bar.o = .9,
-#'           hdi.o = 0,
-#'           point.o = 0,
-#'           bean.o = 0,
-#'           back.col = "white",
-#'           line.o = 0
+#'           theme.o = 2,
+#'           point.o = .2,
+#'           point.pch = 16
 #')
 #'
 #'
-#'# Plot 3: Only points, but larger with more jitter
+#'# Plot 5: Theme 3
 #'
 #'pirateplot(formula = weight ~ Diet,
 #'           data = ChickWeight,
-#'           main = "Large, jittered points\nGoogle colors",
+#'           main = "Theme 3\nHDIs take time to calculate...",
+#'           theme.o = 3
+#')
+#'
+#'# Plot 6: Theme 3 + white on black
+#'
+#'pirateplot(formula = weight ~ Diet,
+#'           data = ChickWeight,
+#'           main = "Theme 3 + white on black\nHDIs take time to calculate...",
+#'           pal = "white",
+#'           theme.o = 3,
+#'           point.pch = 16,
+#'           back.col = gray(.2)
+#')
+#'
+#'# Plot 7: Theme 4 - Fully customised
+#'
+#'pirateplot(formula = weight ~ Diet,
+#'           data = ChickWeight,
+#'           main = "Theme 4\nFully customized",
 #'           pal = "google",
-#'           bar.o = 0,
-#'           hdi.o = 0,
-#'           point.o = .1,
-#'           bean.o = 0,
-#'           back.col = "white",
+#'           point.o = .2,
 #'           line.o = 1,
+#'           theme.o = 4,
+#'           line.lwd = 10,
 #'           point.pch = 16,
 #'           point.cex = 1.5,
 #'           jitter.val = .1
 #')
 #'
-#'# Plot 3: Beans and HDI
+#'
+#'# Plot 8: Theme 4\nFully customised
 #'
 #'pirateplot(formula = weight ~ Diet,
 #'           data = ChickWeight,
-#'           main = "Beans and HDI\nSouth Park colors",
-#'           pal = "southpark",
-#'           bar.o = 0,
-#'           hdi.o = .5,
-#'           point.o = 0,
+#'           main = "Theme 4\nFully customized",
+#'           pal = "info2",
+#'           point.o = .03,
+#'           line.o = 0,
 #'           bean.o = 1,
-#'           back.col = "white",
-#'           line.o = 0,
-#'           point.pch = 16
+#'           theme.o = 4,
+#'           back.col = transparent("steelblue4", .5),
+#'           line.lwd = 10,
+#'           point.pch = 16,
+#'           point.cex = 3,
+#'           jitter.val = .00
 #')
 #'
-#'
-#'# Plot 3: Beans and HDI
-#'
-#'pirateplot(formula = weight ~ Diet,
-#'           data = ChickWeight,
-#'           main = "HDI and points\nDark background",
-#'           pal = "ipod",
-#'           bar.o = .2,
-#'           point.o = .3,
-#'           bean.o = 0,
-#'           back.col = gray(.3),
-#'           line.o = 0,
-#'           hdi.o = .8,
-#'           point.pch = 16
-#')
 #'
 #'par(mfrow = c(1, 1))
-#'
-#'
-#'
-#'
 #'
 #'
 #'
@@ -135,13 +139,15 @@ pirateplot <- function(
   cut.max = "",
   width.min = .3,
   width.max = NA,
-  bean.o = .5,
-  point.o = .5,
-  bar.o = .5,
-  hdi.o = 0,
-  line.o = .5,
+  bean.o = NULL,
+  point.o = NULL,
+  bar.o = NULL,
+  hdi.o = NULL,
+  line.o = NULL,
+  theme.o = 1,
   hdi.iter = 1e3,
   jitter.val = .03,
+  line.lwd = 4,
   ylim = "",
   xlim = "",
   add = F,
@@ -176,9 +182,9 @@ pirateplot <- function(
   #
   #
   #
-  # formula = time.s ~ Company
+  # formula = weight ~ Diet
   # line.fun = mean
-  # data = df
+  # data = ChickWeight
 
 
   data.2 <- model.frame(formula = formula,
@@ -189,8 +195,9 @@ pirateplot <- function(
 
   # Determine levels of each IV
 
-  iv.levels <- lapply(2:ncol(data.2), FUN = function(x) {sort(unique(data.2[,x]))})
+  iv.levels <- lapply(2:ncol(data.2), FUN = function(x) {unique(data.2[,x])})
   iv.lengths <- sapply(1:length(iv.levels), FUN = function(x) {length(iv.levels[[x]])})
+  iv.names <- names(data.2)[2:ncol(data.2)]
   n.iv <- length(iv.levels)
 
   if(is.na(width.max)) {
@@ -225,6 +232,51 @@ pirateplot <- function(
 
 
   n.cols <- iv.lengths[1]
+
+  # Determine opacity values
+
+  if(theme.o == 1) {
+
+    point.o <- ifelse(is.null(point.o), .3, point.o)
+    bean.o <- ifelse(is.null(bean.o), .1, bean.o)
+    hdi.o <- ifelse(is.null(hdi.o), 0, hdi.o)
+    line.o <- ifelse(is.null(line.o), .5, line.o)
+    bar.o <- ifelse(is.null(bar.o), .5, bar.o)
+
+  }
+
+  if(theme.o == 2) {
+
+    point.o <- ifelse(is.null(point.o), .8, point.o)
+    bean.o <- ifelse(is.null(bean.o), .5, bean.o)
+    hdi.o <- ifelse(is.null(hdi.o), 0, hdi.o)
+    line.o <- ifelse(is.null(line.o), .1, line.o)
+    bar.o <- ifelse(is.null(bar.o), .1, bar.o)
+
+  }
+
+  if(theme.o == 3) {
+
+    point.o <- ifelse(is.null(point.o), .2, point.o)
+    bean.o <- ifelse(is.null(bean.o), .2, bean.o)
+    hdi.o <- ifelse(is.null(hdi.o), .8, hdi.o)
+    line.o <- ifelse(is.null(line.o), 1, line.o)
+    bar.o <- ifelse(is.null(bar.o), .1, bar.o)
+
+  }
+
+  if(theme.o == 4) {
+
+    point.o <- ifelse(is.null(point.o), 0, point.o)
+    bean.o <- ifelse(is.null(bean.o), 0, bean.o)
+    hdi.o <- ifelse(is.null(hdi.o), 0, hdi.o)
+    line.o <- ifelse(is.null(line.o), 0, line.o)
+    bar.o <- ifelse(is.null(bar.o), 0, bar.o)
+
+  }
+
+
+
 
   # Get colors
 
@@ -280,6 +332,8 @@ pirateplot <- function(
        ylim = my.ylim,
        type = "n",
        xaxt = "n",
+       xlab = iv.names[1],
+       ylab = dv.name,
        ...
   )
 
@@ -387,7 +441,8 @@ pirateplot <- function(
              x.loc.i + width.max,
              fun.val,
              col = average.line.col[bean.i],
-             lwd = 4
+             lwd = line.lwd,
+             lend = 3
     )
 
 
