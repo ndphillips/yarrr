@@ -148,10 +148,11 @@ pirateplot <- function(
   hdi.iter = 1e3,
   jitter.val = .03,
   line.lwd = 4,
-  ylim = "",
-  xlim = "",
+  ylim = NULL,
+  xlim = NULL,
   xlab = NULL,
   ylab = NULL,
+  main = NULL,
   add = F,
   ...
 ) {
@@ -322,9 +323,8 @@ pirateplot <- function(
   # Create plotting space
   total.dv.sd <- sd(dv.v)
 
-  if(mean(ylim == "") == 1) {my.ylim <- c(min(dv.v) - total.dv.sd * .5, max(dv.v) + total.dv.sd * .5)}
-  if(mean(ylim == "") != 1) {my.ylim <- ylim ; rm(ylim)}
-
+  if(is.null(ylim)) {ylim <- c(min(dv.v) - total.dv.sd * .5, max(dv.v) + total.dv.sd * .5)}
+  if(is.null(xlim)) {xlim <- c(min(bean.loc) - .5, max(bean.loc) + .5)}
 
   # Determine x and y labels
 
@@ -336,14 +336,13 @@ pirateplot <- function(
     par(mar = c(5, 4, 4, 1) + .1)
 
   plot(1,
-       xlim = c(min(bean.loc) - .5, max(bean.loc) + .5),
-       ylim = my.ylim,
+       xlim = xlim,
+       ylim = ylim,
        type = "n",
        xaxt = "n",
-       xlab = iv.names[1],
-       ylab = dv.name,
        xlab = xlab,
        ylab = ylab,
+       main = main,
        ...
   )
 
