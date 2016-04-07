@@ -6,42 +6,47 @@
 \usage{
 pirateplot(formula, data, line.fun = mean, pal = "appletv",
   back.col = gray(1), point.cex = 1, point.pch = 1, point.lwd = 1,
-  cut.min = "", cut.max = "", width.min = 0.3, width.max = NA,
+  cut.min = NULL, cut.max = NULL, width.min = 0.3, width.max = NA,
   bean.o = NULL, point.o = NULL, bar.o = NULL, hdi.o = NULL,
   line.o = NULL, theme.o = 1, hdi.iter = 1000, jitter.val = 0.03,
-  line.lwd = 4, ylim = NULL, xlim = NULL, xlab = NULL, ylab = NULL,
-  main = NULL, add = F, ...)
+  line.lwd = 4, gl.col = NULL, ylim = NULL, xlim = NULL, xlab = NULL,
+  ylab = NULL, main = NULL, yaxt = NULL, add = F, y.levels = NULL,
+  bar.border.col = NULL, ...)
 }
 \arguments{
-\item{formula}{(formula) A formula in the form dv ~ iv indicating the dv and iv to be plotted.}
+\item{formula}{(formula) A formula in the form y ~ x1 + x2 indicating the vertical response variable (y) and 1 or two independent varaibles}
 
 \item{data}{(dataframe) Data which to perform the beanplot on. This data can consist of dataframes, vectors and/or formulas. For each formula, a dataset can be specified with data=[dataset], and a subset can be specified with subset=[subset]. If subset/data arguments are passed, but there are not enough subset/data arguments, they are reused. Additionally, na.action, drop.unused.levels and xlev can be passed to model.frame in the same way. Also, parameters for axis and title can be passed.}
 
 \item{line.fun}{(function) A function that determines how average lines and bar heights are determined (default is mean).}
 
-\item{pal}{(string) A string indicating the color palette of the plot. Can be a single color, or the name of a palette in the piratepal() function (e.g.; "basel", "google", "southpark")}
+\item{pal}{(string) A string indicating the color palette of the plot. Can be a single color, a vector of colors, or the name of a palette in the piratepal() function (e.g.; "basel", "google", "southpark"). To see all the palettes, run piratepal(palette = "all", action = "show")}
 
-\item{point.cex, point.pch}{point.lwd (numeric) Numbers indicating the size, pch type, and line width of raw data points.}
+\item{back.col}{(string) A string indicating the color of the plotting background}
+
+\item{point.cex, point.pch, point.lwd}{(numeric) Numbers indicating the size, pch type, and line width of raw data points.}
 
 \item{cut.min, }{cut.max (numeric) Optimal minimum and maximum values of the beans.}
 
 \item{width.min, width.max}{(numeric) The minimum and maximum width of a bean.}
 
-\item{bar.o, point.o, hdi.o, line.o, bean.o}{(numeric) A number between 0 and 1 indicating how opaque to make the bars, points, hdi band, average line, and beans respectively. These values override}
+\item{bar.o, point.o, hdi.o, line.o, bean.o}{(numeric) A number between 0 and 1 indicating how opaque to make the bars, points, hdi band, average line, and beans respectively. These values override whatever is in the specified theme}
 
-\item{theme.o}{(integer) An integer in the set 1, 2, 3, 4 specifying an opacity theme (that is, specific values of bar.o, point.o, etc.). You can override specific opacity values in a theme by specifying bar.o, hdi.o (etc.)}
+\item{theme.o}{(integer) An integer in the set 0, 1, 2, 3, specifying an opacity theme (that is, specific values of bar.o, point.o, etc.). You can override specific opacity values in a theme by specifying bar.o, hdi.o (etc.)}
 
-\item{hdi.iter}{(integer) An integer indicating how many iterations to run when calculating the HDI.}
+\item{hdi.iter}{(integer) An integer indicating how many iterations to run when calculating the HDI. Larger values lead to better estimates, but can be (very) time consuming.}
 
 \item{jitter.val}{(numeric) A number indicaing how much to jitter the points horizontally. Defaults to 0.05.}
 
 \item{line.lwd}{(numeric) A number indicating the width of the average lines.}
 
+\item{gl.col}{(string) An optional string indicating the color of the horizontal gridlines.}
+
 \item{add}{(logical) A logical value indicating whether to add the pirateplot to an existing plotting space or not.}
 
-\item{...}{other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim)}
+\item{bar.border.col}{(string) An optional string indicating the color of the borders of the bars.}
 
-\item{backcol}{(string) A string indicating the color of the plotting background}
+\item{...}{other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim)}
 }
 \description{
 The pirateplot function creates an RDI plot (Raw data, Descriptive and Inferential statistic) pirate version of the fantastic beanplot function in the beanplot package. Just like a beanplot, pirateplot takes a discrete iv and a continuous dv, and creates a plot showing raw data, smoothed densities and central tendency. In addition, pirateplot adds the option for a 95% Highest Density Intervals (HDI), and has a few aesthetic differences preferred by pirates.
@@ -52,7 +57,7 @@ The pirateplot function creates an RDI plot (Raw data, Descriptive and Inferenti
 
 # Pirateplots of the ChickWeight dataframe
 
-
+# Matrix of Pirate Plots of the ChickWeight dataframe
 par(mfrow = c(4, 2))
 
 # Plot 1: Theme 1
@@ -61,7 +66,7 @@ pirateplot(formula = weight ~ Diet,
           data = ChickWeight,
           main = "Theme 1",
           theme.o = 1
-)
+          )
 
 # Plot 2: Theme 1 + grayscale
 
@@ -70,7 +75,7 @@ pirateplot(formula = weight ~ Diet,
           main = "Theme 1 + grayscale",
           theme.o = 1,
           pal = "black"
-)
+          )
 
 
 # Plot 3: Theme 2
@@ -79,9 +84,9 @@ pirateplot(formula = weight ~ Diet,
           data = ChickWeight,
           main = "Theme 2",
           theme.o = 2
-)
+          )
 
-# Plot 4: Theme 2 + grayscale
+# Plot 4: Theme 2 + grayscale + gridlines
 
 pirateplot(formula = weight ~ Diet,
           data = ChickWeight,
@@ -89,8 +94,9 @@ pirateplot(formula = weight ~ Diet,
           pal = "black",
           theme.o = 2,
           point.o = .2,
+          gl.col = gray(.9),
           point.pch = 16
-)
+          )
 
 
 # Plot 5: Theme 3
@@ -109,8 +115,9 @@ pirateplot(formula = weight ~ Diet,
           pal = "white",
           theme.o = 3,
           point.pch = 16,
+          gl.col = gray(.7),
           back.col = gray(.2)
-)
+          )
 
 # Plot 7: Theme 0 - Fully customised
 
@@ -125,7 +132,7 @@ pirateplot(formula = weight ~ Diet,
           point.pch = 16,
           point.cex = 1.5,
           jitter.val = .1
-)
+          )
 
 
 # Plot 8: Theme 0\\nFully customised
@@ -140,14 +147,62 @@ pirateplot(formula = weight ~ Diet,
           theme.o = 0,
           back.col = transparent("steelblue4", .5),
           line.lwd = 10,
+          yaxt = "n",   # no y-axis
+          ylab = "",
+          bty = "n",    # no plot border
           point.pch = 16,
           point.cex = 3,
           jitter.val = .00
-)
+          )
 
+par(mfrow = c(2, 2))
 
-par(mfrow = c(1, 1))
+# Matrix of plots with 2 IVs
 
+# Theme 1
+
+pirateplot(formula = weight ~ Diet + Time,
+          data = subset(ChickWeight, Time < 10),
+          theme.o = 1,
+          gl.col = gray(.8),
+          point.pch = 16,
+          main = "Two IVs\\nTheme 1, default palette"
+          )
+
+# Theme 2
+
+pirateplot(formula = weight ~ Diet + Time,
+          data = subset(ChickWeight, Time < 10),
+          theme.o = 2,
+          pal = "basel",
+          point.pch = 16,
+          main = "Two IVs\\nTheme 2, Basel palette"
+          )
+
+# Theme 3
+
+pirateplot(formula = weight ~ Diet + Time,
+          data = subset(ChickWeight, Time < 10),
+          theme.o = 3,
+          pal = "ipod",
+          point.pch = 16,
+          main = "Two IVs\\nTheme 3 (with slow to calculate HDIs), ipod palette"
+          )
+
+# Theme 0 (fully customised)
+
+pirateplot(formula = weight ~ Diet + Time,
+          data = subset(ChickWeight, Time < 10),
+          theme.o = 0,
+          bar.o = 0,
+          point.o = .7,
+          bean.o = .2,
+          hdi.o = 0,
+          pal = "ipod",
+          point.pch = 16,
+          bar.border.col = gray(.5),
+          main = "Two IVs\\nTheme 0, ipod palette"
+          )
 
 
 }
