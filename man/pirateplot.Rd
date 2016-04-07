@@ -9,7 +9,8 @@ pirateplot(formula, data, line.fun = mean, pal = "appletv",
   cut.min = "", cut.max = "", width.min = 0.3, width.max = NA,
   bean.o = NULL, point.o = NULL, bar.o = NULL, hdi.o = NULL,
   line.o = NULL, theme.o = 1, hdi.iter = 1000, jitter.val = 0.03,
-  line.lwd = 4, ylim = "", xlim = "", add = F, ...)
+  line.lwd = 4, ylim = "", xlim = "", xlab = NULL, ylab = NULL,
+  add = F, ...)
 }
 \arguments{
 \item{formula}{(formula) A formula in the form dv ~ iv indicating the dv and iv to be plotted.}

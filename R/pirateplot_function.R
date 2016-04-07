@@ -150,6 +150,8 @@ pirateplot <- function(
   line.lwd = 4,
   ylim = "",
   xlim = "",
+  xlab = NULL,
+  ylab = NULL,
   add = F,
   ...
 ) {
@@ -324,6 +326,12 @@ pirateplot <- function(
   if(mean(ylim == "") != 1) {my.ylim <- ylim ; rm(ylim)}
 
 
+  # Determine x and y labels
+
+  if(is.null(xlab)) {xlab <- iv.names[1]}
+  if(is.null(ylab)) {ylab <- dv.name}
+
+
   if(add == F) {
     par(mar = c(5, 4, 4, 1) + .1)
 
@@ -334,6 +342,8 @@ pirateplot <- function(
        xaxt = "n",
        xlab = iv.names[1],
        ylab = dv.name,
+       xlab = xlab,
+       ylab = ylab,
        ...
   )
 
