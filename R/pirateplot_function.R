@@ -91,7 +91,7 @@
 #'
 #'pirateplot(formula = weight ~ Diet,
 #'           data = ChickWeight,
-#'           main = "Theme 4\nFully customized",
+#'           main = "Theme 0\nFully customized",
 #'           pal = "google",
 #'           point.o = .2,
 #'           line.o = 1,
@@ -107,7 +107,7 @@
 #'
 #'pirateplot(formula = weight ~ Diet,
 #'           data = ChickWeight,
-#'           main = "Theme 4\nFully customized",
+#'           main = "Theme 0\nFully customized",
 #'           pal = "info2",
 #'           point.o = .03,
 #'           line.o = 0,
