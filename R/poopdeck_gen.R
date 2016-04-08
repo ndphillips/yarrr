@@ -1,6 +1,6 @@
 # poopdeck
 
-set.seed(100)
+set.seed(200)
 cleaner <- rep(c("a", "b", "c"), each = 100)
 type <- rep(c("pirate", "shark"), times = 150)
 
@@ -33,6 +33,6 @@ poopdeck <- data.frame(cleaner = cleaner,
                        stringsAsFactors = F)
 
 poopdeck <- poopdeck[sample(1:nrow(poopdeck)),]
-
+rownames(poopdeck) <- 1:nrow(poopdeck)
 
 save(poopdeck, file = "data/poopdeck.RData")
