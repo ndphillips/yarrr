@@ -32,5 +32,7 @@ poopdeck <- data.frame(cleaner = cleaner,
                        time = time,
                        stringsAsFactors = F)
 
+poopdeck <- poopdeck[sample(1:nrow(poopdeck)),]
+
 
 save(poopdeck, file = "data/poopdeck.RData")
