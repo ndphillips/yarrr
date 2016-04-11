@@ -3,7 +3,7 @@
 set.seed(200)
 
 poopdeck <- data.frame(cleaner = rep(c("a", "b", "c"), times = 200),
-                        type = rep(c("pirate", "shark"), each = 3, times = 100),
+                        type = rep(c("parrot", "shark"), each = 3, times = 100),
                        day = rep(1:100, each = 6),
                        stringsAsFactors = F
                         )
@@ -18,14 +18,14 @@ cleaner.num[poopdeck$cleaner == "c"] <- 20
 
 type.num <- rep(0, 600)
 
-type.num[poopdeck$type == "pirate"] <- 5
+type.num[poopdeck$type == "parrot"] <- 5
 type.num[poopdeck$type == "shark"] <- 30
 
 int.num <- rep(0, 600)
-int.num[poopdeck$cleaner == "a" & poopdeck$type == "pirate"] <- -10
+int.num[poopdeck$cleaner == "a" & poopdeck$type == "parrot"] <- -10
 int.num[poopdeck$cleaner == "a" & poopdeck$type == "shark"] <- 10
 
-int.num[poopdeck$cleaner == "c" & poopdeck$type == "pirate"] <- 0
+int.num[poopdeck$cleaner == "c" & poopdeck$type == "parrot"] <- 0
 int.num[poopdeck$cleaner == "c" & poopdeck$type == "shark"] <- -15
 
 
