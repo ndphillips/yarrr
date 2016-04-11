@@ -36,5 +36,8 @@ poopdeck$time <- time
 
 poopdeck <- poopdeck[c("day", "cleaner", "type", "time")]
 
+poopdeck$day <- as.factor(rep(1:100, each = 6))
+
 
 save(poopdeck, file = "data/poopdeck.RData")
+

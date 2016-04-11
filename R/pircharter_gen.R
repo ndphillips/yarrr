@@ -1,7 +1,7 @@
 
 # charter
 # dataset
-
+set.seed(100)
 
   outcome.sd <- 3
   total.n <- 300
