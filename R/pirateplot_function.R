@@ -16,6 +16,8 @@
 #' @param theme.o (integer) An integer in the set 0, 1, 2, 3, specifying an opacity theme (that is, specific values of bar.o, point.o, etc.). You can override specific opacity values in a theme by specifying bar.o, hdi.o (etc.)
 #' @param bar.o,point.o,hdi.o,line.o,bean.o (numeric) A number between 0 and 1 indicating how opaque to make the bars, points, hdi band, average line, and beans respectively. These values override whatever is in the specified theme
 #' @param hdi.iter (integer) An integer indicating how many iterations to run when calculating the HDI. Larger values lead to better estimates, but can be (very) time consuming.
+#' @param bw (string) The smoothing bandwidth to use for the bean. (see ?density)
+#' @param adjust (numeric) Adjustment for the bandwidth (see ?density)
 #' @param jitter.val (numeric) A number indicaing how much to jitter the points horizontally. Defaults to 0.05.
 #' @param add (logical) A logical value indicating whether to add the pirateplot to an existing plotting space or not.
 #' @param ... other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim)
@@ -210,6 +212,8 @@ pirateplot <- function(
   ylab = NULL,
   main = NULL,
   yaxt = NULL,
+  bw = "nrd0",
+  adjust = 1,
   add = F,
   y.levels = NULL,
   bar.border.col = NULL,
@@ -553,7 +557,7 @@ pirateplot <- function(
 
     if(length(dv.i) > 5) {  # only if n > 5
 
-      dens.i <- density(dv.i)
+      dens.i <- density(dv.i, bw, adjust)
 
       dens.y.i <- dens.i$y
       dens.x.i <- dens.i$x
