@@ -10,8 +10,8 @@ pirateplot(formula, data, line.fun = mean, pal = "appletv",
   bean.o = NULL, point.o = NULL, bar.o = NULL, hdi.o = NULL,
   line.o = NULL, theme.o = 1, hdi.iter = 1000, jitter.val = 0.03,
   line.lwd = 4, gl.col = NULL, ylim = NULL, xlim = NULL, xlab = NULL,
-  ylab = NULL, main = NULL, yaxt = NULL, bw = "nrd0", adjust = 1,
-  add = F, y.levels = NULL, bar.border.col = NULL, ...)
+  ylab = NULL, main = NULL, yaxt = NULL, at = NULL, bw = "nrd0",
+  adjust = 1, add = F, y.levels = NULL, bar.border.col = NULL, ...)
 }
 \arguments{
 \item{formula}{(formula) A formula in the form y ~ x1 + x2 indicating the vertical response variable (y) and 1 or two independent varaibles}
@@ -41,6 +41,8 @@ pirateplot(formula, data, line.fun = mean, pal = "appletv",
 \item{line.lwd}{(numeric) A number indicating the width of the average lines.}
 
 \item{gl.col}{(string) An optional string indicating the color of the horizontal gridlines.}
+
+\item{at}{(numeric) An optional vector specifying the locations of the beans}
 
 \item{bw}{(string) The smoothing bandwidth to use for the bean. (see ?density)}
 

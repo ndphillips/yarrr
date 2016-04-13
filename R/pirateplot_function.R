@@ -19,6 +19,7 @@
 #' @param bw (string) The smoothing bandwidth to use for the bean. (see ?density)
 #' @param adjust (numeric) Adjustment for the bandwidth (see ?density)
 #' @param jitter.val (numeric) A number indicaing how much to jitter the points horizontally. Defaults to 0.05.
+#' @param at (numeric) An optional vector specifying the locations of the beans
 #' @param add (logical) A logical value indicating whether to add the pirateplot to an existing plotting space or not.
 #' @param ... other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim)
 #' @keywords plot
@@ -212,6 +213,7 @@ pirateplot <- function(
   ylab = NULL,
   main = NULL,
   yaxt = NULL,
+  at = NULL,
   bw = "nrd0",
   adjust = 1,
   add = F,
@@ -293,6 +295,8 @@ pirateplot <- function(
 
   # Determine bean x locations
 
+  if(is.null(at)) {
+
   bean.loc <- 1:n.beans
 
   group.spacing <- 1
@@ -302,6 +306,16 @@ pirateplot <- function(
     bean.loc <- bean.loc + rep(group.spacing * (0:(iv.lengths[2] - 1)), each = iv.lengths[1])
 
   }
+
+  }
+
+  if(!is.null(at)) {
+
+   bean.loc <- rep(at, length.out = n.beans)
+
+    }
+
+
 
   bean.mtx$x.loc <- bean.loc
 
