@@ -30,7 +30,6 @@ auction$jbb[auction$style == "classic"] <- auction$jbb[auction$style == "classic
 
 
 
-hist(auction$jbb)
 
 auction$price <- auction$jbb + rnorm(N, mean = 0, sd = 200)
 
@@ -42,13 +41,12 @@ auction$price[auction$color == "plum"] <- auction$price[auction$color == "plum"]
 
 
 auction$price <- round(auction$price, 0)
-
-head(auction)
-
-summary(lm(jbb ~ cannons + rooms + age + condition + color, data = auction))
-summary(lm(price ~ cannons + rooms + age + condition + color, data = auction))
-
-summary(lm(jbb ~ age * style, data = auction))
+#
+#
+# summary(lm(jbb ~ cannons + rooms + age + condition + color, data = auction))
+# summary(lm(price ~ cannons + rooms + age + condition + color, data = auction))
+#
+# summary(lm(jbb ~ age * style, data = auction))
 
 save(auction, file = "~/Dropbox/Git/YaRrr_Book/yarrr/data/auction.RData")
 

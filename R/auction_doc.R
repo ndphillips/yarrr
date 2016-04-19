@@ -17,10 +17,9 @@
 #' @source 2015 annual pirate auction in Portland Oregon
 #' @examples
 #'
-#' pirateplot(dv.name = "price",
-#' iv.name = "condition",
-#' data = auction
-#' )
+#' pirateplot(formula = jbb ~ condition,
+#'            data = auction[order(auction$condition),]
+#'            )
 #'
 #'
 "auction"
