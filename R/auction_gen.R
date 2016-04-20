@@ -41,14 +41,9 @@ auction$price[auction$color == "plum"] <- auction$price[auction$color == "plum"]
 
 
 auction$price <- round(auction$price, 0)
-#
-#
-# summary(lm(jbb ~ cannons + rooms + age + condition + color, data = auction))
-# summary(lm(price ~ cannons + rooms + age + condition + color, data = auction))
-#
-# summary(lm(jbb ~ age * style, data = auction))
 
-save(auction, file = "~/Dropbox/Git/YaRrr_Book/yarrr/data/auction.RData")
+
+save(auction, file = "data/auction.RData")
 
 #  write.table(auction, "/Users/Nathaniel/Dropbox/Git/YaRrr_Book/data/auction.txt", sep = "\t")
 
