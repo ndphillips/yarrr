@@ -20,6 +20,7 @@
 #' @param adjust (numeric) Adjustment for the bandwidth (see ?density)
 #' @param jitter.val (numeric) A number indicaing how much to jitter the points horizontally. Defaults to 0.05.
 #' @param at (numeric) An optional vector specifying the locations of the beans
+#' @param sortx (logical) A logical value indicating whether or not to sort the unique values of the independent variables in the plot.
 #' @param add (logical) A logical value indicating whether to add the pirateplot to an existing plotting space or not.
 #' @param ... other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim)
 #' @keywords plot
@@ -217,6 +218,7 @@ pirateplot <- function(
   bw = "nrd0",
   adjust = 1,
   add = F,
+  sortx = T,
   y.levels = NULL,
   bar.border.col = NULL,
   ...
@@ -269,7 +271,18 @@ pirateplot <- function(
 
   # Determine levels of each IV
 
+  if(sortx == T) {
+
   iv.levels <- lapply(2:ncol(data.2), FUN = function(x) {unique(data.2[,x])})
+
+  }
+
+  if(sortx == F) {
+
+    iv.levels <- lapply(2:ncol(data.2), FUN = function(x) {sort(unique(data.2[,x]))})
+
+  }
+
   iv.lengths <- sapply(1:length(iv.levels), FUN = function(x) {length(iv.levels[[x]])})
   iv.names <- names(data.2)[2:ncol(data.2)]
   n.iv <- length(iv.levels)
