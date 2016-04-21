@@ -259,26 +259,6 @@ pirateplot <- function(
 #
 #
 #
-#
-#   formula = Allowed_CMS_per_Infusion ~ Drug + POS
-#   data = InfusedDrugsAnnual
-#   theme.o = 1
-#   #gl.col = gray(.8),
-#   #ylim = c(0,13000),
-#   point.pch = 16
-#   main = "RA Infusion\nCost of Drug, by Place of Service, 2014 Data"
-#   ylab = "Cost per Infusion (based on CMS ASP)"
-#   xlab = "Drug, by Place of Service"
-#
-# ylim = c(0, 13000)
-
-
-
-
-
-
-
-
 
 
   data.2 <- model.frame(formula = formula,
