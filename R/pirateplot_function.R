@@ -22,7 +22,7 @@
 #' @param at (numeric) An optional vector specifying the locations of the beans
 #' @param sortx (logical) A logical value indicating whether or not to sort the unique values of the independent variables in the plot.
 #' @param add (logical) A logical value indicating whether to add the pirateplot to an existing plotting space or not.
-#' @param ... other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim)
+#' @param ... other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)
 #' @keywords plot
 #' @export
 #' @examples
@@ -221,6 +221,8 @@ pirateplot <- function(
   sortx = T,
   y.levels = NULL,
   bar.border.col = NULL,
+  cex.lab = 1,
+  cex.axis = 1,
   ...
 ) {
 
@@ -257,10 +259,21 @@ pirateplot <- function(
 #   y.levels = NULL
 # at = NULL
 # yaxt = NULL
+
 #
 #
 #
-#
+
+
+
+  # formula = Allowed_CMS_per_Infusion ~ Drug + POS
+  # data = InfusedDrugsAnnual
+  # theme.o = 1
+  # #gl.col = gray(.8)
+  # point.pch = 16
+  # main = "RA Infusion\nCost of Drug, by Place of Service, 2014 Data"
+  # ylab = "Cost per Infusion (based on CMS ASP)"
+  # xlab = "Drug, by Place of Service"
 
 
   data.2 <- model.frame(formula = formula,
@@ -454,7 +467,7 @@ pirateplot <- function(
     best.step.size <- min(steps.p[which(abs(steps.p.m - 10) == min(abs(steps.p.m - 10)))])
 
     plot.min <- floor(min(dv.v) / best.step.size) * best.step.size
-    plot.max <- plot.min + 10 * best.step.size
+    plot.max <- ceiling((max(dv.v) - plot.min)/  best.step.size) * best.step.size
 
     ylim <- c(plot.min, plot.max)
     y.levels <- seq(plot.min, plot.max, by = best.step.size)
@@ -488,7 +501,7 @@ pirateplot <- function(
     best.step.size <- min(steps.p[which(abs(steps.p.m - 10) == min(abs(steps.p.m - 10)))])
 
     plot.min <- floor(ylim[1] / best.step.size) * best.step.size
-    plot.max <- ylim[1] + 10 * best.step.size
+    plot.max <- ceiling((max(dv.v) - plot.min)/  best.step.size) * best.step.size
 
     y.levels <- seq(ylim[1], ylim[2], by = best.step.size)
 
@@ -537,7 +550,8 @@ pirateplot <- function(
        at = y.levels,
        las = 1,
        lwd = 1,
-       lwd.ticks = 1)
+       lwd.ticks = 1,
+       cex.axis = cex.axis)
 
   }
 
@@ -766,7 +780,8 @@ pirateplot <- function(
   mtext(bean.mtx[,1],
         side = 1,
         at = bean.mtx$x.loc,
-        line = .5)
+        line = .5,
+        cex = cex.lab)
 
   # Add names for IV 2
 
@@ -779,7 +794,8 @@ pirateplot <- function(
     mtext(text = paste(names(bean.mtx)[2], "=", unique(bean.mtx[,2])),
           side = 1,
           line = 2,
-          at = text.loc
+          at = text.loc,
+          cex = cex.lab
     )
 
   }
