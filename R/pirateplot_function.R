@@ -226,7 +226,7 @@ pirateplot <- function(
 
 #
 #
-#
+
 #   line.fun = mean
 #   pal = "appletv"
 #   back.col = gray(1)
@@ -253,15 +253,9 @@ pirateplot <- function(
 #   main = NULL
 #   add = F
 #   y.levels = NULL
+# at = NULL
 #
-#
-#
-#   formula = age ~ favorite.pirate
-#   data = pirates
-#   xlab = "Favorite Pirate"
-#   ylab = "Age"
-#   bty = "n"
-#
+
 #
 
 
@@ -421,20 +415,29 @@ pirateplot <- function(
 
     # Determine best step size
 
-    steps.p <- c(1, 2, 5, 10, 25, 50, 100,
+    steps.p <- c(
+                seq(1e-3, 1e-2, 1e-3),
+                seq(1e-4, 1e-3, 1e-3),
+                seq(1e-5, 1e-4, 1e-4),
+                seq(1e-6, 1e-5, 1e-5),
+                seq(1e-7, 1e-6, 1e-6),
+                seq(1e-8, 1e-7, 1e-7),
+                seq(1e-9, 1e-8, 1e-8),
+                 1, 2, 5, 10, 25, 50, 100,
                  seq(1e2, 1e3, 1e2),
                  seq(1e3, 1e4, 1e3),
                  seq(1e4, 1e5, 1e4),
                  seq(1e5, 1e6, 1e5),
                  seq(1e6, 1e7, 1e6),
                  seq(1e7, 1e8, 1e7),
-                 seq(1e8, 1e9, 1e8))
+                 seq(1e8, 1e9, 1e8)
+                )
 
 
     range <- max(dv.v) - min(dv.v)
 
     steps.p.m <- range / steps.p
-    best.step.size <- steps.p[which(abs(steps.p.m - 10) == min(abs(steps.p.m - 10)))]
+    best.step.size <- min(steps.p[which(abs(steps.p.m - 10) == min(abs(steps.p.m - 10)))])
 
     plot.min <- floor(min(dv.v) / best.step.size) * best.step.size
     plot.max <- plot.min + 10 * best.step.size
@@ -447,14 +450,23 @@ pirateplot <- function(
   if(is.null(ylim) == FALSE & is.null(y.levels) == TRUE) {
 
 
-    steps.p <- c(1, 2, 5, 10, 25, 50, 100,
-                 seq(1e2, 1e3, 1e2),
-                 seq(1e3, 1e4, 1e3),
-                 seq(1e4, 1e5, 1e4),
-                 seq(1e5, 1e6, 1e5),
-                 seq(1e6, 1e7, 1e6),
-                 seq(1e7, 1e8, 1e7),
-                 seq(1e8, 1e9, 1e8))
+    steps.p <- c(
+      seq(1e-3, 1e-2, 1e-3),
+      seq(1e-4, 1e-3, 1e-3),
+      seq(1e-5, 1e-4, 1e-4),
+      seq(1e-6, 1e-5, 1e-5),
+      seq(1e-7, 1e-6, 1e-6),
+      seq(1e-8, 1e-7, 1e-7),
+      seq(1e-9, 1e-8, 1e-8),
+      1, 2, 5, 10, 25, 50, 100,
+      seq(1e2, 1e3, 1e2),
+      seq(1e3, 1e4, 1e3),
+      seq(1e4, 1e5, 1e4),
+      seq(1e5, 1e6, 1e5),
+      seq(1e6, 1e7, 1e6),
+      seq(1e7, 1e8, 1e7),
+      seq(1e8, 1e9, 1e8)
+    )
 
     range <- ylim[2] - ylim[1]
 
