@@ -224,9 +224,9 @@ pirateplot <- function(
 
 ## TESTING
 
-#
-#
 
+
+#
 #   line.fun = mean
 #   pal = "appletv"
 #   back.col = gray(1)
@@ -254,9 +254,30 @@ pirateplot <- function(
 #   add = F
 #   y.levels = NULL
 # at = NULL
+# yaxt = NULL
 #
+#
+#
+#
+#
+#   formula = Allowed_CMS_per_Infusion ~ Drug + POS
+#   data = InfusedDrugsAnnual
+#   theme.o = 1
+#   #gl.col = gray(.8),
+#   #ylim = c(0,13000),
+#   point.pch = 16
+#   main = "RA Infusion\nCost of Drug, by Place of Service, 2014 Data"
+#   ylab = "Cost per Infusion (based on CMS ASP)"
+#   xlab = "Drug, by Place of Service"
+#
+# ylim = c(0, 13000)
 
-#
+
+
+
+
+
+
 
 
 
@@ -471,7 +492,7 @@ pirateplot <- function(
     range <- ylim[2] - ylim[1]
 
     steps.p.m <- range / steps.p
-    best.step.size <- steps.p[which(abs(steps.p.m - 10) == min(abs(steps.p.m - 10)))]
+    best.step.size <- min(steps.p[which(abs(steps.p.m - 10) == min(abs(steps.p.m - 10)))])
 
     plot.min <- floor(ylim[1] / best.step.size) * best.step.size
     plot.max <- ylim[1] + 10 * best.step.size
@@ -529,7 +550,7 @@ pirateplot <- function(
 
   # Add background
 
-    rect(-1000, -1000, 10000, 10000, col = back.col)
+    rect(-Inf, -Inf, Inf, Inf, col = back.col, border = NA)
 
   # Add gridlines
 
