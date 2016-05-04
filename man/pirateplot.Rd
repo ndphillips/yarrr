@@ -11,7 +11,8 @@ pirateplot(formula, data, line.fun = mean, pal = "appletv",
   line.o = NULL, theme.o = 1, hdi.iter = 1000, jitter.val = 0.03,
   line.lwd = 4, gl.col = NULL, ylim = NULL, xlim = NULL, xlab = NULL,
   ylab = NULL, main = NULL, yaxt = NULL, at = NULL, bw = "nrd0",
-  adjust = 1, add = F, y.levels = NULL, bar.border.col = NULL, ...)
+  adjust = 1, add = F, sortx = T, y.levels = NULL,
+  bar.border.col = NULL, cex.lab = 1, cex.axis = 1, ...)
 }
 \arguments{
 \item{formula}{(formula) A formula in the form y ~ x1 + x2 indicating the vertical response variable (y) and 1 or two independent varaibles}
@@ -50,9 +51,11 @@ pirateplot(formula, data, line.fun = mean, pal = "appletv",
 
 \item{add}{(logical) A logical value indicating whether to add the pirateplot to an existing plotting space or not.}
 
+\item{sortx}{(logical) A logical value indicating whether or not to sort the unique values of the independent variables in the plot.}
+
 \item{bar.border.col}{(string) An optional string indicating the color of the borders of the bars.}
 
-\item{...}{other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim)}
+\item{...}{other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)}
 }
 \description{
 The pirateplot function creates an RDI plot (Raw data, Descriptive and Inferential statistic) pirate version of the fantastic beanplot function in the beanplot package. Just like a beanplot, pirateplot takes a discrete iv and a continuous dv, and creates a plot showing raw data, smoothed densities and central tendency. In addition, pirateplot adds the option for a 95% Highest Density Intervals (HDI), and has a few aesthetic differences preferred by pirates.
