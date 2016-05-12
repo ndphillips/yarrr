@@ -228,8 +228,6 @@ pirateplot <- function(
 
 ## TESTING
 
-
-
 #
 #   line.fun = mean
 #   pal = "appletv"
@@ -246,17 +244,26 @@ pirateplot <- function(
 #   bar.o = NULL
 #   hdi.o = NULL
 #   line.o = NULL
+#   adjust = 1
+#
 #   theme.o = 1
 #   hdi.iter = 1e3
+#
+#   bw = "nrd0"
 #   jitter.val = .03
+#   cex.axis = 1
 #   line.lwd = 4
 #   ylim = NULL
 #   xlim = NULL
+#   gl.col = "black"
 #   xlab = NULL
 #   ylab = NULL
 #   main = NULL
+#   sortx = T
 #   add = F
 #   y.levels = NULL
+#   bar.border.col = NULL
+#
 # at = NULL
 # yaxt = NULL
 
@@ -264,16 +271,6 @@ pirateplot <- function(
 #
 #
 
-
-
-  # formula = Allowed_CMS_per_Infusion ~ Drug + POS
-  # data = InfusedDrugsAnnual
-  # theme.o = 1
-  # #gl.col = gray(.8)
-  # point.pch = 16
-  # main = "RA Infusion\nCost of Drug, by Place of Service, 2014 Data"
-  # ylab = "Cost per Infusion (based on CMS ASP)"
-  # xlab = "Drug, by Place of Service"
 
 
   data.2 <- model.frame(formula = formula,
@@ -467,7 +464,8 @@ pirateplot <- function(
     best.step.size <- min(steps.p[which(abs(steps.p.m - 10) == min(abs(steps.p.m - 10)))])
 
     plot.min <- floor(min(dv.v) / best.step.size) * best.step.size
-    plot.max <- ceiling((max(dv.v) - plot.min)/  best.step.size) * best.step.size
+    plot.height <- ceiling((max(dv.v) - plot.min) /  best.step.size) * best.step.size
+    plot.max <- plot.min + plot.height
 
     ylim <- c(plot.min, plot.max)
     y.levels <- seq(plot.min, plot.max, by = best.step.size)
