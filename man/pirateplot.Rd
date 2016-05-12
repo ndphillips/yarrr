@@ -10,9 +10,11 @@ pirateplot(formula, data, line.fun = mean, pal = "appletv",
   bean.o = NULL, point.o = NULL, bar.o = NULL, hdi.o = NULL,
   line.o = NULL, theme.o = 1, hdi.iter = 1000, jitter.val = 0.03,
   line.lwd = 4, gl.col = NULL, ylim = NULL, xlim = NULL, xlab = NULL,
-  ylab = NULL, main = NULL, yaxt = NULL, at = NULL, bw = "nrd0",
-  adjust = 1, add = F, sortx = T, y.levels = NULL,
-  bar.border.col = NULL, cex.lab = 1, cex.axis = 1, ...)
+  ylab = NULL, main = NULL, yaxt = NULL, point.col = NULL,
+  bar.col = NULL, bean.border.col = NULL, hdi.band.col = NULL,
+  average.line.col = NULL, bar.border.col = NULL, at = NULL,
+  bw = "nrd0", adjust = 1, add = F, sortx = T, y.levels = NULL,
+  cex.lab = 1, cex.axis = 1, ...)
 }
 \arguments{
 \item{formula}{(formula) A formula in the form y ~ x1 + x2 indicating the vertical response variable (y) and 1 or two independent varaibles}
@@ -43,6 +45,10 @@ pirateplot(formula, data, line.fun = mean, pal = "appletv",
 
 \item{gl.col}{(string) An optional string indicating the color of the horizontal gridlines.}
 
+\item{point.col, bar.col, bean.border.col, hdi.band.col, average.line.col, bar.border.col}{(string) An optional vector of colors specifying the colors of the plotting elements. This will override values in the palette.}
+
+\item{bar.border.col}{(string) An optional string indicating the color of the borders of the bars.}
+
 \item{at}{(numeric) An optional vector specifying the locations of the beans}
 
 \item{bw}{(string) The smoothing bandwidth to use for the bean. (see ?density)}
@@ -52,8 +58,6 @@ pirateplot(formula, data, line.fun = mean, pal = "appletv",
 \item{add}{(logical) A logical value indicating whether to add the pirateplot to an existing plotting space or not.}
 
 \item{sortx}{(logical) A logical value indicating whether or not to sort the unique values of the independent variables in the plot.}
-
-\item{bar.border.col}{(string) An optional string indicating the color of the borders of the bars.}
 
 \item{...}{other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)}
 }

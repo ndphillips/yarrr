@@ -15,6 +15,7 @@
 #' @param cut.min, cut.max (numeric) Optimal minimum and maximum values of the beans.
 #' @param theme.o (integer) An integer in the set 0, 1, 2, 3, specifying an opacity theme (that is, specific values of bar.o, point.o, etc.). You can override specific opacity values in a theme by specifying bar.o, hdi.o (etc.)
 #' @param bar.o,point.o,hdi.o,line.o,bean.o (numeric) A number between 0 and 1 indicating how opaque to make the bars, points, hdi band, average line, and beans respectively. These values override whatever is in the specified theme
+#' @param point.col,bar.col,bean.border.col,hdi.band.col,average.line.col,bar.border.col (string) An optional vector of colors specifying the colors of the plotting elements. This will override values in the palette.
 #' @param hdi.iter (integer) An integer indicating how many iterations to run when calculating the HDI. Larger values lead to better estimates, but can be (very) time consuming.
 #' @param bw (string) The smoothing bandwidth to use for the bean. (see ?density)
 #' @param adjust (numeric) Adjustment for the bandwidth (see ?density)
@@ -214,13 +215,18 @@ pirateplot <- function(
   ylab = NULL,
   main = NULL,
   yaxt = NULL,
+  point.col = NULL,
+  bar.col = NULL,
+  bean.border.col = NULL,
+  hdi.band.col = NULL,
+  average.line.col = NULL,
+  bar.border.col = NULL,
   at = NULL,
   bw = "nrd0",
   adjust = 1,
   add = F,
   sortx = T,
   y.levels = NULL,
-  bar.border.col = NULL,
   cex.lab = 1,
   cex.axis = 1,
   ...
@@ -333,8 +339,6 @@ pirateplot <- function(
 
     }
 
-
-
   bean.mtx$x.loc <- bean.loc
 
   data.2 <- merge(data.2, bean.mtx)
@@ -384,6 +388,12 @@ pirateplot <- function(
 
   }
 
+  # point.col = NULL,
+  # bar.col = NULL,
+  # bean.border.col = NULL,
+  # hdi.band.col = NULL,
+  # average.line.col = NULL,
+  # bar.border.col = NULL,
 
 
 
@@ -391,12 +401,82 @@ pirateplot <- function(
 
   if(mean(pal %in% piratepal(action = "p")) == 1) {
 
-    col.vec <- rep(piratepal(palette = pal, length.out = n.cols))
-    point.col <- piratepal(palette = pal, length.out = n.cols, trans = 1 - point.o)
-    bean.border.col <- piratepal(palette = pal, length.out = n.cols, trans = 1 - bean.o)
-    hdi.band.col <- piratepal(palette = pal, length.out = n.cols, trans = 1 - hdi.o)
-    average.line.col <- piratepal(palette = pal, length.out = n.cols, trans = 1 - line.o)
-    bar.col <- piratepal(palette = pal, length.out = n.cols, trans = 1 - bar.o)
+    col.vec <- rep(piratepal(palette = pal,
+                             length.out = n.cols))
+
+    if (is.null(point.col)) {
+
+      point.col <- piratepal(palette = pal,
+                             length.out = n.cols,
+                             trans = 1 - point.o)
+
+      } else
+
+      {
+        point.col <- rep(transparent(point.col,
+                                     trans.val = 1 - point.o),
+                                     length.out = n.cols)
+        }
+
+
+    if (is.null(bean.border.col)) {
+
+      bean.border.col <- piratepal(palette = pal,
+                             length.out = n.cols,
+                             trans = 1 - bean.o)
+
+    } else
+
+    {
+      bean.border.col <- rep(transparent(bean.border.col,
+                                   trans.val = 1 - bean.o),
+                       length.out = n.cols)
+    }
+
+
+    if (is.null(hdi.band.col)) {
+
+      hdi.band.col <- piratepal(palette = pal,
+                                   length.out = n.cols,
+                                   trans = 1 - hdi.o)
+
+    } else
+
+    {
+      hdi.band.col <- rep(transparent(hdi.band.col,
+                                         trans.val = 1 - hdi.o),
+                             length.out = n.cols)
+    }
+
+
+    if (is.null(average.line.col)) {
+
+      average.line.col <- piratepal(palette = pal,
+                                length.out = n.cols,
+                                trans = 1 - line.o)
+
+    } else
+
+    {
+      average.line.col <- rep(transparent(average.line.col,
+                                      trans.val = 1 - line.o),
+                          length.out = n.cols)
+    }
+
+    if (is.null(bar.col)) {
+
+      bar.col <- piratepal(palette = pal,
+                                    length.out = n.cols,
+                                    trans = 1 - bar.o)
+
+    } else
+
+    {
+      bar.col <- rep(transparent(bar.col,
+                                          trans.val = 1 - bar.o),
+                              length.out = n.cols)
+    }
+
 
   }
 
