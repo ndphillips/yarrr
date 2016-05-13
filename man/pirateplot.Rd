@@ -15,7 +15,7 @@ pirateplot(formula, data, line.fun = mean, pal = "appletv",
   point.col = NULL, bar.col = NULL, bean.border.col = NULL,
   inf.col = NULL, average.line.col = NULL, bar.border.col = NULL,
   at = NULL, bw = "nrd0", adjust = 1, add = F, sortx = T,
-  y.levels = NULL, cex.lab = 1, cex.axis = 1, ...)
+  y.levels = NULL, cex.lab = 1, cex.axis = 1, bty = "n", ...)
 }
 \arguments{
 \item{formula}{(formula) A formula in the form y ~ x1 + x2 indicating the vertical response variable (y) and 1 or two independent varaibles}

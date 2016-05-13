@@ -227,6 +227,7 @@ pirateplot <- function(
   y.levels = NULL,
   cex.lab = 1,
   cex.axis = 1,
+  bty = "n",
   ...
 ) {
 
@@ -668,6 +669,7 @@ pirateplot <- function(
        ylab = ylab,
        main = main,
        yaxt = yaxt,
+       bty = bty,
        ...
   )
 
@@ -801,6 +803,21 @@ pirateplot <- function(
 
 
 
+
+    # Add raw data
+
+    points(rep(x.loc.i, length(dv.i)) + rnorm(length(dv.i), mean = 0, sd = jitter.val),
+           dv.i,
+           pch = point.pch,
+           col = point.col[bean.i],
+           cex = point.cex,
+           lwd = point.lwd
+    )
+
+
+
+
+
     # Add Line
     segments(x.loc.i - width.max,
              fun.val,
@@ -910,17 +927,6 @@ pirateplot <- function(
     # }
 
 
-
-
-    # Add raw data
-
-    points(rep(x.loc.i, length(dv.i)) + rnorm(length(dv.i), mean = 0, sd = jitter.val),
-           dv.i,
-           pch = point.pch,
-           col = point.col[bean.i],
-           cex = point.cex,
-           lwd = point.lwd
-    )
 
 
 
