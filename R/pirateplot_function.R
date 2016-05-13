@@ -197,7 +197,7 @@ pirateplot <- function(
   bar.o = NULL,
   inf.o = NULL,
   line.o = NULL,
-  inf = "hdi",
+  inf = "ci",
   inf.p = .95,
   theme.o = 1,
   hdi.iter = 1e3,
@@ -231,59 +231,59 @@ pirateplot <- function(
 ) {
 
 ## TESTING
-
-
-  line.fun = mean
-  pal = "appletv"
-  back.col = gray(1)
-  point.cex = 1
-  point.pch = 16
-  point.lwd = 1
-  cut.min = NULL
-  cut.max = NULL
-  width.min = .3
-  width.max = NA
-  bean.o = NULL
-  point.o = NULL
-  bar.o = NULL
-  inf.o = NULL
-  line.o = NULL
-  inf = "hdi"
-  inf.p = .95
-  theme.o = 3
-  hdi.iter = 1e3
-  jitter.val = .03
-  line.lwd = 4
-  bean.lwd = 1
-  inf.lwd = 1
-  bar.border.lwd = 1
-  gl.col = NULL
-  ylim = NULL
-  xlim = NULL
-  xlab = NULL
-  ylab = NULL
-  main = NULL
-  yaxt = NULL
-  point.col = NULL
-  bar.col = NULL
-  bean.border.col = NULL
-  inf.col = NULL
-  average.line.col = NULL
-  bar.border.col = NULL
-  at = NULL
-  bw = "nrd0"
-  adjust = 1
-  add = F
-  sortx = T
-  y.levels = NULL
-  cex.lab = 1
-  cex.axis = 1
-
-
-  formula = weight ~ Diet
-  data = ChickWeight
-  main = "Theme 1"
-  theme.o = 3
+#
+#
+#   line.fun = mean
+#   pal = "appletv"
+#   back.col = gray(1)
+#   point.cex = 1
+#   point.pch = 16
+#   point.lwd = 1
+#   cut.min = NULL
+#   cut.max = NULL
+#   width.min = .3
+#   width.max = NA
+#   bean.o = NULL
+#   point.o = NULL
+#   bar.o = NULL
+#   inf.o = NULL
+#   line.o = NULL
+#   inf = "hdi"
+#   inf.p = .95
+#   theme.o = 3
+#   hdi.iter = 1e3
+#   jitter.val = .03
+#   line.lwd = 4
+#   bean.lwd = 1
+#   inf.lwd = 1
+#   bar.border.lwd = 1
+#   gl.col = NULL
+#   ylim = NULL
+#   xlim = NULL
+#   xlab = NULL
+#   ylab = NULL
+#   main = NULL
+#   yaxt = NULL
+#   point.col = NULL
+#   bar.col = NULL
+#   bean.border.col = NULL
+#   inf.col = NULL
+#   average.line.col = NULL
+#   bar.border.col = NULL
+#   at = NULL
+#   bw = "nrd0"
+#   adjust = 1
+#   add = F
+#   sortx = T
+#   y.levels = NULL
+#   cex.lab = 1
+#   cex.axis = 1
+#
+#
+#   formula = weight ~ Diet
+#   data = ChickWeight
+#   main = "Theme 1"
+#   theme.o = 3
 
 
 

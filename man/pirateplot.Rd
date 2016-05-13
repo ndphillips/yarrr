@@ -5,16 +5,17 @@
 \title{pirateplot}
 \usage{
 pirateplot(formula, data, line.fun = mean, pal = "appletv",
-  back.col = gray(1), point.cex = 1, point.pch = 1, point.lwd = 1,
+  back.col = gray(1), point.cex = 1, point.pch = 16, point.lwd = 1,
   cut.min = NULL, cut.max = NULL, width.min = 0.3, width.max = NA,
-  bean.o = NULL, point.o = NULL, bar.o = NULL, hdi.o = NULL,
-  line.o = NULL, theme.o = 1, hdi.iter = 1000, jitter.val = 0.03,
-  line.lwd = 4, gl.col = NULL, ylim = NULL, xlim = NULL, xlab = NULL,
-  ylab = NULL, main = NULL, yaxt = NULL, point.col = NULL,
-  bar.col = NULL, bean.border.col = NULL, hdi.band.col = NULL,
-  average.line.col = NULL, bar.border.col = NULL, at = NULL,
-  bw = "nrd0", adjust = 1, add = F, sortx = T, y.levels = NULL,
-  cex.lab = 1, cex.axis = 1, ...)
+  bean.o = NULL, point.o = NULL, bar.o = NULL, inf.o = NULL,
+  line.o = NULL, inf = "ci", inf.p = 0.95, theme.o = 1,
+  hdi.iter = 1000, jitter.val = 0.03, line.lwd = 4, bean.lwd = 1,
+  inf.lwd = 1, bar.border.lwd = 1, gl.col = NULL, ylim = NULL,
+  xlim = NULL, xlab = NULL, ylab = NULL, main = NULL, yaxt = NULL,
+  point.col = NULL, bar.col = NULL, bean.border.col = NULL,
+  inf.col = NULL, average.line.col = NULL, bar.border.col = NULL,
+  at = NULL, bw = "nrd0", adjust = 1, add = F, sortx = T,
+  y.levels = NULL, cex.lab = 1, cex.axis = 1, ...)
 }
 \arguments{
 \item{formula}{(formula) A formula in the form y ~ x1 + x2 indicating the vertical response variable (y) and 1 or two independent varaibles}
@@ -25,31 +26,31 @@ pirateplot(formula, data, line.fun = mean, pal = "appletv",
 
 \item{pal}{(string) A string indicating the color palette of the plot. Can be a single color, a vector of colors, or the name of a palette in the piratepal() function (e.g.; "basel", "google", "southpark"). To see all the palettes, run piratepal(palette = "all", action = "show")}
 
-\item{back.col}{(string) A string indicating the color of the plotting background}
-
 \item{point.cex, point.pch, point.lwd}{(numeric) Numbers indicating the size, pch type, and line width of raw data points.}
 
 \item{cut.min, }{cut.max (numeric) Optimal minimum and maximum values of the beans.}
 
 \item{width.min, width.max}{(numeric) The minimum and maximum width of a bean.}
 
-\item{bar.o, point.o, hdi.o, line.o, bean.o}{(numeric) A number between 0 and 1 indicating how opaque to make the bars, points, hdi band, average line, and beans respectively. These values override whatever is in the specified theme}
+\item{bar.o, point.o, inf.o, line.o, bean.o}{(numeric) A number between 0 and 1 indicating how opaque to make the bars, points, inference line, average line, and beans respectively. These values override whatever is in the specified theme}
 
-\item{theme.o}{(integer) An integer in the set 0, 1, 2, 3, specifying an opacity theme (that is, specific values of bar.o, point.o, etc.). You can override specific opacity values in a theme by specifying bar.o, hdi.o (etc.)}
+\item{inf}{(string) A string indicating what types of inference lines to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI).}
+
+\item{inf.p}{(numeric) A number between 0 and 1 indicating the level of confidence to use in calculating inferences for either confidence intervals or HDIs (see ?BEST::hdi for details). The default is 0.95}
+
+\item{theme.o}{(integer) An integer in the set 0, 1, 2, 3, specifying an opacity theme (that is, specific values of bar.o, point.o, etc.). You can override specific opacity values in a theme by specifying bar.o, inf.o (etc.)}
 
 \item{hdi.iter}{(integer) An integer indicating how many iterations to run when calculating the HDI. Larger values lead to better estimates, but can be (very) time consuming.}
 
 \item{jitter.val}{(numeric) A number indicaing how much to jitter the points horizontally. Defaults to 0.05.}
 
-\item{line.lwd}{(numeric) A number indicating the width of the average lines.}
+\item{bean.lwd, inf.lwd, line.lwd, bar.border.lwd}{(numeric) A vector of numbers indicating the line widths of various elements.}
 
-\item{gl.col}{(string) An optional string indicating the color of the horizontal gridlines.}
+\item{gl.col, back.col}{(string) An optional string indicating the color of the horizontal gridlines and plotting background.}
 
-\item{point.col, bar.col, bean.border.col, hdi.band.col, average.line.col, bar.border.col}{(string) An optional vector of colors specifying the colors of the plotting elements. This will override values in the palette.}
+\item{point.col, bar.col, bean.border.col, bar.border.col, inf.col, average.line.col, bar.border.col}{(string) An optional vector of colors specifying the colors of the plotting elements. This will override values in the palette.}
 
-\item{bar.border.col}{(string) An optional string indicating the color of the borders of the bars.}
-
-\item{at}{(numeric) An optional vector specifying the locations of the beans}
+\item{at}{(numeric) An optional vector specifying the locations of the beans. Especially helpful when adding beans to an existing plot with add = T}
 
 \item{bw}{(string) The smoothing bandwidth to use for the bean. (see ?density)}
 
@@ -127,7 +128,6 @@ pirateplot(formula = weight ~ Diet,
           main = "Theme 3 + white on black\\nHDIs take time to calculate...",
           pal = "white",
           theme.o = 3,
-          point.pch = 16,
           gl.col = gray(.7),
           back.col = gray(.2)
           )
@@ -142,7 +142,6 @@ pirateplot(formula = weight ~ Diet,
           line.o = 1,
           theme.o = 0,
           line.lwd = 10,
-          point.pch = 16,
           point.cex = 1.5,
           jitter.val = .1
           )
@@ -163,7 +162,6 @@ pirateplot(formula = weight ~ Diet,
           yaxt = "n",   # no y-axis
           ylab = "",
           bty = "n",    # no plot border
-          point.pch = 16,
           point.cex = 3,
           jitter.val = .00
           )
@@ -178,7 +176,6 @@ pirateplot(formula = weight ~ Diet + Time,
           data = subset(ChickWeight, Time < 10),
           theme.o = 1,
           gl.col = gray(.8),
-          point.pch = 16,
           main = "Two IVs\\nTheme 1, default palette"
           )
 
@@ -188,7 +185,6 @@ pirateplot(formula = weight ~ Diet + Time,
           data = subset(ChickWeight, Time < 10),
           theme.o = 2,
           pal = "basel",
-          point.pch = 16,
           main = "Two IVs\\nTheme 2, Basel palette"
           )
 
@@ -198,7 +194,6 @@ pirateplot(formula = weight ~ Diet + Time,
           data = subset(ChickWeight, Time < 10),
           theme.o = 3,
           pal = "ipod",
-          point.pch = 16,
           main = "Two IVs\\nTheme 3 (with slow to calculate HDIs), ipod palette"
           )
 
@@ -210,9 +205,8 @@ pirateplot(formula = weight ~ Diet + Time,
           bar.o = 0,
           point.o = .7,
           bean.o = .2,
-          hdi.o = 0,
+          inf.o = 0,
           pal = "ipod",
-          point.pch = 16,
           bar.border.col = gray(.5),
           main = "Two IVs\\nTheme 0, ipod palette"
           )
