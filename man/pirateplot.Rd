@@ -36,11 +36,11 @@ pirateplot(formula, data, line.fun = mean, pal = "appletv",
 
 \item{inf}{(string) A string indicating what types of inference lines to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI).}
 
-\item{inf.p}{(numeric) A number between 0 and 1 indicating the level of confidence to use in calculating inferences for either confidence intervals or HDIs (see ?BEST::hdi for details). The default is 0.95}
+\item{inf.p}{(numeric) A number between 0 and 1 indicating the level of confidence to use in calculating inferences for either confidence intervals or HDIs. The default is 0.95}
 
 \item{theme.o}{(integer) An integer in the set 0, 1, 2, 3, specifying an opacity theme (that is, specific values of bar.o, point.o, etc.). You can override specific opacity values in a theme by specifying bar.o, inf.o (etc.)}
 
-\item{hdi.iter}{(integer) An integer indicating how many iterations to run when calculating the HDI. Larger values lead to better estimates, but can be (very) time consuming.}
+\item{hdi.iter}{(integer) An integer indicating how many iterations to run when calculating the HDI. Larger values lead to better estimates, but can be more time consuming.}
 
 \item{jitter.val}{(numeric) A number indicaing how much to jitter the points horizontally. Defaults to 0.05.}
 

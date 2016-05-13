@@ -11,12 +11,12 @@
 #' @param width.min,width.max (numeric) The minimum and maximum width of a bean.
 #' @param cut.min, cut.max (numeric) Optimal minimum and maximum values of the beans.
 #' @param inf (string) A string indicating what types of inference lines to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI).
-#' @param inf.p (numeric) A number between 0 and 1 indicating the level of confidence to use in calculating inferences for either confidence intervals or HDIs (see ?BEST::hdi for details). The default is 0.95
+#' @param inf.p (numeric) A number between 0 and 1 indicating the level of confidence to use in calculating inferences for either confidence intervals or HDIs. The default is 0.95
 #' @param theme.o (integer) An integer in the set 0, 1, 2, 3, specifying an opacity theme (that is, specific values of bar.o, point.o, etc.). You can override specific opacity values in a theme by specifying bar.o, inf.o (etc.)
 #' @param bar.o,point.o,inf.o,line.o,bean.o (numeric) A number between 0 and 1 indicating how opaque to make the bars, points, inference line, average line, and beans respectively. These values override whatever is in the specified theme
 #' @param point.col,bar.col,bean.border.col,bar.border.col,inf.col,average.line.col,bar.border.col (string) An optional vector of colors specifying the colors of the plotting elements. This will override values in the palette.
 #' @param bean.lwd,inf.lwd,line.lwd,bar.border.lwd (numeric) A vector of numbers indicating the line widths of various elements.
-#' @param hdi.iter (integer) An integer indicating how many iterations to run when calculating the HDI. Larger values lead to better estimates, but can be (very) time consuming.
+#' @param hdi.iter (integer) An integer indicating how many iterations to run when calculating the HDI. Larger values lead to better estimates, but can be more time consuming.
 #' @param bw (string) The smoothing bandwidth to use for the bean. (see ?density)
 #' @param adjust (numeric) Adjustment for the bandwidth (see ?density)
 #' @param jitter.val (numeric) A number indicaing how much to jitter the points horizontally. Defaults to 0.05.
@@ -819,13 +819,15 @@ pirateplot <- function(
 
       if(inf == "hdi") {
 
-      hdi.i <- BEST::hdi(BEST::BESTmcmc(dv.i,
-                                        numSavedSteps = hdi.iter,
-                                        verbose = F),
-                         credMass = inf.p)
+        # Calculate one-sample bayesian T-test with BayesFactor package
 
-      inf.lb <- hdi.i[1, 1]
-      inf.ub <- hdi.i[2, 1]
+      ttest.bf <- BayesFactor::ttestBF(dv.i, posterior = T, iterations = hdi.iter, progress = F)
+      samples <- ttest.bf[,1]
+
+      # using the hdi function from Kruschke
+
+      inf.lb <- hdi(samples)[1]
+      inf.ub <- hdi(samples)[2]
 
       dens.inf.x <- dens.x.i[dens.x.i >= inf.lb & dens.x.i <= inf.ub]
       dens.inf.y <- dens.y.i[dens.x.i >= inf.lb & dens.x.i <= inf.ub]
@@ -846,7 +848,7 @@ pirateplot <- function(
       }
 
 
-      # band.type <- "wide"
+
       #
       # if(band.type == "constrained") {
       #
@@ -860,18 +862,18 @@ pirateplot <- function(
       # }
 
 
-      if(band.type == "wide") {
 
+      # Draw HDI band
 
-        rect(x.loc.i - width.max,
+        rect(x.loc.i - width.max * .8,
              inf.lb,
-             x.loc.i + width.max,
+             x.loc.i + width.max * .8,
              inf.ub,
              col = inf.col[bean.i],
              lwd = inf.lwd[bean.i],
              border = NA)
 
-      }
+
 
     }
 
