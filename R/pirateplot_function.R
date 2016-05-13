@@ -53,12 +53,13 @@
 #'           )
 #'
 #'
-#'# Plot 3: Theme 2
+#'# Plot 3: Theme 2 + black points
 #'
 #'pirateplot(formula = weight ~ Diet,
 #'           data = ChickWeight,
 #'           main = "Theme 2",
-#'           theme.o = 2
+#'           theme.o = 2,
+#'           point.col = "black"
 #'           )
 #'
 #'# Plot 4: Theme 2 + grayscale + gridlines
@@ -78,7 +79,7 @@
 #'
 #'pirateplot(formula = weight ~ Diet,
 #'           data = ChickWeight,
-#'           main = "Theme 3\nHDIs take time to calculate...",
+#'           main = "Theme 3"
 #'           theme.o = 3
 #')
 #'
@@ -86,7 +87,7 @@
 #'
 #'pirateplot(formula = weight ~ Diet,
 #'           data = ChickWeight,
-#'           main = "Theme 3 + white on black\nHDIs take time to calculate...",
+#'           main = "Theme 3 + white on black",
 #'           pal = "white",
 #'           theme.o = 3,
 #'           gl.col = gray(.7),
@@ -689,7 +690,9 @@ pirateplot <- function(
 
   # Add background
 
-    rect(-Inf, -Inf, Inf, Inf, col = back.col, border = NA)
+    rect(-1e10, -1e10, 1e10, 1e10,
+         col = back.col,
+         border = NA)
 
   # Add gridlines
 
