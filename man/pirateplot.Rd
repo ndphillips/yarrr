@@ -20,7 +20,7 @@ pirateplot(formula, data, line.fun = mean, pal = "appletv",
 \arguments{
 \item{formula}{(formula) A formula in the form y ~ x1 + x2 indicating the vertical response variable (y) and 1 or two independent varaibles}
 
-\item{data}{(dataframe) Data which to perform the beanplot on. This data can consist of dataframes, vectors and/or formulas. For each formula, a dataset can be specified with data=[dataset], and a subset can be specified with subset=[subset]. If subset/data arguments are passed, but there are not enough subset/data arguments, they are reused. Additionally, na.action, drop.unused.levels and xlev can be passed to model.frame in the same way. Also, parameters for axis and title can be passed.}
+\item{data}{(dataframe) A dataframe containing the variables specified in formula.}
 
 \item{line.fun}{(function) A function that determines how average lines and bar heights are determined (default is mean).}
 
