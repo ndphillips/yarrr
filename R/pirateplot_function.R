@@ -299,13 +299,13 @@ pirateplot <- function(
 
   if(sortx == T) {
 
-  iv.levels <- lapply(2:ncol(data.2), FUN = function(x) {unique(data.2[,x])})
+  iv.levels <- lapply(2:ncol(data.2), FUN = function(x) {sort(unique(data.2[,x]))})
 
   }
 
   if(sortx == F) {
 
-    iv.levels <- lapply(2:ncol(data.2), FUN = function(x) {sort(unique(data.2[,x]))})
+    iv.levels <- lapply(2:ncol(data.2), FUN = function(x) {unique(data.2[,x])})
 
   }
 
