@@ -930,12 +930,6 @@ pirateplot <- function(
     # }
 
 
-
-
-
-
-
-
   }
 
   # Add bean names for IV 1
@@ -954,12 +948,19 @@ pirateplot <- function(
       text.loc <- (iv.lengths[1] + 1) / 2 * (2 *(1:iv.lengths[2]) - 1)
 
 
-    mtext(text = paste(names(bean.mtx)[2], "=", unique(bean.mtx[,2])),
-          side = 1,
-          line = 2,
-          at = text.loc,
-          cex = cex.lab
-    )
+      mtext(text = unique(bean.mtx[,2]),
+            side = 1,
+            line = 2,
+            at = text.loc,
+            cex = cex.lab
+      )
+
+    # mtext(text = paste(names(bean.mtx)[2], "=", unique(bean.mtx[,2])),
+    #       side = 1,
+    #       line = 2,
+    #       at = text.loc,
+    #       cex = cex.lab
+    # )
 
   }
 
