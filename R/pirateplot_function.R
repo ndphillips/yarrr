@@ -198,7 +198,7 @@ pirateplot <- function(
   bar.o = NULL,
   inf.o = NULL,
   line.o = NULL,
-  inf = "ci",
+  inf = "hdi",
   inf.p = .95,
   theme.o = 1,
   hdi.iter = 1e3,
@@ -512,7 +512,7 @@ pirateplot <- function(
 
     if(is.null(inf.col)) {
 
-      inf.col <- transparent(pal, trans.val = 1 - bean.o)
+      inf.col <- transparent(pal, trans.val = 1 - inf.o)
 
     } else {
 
@@ -524,7 +524,7 @@ pirateplot <- function(
 
     if(is.null(average.line.col)) {
 
-      average.line.col <- transparent(pal, trans.val = 1 - bean.o)
+      average.line.col <- transparent(pal, trans.val = 1 - line.o)
 
     } else {
 
