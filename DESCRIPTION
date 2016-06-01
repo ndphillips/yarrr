@@ -11,5 +11,6 @@ Imports:
     dplyr,jpeg,BayesFactor
 License: What license is it under?
 LazyData: true
+URL: www.thepiratesguidetor.com
 BugReports: https://github.com/ndphillips/yarrr/issues
 RoxygenNote: 5.0.1
