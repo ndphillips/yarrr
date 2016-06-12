@@ -14,7 +14,7 @@ pirateplot(formula, data, line.fun = mean, pal = "appletv",
   xlim = NULL, xlab = NULL, ylab = NULL, main = NULL, yaxt = NULL,
   point.col = NULL, bar.col = NULL, bean.border.col = NULL,
   inf.col = NULL, average.line.col = NULL, bar.border.col = NULL,
-  at = NULL, bw = "nrd0", adjust = 1, add = F, sortx = T,
+  at = NULL, bw = "nrd0", adjust = 1, add = F, sortx = "alphabetical",
   y.levels = NULL, cex.lab = 1, cex.axis = 1, bty = "n", ...)
 }
 \arguments{
@@ -58,7 +58,7 @@ pirateplot(formula, data, line.fun = mean, pal = "appletv",
 
 \item{add}{(logical) A logical value indicating whether to add the pirateplot to an existing plotting space or not.}
 
-\item{sortx}{(logical) A logical value indicating whether or not to sort the unique values of the independent variables in the plot.}
+\item{sortx}{(string) An optional argument indicating how to sort the x values. Can be "sequential" (as they are found in the original dataframe), "alphabetical", or a string indicating a function (i.e.; "mean")}
 
 \item{...}{other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)}
 }

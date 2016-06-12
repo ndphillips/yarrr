@@ -7,10 +7,12 @@ Description: This package contains a mixture of functions and datasets
     referred to in the introductory e-book YaRrr!: The Pirate's Guide to
     R. The latest version of the e-book is available for free at https://
     www.thepiratesguidetor.com).
-Imports:
-    dplyr,jpeg,BayesFactor
+Depends: dplyr,jpeg,BayesFactor
 License: What license is it under?
 LazyData: true
 URL: www.thepiratesguidetor.com
 BugReports: https://github.com/ndphillips/yarrr/issues
 RoxygenNote: 5.0.1
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr

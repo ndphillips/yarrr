@@ -21,7 +21,7 @@
 #' @param adjust (numeric) Adjustment for the bandwidth (see ?density)
 #' @param jitter.val (numeric) A number indicaing how much to jitter the points horizontally. Defaults to 0.05.
 #' @param at (numeric) An optional vector specifying the locations of the beans. Especially helpful when adding beans to an existing plot with add = T
-#' @param sortx (logical) A logical value indicating whether or not to sort the unique values of the independent variables in the plot.
+#' @param sortx (string) An optional argument indicating how to sort the x values. Can be "sequential" (as they are found in the original dataframe), "alphabetical", or a string indicating a function (i.e.; "mean")
 #' @param add (logical) A logical value indicating whether to add the pirateplot to an existing plotting space or not.
 #' @param ... other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)
 #' @keywords plot
@@ -224,7 +224,7 @@ pirateplot <- function(
   bw = "nrd0",
   adjust = 1,
   add = F,
-  sortx = T,
+  sortx = "alphabetical",
   y.levels = NULL,
   cex.lab = 1,
   cex.axis = 1,
@@ -233,7 +233,7 @@ pirateplot <- function(
 ) {
 
 ## TESTING
-#
+
 #
 #   line.fun = mean
 #   pal = "appletv"
@@ -276,18 +276,23 @@ pirateplot <- function(
 #   bw = "nrd0"
 #   adjust = 1
 #   add = F
-#   sortx = T
+#   sortx = "alphabetical"
 #   y.levels = NULL
 #   cex.lab = 1
 #   cex.axis = 1
+#   bty = "n"
+#
+#
+#
 #
 #
 #   formula = weight ~ Diet
 #   data = ChickWeight
-#   main = "Theme 1"
 #   theme.o = 3
+#   bean.o = c(0, .1, 1, .1)
 
 
+  # Reshape dataframe to include relevant variables
 
   data.2 <- model.frame(formula = formula,
                         data = data)
@@ -297,28 +302,36 @@ pirateplot <- function(
 
   # Determine levels of each IV
 
-  if(sortx == T) {
+  if(substr(sortx, 1, 1) == "a") {
 
-  iv.levels <- lapply(2:ncol(data.2), FUN = function(x) {sort(unique(data.2[,x]))})
+    iv.levels <- lapply(2:ncol(data.2), FUN = function(x) {sort(unique(data.2[,x]))})
 
   }
-
-  if(sortx == F) {
+  if(substr(sortx, 1, 1) == "s") {
 
     iv.levels <- lapply(2:ncol(data.2), FUN = function(x) {unique(data.2[,x])})
 
   }
 
-  iv.lengths <- sapply(1:length(iv.levels), FUN = function(x) {length(iv.levels[[x]])})
-  iv.names <- names(data.2)[2:ncol(data.2)]
+  # TO DO
+  # Add a new sorting function based on function (e.g.; mean) values.
+
+  # if(is.function(get(sortx))) {
+  #
+  #   tapply()
+  #
+  #   iv.levels <- lapply(2:ncol(data.2), FUN = function(x) {unique(data.2[,x])})
+  #
+  #
+  #
+  # }
+
+  # Info about IV(s)
+
   n.iv <- length(iv.levels)
+  iv.lengths <- sapply(1:n.iv, FUN = function(x) {length(iv.levels[[x]])})
+  iv.names <- names(data.2)[2:ncol(data.2)]
 
-  if(is.na(width.max)) {
-
-  if(n.iv == 1) {width.max <- .45}
-  if(n.iv == 2) {width.max <- .5}
-
-  }
 
   # Set up bean info
 
@@ -353,61 +366,66 @@ pirateplot <- function(
 
   data.2 <- merge(data.2, bean.mtx)
 
+  # Determine number of colors (equal to the number of unique values of IV 1)
 
   n.cols <- iv.lengths[1]
 
   # Determine opacity values
 
-  if(theme.o == 1) {
-
-    point.o <- ifelse(is.null(point.o), .3, point.o)
-    bean.o <- ifelse(is.null(bean.o), .1, bean.o)
-    inf.o <- ifelse(is.null(inf.o), 0, inf.o)
-    line.o <- ifelse(is.null(line.o), .5, line.o)
-    bar.o <- ifelse(is.null(bar.o), .5, bar.o)
-
-  }
-
   if(theme.o == 2) {
 
-    point.o <- ifelse(is.null(point.o), .8, point.o)
-    bean.o <- ifelse(is.null(bean.o), .5, bean.o)
-    inf.o <- ifelse(is.null(inf.o), 0, inf.o)
-    line.o <- ifelse(is.null(line.o), .1, line.o)
-    bar.o <- ifelse(is.null(bar.o), .1, bar.o)
+    if(is.null(point.o)) {point.o <- .3}
+    if(is.null(bean.o)) {bean.o <- .1}
+    if(is.null(inf.o)) {inf.o <- 0}
+    if(is.null(line.o)) {line.o <- .5}
+    if(is.null(bar.o)) {bar.o <- .5}
 
   }
 
   if(theme.o == 3) {
 
-    point.o <- ifelse(is.null(point.o), .2, point.o)
-    bean.o <- ifelse(is.null(bean.o), .2, bean.o)
-    inf.o <- ifelse(is.null(inf.o), .8, inf.o)
-    line.o <- ifelse(is.null(line.o), 1, line.o)
-    bar.o <- ifelse(is.null(bar.o), .1, bar.o)
+
+    if(is.null(point.o)) {point.o <- .8}
+    if(is.null(bean.o)) {bean.o <- .5}
+    if(is.null(inf.o)) {inf.o <- 0}
+    if(is.null(line.o)) {line.o <- .1}
+    if(is.null(bar.o)) {bar.o <- .1}
+
+
+  }
+
+  if(theme.o == 1) {
+
+    if(is.null(point.o)) {point.o <- .2}
+    if(is.null(bean.o)) {bean.o <- .2}
+    if(is.null(inf.o)) {inf.o <- .8}
+    if(is.null(line.o)) {line.o <- 1}
+    if(is.null(bar.o)) {bar.o <- .1}
 
   }
 
   if(theme.o == 0) {
 
-    point.o <- ifelse(is.null(point.o), 0, point.o)
-    bean.o <- ifelse(is.null(bean.o), 0, bean.o)
-    inf.o <- ifelse(is.null(inf.o), 0, inf.o)
-    line.o <- ifelse(is.null(line.o), 0, line.o)
-    bar.o <- ifelse(is.null(bar.o), 0, bar.o)
+    if(is.null(point.o)) {point.o <- 0}
+    if(is.null(bean.o)) {bean.o <- 0}
+    if(is.null(inf.o)) {inf.o <- 0}
+    if(is.null(line.o)) {line.o <- 0}
+    if(is.null(bar.o)) {bar.o <- 0}
 
   }
 
-  # point.col = NULL,
-  # bar.col = NULL,
-  # bean.border.col = NULL,
-  # inf.col = NULL,
-  # average.line.col = NULL,
-  # bar.border.col = NULL,
+  ## Repeat transparency values
 
+  point.o <- rep(point.o, length.out = n.beans)
+  bean.o <- rep(bean.o, length.out = n.beans)
+  inf.o <- rep(inf.o, length.out = n.beans)
+  line.o <- rep(line.o, length.out = n.beans)
+  bar.o <- rep(bar.o, length.out = n.beans)
 
 
   # Get colors
+
+  # If palette is in piratepal()...
 
   if(mean(pal %in% piratepal(action = "p")) == 1) {
 
@@ -415,12 +433,13 @@ pirateplot <- function(
 
       point.col <- piratepal(palette = pal,
                              length.out = n.cols,
-                             trans = 1 - point.o)
+                             trans = 0)
+
 
       } else {
 
         point.col <- rep(transparent(point.col,
-                                     trans.val = 1 - point.o),
+                                     trans.val = 0),
                                      length.out = n.cols)
         }
 
@@ -429,12 +448,12 @@ pirateplot <- function(
 
       bean.border.col <- piratepal(palette = pal,
                              length.out = n.cols,
-                             trans = 1 - bean.o)
+                             trans = 0)
 
     } else {
 
       bean.border.col <- rep(transparent(bean.border.col,
-                                   trans.val = 1 - bean.o),
+                                   trans.val = 0),
                        length.out = n.cols)
     }
 
@@ -443,12 +462,12 @@ pirateplot <- function(
 
       inf.col <- piratepal(palette = pal,
                                    length.out = n.cols,
-                                   trans = 1 - inf.o)
+                                   trans = 0)
 
     } else {
 
       inf.col <- rep(transparent(inf.col,
-                                         trans.val = 1 - inf.o),
+                                         trans.val = 0),
                              length.out = n.cols)
     }
 
@@ -457,30 +476,33 @@ pirateplot <- function(
 
       average.line.col <- piratepal(palette = pal,
                                 length.out = n.cols,
-                                trans = 1 - line.o)
+                                trans = 0)
 
     } else {
 
       average.line.col <- rep(transparent(average.line.col,
-                                      trans.val = 1 - line.o),
-                          length.out = n.cols)
+                                          trans.val = 0),
+                                          length.out = n.cols)
     }
 
     if (is.null(bar.col)) {
 
       bar.col <- piratepal(palette = pal,
                                     length.out = n.cols,
-                                    trans = 1 - bar.o)
+                                    trans = 0)
 
     } else {
 
       bar.col <- rep(transparent(bar.col,
-                                          trans.val = 1 - bar.o),
+                                trans.val = 0),
                               length.out = n.cols)
     }
 
 
+
   }
+
+  # If palette is NOT in piratepal()...
 
   if(mean(pal %in% piratepal(action = "p")) != 1) {
 
@@ -488,63 +510,79 @@ pirateplot <- function(
 
     if(is.null(point.col)) {
 
-    point.col <- transparent(pal, trans.val = 1 - point.o)
+    point.col <- rep(pal, length.out = n.cols)
 
     } else {
 
-      point.col <- rep(transparent(point.col, trans.val = 1 - point.o),
-                       length.out = n.cols)
+      point.col <- rep(point.col, length.out = n.cols)
 
     }
 
 
     if(is.null(bean.border.col)) {
 
-      bean.border.col <- transparent(pal, trans.val = 1 - bean.o)
+      bean.border.col <- rep(pal, length.out = n.cols)
 
     } else {
 
-      bean.border.col <- rep(transparent(bean.border.col, trans.val = 1 - bean.o),
-                       length.out = n.cols)
+      bean.border.col <- rep(bean.border.col, length.out = n.cols)
 
     }
 
-
     if(is.null(inf.col)) {
 
-      inf.col <- transparent(pal, trans.val = 1 - inf.o)
+      inf.col <- rep(pal, length.out = n.cols)
 
     } else {
 
-      inf.col <- rep(transparent(inf.col, trans.val = 1 - inf.o),
-                             length.out = n.cols)
+      inf.col <- rep(inf.col, length.out = n.cols)
 
     }
 
 
     if(is.null(average.line.col)) {
 
-      average.line.col <- transparent(pal, trans.val = 1 - line.o)
+      average.line.col <- rep(pal, length.out = n.cols)
 
     } else {
 
-      average.line.col <- rep(transparent(average.line.col, trans.val = 1 - line.o),
-                          length.out = n.cols)
+      average.line.col <- rep(average.line.col, length.out = n.cols)
 
     }
 
 
     if(is.null(bar.col)) {
 
-      bar.col <- transparent(pal, trans.val = 1 - bar.o)
+      bar.col <- rep(pal, length.out = n.cols)
 
     } else {
 
-      bar.col <- rep(transparent(bar.col, trans.val = 1 - bar.o),
-                              length.out = n.cols)
+      bar.col <- rep(bar.col, length.out = n.cols)
 
     }
 
+
+
+
+
+
+  }
+
+
+  # Make colors transparent according to transparency (point.o, bar.o, ...) vectors
+
+
+  if(n.iv == 1) {
+
+    for(i in 1:n.beans) {
+
+      point.col[i] <- transparent(point.col[i], trans.val = 1 - point.o[i])
+      bean.border.col[i] <- transparent(bean.border.col[i], trans.val = 1 - bean.o[i])
+      inf.col[i] <- transparent(inf.col[i], trans.val = 1 - inf.o[i])
+      average.line.col[i] <- transparent(average.line.col[i], trans.val = 1 - line.o[i])
+      bar.col[i] <- transparent(bar.col[i], trans.val = 1 - bar.o[i])
+
+    }
 
   }
 
@@ -556,7 +594,28 @@ pirateplot <- function(
     average.line.col <- rep(average.line.col, times = iv.lengths[2])
     bar.col <- rep(bar.col, times = iv.lengths[2])
 
+
+    point.o <- rep(point.o, times = 2)
+    bean.o <- rep(bean.o, times = 2)
+    inf.o <- rep(inf.o, times = 2)
+    line.o <- rep(line.o, times = 2)
+    bar.o <- rep(bar.o, times = 2)
+
+
+
+    for(i in 1:n.beans) {
+
+      point.col[i] <- transparent(point.col[i], trans.val = 1 - point.o[i])
+      bean.border.col[i] <- transparent(bean.border.col[i], trans.val = 1 - bean.o[i])
+      inf.col[i] <- transparent(inf.col[i], trans.val = 1 - inf.o[i])
+      average.line.col[i] <- transparent(average.line.col[i], trans.val = 1 - line.o[i])
+      bar.col[i] <- transparent(bar.col[i], trans.val = 1 - bar.o[i])
+
+    }
+
+
   }
+
 
 
   if(is.null(bar.border.col)) {bar.border.col <- bar.col}
@@ -718,7 +777,18 @@ pirateplot <- function(
 
 
 
+
+
   # Add beans
+
+
+  if(is.na(width.max)) {
+
+    if(n.iv == 1) {width.max <- .45}
+    if(n.iv == 2) {width.max <- .5}
+
+  }
+
 
   bean.lwd <- rep(bean.lwd, length.out = n.beans)
   inf.lwd <- rep(inf.lwd, length.out = n.beans)
@@ -795,7 +865,7 @@ pirateplot <- function(
                 x.loc.i + rev(dens.y.plot.i[1:(length(dens.x.plot.i))])),
               c(dens.x.plot.i[1:(length(dens.x.plot.i))],
                 rev(dens.x.plot.i[1:(length(dens.x.plot.i))])),
-              col = gray(1, alpha = bean.o),
+              col = gray(1, alpha = bean.o[bean.i]),
               border = bean.border.col[bean.i],
               lwd = bean.lwd[bean.i]
       )
@@ -835,7 +905,7 @@ pirateplot <- function(
 
     # Add inference band
 
-    if(inf.o > 0) {
+    if(inf.o[bean.i] > 0) {
 
       if(inf == "hdi") {
 
@@ -963,9 +1033,6 @@ pirateplot <- function(
     # )
 
   }
-
-
-
 
 }
 
