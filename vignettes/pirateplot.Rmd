@@ -46,7 +46,9 @@ text(2.4, 250, labels = "Bean")
 text(2.4, 250, labels = "Density", pos = 1, cex = .8)
 arrows(2.4, 220, 2.85, 200, length = .1)
 
-text(3.4, 300, labels = "4\nBox")
+text(3.4, 300, labels = "Box")
+text(3.4, 300, labels = "Inference", pos = 1, cex = .8)
+
 arrows(3.4, 270, 3.8, 150, length = .1)
 
 
@@ -54,20 +56,85 @@ arrows(3.4, 270, 3.8, 150, length = .1)
 
 
 
+# Colors
 
+You can adjust colors in many ways. You can select an overall color palette using the pal argument, where pal is the name of a color palette in the piratepal() function (to see all the palettes, run piratepal(palette = "all", action = "s"))
 
-# Examples
+```{r, fig.width = 6, fig.height = 6}
+yarrr::pirateplot(formula = weight ~ Time,
+                  data = ChickWeight,
+                  pal = "southpark"   # Use the southpark color palette
+                  )
+```
 
-Here is a pirateplot() of the weights of chickens from the ChickWeight dataset:
+You can override the color of any specific element by using one of the x.col arguments (e.g.; bar.col, point.col, inf.col, line.col). In this example, I'll change
+
+```{r, fig.width = 6, fig.height = 6}
+yarrr::pirateplot(formula = weight ~ Time,
+                  data = ChickWeight,
+                  pal = "southpark",   # Use the southpark color palette,
+                  point.col = "black",  # black points
+                  bar.col = "gray"   # gray bars
+                  )
+```
+
+# Element opacities
+
+You can adjust the opacities of individual plotting elements in one of two ways. The theme.o argument allows you to specify an opacity theme. A value of 2 will turn off the inference boxes and turn up the bars:
 
 ```{r, fig.width = 6, fig.height = 6}
 yarrr::pirateplot(formula = weight ~ Diet,
                   data = ChickWeight,
-                  theme.o = 3)
+                  theme.o = 2, # Use opacity theme 2
+                  main = "Opacity themes with theme.o"
+                  )
 ```
 
+A theme.o value of 0 will turn off all of the opacities. You can then manually turn on each one with the x.o arguments (e.g.; bean.o, point.o, line.o)
 
+```{r, fig.width = 6, fig.height = 6}
+yarrr::pirateplot(formula = weight ~ Diet,
+                  data = ChickWeight,
+                  theme.o = 0, # Turn off all opacities,
+                  point.o = .1, # Turn point opacities up to .1
+                  inf.o = .3, # Turn inf opacities up to .3
+                  bean.o = .9, # Turn beans way up
+                  main = "Changing opacities individually with point.o, inf.o (etc.)"
+                  )
+```
 
+You can specify the x.o arguments as *vectors* to selectively turn up (or down) specific elements for specific groups:
+
+```{r, fig.width = 6, fig.height = 6}
+yarrr::pirateplot(formula = weight ~ Diet,
+                  data = ChickWeight,
+                  pal = "basel",
+                  theme.o = 0, # Turn off all opacities,
+                  point.o = c(.1, .05, .2, .05), # Selectively turn up point opacities
+                  inf.o = c(.9, .1, .9, .1), # Selectively turn up inf opacities
+                  bean.o = c(1, .1, 1, .1), # Selective bean opacity adjustment
+                  main = "Adjusting opacities between groups"
+                  )
+```
+
+# Additional arguments
+
+You can use up to two independent variables in the formula, change the color of the background with back.col, and the color of the gridlines with gl.col:
+
+```{r, fig.width = 10, fig.height = 6}
+yarrr::pirateplot(formula = weight ~ Diet + Time,
+                  data = ChickWeight,
+                  pal = "google",
+                  theme.o = 1, # Turn off all opacities,
+                  back.col = gray(.96),
+                  gl.col = "white",
+                  main = "back.col, gl.col"
+                  )
+```
+
+# Contact
+
+For questions, comments, or suggestions, feel free to write me at yarrr.book@gmail.com
 
 
 # References
