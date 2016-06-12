@@ -1,0 +1,37 @@
+---
+title: "yarrr package guide"
+author: "Nathaniel Phillips (yarrr.book@gmail.com)"
+date: "`r Sys.Date()`"
+csl: apa.csl
+bibliography: yarrr.bib
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Package guide}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# YaRrr! The pirate's guide to R
+
+This package contains data, functions, and other random files for the e-book YaRrr! The pirate's guide to R. You can access the latest version of the book at [www.thepiratesguidetor.com](www.thepiratesguidetor.com).
+
+# Main functions
+
+## pirateplot()
+
+The pirateplot() function creates a pirateplot
+
+```{r, echo = F, message = F, results = 'hide'}
+library(yarrr)
+```
+
+```{r, fig.width = 6, fig.height = 6, fig.align='center'}
+pirateplot(formula = weight ~ Time,
+           data = ChickWeight)
+```
+
+
+# Questions
+
+If you have any questions, comments, or suggestions, write me at yarrr.book@gmail.com
+### References
