@@ -34,4 +34,5 @@ pirateplot(formula = weight ~ Time,
 # Questions
 
 If you have any questions, comments, or suggestions, write me at yarrr.book@gmail.com
+
 ### References
