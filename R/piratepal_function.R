@@ -421,7 +421,6 @@ if(!(palette %in% c(palette.names, "random", "all", "names"))) {
 }
 
 
-
 # if palette == "all", show all palettes
 if(palette == "all") {
 
