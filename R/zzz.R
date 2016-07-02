@@ -11,5 +11,6 @@
 
 .onAttach <- function(libname, pkgname) {
   packageStartupMessage("************\nWelcome to YaRrr! The Pirate's Guide to R")
-  packageStartupMessage("To see the package guide, run yarrr()\n************")
+  packageStartupMessage("Type yarrr() to see the main package guide")
+  packageStartupMessage("Email me at yarrr.book@gmail.com with questions, comments, or jokes!\n************")
 }
