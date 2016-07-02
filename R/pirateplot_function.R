@@ -107,7 +107,7 @@ pirateplot <- function(
 #   line.o = NULL
 #   inf = "hdi"
 #   inf.p = .95
-#   theme.o = 3
+#   theme.o = 1
 #   hdi.iter = 1e3
 #   jitter.val = .03
 #   line.lwd = 4
@@ -140,8 +140,7 @@ pirateplot <- function(
 #
 #
 #
-#
-#   formula = weight ~ Diet
+#   formula = weight ~ Time + Diet
 #   data = ChickWeight
 #   theme.o = 3
 #   bean.o = c(0, .1, 1, .1)
@@ -566,7 +565,12 @@ pirateplot <- function(
 
   # Determine x and y labels
 
-  if(is.null(xlab)) {xlab <- iv.names[1]}
+  if(n.iv == 1 & is.null(xlab)) {my.xlab <- iv.names[1]}
+  if(n.iv == 1 & is.null(xlab) == F) {my.xlab <- xlab}
+
+  if(n.iv > 1) {my.xlab <- ""}
+
+
   if(is.null(ylab)) {ylab <- dv.name}
 
 
@@ -580,7 +584,7 @@ pirateplot <- function(
        type = "n",
        xaxt = "n",
        yaxt = "n",
-       xlab = xlab,
+       xlab = my.xlab,
        ylab = ylab,
        main = main,
        yaxt = yaxt,
@@ -630,12 +634,8 @@ pirateplot <- function(
 #                    length.out = 10),
 #            col = "white")
 
-
-
-
-
   # Add beans
-
+{
 
   if(is.na(width.max)) {
 
@@ -859,33 +859,35 @@ pirateplot <- function(
 
   # Add bean names for IV 1
 
+  if(n.iv == 1) {line.t <- .5}
+  if(n.iv == 2) {line.t <- 2}
+
+
   mtext(bean.mtx[,1],
         side = 1,
         at = bean.mtx$x.loc,
-        line = .5,
+        line = line.t,
         cex = cex.lab)
+
+}
 
   # Add names for IV 2
 
-  if(n.iv == 2) {
+if(n.iv == 2) {
 
+  mtext(iv.names[1], side = 1, line = 2, at = 0)
+
+  mtext(iv.names[2], side = 1, line = .5, at = 0)
 
       text.loc <- (iv.lengths[1] + 1) / 2 * (2 *(1:iv.lengths[2]) - 1)
 
-
       mtext(text = unique(bean.mtx[,2]),
             side = 1,
-            line = 2,
+            line = .5,
             at = text.loc,
             cex = cex.lab
       )
 
-    # mtext(text = paste(names(bean.mtx)[2], "=", unique(bean.mtx[,2])),
-    #       side = 1,
-    #       line = 2,
-    #       at = text.loc,
-    #       cex = cex.lab
-    # )
 
   }
 

@@ -22,16 +22,16 @@ A pirateplot() has 4 distinct elements
 4. inf, a rectangle representing an inference interval (either a Bayesian Highest Density Interval or a frequentist confidence interval)
 
 ```{r, fig.width = 6, fig.height = 6, echo = F, fig.align='center'}
-yarrr::pirateplot(formula = weight ~ Diet,
-                  data = ChickWeight,
-                  theme.o = 1,
-                  bean.o = c(0, .1, 1, .1),
-                  point.o = c(.4, .1, .1, .1),
-                  line.o = c(.5, .5, .5, .5),
-                  inf.o = c(.1, .1, .1, .9),
-                  bar.o = c(.1, .8, .1, .1),
-                  main = "4 Elements of a pirateplot()"
-                  )
+pirateplot(formula = weight ~ Diet,
+           data = ChickWeight,
+           theme.o = 1,
+           bean.o = c(0, .1, 1, .1),
+           point.o = c(.4, .1, .1, .1),
+           line.o = c(.5, .5, .5, .5),
+           inf.o = c(.1, .1, .1, .9),
+           bar.o = c(.1, .8, .1, .1),
+           main = "4 Elements of a pirateplot()"
+          )
 
 
 text(.7, 350, labels = "Points")
@@ -62,7 +62,7 @@ library(yarrr)
 The major arguments to pirateplot() are a dataframe and a formula in the form `formula = y ~ x1 + x2`, where `y` is a dependent variable, `x1` is a categorical independent variable, and `x2` is an optional second independent variable. You can also include most of the the main plotting parameters that you would use for normal plotting functions like `main()`, `xlab()`, `ylim()` (etc.)
 
 ```{r, fig.width = 6, fig.height = 5, fig.align='center'}
-yarrr::pirateplot(formula = time ~ cleaner + type,
+pirateplot(formula = time ~ cleaner + type,
            data = poopdeck,
            main = "Poopdeck Cleaning Time"
            )
@@ -74,21 +74,21 @@ yarrr::pirateplot(formula = time ~ cleaner + type,
 You can adjust colors in many ways. You can select an overall color palette using the pal argument, where pal is the name of a color palette in the piratepal() function (to see all the palettes, run `piratepal(palette = "all", action = "s")`)
 
 ```{r, fig.width = 6, fig.height = 6}
-yarrr::pirateplot(formula = weight ~ Time,
-                  data = ChickWeight,
-                  pal = "southpark"   # Use the southpark color palette
-                  )
+pirateplot(formula = weight ~ Time,
+           data = ChickWeight,
+           pal = "southpark"   # Use the southpark color palette
+           )
 ```
 
 You can override the color of any specific element by using one of the x.col arguments (e.g.; `bar.col`, `point.col`, `inf.col`, `line.col`). In this example, I'll change the palette to `southpark` (try running `yarrr::piratepal("southpark", "show")`), and then make the points and bars gray.
 
 ```{r, fig.width = 6, fig.height = 6}
-yarrr::pirateplot(formula = weight ~ Time,
-                  data = ChickWeight,
-                  pal = "southpark",   # Use the southpark color palette,
-                  point.col = "gray",  # black points
-                  bar.col = "gray"   # gray bars
-                  )
+pirateplot(formula = weight ~ Time,
+           data = ChickWeight,
+           pal = "southpark",   # Use the southpark color palette,
+           point.col = "gray",  # black points
+           bar.col = "gray"   # gray bars
+           )
 ```
 
 # Opacities
@@ -96,38 +96,38 @@ yarrr::pirateplot(formula = weight ~ Time,
 You can adjust the opacities of individual plotting elements in one of two ways. The `theme.o` argument allows you to specify an opacity theme. There are currently 3 themes supported. For example, `theme.o = 2` will turn off the inference boxes and turn up the bars:
 
 ```{r, fig.width = 6, fig.height = 6}
-yarrr::pirateplot(formula = weight ~ Diet,
-                  data = ChickWeight,
-                  theme.o = 2, # Use opacity theme 2
-                  main = "Opacity themes with theme.o"
-                  )
+pirateplot(formula = weight ~ Diet,
+           data = ChickWeight,
+           theme.o = 2, # Use opacity theme 2
+           main = "Opacity themes with theme.o"
+           )
 ```
 
 `theme.o = 0` will turn off all of the opacities. You can then manually turn on each one with the x.o arguments (e.g.; `bean.o`, `point.o`, `line.o`)
 
 ```{r, fig.width = 6, fig.height = 6}
-yarrr::pirateplot(formula = weight ~ Diet,
-                  data = ChickWeight,
-                  theme.o = 0, # Turn off all opacities,
-                  point.o = .1, # Turn point opacities up to .1
-                  inf.o = .3, # Turn inf opacities up to .3
-                  bean.o = .9, # Turn beans way up
-                  main = "Changing opacities individually with point.o, inf.o (etc.)"
-                  )
+pirateplot(formula = weight ~ Diet,
+           data = ChickWeight,
+           theme.o = 0, # Turn off all opacities,
+           point.o = .1, # Turn point opacities up to .1
+           inf.o = .3, # Turn inf opacities up to .3
+           bean.o = .9, # Turn beans way up
+           main = "Changing opacities individually with point.o, inf.o (etc.)"
+           )
 ```
 
 You can specify the x.o arguments as *vectors* to selectively turn up (or down) specific elements for specific groups:
 
 ```{r, fig.width = 6, fig.height = 6}
-yarrr::pirateplot(formula = weight ~ Diet,
-                  data = ChickWeight,
-                  pal = "basel",
-                  theme.o = 0, # Turn off all opacities,
-                  point.o = c(.1, .05, .2, .05), # Selectively turn up point opacities
-                  inf.o = c(.9, .1, .9, .1), # Selectively turn up inf opacities
-                  bean.o = c(1, .1, 1, .1), # Selective bean opacity adjustment
-                  main = "Adjusting opacities between groups"
-                  )
+pirateplot(formula = weight ~ Diet,
+           data = ChickWeight,
+           pal = "basel",
+           theme.o = 0, # Turn off all opacities,
+           point.o = c(.1, .05, .2, .05), # Selectively turn up point opacities
+           inf.o = c(.9, .1, .9, .1), # Selectively turn up inf opacities
+           bean.o = c(1, .1, 1, .1), # Selective bean opacity adjustment
+           main = "Adjusting opacities between groups"
+           )
 ```
 
 # Additional arguments
@@ -135,14 +135,14 @@ yarrr::pirateplot(formula = weight ~ Diet,
 You can use up to two independent variables in the formula, change the color of the background with `back.col`, and the color of the gridlines with `gl.col`
 
 ```{r, fig.width = 10, fig.height = 6}
-yarrr::pirateplot(formula = weight ~ Diet + Time,
-                  data = ChickWeight,
-                  pal = "google",
-                  theme.o = 1, # Turn off all opacities,
-                  back.col = gray(.96),
-                  gl.col = "white",
-                  main = "back.col, gl.col"
-                  )
+pirateplot(formula = weight ~ Diet + Time,
+           data = ChickWeight,
+           pal = "google",
+           theme.o = 1, # Turn off all opacities,
+           back.col = gray(.96),
+           gl.col = "white",
+           main = "back.col, gl.col"
+           )
 ```
 
 # Contact
