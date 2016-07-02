@@ -35,10 +35,6 @@
 #'
 #'
 
-
-
-
-
 pirateplot <- function(
   formula,
   data,
