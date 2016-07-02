@@ -475,7 +475,7 @@ if(palette == "names") {
 # Get result vector
 if(palette %in% c("all", "random", "names") == F) {
 
-  palette.df <- get(paste(palette, ".pal", sep = ""))
+  palette.df <- piratepal.ls[[paste(palette, ".pal", sep = "")]]
 
   if(is.null(length.out)) {output <- unlist(palette.df)}
   if(is.null(length.out) == F) {output <- rep(unlist(palette.df), length.out = length.out)}
