@@ -2,7 +2,7 @@
 #'
 #' This function provides a number of color palettes
 #'
-#' @param palette A string defining the color palette to use (see examples). To use a random palette, use "random". To view all palettes, use "all"
+#' @param palette A string defining the color palette to use (see examples). To use a random palette, use "random". To plot all palettes, use "all". To see all palette names, use "names"
 #' @param plot.result A logical value indicating whether or not to display the colors.
 #' @param trans A number in the interval [0, 1] indicating how transparent to make the colors. A value of 0 means no transparency and a value of 1 means completely transparency.
 #' @param length.out An integer indicating how many colors to return. If length.out is larger than the number of colors in the palette, colors will be repeated.
@@ -414,7 +414,7 @@ if(trans < 0 | trans > 1) {stop("Problem: trans must be a number between 0 and 1
 palette.names <- unlist(strsplit(names(piratepal.ls), ".pal", T))
 n.palettes <- length(palette.names)
 
-if(!(palette %in% c(palette.names, "random", "all"))) {
+if(!(palette %in% c(palette.names, "random", "all", "names"))) {
 
   stop(c("You did not specify a valid palette. Please try one of the following: ", palette.names))
 
@@ -466,8 +466,14 @@ if(palette == "random") {
 
   }
 
+if(palette == "names") {
+
+  output <- palette.names
+
+}
+
 # Get result vector
-if(palette %in% c("all", "random") == F) {
+if(palette %in% c("all", "random", "names") == F) {
 
   palette.df <- get(paste(palette, ".pal", sep = ""))
 

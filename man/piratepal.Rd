@@ -8,7 +8,7 @@ piratepal(palette = "all", trans = 0, plot.result = F,
   length.out = NULL)
 }
 \arguments{
-\item{palette}{A string defining the color palette to use (see examples). To use a random palette, use "random". To view all palettes, use "all" combined with action = "show"}
+\item{palette}{A string defining the color palette to use (see examples). To use a random palette, use "random". To plot all palettes, use "all". To see all palette names, use "names"}
 
 \item{trans}{A number in the interval [0, 1] indicating how transparent to make the colors. A value of 0 means no transparency and a value of 1 means completely transparency.}
 
@@ -24,7 +24,7 @@ This function provides a number of color palettes
 
 # Show all palettes
 
-piratepal(palette = "all", action = "show")
+piratepal(palette = "all")
 
 # Show some palettes
 

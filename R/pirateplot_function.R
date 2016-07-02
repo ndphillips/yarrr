@@ -286,7 +286,7 @@ pirateplot <- function(
 
   # If palette is in piratepal()...
 
-  if(mean(pal %in% piratepal(action = "p")) == 1) {
+  if(mean(pal %in% piratepal("names")) == 1) {
 
     if (is.null(point.col)) {
 
@@ -363,7 +363,7 @@ pirateplot <- function(
 
   # If palette is NOT in piratepal()...
 
-  if(mean(pal %in% piratepal(action = "p")) != 1) {
+  if(mean(pal %in% piratepal("names")) != 1) {
 
     if(length(pal) < n.cols) {pal <- rep(pal, n.cols)}
 
