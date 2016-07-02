@@ -2,7 +2,7 @@
 #'
 #' This function provides a number of color palettes
 #'
-#' @param palette A string defining the color palette to use (see examples). To use a random palette, use "random". To view all palettes, use "all" combined with action = "show"
+#' @param palette A string defining the color palette to use (see examples). To use a random palette, use "random". To view all palettes, use "all"
 #' @param plot.result A logical value indicating whether or not to display the colors.
 #' @param trans A number in the interval [0, 1] indicating how transparent to make the colors. A value of 0 means no transparency and a value of 1 means completely transparency.
 #' @param length.out An integer indicating how many colors to return. If length.out is larger than the number of colors in the palette, colors will be repeated.
@@ -13,7 +13,7 @@
 #'
 #' # Show all palettes
 #'
-#' piratepal(palette = "all", action = "show")
+#' piratepal(palette = "all")
 #'
 #'# Show some palettes
 #'
