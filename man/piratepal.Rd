@@ -4,15 +4,15 @@
 \alias{piratepal}
 \title{piratepal}
 \usage{
-piratepal(palette = "random", action = "return", trans = 0,
-  length.out = NA)
+piratepal(palette = "all", trans = 0, plot.result = F,
+  length.out = NULL)
 }
 \arguments{
 \item{palette}{A string defining the color palette to use (see examples). To use a random palette, use "random". To view all palettes, use "all" combined with action = "show"}
 
-\item{action}{Either "return" to return a vector of colors, "show" to show the palette, or "printnames" to print all the palette names. You can also use "r" or "s" for shorthand.}
-
 \item{trans}{A number in the interval [0, 1] indicating how transparent to make the colors. A value of 0 means no transparency and a value of 1 means completely transparency.}
+
+\item{plot.result}{A logical value indicating whether or not to display the colors.}
 
 \item{length.out}{An integer indicating how many colors to return. If length.out is larger than the number of colors in the palette, colors will be repeated.}
 }
@@ -28,10 +28,10 @@ piratepal(palette = "all", action = "show")
 
 # Show some palettes
 
-piratepal(palette = "nemo", action = "show")
-piratepal(palette = "espresso", action = "show")
-piratepal(palette = "bugs", action = "show")
-piratepal(palette = "ohbrother", action = "show")
+piratepal(palette = "nemo", plot.result = T)
+piratepal(palette = "espresso", plot.result = T)
+piratepal(palette = "bugs", plot.result = T)
+piratepal(palette = "ohbrother", plot.result = T)
 
 # Plot the Up house using colors from the "google" palette
 
@@ -57,13 +57,6 @@ line.start.y <- -1 + rnorm(n.balloons, 0, .1)
 segments(line.start, line.start.y, x, y, lty = 1, col = gray(.7), lwd = .2)
 points(x, y, pch = 21, bg = sample(google.colors, 100, replace = T),
       xlim = c(-7, 7), ylim = c(-7, 7), col = gray(.9), cex = rnorm(100, 2, .3))
-
-
-
-
-
-
-
 
 }
 \keyword{colors}

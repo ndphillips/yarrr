@@ -1,0 +1,23 @@
+---
+title: "piratepal() guide"
+author: "Nathaniel Phillips"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+bibliography: yarrr.bib
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# What is piratepal()?
+
+`piratepal()` is a function that returns color palettes. To see all of the palettes, run `piratepal("all")`
+
+```{r, fig.width = 6, fig.height = 6, echo = F, fig.align='center'}
+piratepal(palette = "all")
+```
+
+# References
+
+

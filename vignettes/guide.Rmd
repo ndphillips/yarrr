@@ -16,9 +16,12 @@ vignette: >
 This package contains data, functions, and other random files for the e-book YaRrr! The pirate's guide to R. You can access the latest version of the book at [www.thepiratesguidetor.com](www.thepiratesguidetor.com).
 
 
-# Vignettes
+# Guides
+
+To see guides for the main functions, click one of the following links:
 
 - [pirateplot() - A function for creating "Pirate Plots"](pirateplot.html)
+- [piratepal() - A function to create pirate-y color palettes](piratepal.html)
 
 # Main functions
 
