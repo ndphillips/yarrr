@@ -484,7 +484,7 @@ if(palette %in% c("all", "random", "names") == F) {
 # Plot single palette
 if(plot.result & palette %in% palette.names) {
 
-  palette.df <- get(paste(palette, ".pal", sep = ""))
+  palette.df <- piratepal.ls[[paste(palette, ".pal", sep = "")]]
   col.vec <- unlist(palette.df)
   n.colors <- length(col.vec)
 
