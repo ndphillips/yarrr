@@ -1,7 +1,7 @@
 # Miscellaneous Functions
 
 
-yarrr <- function() {
+yarrr.guide <- function() {
 
   vignette("guide", package = "yarrr")
 
