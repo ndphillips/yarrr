@@ -7,16 +7,10 @@
 #' \describe{
 #'   \item{Ship}{A string indicating which ship the pirate is stationed on}
 #'   \item{Beard}{The length of the pirate's beard in cm}
-
 #' }
 #' @source 2015 annual international pirate meeting at the Bodensee in Konstanz, Germany
 #' @examples
 #'
-#' pirateplot(dv.name = "Beard",
-#' iv.name = "Ship",
-#' data = BeardLengths,
-#' main = "Beard Length by Ship"
-#' )
 #'
 #'
 "BeardLengths"

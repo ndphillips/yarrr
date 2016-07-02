@@ -19,12 +19,6 @@
 #' @source 2015 annual international pirate meeting at the Bodensee in Konstanz, Germany
 #' @examples
 #'
-#' pirateplot(dv.name = "treasure",
-#' iv.name = "decorations",
-#' data = capture,
-#' add.hdi = F,
-#' cex = .5
-#' )
 #'
 #'
 "capture"

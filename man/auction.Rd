@@ -26,10 +26,6 @@ A dataframe containing data from 1000 ships sold at a pirate auction.
 }
 \examples{
 
-pirateplot(formula = jbb ~ condition,
-           data = auction[order(auction$condition),]
-           )
-
 
 }
 \keyword{datasets}

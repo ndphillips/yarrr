@@ -12,9 +12,6 @@
 #' @source 2015 annual international pirate meeting at the Bodensee in Konstanz, Germany
 #' @examples
 #'
-#' pirateplot(formula = time ~ company
-#'            data = pircharter,
-#'            )
 #'
 #'
 #'

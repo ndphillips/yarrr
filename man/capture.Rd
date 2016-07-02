@@ -28,12 +28,6 @@ A dataframe containing a historical record of every ship the Perilous Pigeon cap
 }
 \examples{
 
-pirateplot(dv.name = "treasure",
-iv.name = "decorations",
-data = capture,
-add.hdi = F,
-cex = .5
-)
 
 
 }
