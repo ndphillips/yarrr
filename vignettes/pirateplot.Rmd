@@ -12,14 +12,14 @@ vignette: >
 
 # What is a pirateplot()?
 
-A pirateplot() is the RDI plotting choice of R pirates who are displaying the relationship between 1 or two categorical variables, and a continuous dependent variable. A pirateplot() has the option to display Raw data (as individual points), Descriptive statistics (i.e.; group means as bars or lines), and Inferential statistics (i.e.; Bayesian Highest Density Intervals or Confidence intervals) in the same plot.
+A pirateplot() is the RDI (**Raw** data, **Descriptive** statistics, and **Inferential** statistics) plotting choice of R pirates who are displaying the relationship between 1 or two categorical independent variables, and one continuous dependent variable.
 
 A pirateplot() has 4 distinct elements
 
 1. points, symbols representing the raw data (jittered horizontally)
 2. bar, a vertical bar showing central tendencies
 3. bean, a smoothed density (inspired by @kampstra2008beanplot) representing a smoothed density
-4. box, a rectangle representing an inference interval (either a Bayesian Highest Density Interval or a frequentist confidence interval)
+4. inf, a rectangle representing an inference interval (either a Bayesian Highest Density Interval or a frequentist confidence interval)
 
 ```{r, fig.width = 6, fig.height = 6, echo = F, fig.align='center'}
 yarrr::pirateplot(formula = weight ~ Diet,
@@ -46,19 +46,32 @@ text(2.4, 250, labels = "Bean")
 text(2.4, 250, labels = "Density", pos = 1, cex = .8)
 arrows(2.4, 220, 2.85, 200, length = .1)
 
-text(3.4, 300, labels = "Box")
+text(3.4, 300, labels = "Inf")
 text(3.4, 300, labels = "Inference", pos = 1, cex = .8)
 
 arrows(3.4, 270, 3.8, 150, length = .1)
-
-
 ```
 
+```{r, echo = F, message = F, results='hide'}
+library(yarrr)
+```
+
+
+# Main arguments
+
+The major arguments to pirateplot() are a dataframe and a formula in the form `formula = y ~ x1 + x2`, where `y` is a dependent variable, `x1` is a categorical independent variable, and `x2` is an optional second independent variable. You can also include most of the the main plotting parameters that you would use for normal plotting functions like `main()`, `xlab()`, `ylim()` (etc.)
+
+```{r, fig.width = 6, fig.height = 5, fig.align='center'}
+yarrr::pirateplot(formula = time ~ cleaner + type,
+           data = poopdeck,
+           main = "Poopdeck Cleaning Time"
+           )
+```
 
 
 # Colors
 
-You can adjust colors in many ways. You can select an overall color palette using the pal argument, where pal is the name of a color palette in the piratepal() function (to see all the palettes, run piratepal(palette = "all", action = "s"))
+You can adjust colors in many ways. You can select an overall color palette using the pal argument, where pal is the name of a color palette in the piratepal() function (to see all the palettes, run `piratepal(palette = "all", action = "s")`)
 
 ```{r, fig.width = 6, fig.height = 6}
 yarrr::pirateplot(formula = weight ~ Time,
@@ -67,20 +80,20 @@ yarrr::pirateplot(formula = weight ~ Time,
                   )
 ```
 
-You can override the color of any specific element by using one of the x.col arguments (e.g.; bar.col, point.col, inf.col, line.col). In this example, I'll change
+You can override the color of any specific element by using one of the x.col arguments (e.g.; `bar.col`, `point.col`, `inf.col`, `line.col`). In this example, I'll change the palette to `southpark` (try running `yarrr::piratepal("southpark", "show")`), and then make the points and bars gray.
 
 ```{r, fig.width = 6, fig.height = 6}
 yarrr::pirateplot(formula = weight ~ Time,
                   data = ChickWeight,
                   pal = "southpark",   # Use the southpark color palette,
-                  point.col = "black",  # black points
+                  point.col = "gray",  # black points
                   bar.col = "gray"   # gray bars
                   )
 ```
 
-# Element opacities
+# Opacities
 
-You can adjust the opacities of individual plotting elements in one of two ways. The theme.o argument allows you to specify an opacity theme. A value of 2 will turn off the inference boxes and turn up the bars:
+You can adjust the opacities of individual plotting elements in one of two ways. The `theme.o` argument allows you to specify an opacity theme. There are currently 3 themes supported. For example, `theme.o = 2` will turn off the inference boxes and turn up the bars:
 
 ```{r, fig.width = 6, fig.height = 6}
 yarrr::pirateplot(formula = weight ~ Diet,
@@ -90,7 +103,7 @@ yarrr::pirateplot(formula = weight ~ Diet,
                   )
 ```
 
-A theme.o value of 0 will turn off all of the opacities. You can then manually turn on each one with the x.o arguments (e.g.; bean.o, point.o, line.o)
+`theme.o = 0` will turn off all of the opacities. You can then manually turn on each one with the x.o arguments (e.g.; `bean.o`, `point.o`, `line.o`)
 
 ```{r, fig.width = 6, fig.height = 6}
 yarrr::pirateplot(formula = weight ~ Diet,
@@ -119,7 +132,7 @@ yarrr::pirateplot(formula = weight ~ Diet,
 
 # Additional arguments
 
-You can use up to two independent variables in the formula, change the color of the background with back.col, and the color of the gridlines with gl.col:
+You can use up to two independent variables in the formula, change the color of the background with `back.col`, and the color of the gridlines with `gl.col`
 
 ```{r, fig.width = 10, fig.height = 6}
 yarrr::pirateplot(formula = weight ~ Diet + Time,
