@@ -23,6 +23,7 @@
 #' @param at (numeric) An optional vector specifying the locations of the beans. Especially helpful when adding beans to an existing plot with add = T
 #' @param sortx (string) An optional argument indicating how to sort the x values. Can be "sequential" (as they are found in the original dataframe), "alphabetical", or a string indicating a function (i.e.; "mean")
 #' @param add (logical) A logical value indicating whether to add the pirateplot to an existing plotting space or not.
+#' @param evidence (logical) A logical value indicating whether to show Bayesian evidence (I'm still working on this...)
 #' @param ... other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)
 #' @keywords plot
 #' @export
@@ -36,8 +37,8 @@
 #'
 
 pirateplot <- function(
-  formula,
-  data,
+  formula = weight ~ Time,
+  data = ChickWeight,
   line.fun = mean,
   pal = "appletv",
   back.col = gray(1),
@@ -84,11 +85,12 @@ pirateplot <- function(
   cex.lab = 1,
   cex.axis = 1,
   bty = "n",
+  evidence = F,
   ...
 ) {
 
 ## TESTING
-
+#
 #
 #   line.fun = mean
 #   pal = "appletv"
@@ -136,6 +138,7 @@ pirateplot <- function(
 #   cex.lab = 1
 #   cex.axis = 1
 #   bty = "n"
+#   evidence = T
 #
 #
 #
@@ -145,7 +148,10 @@ pirateplot <- function(
 #   theme.o = 3
 #   bean.o = c(0, .1, 1, .1)
 
-
+# -----
+#  SETUP
+# ------
+  {
   # Reshape dataframe to include relevant variables
 
   data.2 <- model.frame(formula = formula,
@@ -572,11 +578,20 @@ pirateplot <- function(
 
 
   if(is.null(ylab)) {ylab <- dv.name}
+}
 
 
-  if(add == F) {
+# -----
+#  MAIN PLOT
+# ------
 
-    par(mar = c(5, 4, 4, 1) + .1)
+# PLOTTING SPACE
+if(add == F) {
+
+par(mar = c(5, 4, 4, 1) + .1)
+
+if(evidence == T) {layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(5, 2), widths = 5)}
+
 
   plot(1,
        xlim = xlim,
@@ -588,8 +603,8 @@ pirateplot <- function(
        ylab = ylab,
        main = main,
        yaxt = yaxt,
-       bty = bty,
-       ...
+       bty = bty#,
+      # ...
   )
 
 
@@ -626,15 +641,7 @@ pirateplot <- function(
   }
 
 
-
-#    y.range <- max(dv.v) + total.dv.sd * .5 - min(dv.v) - total.dv.sd * .5
-#
-#     abline(h = seq(floor(min(dv.v) - total.dv.sd * .5),
-#                    ceiling(max(dv.v) + total.dv.sd * .5),
-#                    length.out = 10),
-#            col = "white")
-
-  # Add beans
+# BEANS
 {
 
   if(is.na(width.max)) {
@@ -869,27 +876,146 @@ pirateplot <- function(
         line = line.t,
         cex = cex.lab)
 
-}
 
   # Add names for IV 2
 
-if(n.iv == 2) {
+  if(n.iv == 2) {
 
-  mtext(iv.names[1], side = 1, line = 2, at = 0)
+    mtext(iv.names[1], side = 1, line = 2, at = 0, adj = 1)
 
-  mtext(iv.names[2], side = 1, line = .5, at = 0)
+    mtext(iv.names[2], side = 1, line = .5, at = 0, adj = 1)
 
-      text.loc <- (iv.lengths[1] + 1) / 2 * (2 *(1:iv.lengths[2]) - 1)
+    text.loc <- (iv.lengths[1] + 1) / 2 * (2 *(1:iv.lengths[2]) - 1)
 
-      mtext(text = unique(bean.mtx[,2]),
-            side = 1,
-            line = .5,
-            at = text.loc,
-            cex = cex.lab
-      )
+    mtext(text = unique(bean.mtx[,2]),
+          side = 1,
+          line = .5,
+          at = text.loc,
+          cex = cex.lab
+    )
 
 
   }
+
+
+}
+
+# ----
+# EVIDENCE
+# ----
+
+if(evidence) {
+
+  # Convert IVs to factors
+
+for(iv.i in 1:n.iv) {
+
+data.2[,iv.i] <- as.factor(data.2[,iv.i])
+
+  }
+
+bf <- BayesFactor::anovaBF(formula = formula, data = data.2[,1:(n.iv + 1)])
+
+bf.vec <- extractBF(bf)$bf
+
+par(mar = c(0, 0, 3, 0))
+plot(1, xlim = c(0, 1), ylim = c(0, 1), bty = "n", xlab = "", ylab = "", xaxt = "n", yaxt = "n", type = "n")
+
+add.bf.bar <- function(bf.val, x.loc, y.loc, add.labels = F) {
+
+rect(x.loc[1], y.loc[1], x.loc[2], y.loc[2], border = gray(.5, .5), col = "white")
+
+bf.scale <- c(0, 1 / 150, 1 / 20, 1 / 3, 1, 3, 20, 150, Inf)
+bf.labels <- c("Very Strong", "Strong", "Positive", "Weak", "Weak", "Positive", "Strong", "Very Strong")
+
+bf.i.label <- bf.labels[bf.val < bf.scale[2:length(bf.scale)] & bf.val > bf.scale[1:(length(bf.scale) - 1)]]
+
+if(bf.val > 1) {in.favor <- "alt"}
+if(bf.val < 1) {in.favor <- "null"}
+
+bf.col.fun <- circlize::colorRamp2(breaks = c(-1, 0, 1),
+                                 colors = c("red", "yellow", "blue"),
+                                 transparency = .7)
+
+bf.val.t <- bf.val
+if(bf.val > 150) {bf.val.t <- 150}
+if(bf.val < (1 / 150)) {bf.val.t <- 1 / 150}
+
+bf.val.t.log <- log(bf.val.t, base = 10)
+
+if(bf.val > 1) {
+
+ bf.val.scale <- bf.val.t.log / log(150, base = 10)
+ bf.yloc <- mean(y.loc) + bf.val.scale * (y.loc[2] - y.loc[1]) / 2
+
+ }
+
+if(bf.val < 1) {
+
+ bf.val.scale <- -1 * bf.val.t.log / log(1 / 150, base = 10)
+ bf.yloc <- mean(y.loc) + bf.val.scale * (y.loc[2] - y.loc[1]) / 2
+
+ }
+
+
+
+ rect(x.loc[1],
+      mean(y.loc),
+      x.loc[2],
+      bf.yloc,
+      col = bf.col.fun(bf.val.scale), border = NA)
+
+if(add.labels) {
+
+  # text(x = rep(x.loc[1], length(bf.scale)),
+  #      y = bf.l.scale / log(max(bf.scale), base = 10),
+  #      labels = bf.scale, adj = 1
+  #      )
+
+
+  text(mean(x.loc), min(y.loc) + .75 * diff(y.loc),
+       labels = paste("BF = ", round(bf.val.t, 1), sep = ""))
+
+
+  if(bf.val < 1) {concl.text <- paste(bf.i.label, " Evidence for\nNO effect", sep = "")}
+  if(bf.val > 1) {concl.text <- paste(bf.i.label, " Evidence for a\nTRUE effect", sep = "")}
+
+  text(mean(x.loc), min(y.loc) + .5 * diff(y.loc),
+       labels = concl.text)
+
+}
+
+
+
+
+ }
+
+
+if(n.iv == 1) {bar.loc.vec <- c(.5) ; bar.widths <- .1}
+if(n.iv == 2) {bar.loc.vec <- c(.3, .7) ; bar.widths <- .1}
+
+for(iv.i in 1:n.iv) {
+
+add.bf.bar(bf.vec[iv.i],
+           x.loc = c(bar.loc.vec[iv.i] - bar.widths / 2, bar.loc.vec[iv.i] + bar.widths / 2),
+           y.loc = c(.1, .9),
+           add.labels = T
+)
+
+  text(x = bar.loc.vec[iv.i], y = 1, labels = iv.names[iv.i])
+
+
+}
+
+
+}
+
+
+  # reset parameters
+
+  par(mfrow = c(1, 1))
+  par(mar = c(5, 4, 4, 1) + .1)
+
 
 }
 

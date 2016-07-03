@@ -4,18 +4,19 @@
 \alias{pirateplot}
 \title{pirateplot}
 \usage{
-pirateplot(formula, data, line.fun = mean, pal = "appletv",
-  back.col = gray(1), point.cex = 1, point.pch = 16, point.lwd = 1,
-  cut.min = NULL, cut.max = NULL, width.min = 0.3, width.max = NA,
-  bean.o = NULL, point.o = NULL, bar.o = NULL, inf.o = NULL,
-  line.o = NULL, inf = "hdi", inf.p = 0.95, theme.o = 1,
+pirateplot(formula = weight ~ Time, data = ChickWeight, line.fun = mean,
+  pal = "appletv", back.col = gray(1), point.cex = 1, point.pch = 16,
+  point.lwd = 1, cut.min = NULL, cut.max = NULL, width.min = 0.3,
+  width.max = NA, bean.o = NULL, point.o = NULL, bar.o = NULL,
+  inf.o = NULL, line.o = NULL, inf = "hdi", inf.p = 0.95, theme.o = 1,
   hdi.iter = 1000, jitter.val = 0.03, line.lwd = 4, bean.lwd = 1,
   inf.lwd = 1, bar.border.lwd = 1, gl.col = NULL, ylim = NULL,
   xlim = NULL, xlab = NULL, ylab = NULL, main = NULL, yaxt = NULL,
   point.col = NULL, bar.col = NULL, bean.border.col = NULL,
   inf.col = NULL, average.line.col = NULL, bar.border.col = NULL,
   at = NULL, bw = "nrd0", adjust = 1, add = F, sortx = "alphabetical",
-  y.levels = NULL, cex.lab = 1, cex.axis = 1, bty = "n", ...)
+  y.levels = NULL, cex.lab = 1, cex.axis = 1, bty = "n", evidence = F,
+  ...)
 }
 \arguments{
 \item{formula}{(formula) A formula in the form y ~ x1 + x2 indicating the vertical response variable (y) and 1 or two independent varaibles}
@@ -59,6 +60,8 @@ pirateplot(formula, data, line.fun = mean, pal = "appletv",
 \item{add}{(logical) A logical value indicating whether to add the pirateplot to an existing plotting space or not.}
 
 \item{sortx}{(string) An optional argument indicating how to sort the x values. Can be "sequential" (as they are found in the original dataframe), "alphabetical", or a string indicating a function (i.e.; "mean")}
+
+\item{evidence}{(logical) A logical value indicating whether to show Bayesian evidence (I'm still working on this...)}
 
 \item{...}{other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)}
 }
