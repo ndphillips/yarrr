@@ -23,7 +23,7 @@ To see guides for the main functions, click one of the following links:
 - [pirateplot() - A function for creating "Pirate Plots"](pirateplot.html)
 - [piratepal() - A function to create pirate-y color palettes](piratepal.html)
 
-# Main functions
+# Examples
 
 ## pirateplot()
 
@@ -35,7 +35,9 @@ library(yarrr)
 
 ```{r, fig.width = 6, fig.height = 6, fig.align='center'}
 pirateplot(formula = weight ~ Time,
-           data = ChickWeight)
+           data = ChickWeight,
+           main = "Chicken weights by Time (week)"
+           )
 ```
 
 ## piratepal()

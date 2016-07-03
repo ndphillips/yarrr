@@ -1,7 +1,5 @@
 ---
-title: "piratepal() guide"
-author: "Nathaniel Phillips"
-date: "`r Sys.Date()`"
+title: "piratepal(): Color palettes for R Pirates"
 output: rmarkdown::html_vignette
 bibliography: yarrr.bib
 vignette: >
@@ -9,14 +7,103 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+```{r, echo = F, message = F, results = 'hide'}
+library("yarrr")
+```
 
-# What is piratepal()?
+# piratepal()
 
-`piratepal()` is a function that returns color palettes. To see all of the palettes, run `piratepal("all")`
+`piratepal()` is a function that returns color palettes. The function has three main arguments:
+
+- `palette`: The specific palette (entered as a string) you want to use. You can also specify `palette = "all"` to see all the palettes, or `palette = "random"` to get a random palette.
+
+- `trans`: A number between 0 and 1 indicating how transparent to make the colors.
+
+- `length.out`: An optional number indicating how many colors to return (if `length.out` is larger than the number of colors in the palette, they will just be repeated).
+
+- `plot.result`: A logical value indicating whether or not to display the palette.
+
+# Examples
+
+To see all of the palettes, run `piratepal("all")`
 
 ```{r, fig.width = 6, fig.height = 6, echo = F, fig.align='center'}
 piratepal(palette = "all")
 ```
+
+Once you find a palette you'd like to use, you can return the colors as a vector by specifying the name of the palette in the `palette` argument:
+
+```{r}
+piratepal(palette = "ipod")
+```
+
+If you want to see a palette in detail (and possibly some images that inspired the palette), include the argument `plot.result = T`:
+
+```{r, fig.width = 6, fig.height = 6, fig.align='center'}
+piratepal(palette = "southpark", 
+          plot.result = T)
+```
+
+You can use palettes in your plots by entering the palette as color arguments. I'll create a scatterplot using the google palette with `piratepal('nemo', trans = .5)`:
+
+
+```{r, fig.width = 6, fig.height = 6, fig.align = 'center'}
+
+my.cols <- piratepal(palette = "nemo",  
+                     trans = .5)
+
+set.seed(100) # For reproducibility
+x <- rnorm(100)
+y <- x + rnorm(100)
+
+plot(x = x, y = y, col =  my.cols,
+     pch = 16,
+     cex = runif(100, min = 0, max = 2),
+     main = "piratepal('nemo', trans = .5)")
+    
+```
+
+
+## Plotting the Up house
+
+Let's use the basel palette to draw the house from Up.
+
+```{r, fig.width = 6, fig.height = 6, fig.align='center'}
+
+# Plot the Up house using colors from the "google" palette
+
+balloon.colors <- piratepal("basel", trans = .1)
+n.balloons <- 500
+balloon.x <- rnorm(n.balloons, 0)
+balloon.y <- rnorm(n.balloons, 4, 1)
+
+plot(1, xlim = c(-15, 7), ylim = c(-15, 7),
+    xlab = "", ylab = "", type = "n", 
+    xaxt = "n", yaxt = "n", bty = "n")
+
+# house
+rect(-2, -6, 2, -2)
+polygon(c(-2, 0, 2),
+        c(-2, 0, -2))
+rect(-.5, -6, .5, -4)
+points(.3, -5)
+
+line.start.x <- rnorm(n.balloons, 0, .2)
+line.start.y <- -1 + rnorm(n.balloons, 0, .1)
+
+# strings
+segments(line.start.x, 
+         line.start.y, 
+         balloon.x, balloon.y, 
+         lty = 1, col = gray(.5, .1), lwd = .2)
+
+# balloons
+points(balloon.x, balloon.y, pch = 21, 
+       bg = balloon.colors,
+       col = gray(.9), cex = rnorm(100, 2, .3))
+```
+
+
 
 # References
 
