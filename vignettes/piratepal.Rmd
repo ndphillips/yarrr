@@ -44,19 +44,26 @@ piratepal(palette = "southpark",
           plot.result = T)
 ```
 
-You can use palettes in your plots by entering the palette as color arguments. I'll create a scatterplot using the google palette with `piratepal('nemo', trans = .5)`:
+Some of the palettes are darker than others...
 
+```{r, fig.width = 6, fig.height = 6, fig.align='center'}
+piratepal(palette = "evildead", 
+          plot.result = T)
+```
+
+
+You can use palettes in your plots by entering the palette as color arguments. I'll create a scatterplot using the google palette with `piratepal('nemo', trans = .5)`:
 
 ```{r, fig.width = 6, fig.height = 6, fig.align = 'center'}
 
-my.cols <- piratepal(palette = "nemo",  
+nemo.cols <- piratepal(palette = "nemo",  
                      trans = .5)
 
 set.seed(100) # For reproducibility
 x <- rnorm(100)
 y <- x + rnorm(100)
 
-plot(x = x, y = y, col =  my.cols,
+plot(x = x, y = y, col =  nemo.cols,
      pch = 16,
      cex = runif(100, min = 0, max = 2),
      main = "piratepal('nemo', trans = .5)")
