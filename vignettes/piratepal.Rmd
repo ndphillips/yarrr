@@ -11,7 +11,7 @@ vignette: >
 library("yarrr")
 ```
 
-# piratepal()
+## piratepal()
 
 `piratepal()` is a function that returns color palettes. The function has four main arguments:
 
@@ -23,7 +23,7 @@ library("yarrr")
 
 - `plot.result`: A logical value indicating whether or not to display the palette.
 
-# Examples
+## Examples
 
 To see all of the palettes, run `piratepal("all")`
 
@@ -70,25 +70,20 @@ plot(x = x, y = y, col =  nemo.cols,
 ```
 
 
-## Plotting the Up house
+### Plotting the Up house
 
 Let's use the basel palette to draw the house from Up [Up Trailer](https://www.youtube.com/watch?v=pkqzFUhGPJg)
 
-```{r, fig.width = 8, fig.height = 6, fig.align='center'}
-
+```{r, fig.width = 8, fig.height = 6, fig.align='center', results='hold'}
 # Set up balloons
-
 balloon.colors <- piratepal("basel", trans = .2)
-n.balloons <- 500
-balloon.x <- rnorm(n.balloons, 0)
-balloon.y <- rnorm(n.balloons, 4, 1)
-
+balloon.x <- rnorm(500, 0)
+balloon.y <- rnorm(500, 4, 1)
 
 par(mar = rep(.1, 4))
 plot(1, xlim = c(-15, 7), ylim = c(-15, 7),
     xlab = "", ylab = "", type = "n", 
     xaxt = "n", yaxt = "n", bty = "n")
-
 
 # skyline
 start.x <- runif(200, -15, 7)
@@ -107,9 +102,8 @@ rect(-.5, -6, .5, -4)
 points(.3, -5)
 
 # strings
-
-line.start.x <- rnorm(n.balloons, 0, .2)
-line.start.y <- -1 + rnorm(n.balloons, 0, .1)
+line.start.x <- rnorm(500, 0, .2)
+line.start.y <- -1 + rnorm(500, 0, .1)
 segments(line.start.x, 
          line.start.y, 
          balloon.x, balloon.y, 
@@ -119,10 +113,7 @@ segments(line.start.x,
 points(balloon.x, balloon.y, pch = 21, 
        bg = balloon.colors,
        col = gray(.9), cex = rnorm(100, 2, .3))
+
+# reset par
+par(mar = c(5, 4, 4, 1) + .1)
 ```
-
-
-
-# References
-
-
