@@ -22,41 +22,35 @@ This function provides a number of color palettes
 \examples{
 
 
+# Check out the vignette for a full guide
+
+vignette("piratepal", package = "yarrr")
+
 # Show all palettes
 
 piratepal(palette = "all")
 
 # Show some palettes
 
+piratepal(palette = "basel", plot.result = T)]
 piratepal(palette = "nemo", plot.result = T)
 piratepal(palette = "espresso", plot.result = T)
-piratepal(palette = "bugs", plot.result = T)
-piratepal(palette = "ohbrother", plot.result = T)
+piratepal(palette = "evildead", plot.result = T)
 
-# Plot the Up house using colors from the "google" palette
 
-google.colors <- piratepal("google", trans = .1)
-n.balloons <- 500
-x <- rnorm(n.balloons, 0)
-y <- rnorm(n.balloons, 2, 1)
-plot(1, xlim = c(-7, 7), ylim = c(-7, 7),
-    xlab = "", ylab = "", type = "n", xaxt = "n", yaxt = "n", bty = "n")
+# Using a palette in a scatterplot
 
-rect(-2, -6, 2, -2)
-polygon(c(-2, 0, 2),
-       c(-2, 0, -2)
-)
-rect(-7, -7, -2, 100)
-rect(2, -7, 7, 100)
-rect(-.5, -6, .5, -4)
-points(.3, -5)
+nemo.cols <- piratepal(palette = "nemo",  trans = .5)
 
-line.start.x <- rnorm(n.balloons, 0, .4)
-line.start.y <- -1 + rnorm(n.balloons, 0, .1)
+set.seed(100) # For reproducibility
+x <- rnorm(100)
+y <- x + rnorm(100)
 
-segments(line.start, line.start.y, x, y, lty = 1, col = gray(.7), lwd = .2)
-points(x, y, pch = 21, bg = sample(google.colors, 100, replace = T),
-      xlim = c(-7, 7), ylim = c(-7, 7), col = gray(.9), cex = rnorm(100, 2, .3))
+plot(x = x, y = y, col = nemo.cols,
+    pch = 16,
+    cex = runif(100, min = 0, max = 2),
+    main = "piratepal('nemo', trans = .5)")
+
 
 }
 \keyword{colors}
