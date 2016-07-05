@@ -1013,8 +1013,8 @@ add.bf.bar(bf.vec[iv.i],
 
   # reset parameters
 
-  par(mfrow = c(1, 1))
-  par(mar = c(5, 4, 4, 1) + .1)
+  # par(mfrow = c(1, 1))
+  # par(mar = c(5, 4, 4, 1) + .1)
 
 
 }
