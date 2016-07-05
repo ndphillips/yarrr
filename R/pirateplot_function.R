@@ -588,7 +588,7 @@ pirateplot <- function(
 # PLOTTING SPACE
 if(add == F) {
 
-par(mar = c(5, 4, 4, 1) + .1)
+#par(mar = c(5, 4, 4, 1) + .1)
 
 if(evidence == T) {layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(5, 2), widths = 5)}
 
