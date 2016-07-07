@@ -143,11 +143,13 @@ pirateplot <- function(
 #
 #
 #
-#
-#   formula = weight ~ Time + Diet
-#   data = ChickWeight
-#   theme.o = 3
-#   bean.o = c(0, .1, 1, .1)
+
+  ChickWeight$weight.2 <- ChickWeight$weight / 400
+
+  formula = weight.2 ~ Time + Diet
+  data = ChickWeight
+  theme.o = 3
+  bean.o = c(0, .1, 1, .1)
 
 # -----
 #  SETUP
@@ -501,6 +503,7 @@ pirateplot <- function(
                 seq(1e-7, 1e-6, 1e-6),
                 seq(1e-8, 1e-7, 1e-7),
                 seq(1e-9, 1e-8, 1e-8),
+                1/2, 1/5, 1/10, 1/25, 1/50, 1/100,
                  1, 2, 5, 10, 25, 50, 100,
                  seq(1e2, 1e3, 1e2),
                  seq(1e3, 1e4, 1e3),
@@ -870,7 +873,7 @@ if(evidence == T) {layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(5, 2), wi
   if(n.iv == 1) {line.t <- .5}
   if(n.iv == 2) {line.t <- 2}
 
-if(xaxt != "n") {
+if(xaxt != "n" | xaxt == F) {
 
   mtext(bean.mtx[,1],
         side = 1,
