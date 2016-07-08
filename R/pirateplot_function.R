@@ -143,13 +143,13 @@ pirateplot <- function(
 #
 #
 #
-
-  ChickWeight$weight.2 <- ChickWeight$weight / 400
-
-  formula = weight.2 ~ Time + Diet
-  data = ChickWeight
-  theme.o = 3
-  bean.o = c(0, .1, 1, .1)
+#
+#   ChickWeight$weight.2 <- ChickWeight$weight / 400
+#
+#   formula = weight.2 ~ Time + Diet
+#   data = ChickWeight
+#   theme.o = 3
+#   bean.o = c(0, .1, 1, .1)
 
 # -----
 #  SETUP
