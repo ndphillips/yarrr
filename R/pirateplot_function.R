@@ -607,8 +607,8 @@ if(evidence == T) {layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(5, 2), wi
        ylab = ylab,
        main = main,
        yaxt = yaxt,
-       bty = bty#,
-      # ...
+       bty = bty,
+       ...
   )
 
 
