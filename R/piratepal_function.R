@@ -21,10 +21,7 @@
 #'
 #' # Show some palettes
 #'
-#'piratepal(palette = "basel", plot.result = T)]
-#'piratepal(palette = "nemo", plot.result = T)
-#'piratepal(palette = "espresso", plot.result = T)
-#'piratepal(palette = "evildead", plot.result = T)
+#'piratepal(palette = "basel", trans = .5, plot.result = TRUE)
 #'
 #'
 #' # Using a palette in a scatterplot
@@ -44,7 +41,7 @@
 
 piratepal <- function(palette = "all",
                       trans = 0,
-                      plot.result = F,
+                      plot.result = FALSE,
                       length.out = NULL) {
 
 # Check inputs

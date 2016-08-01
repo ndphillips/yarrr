@@ -15,7 +15,7 @@ pirateplot(formula = weight ~ Time, data = ChickWeight, line.fun = mean,
   xaxt = T, point.col = NULL, bar.col = NULL, bean.border.col = NULL,
   inf.col = NULL, average.line.col = NULL, bar.border.col = NULL,
   at = NULL, bw = "nrd0", adjust = 1, add = F, sortx = "alphabetical",
-  y.levels = NULL, cex.lab = 1, cex.axis = 1, bty = "n", evidence = F,
+  cex.lab = 1, cex.axis = 1, bty = "n", evidence = F, family = NULL,
   ...)
 }
 \arguments{
@@ -29,7 +29,7 @@ pirateplot(formula = weight ~ Time, data = ChickWeight, line.fun = mean,
 
 \item{point.cex, point.pch, point.lwd}{(numeric) Numbers indicating the size, pch type, and line width of raw data points.}
 
-\item{cut.min, }{cut.max (numeric) Optimal minimum and maximum values of the beans.}
+\item{cut.min, cut.max}{(numeric) Optimal minimum and maximum values of the beans.}
 
 \item{width.min, width.max}{(numeric) The minimum and maximum width of a bean.}
 
@@ -49,7 +49,7 @@ pirateplot(formula = weight ~ Time, data = ChickWeight, line.fun = mean,
 
 \item{gl.col, back.col}{(string) An optional string indicating the color of the horizontal gridlines and plotting background.}
 
-\item{point.col, bar.col, bean.border.col, bar.border.col, inf.col, average.line.col, bar.border.col}{(string) An optional vector of colors specifying the colors of the plotting elements. This will override values in the palette.}
+\item{point.col, bar.col, bean.border.col, inf.col, average.line.col, bar.border.col}{(string) An optional vector of colors specifying the colors of the plotting elements. This will override values in the palette.}
 
 \item{at}{(numeric) An optional vector specifying the locations of the beans. Especially helpful when adding beans to an existing plot with add = T}
 
@@ -61,7 +61,13 @@ pirateplot(formula = weight ~ Time, data = ChickWeight, line.fun = mean,
 
 \item{sortx}{(string) An optional argument indicating how to sort the x values. Can be "sequential" (as they are found in the original dataframe), "alphabetical", or a string indicating a function (i.e.; "mean")}
 
+\item{cex.lab, cex.axis}{Size of the labels and axes.}
+
+\item{bty, xlim, ylim, xlab, ylab, main, yaxt, xaxt}{General plotting arguments}
+
 \item{evidence}{(logical) A logical value indicating whether to show Bayesian evidence (I'm still working on this...)}
+
+\item{family}{a font family (may not be working yet...)}
 
 \item{...}{other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)}
 }

@@ -11,23 +11,28 @@
 #' @examples
 #'
 #' # Diagram of some examples
-#'plot(1, ylim = c(0, 1), xlim = c(0, 12), bty = "n", xaxt = "n", yaxt = "n", ylab = "", xlab = "", type = "na")
+#'plot(1, ylim = c(0, 1), xlim = c(0, 12), bty = "n",
+#'xaxt = "n", yaxt = "n", ylab = "", xlab = "", type = "na")
 #'
 #'
 #'text(6, .9, "transparent('red', trans.val = x)")
-#'points(x = 1:11, y = rep(.8, 11), pch = 16, col = transparent("red", seq(0, 1, .1)), cex = 2)
+#'points(x = 1:11, y = rep(.8, 11), pch = 16,
+#'col = transparent("red", seq(0, 1, .1)), cex = 2)
 #'text(x = 1:11, y = rep(.85, 11), seq(0, 1, .1))
 #'
 #'text(6, .7, "transparent('red', trans.val = x)")
-#'points(x = 1:11, y = rep(.6, 11), pch = 16, col = transparent("blue", seq(0, 1, .1)), cex = 2)
+#'points(x = 1:11, y = rep(.6, 11), pch = 16,
+#' col = transparent("blue", seq(0, 1, .1)), cex = 2)
 #'text(x = 1:11, y = rep(.65, 11), seq(0, 1, .1))
 #'
 #'text(6, .5, "transparent('forestgreen', trans.val = x)")
-#'points(x = 1:11, y = rep(.4, 11), pch = 16, col = transparent("forestgreen", seq(0, 1, .1)), cex = 2)
+#'points(x = 1:11, y = rep(.4, 11), pch = 16,
+#'col = transparent("forestgreen", seq(0, 1, .1)), cex = 2)
 #'text(x = 1:11, y = rep(.45, 11), seq(0, 1, .1))
 #'
 #'text(6, .3, "transparent('orchid1', trans.val = x)")
-#'points(x = 1:11, y = rep(.2, 11), pch = 16, col = transparent("orchid1", seq(0, 1, .1)), cex = 2)
+#'points(x = 1:11, y = rep(.2, 11), pch = 16,
+#'col = transparent("orchid1", seq(0, 1, .1)), cex = 2)
 #'text(x = 1:11, y = rep(.25, 11), seq(0, 1, .1))
 #'
 #'

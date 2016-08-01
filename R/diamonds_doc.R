@@ -8,6 +8,7 @@
 #'   \item{weight}{(numeric) - The weight of the diamond}
 #'   \item{clarity}{(numeric) - The clarity of the diamond}
 #'   \item{color}{(numeric) - The color shading of the diamond}
+#'   \item{value}{The value of the diamond}
 #'  }
 #' @source 2015 annual international pirate meeting at the Bodensee in Konstanz, Germany
 #'

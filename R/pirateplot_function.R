@@ -9,12 +9,12 @@
 #' @param gl.col,back.col (string) An optional string indicating the color of the horizontal gridlines and plotting background.
 #' @param point.cex,point.pch,point.lwd (numeric) Numbers indicating the size, pch type, and line width of raw data points.
 #' @param width.min,width.max (numeric) The minimum and maximum width of a bean.
-#' @param cut.min, cut.max (numeric) Optimal minimum and maximum values of the beans.
+#' @param cut.min,cut.max (numeric) Optimal minimum and maximum values of the beans.
 #' @param inf (string) A string indicating what types of inference lines to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI).
 #' @param inf.p (numeric) A number between 0 and 1 indicating the level of confidence to use in calculating inferences for either confidence intervals or HDIs. The default is 0.95
 #' @param theme.o (integer) An integer in the set 0, 1, 2, 3, specifying an opacity theme (that is, specific values of bar.o, point.o, etc.). You can override specific opacity values in a theme by specifying bar.o, inf.o (etc.)
 #' @param bar.o,point.o,inf.o,line.o,bean.o (numeric) A number between 0 and 1 indicating how opaque to make the bars, points, inference line, average line, and beans respectively. These values override whatever is in the specified theme
-#' @param point.col,bar.col,bean.border.col,bar.border.col,inf.col,average.line.col,bar.border.col (string) An optional vector of colors specifying the colors of the plotting elements. This will override values in the palette.
+#' @param point.col,bar.col,bean.border.col,inf.col,average.line.col,bar.border.col (string) An optional vector of colors specifying the colors of the plotting elements. This will override values in the palette.
 #' @param bean.lwd,inf.lwd,line.lwd,bar.border.lwd (numeric) A vector of numbers indicating the line widths of various elements.
 #' @param hdi.iter (integer) An integer indicating how many iterations to run when calculating the HDI. Larger values lead to better estimates, but can be more time consuming.
 #' @param bw (string) The smoothing bandwidth to use for the bean. (see ?density)
@@ -24,8 +24,16 @@
 #' @param sortx (string) An optional argument indicating how to sort the x values. Can be "sequential" (as they are found in the original dataframe), "alphabetical", or a string indicating a function (i.e.; "mean")
 #' @param add (logical) A logical value indicating whether to add the pirateplot to an existing plotting space or not.
 #' @param evidence (logical) A logical value indicating whether to show Bayesian evidence (I'm still working on this...)
+#' @param family a font family (may not be working yet...)
+#' @param cex.lab,cex.axis Size of the labels and axes.
+#' @param bty,xlim,ylim,xlab,ylab,main,yaxt,xaxt General plotting arguments
 #' @param ... other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)
 #' @keywords plot
+#' @import datasets
+#' @importFrom grDevices col2rgb gray rgb
+#' @importFrom graphics abline axis layout mtext par plot points polygon rasterImage rect segments text
+#' @importFrom stats density model.frame optimize rnorm t.test
+#' @importFrom utils vignette
 #' @export
 #' @examples
 #'
@@ -82,74 +90,15 @@ pirateplot <- function(
   adjust = 1,
   add = F,
   sortx = "alphabetical",
-  y.levels = NULL,
   cex.lab = 1,
   cex.axis = 1,
   bty = "n",
   evidence = F,
+  family = NULL,
   ...
 ) {
 
 ## TESTING
-#
-#
-#   line.fun = mean
-#   pal = "appletv"
-#   back.col = gray(1)
-#   point.cex = 1
-#   point.pch = 16
-#   point.lwd = 1
-#   cut.min = NULL
-#   cut.max = NULL
-#   width.min = .3
-#   width.max = NA
-#   bean.o = NULL
-#   point.o = NULL
-#   bar.o = NULL
-#   inf.o = NULL
-#   line.o = NULL
-#   inf = "hdi"
-#   inf.p = .95
-#   theme.o = 1
-#   hdi.iter = 1e3
-#   jitter.val = .03
-#   line.lwd = 4
-#   bean.lwd = 1
-#   inf.lwd = 1
-#   bar.border.lwd = 1
-#   gl.col = NULL
-#   ylim = NULL
-#   xlim = NULL
-#   xlab = NULL
-#   ylab = NULL
-#   main = NULL
-#   yaxt = NULL
-#   point.col = NULL
-#   bar.col = NULL
-#   bean.border.col = NULL
-#   inf.col = NULL
-#   average.line.col = NULL
-#   bar.border.col = NULL
-#   at = NULL
-#   bw = "nrd0"
-#   adjust = 1
-#   add = F
-#   sortx = "alphabetical"
-#   y.levels = NULL
-#   cex.lab = 1
-#   cex.axis = 1
-#   bty = "n"
-#   evidence = T
-#
-#
-#
-#
-#   ChickWeight$weight.2 <- ChickWeight$weight / 400
-#
-#   formula = weight.2 ~ Time + Diet
-#   data = ChickWeight
-#   theme.o = 3
-#   bean.o = c(0, .1, 1, .1)
 
 # -----
 #  SETUP
@@ -491,7 +440,7 @@ pirateplot <- function(
 # Determine y limits (y axis limits)
   # y axis breaks (y.levels)
 
-  if(is.null(ylim) == TRUE & is.null(y.levels) == TRUE) {
+  if(is.null(ylim) == TRUE) {
 
     # Determine best step size
 
@@ -529,7 +478,7 @@ pirateplot <- function(
 
   }
 
-  if(is.null(ylim) == FALSE & is.null(y.levels) == TRUE) {
+  if(is.null(ylim) == FALSE) {
 
 
     steps.p <- c(
@@ -562,11 +511,6 @@ pirateplot <- function(
 
   }
 
-  if(is.null(ylim) == TRUE & is.null(y.levels) == FALSE) {
-
-    ylim <- c(min(y.levels), max(y.levels))
-
-    }
 
 
   if(is.null(xlim)) {xlim <- c(min(bean.loc) - .5, max(bean.loc) + .5)}
@@ -592,6 +536,8 @@ pirateplot <- function(
 # PLOTTING SPACE
 if(add == F) {
 
+#showtext::showtext.auto()
+
 #par(mar = c(5, 4, 4, 1) + .1)
 
 if(evidence == T) {layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(5, 2), widths = 5)}
@@ -610,6 +556,14 @@ if(evidence == T) {layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(5, 2), wi
        bty = bty,
        ...
   )
+
+ # mtext(side = 1, text = my.xlab)
+ # mtext(side = 1, text = my.xlab, family = family)
+
+
+  # Add labels
+
+
 
 
   # Add y-axis
@@ -909,112 +863,112 @@ if(xaxt != "n" | xaxt == F) {
 # ----
 # EVIDENCE
 # ----
-
-if(evidence) {
-
-  # Convert IVs to factors
-
-for(iv.i in 1:n.iv) {
-
-data.2[,iv.i] <- as.factor(data.2[,iv.i])
-
-  }
-
-bf <- BayesFactor::anovaBF(formula = formula, data = data.2[,1:(n.iv + 1)])
-
-bf.vec <- extractBF(bf)$bf
-
-par(mar = c(0, 0, 3, 0))
-plot(1, xlim = c(0, 1), ylim = c(0, 1), bty = "n", xlab = "", ylab = "", xaxt = "n", yaxt = "n", type = "n")
-
-add.bf.bar <- function(bf.val, x.loc, y.loc, add.labels = F) {
-
-rect(x.loc[1], y.loc[1], x.loc[2], y.loc[2], border = gray(.5, .5), col = "white")
-
-bf.scale <- c(0, 1 / 150, 1 / 20, 1 / 3, 1, 3, 20, 150, Inf)
-bf.labels <- c("Very Strong", "Strong", "Positive", "Weak", "Weak", "Positive", "Strong", "Very Strong")
-
-bf.i.label <- bf.labels[bf.val < bf.scale[2:length(bf.scale)] & bf.val > bf.scale[1:(length(bf.scale) - 1)]]
-
-if(bf.val > 1) {in.favor <- "alt"}
-if(bf.val < 1) {in.favor <- "null"}
-
-bf.col.fun <- circlize::colorRamp2(breaks = c(-1, 0, 1),
-                                 colors = c("red", "yellow", "blue"),
-                                 transparency = .7)
-
-bf.val.t <- bf.val
-if(bf.val > 150) {bf.val.t <- 150}
-if(bf.val < (1 / 150)) {bf.val.t <- 1 / 150}
-
-bf.val.t.log <- log(bf.val.t, base = 10)
-
-if(bf.val > 1) {
-
- bf.val.scale <- bf.val.t.log / log(150, base = 10)
- bf.yloc <- mean(y.loc) + bf.val.scale * (y.loc[2] - y.loc[1]) / 2
-
- }
-
-if(bf.val < 1) {
-
- bf.val.scale <- -1 * bf.val.t.log / log(1 / 150, base = 10)
- bf.yloc <- mean(y.loc) + bf.val.scale * (y.loc[2] - y.loc[1]) / 2
-
- }
-
-
-
- rect(x.loc[1],
-      mean(y.loc),
-      x.loc[2],
-      bf.yloc,
-      col = bf.col.fun(bf.val.scale), border = NA)
-
-if(add.labels) {
-
-  # text(x = rep(x.loc[1], length(bf.scale)),
-  #      y = bf.l.scale / log(max(bf.scale), base = 10),
-  #      labels = bf.scale, adj = 1
-  #      )
-
-
-  text(mean(x.loc), min(y.loc) + .75 * diff(y.loc),
-       labels = paste("BF = ", round(bf.val.t, 1), sep = ""))
-
-
-  if(bf.val < 1) {concl.text <- paste(bf.i.label, " Evidence for\nNO effect", sep = "")}
-  if(bf.val > 1) {concl.text <- paste(bf.i.label, " Evidence for a\nTRUE effect", sep = "")}
-
-  text(mean(x.loc), min(y.loc) + .5 * diff(y.loc),
-       labels = concl.text)
-
-}
-
-
-
-
- }
-
-
-if(n.iv == 1) {bar.loc.vec <- c(.5) ; bar.widths <- .1}
-if(n.iv == 2) {bar.loc.vec <- c(.3, .7) ; bar.widths <- .1}
-
-for(iv.i in 1:n.iv) {
-
-add.bf.bar(bf.vec[iv.i],
-           x.loc = c(bar.loc.vec[iv.i] - bar.widths / 2, bar.loc.vec[iv.i] + bar.widths / 2),
-           y.loc = c(.1, .9),
-           add.labels = T
-)
-
-  text(x = bar.loc.vec[iv.i], y = 1, labels = iv.names[iv.i])
-
-
-}
-
-
-}
+#
+# if(evidence) {
+#
+#   # Convert IVs to factors
+#
+# for(iv.i in 1:n.iv) {
+#
+# data.2[,iv.i] <- as.factor(data.2[,iv.i])
+#
+#   }
+#
+# bf <- BayesFactor::anovaBF(formula = formula, data = data.2[,1:(n.iv + 1)])
+#
+# bf.vec <- extractBF(bf)$bf
+#
+# par(mar = c(0, 0, 3, 0))
+# plot(1, xlim = c(0, 1), ylim = c(0, 1), bty = "n", xlab = "", ylab = "", xaxt = "n", yaxt = "n", type = "n")
+#
+# add.bf.bar <- function(bf.val, x.loc, y.loc, add.labels = F) {
+#
+# rect(x.loc[1], y.loc[1], x.loc[2], y.loc[2], border = gray(.5, .5), col = "white")
+#
+# bf.scale <- c(0, 1 / 150, 1 / 20, 1 / 3, 1, 3, 20, 150, Inf)
+# bf.labels <- c("Very Strong", "Strong", "Positive", "Weak", "Weak", "Positive", "Strong", "Very Strong")
+#
+# bf.i.label <- bf.labels[bf.val < bf.scale[2:length(bf.scale)] & bf.val > bf.scale[1:(length(bf.scale) - 1)]]
+#
+# if(bf.val > 1) {in.favor <- "alt"}
+# if(bf.val < 1) {in.favor <- "null"}
+#
+# bf.col.fun <- circlize::colorRamp2(breaks = c(-1, 0, 1),
+#                                  colors = c("red", "yellow", "blue"),
+#                                  transparency = .7)
+#
+# bf.val.t <- bf.val
+# if(bf.val > 150) {bf.val.t <- 150}
+# if(bf.val < (1 / 150)) {bf.val.t <- 1 / 150}
+#
+# bf.val.t.log <- log(bf.val.t, base = 10)
+#
+# if(bf.val > 1) {
+#
+#  bf.val.scale <- bf.val.t.log / log(150, base = 10)
+#  bf.yloc <- mean(y.loc) + bf.val.scale * (y.loc[2] - y.loc[1]) / 2
+#
+#  }
+#
+# if(bf.val < 1) {
+#
+#  bf.val.scale <- -1 * bf.val.t.log / log(1 / 150, base = 10)
+#  bf.yloc <- mean(y.loc) + bf.val.scale * (y.loc[2] - y.loc[1]) / 2
+#
+#  }
+#
+#
+#
+#  rect(x.loc[1],
+#       mean(y.loc),
+#       x.loc[2],
+#       bf.yloc,
+#       col = bf.col.fun(bf.val.scale), border = NA)
+#
+# if(add.labels) {
+#
+#   # text(x = rep(x.loc[1], length(bf.scale)),
+#   #      y = bf.l.scale / log(max(bf.scale), base = 10),
+#   #      labels = bf.scale, adj = 1
+#   #      )
+#
+#
+#   text(mean(x.loc), min(y.loc) + .75 * diff(y.loc),
+#        labels = paste("BF = ", round(bf.val.t, 1), sep = ""))
+#
+#
+#   if(bf.val < 1) {concl.text <- paste(bf.i.label, " Evidence for\nNO effect", sep = "")}
+#   if(bf.val > 1) {concl.text <- paste(bf.i.label, " Evidence for a\nTRUE effect", sep = "")}
+#
+#   text(mean(x.loc), min(y.loc) + .5 * diff(y.loc),
+#        labels = concl.text)
+#
+# }
+#
+#
+#
+#
+#  }
+#
+#
+# if(n.iv == 1) {bar.loc.vec <- c(.5) ; bar.widths <- .1}
+# if(n.iv == 2) {bar.loc.vec <- c(.3, .7) ; bar.widths <- .1}
+#
+# for(iv.i in 1:n.iv) {
+#
+# add.bf.bar(bf.vec[iv.i],
+#            x.loc = c(bar.loc.vec[iv.i] - bar.widths / 2, bar.loc.vec[iv.i] + bar.widths / 2),
+#            y.loc = c(.1, .9),
+#            add.labels = T
+# )
+#
+#   text(x = bar.loc.vec[iv.i], y = 1, labels = iv.names[iv.i])
+#
+#
+# }
+#
+#
+# }
 
 
   # reset parameters

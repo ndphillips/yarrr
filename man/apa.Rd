@@ -22,8 +22,8 @@ This function takes a hypothesis test object (e.g.; t.test(), cor.test(), chisq.
 
 x <- rnorm(100)
 y <- x + rnorm(100)
-a <- sample(1:3, size = 200, prob = c(.3, .2, .5), replace = T)
-b <- sample(1:3, size = 200, prob = c(.3, .2, .5), replace = T)
+a <- sample(1:3, size = 200, prob = c(.3, .2, .5), replace = TRUE)
+b <- sample(1:3, size = 200, prob = c(.3, .2, .5), replace = TRUE)
 
 apa(t.test(x, y))
 apa(cor.test(x, y))

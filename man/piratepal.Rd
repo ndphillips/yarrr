@@ -4,7 +4,7 @@
 \alias{piratepal}
 \title{piratepal}
 \usage{
-piratepal(palette = "all", trans = 0, plot.result = F,
+piratepal(palette = "all", trans = 0, plot.result = FALSE,
   length.out = NULL)
 }
 \arguments{
@@ -32,10 +32,7 @@ piratepal(palette = "all")
 
 # Show some palettes
 
-piratepal(palette = "basel", plot.result = T)]
-piratepal(palette = "nemo", plot.result = T)
-piratepal(palette = "espresso", plot.result = T)
-piratepal(palette = "evildead", plot.result = T)
+piratepal(palette = "basel", trans = .5, plot.result = TRUE)
 
 
 # Using a palette in a scatterplot
