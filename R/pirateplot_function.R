@@ -30,6 +30,7 @@
 #' @param ... other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)
 #' @keywords plot
 #' @import datasets
+#' @importFrom BayesFactor ttestBF
 #' @importFrom grDevices col2rgb gray rgb
 #' @importFrom graphics abline axis layout mtext par plot points polygon rasterImage rect segments text
 #' @importFrom stats density model.frame optimize rnorm t.test
@@ -99,6 +100,7 @@ pirateplot <- function(
 ) {
 
 ## TESTING
+
 
 # -----
 #  SETUP
@@ -695,8 +697,6 @@ if(evidence == T) {layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(5, 2), wi
     }
 
 
-
-
     # Add raw data
 
     points(rep(x.loc.i, length(dv.i)) + rnorm(length(dv.i), mean = 0, sd = jitter.val),
@@ -706,10 +706,6 @@ if(evidence == T) {layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(5, 2), wi
            cex = point.cex,
            lwd = point.lwd
     )
-
-
-
-
 
     # Add Line
     segments(x.loc.i - width.max,
@@ -721,11 +717,11 @@ if(evidence == T) {layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(5, 2), wi
              lend = 3
     )
 
-
-
     # Add inference band
 
-    if(inf.o[bean.i] > 0) {
+    if(inf.o[bean.i] > 0 & length(dv.i) > 3) {
+
+      if(length(dv.i) <= 3) {message("Note: Some beans had fewer than 4 observations and won't have HDI bands.")}
 
       if(inf == "hdi") {
 
@@ -744,7 +740,6 @@ if(evidence == T) {layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(5, 2), wi
 
       }
 
-
       if(inf == "ci") {
 
         ci.i <- t.test(dv.i, conf.level = inf.p)$conf.int
@@ -757,22 +752,6 @@ if(evidence == T) {layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(5, 2), wi
 
       }
 
-
-
-      #
-      # if(band.type == "constrained") {
-      #
-      #   polygon(c(x.loc.i - dens.inf.y, x.loc.i + rev(dens.inf.y)),
-      #           c(dens.inf.x, rev(dens.inf.x)),
-      #           col = inf.col[bean.i],
-      #           border = NA,
-      #           lwd = inf.lwd[bean.i]
-      #   )
-      #
-      # }
-
-
-
       # Draw HDI band
 
         rect(x.loc.i - width.max * .8,
@@ -783,7 +762,7 @@ if(evidence == T) {layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(5, 2), wi
              lwd = inf.lwd[bean.i],
              border = NA)
 
-
+    }
 
     }
 
@@ -977,5 +956,4 @@ if(xaxt != "n" | xaxt == F) {
   # par(mar = c(5, 4, 4, 1) + .1)
 
 
-}
 

@@ -7,7 +7,7 @@ Description: This package contains a mixture of functions and datasets
     referred to in the introductory e-book YaRrr!: The Pirate's Guide to
     R. The latest version of the e-book is available for free at https://
     www.thepiratesguidetor.com).
-Depends: dplyr,jpeg,BayesFactor,circlize
+Depends: jpeg,BayesFactor
 License: GPL-2
 LazyData: true
 URL: www.thepiratesguidetor.com

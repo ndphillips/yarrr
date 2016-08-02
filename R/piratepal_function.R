@@ -8,6 +8,7 @@
 #' @param length.out An integer indicating how many colors to return. If length.out is larger than the number of colors in the palette, colors will be repeated.
 #' @keywords colors
 #' @export
+#' @importFrom jpeg readJPEG
 #' @examples
 #'
 #'
