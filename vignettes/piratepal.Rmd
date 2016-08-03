@@ -117,3 +117,7 @@ points(balloon.x, balloon.y, pch = 21,
 # reset par
 par(mar = c(5, 4, 4, 1) + .1)
 ```
+
+### Have a favorite palette?
+
+If you have a favorite palette that you'd like me to add, just contact me at yarrr.book@gmail.com and I'll see what I can do :)
