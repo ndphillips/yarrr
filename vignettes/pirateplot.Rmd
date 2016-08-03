@@ -145,11 +145,6 @@ pirateplot(formula = weight ~ Diet + Time,
            )
 ```
 
-# Contact
-
-For questions, comments, or suggestions, feel free to write me at yarrr.book@gmail.com
-
-
 # References
 
 

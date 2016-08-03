@@ -17,7 +17,7 @@ library("yarrr")
 
 - `palette`: The specific palette you want to use. For example, `palette = "appletv"` will give you the appletv palette. You can also specify `palette = "all"` to see all the palettes, or `palette = "random"` to get a random palette.
 
-- `trans`: A number between 0 and 1 indicating how transparent to make the colors. 1 is fully transparent (e.g. invisible), and 0 is not transparent at all. Personally, I like at least slightly transparent colors (e.g.; `trans = .1`)
+- `trans`: A number between 0 and 1 indicating how transparent to make the colors. 1 is fully transparent (e.g. invisible), and 0 is not transparent at all. Personally, I like at least slightly transparent colors (e.g.; `trans = .3`)
 
 - `length.out`: An optional number indicating how many colors to return (if `length.out` is larger than the number of colors in the palette, they will just be repeated).
 
