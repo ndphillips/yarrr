@@ -3,7 +3,7 @@ title: "piratepal(): Color palettes for R Pirates"
 output: rmarkdown::html_vignette
 bibliography: yarrr.bib
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Pirate-y color palettes}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
