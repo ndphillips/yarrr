@@ -79,7 +79,7 @@ pirateplot <- function(
   ylab = NULL,
   main = NULL,
   yaxt = NULL,
-  xaxt = T,
+  xaxt = NULL,
   point.col = NULL,
   bar.col = NULL,
   bean.border.col = NULL,
@@ -806,7 +806,7 @@ if(evidence == T) {layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(5, 2), wi
   if(n.iv == 1) {line.t <- .5}
   if(n.iv == 2) {line.t <- 2}
 
-if(xaxt != "n" | xaxt == F) {
+if(is.null(xaxt) == T) {
 
   mtext(bean.mtx[,1],
         side = 1,
