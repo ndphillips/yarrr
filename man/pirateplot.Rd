@@ -5,7 +5,7 @@
 \title{pirateplot}
 \usage{
 pirateplot(formula = weight ~ Time, data = ChickWeight, line.fun = mean,
-  pal = "appletv", back.col = gray(1), point.cex = 1, point.pch = 16,
+  pal = "basel", back.col = gray(1), point.cex = 1, point.pch = 16,
   point.lwd = 1, cut.min = NULL, cut.max = NULL, width.min = 0.3,
   width.max = NA, bean.o = NULL, point.o = NULL, bar.o = NULL,
   inf.o = NULL, line.o = NULL, inf = "hdi", inf.p = 0.95, theme.o = 1,

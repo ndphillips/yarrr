@@ -672,22 +672,25 @@ if(evidence == T) {layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(5, 2), wi
 # BEANS
 {
 
-  if(is.na(width.max)) {
+if(is.na(width.max)) {
 
-    if(n.iv == 1) {width.max <- .45}
-    if(n.iv == 2) {width.max <- .5}
+  if(n.iv == 1) {width.max <- .45}
+  if(n.iv == 2) {width.max <- .5}
 
-  }
+}
 
 
-  bean.lwd <- rep(bean.lwd, length.out = n.beans)
-  inf.lwd <- rep(inf.lwd, length.out = n.beans)
-  line.lwd <- rep(line.lwd, length.out = n.beans)
-  bar.border.lwd <- rep(bar.border.lwd, length.out = n.beans)
+bean.lwd <- rep(bean.lwd, length.out = n.beans)
+inf.lwd <- rep(inf.lwd, length.out = n.beans)
+line.lwd <- rep(line.lwd, length.out = n.beans)
+bar.border.lwd <- rep(bar.border.lwd, length.out = n.beans)
 
   for (bean.i in 1:n.beans) {
 
     dv.i <- data.2[data.2$bean.num == bean.i, dv.name]
+
+    if(is.logical(dv.i)) {dv.i <- as.numeric(dv.i)}
+
     fun.val <- line.fun(dv.i)
 
     x.loc.i <- bean.mtx$x.loc[bean.i]
@@ -751,14 +754,18 @@ if(evidence == T) {layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(5, 2), wi
       }
 
 
-      polygon(c(x.loc.i - dens.y.plot.i[1:(length(dens.x.plot.i))],
-                x.loc.i + rev(dens.y.plot.i[1:(length(dens.x.plot.i))])),
-              c(dens.x.plot.i[1:(length(dens.x.plot.i))],
-                rev(dens.x.plot.i[1:(length(dens.x.plot.i))])),
-              col = gray(1, alpha = bean.o[bean.i]),
-              border = bean.border.col[bean.i],
-              lwd = bean.lwd[bean.i]
-      )
+  if(length(setdiff(dv.i, c(0, 1))) > 0) {
+
+  polygon(c(x.loc.i - dens.y.plot.i[1:(length(dens.x.plot.i))],
+            x.loc.i + rev(dens.y.plot.i[1:(length(dens.x.plot.i))])),
+          c(dens.x.plot.i[1:(length(dens.x.plot.i))],
+            rev(dens.x.plot.i[1:(length(dens.x.plot.i))])),
+          col = gray(1, alpha = bean.o[bean.i]),
+          border = bean.border.col[bean.i],
+          lwd = bean.lwd[bean.i]
+  )
+
+  }
 
     }
 
@@ -767,6 +774,8 @@ if(evidence == T) {layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(5, 2), wi
 
     # Add raw data
 
+if(setequal(dv.i, c(0, 1)) == F) {
+
     points(rep(x.loc.i, length(dv.i)) + rnorm(length(dv.i), mean = 0, sd = jitter.val),
            dv.i,
            pch = point.pch,
@@ -774,6 +783,8 @@ if(evidence == T) {layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(5, 2), wi
            cex = point.cex,
            lwd = point.lwd
     )
+
+}
 
     # Add Line
     segments(x.loc.i - width.max,
@@ -796,46 +807,68 @@ if(evidence == T) {layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(5, 2), wi
 
         }
 
-      if(inf == "hdi") {
 
-        # Calculate one-sample bayesian T-test with BayesFactor package
+# Binary data
 
-      ttest.bf <- BayesFactor::ttestBF(dv.i, posterior = T, iterations = hdi.iter, progress = F)
-      samples <- ttest.bf[,1]
+if(length(setdiff(dv.i, c(0, 1))) == 0) {
 
-      # using the hdi function from Kruschke
+if(inf == "hdi") {
 
-      inf.lb <- hdi(samples)[1]
-      inf.ub <- hdi(samples)[2]
+  # Calculate HDI from beta(Success + 1, Failure + 1)
+inf.lb <- qbeta(.025, shape1 = sum(dv.i) + 1, shape2 = sum(dv.i == 0) + 1)
+inf.ub <- qbeta(.975, shape1 = sum(dv.i) + 1, shape2 = sum(dv.i == 0) + 1)
 
-      dens.inf.x <- dens.x.i[dens.x.i >= inf.lb & dens.x.i <= inf.ub]
-      dens.inf.y <- dens.y.i[dens.x.i >= inf.lb & dens.x.i <= inf.ub]
+}
 
-      }
+if(inf == "ci") {
 
-      if(inf == "ci") {
+  # Calculate 95% CI with Normal distribution approximation to binomial
+  inf.lb <- mean(dv.i) - 1.96 * sqrt(mean(dv.i) * (1 - mean(dv.i)) / length(dv.i)) - .5 / length(dv.i)
+  inf.ub <- mean(dv.i) + 1.96 * sqrt(mean(dv.i) * (1 - mean(dv.i)) / length(dv.i)) + .5 / length(dv.i)
 
-        ci.i <- t.test(dv.i, conf.level = inf.p)$conf.int
+}
+}
 
-        inf.lb <- ci.i[1]
-        inf.ub <- ci.i[2]
+# Non-Binary data
 
-        dens.inf.x <- dens.x.i[dens.x.i >= inf.lb & dens.x.i <= inf.ub]
-        dens.inf.y <- dens.y.i[dens.x.i >= inf.lb & dens.x.i <= inf.ub]
+if(length(setdiff(dv.i, c(0, 1))) > 0) {
 
-      }
+if(inf == "hdi") {
 
-      # Draw HDI band
+ttest.bf <- BayesFactor::ttestBF(dv.i, posterior = T, iterations = hdi.iter, progress = F)
+samples <- ttest.bf[,1]
 
-        rect(x.loc.i - width.max * .8,
-             inf.lb,
-             x.loc.i + width.max * .8,
-             inf.ub,
-             col = inf.col[bean.i],
-             lwd = inf.lwd[bean.i],
-             border = NA)
+# using the hdi function from Kruschke
 
-    }
+inf.lb <- hdi(samples)[1]
+inf.ub <- hdi(samples)[2]
+
+  }
+
+if(inf == "ci") {
+
+ci.i <- t.test(dv.i, conf.level = inf.p)$conf.int
+
+inf.lb <- ci.i[1]
+inf.ub <- ci.i[2]
+
+}
+}
+
+dens.inf.x <- dens.x.i[dens.x.i >= inf.lb & dens.x.i <= inf.ub]
+dens.inf.y <- dens.y.i[dens.x.i >= inf.lb & dens.x.i <= inf.ub]
+
+# Draw HDI band
+
+rect(x.loc.i - width.max * .8,
+     inf.lb,
+     x.loc.i + width.max * .8,
+     inf.ub,
+     col = inf.col[bean.i],
+     lwd = inf.lwd[bean.i],
+     border = NA)
+
+}
 
     }
 
@@ -874,10 +907,10 @@ if(evidence == T) {layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(5, 2), wi
 
   }
 
-  # Add bean names for IV 1
+# Add bean names for IV 1
 
-  if(n.iv == 1) {line.t <- .5}
-  if(n.iv == 2) {line.t <- 2}
+if(n.iv == 1) {line.t <- .5}
+if(n.iv == 2) {line.t <- 2}
 
 if(is.null(xaxt) == T) {
 
