@@ -49,7 +49,7 @@ pirateplot <- function(
   formula = weight ~ Time,
   data = ChickWeight,
   line.fun = mean,
-  pal = "appletv",
+  pal = "basel",
   back.col = gray(1),
   point.cex = 1,
   point.pch = 16,
