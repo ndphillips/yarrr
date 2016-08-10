@@ -99,7 +99,14 @@ pirateplot <- function(
   ...
 ) {
 
+
 ## TESTING
+
+{
+
+
+
+}
 
 
 # -----
@@ -442,6 +449,7 @@ pirateplot <- function(
 # Determine y limits (y axis limits)
   # y axis breaks (y.levels)
 
+
   if(is.null(ylim) == TRUE) {
 
     # Determine best step size
@@ -472,8 +480,8 @@ pirateplot <- function(
     best.step.size <- min(steps.p[which(abs(steps.p.m - 10) == min(abs(steps.p.m - 10)))])
 
     plot.min <- floor(min(dv.v) / best.step.size) * best.step.size
-    plot.height <- ceiling((max(dv.v) - plot.min) /  best.step.size) * best.step.size
-    plot.max <- plot.min + plot.height
+    plot.max <- ceiling(max(dv.v) / best.step.size) * best.step.size
+    plot.height <- plot.max - plot.min
 
     ylim <- c(plot.min, plot.max)
     y.levels <- seq(plot.min, plot.max, by = best.step.size)
@@ -481,7 +489,6 @@ pirateplot <- function(
   }
 
   if(is.null(ylim) == FALSE) {
-
 
     steps.p <- c(
       seq(1e-3, 1e-2, 1e-3),
@@ -491,6 +498,7 @@ pirateplot <- function(
       seq(1e-7, 1e-6, 1e-6),
       seq(1e-8, 1e-7, 1e-7),
       seq(1e-9, 1e-8, 1e-8),
+      1/2, 1/5, 1/10, 1/25, 1/50, 1/100,
       1, 2, 5, 10, 25, 50, 100,
       seq(1e2, 1e3, 1e2),
       seq(1e3, 1e4, 1e3),

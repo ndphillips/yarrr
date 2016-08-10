@@ -1,5 +1,5 @@
 ---
-title: "pirateplot() guide"
+title: "pirateplot() guide in the yarrr package"
 author: "Nathaniel Phillips"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -12,7 +12,12 @@ vignette: >
 
 # What is a pirateplot()?
 
-A pirateplot() is the RDI (**Raw** data, **Descriptive** statistics, and **Inferential** statistics) plotting choice of R pirates who are displaying the relationship between 1 or two categorical independent variables, and one continuous dependent variable.
+A pirateplot, from the `yarrr` package (`devtools::install_github('ndphillips/yarrr', build_vignette = T`) is the RDI (**Raw** data, **Descriptive** statistics, and **Inferential** statistics) plotting choice of R pirates who are displaying the relationship between 1 or two categorical independent variables, and one continuous dependent variable.
+
+```{r, echo = F, message = F, result = 'hide'}
+library(yarrr)
+```
+
 
 A pirateplot() has 4 distinct elements
 
@@ -80,9 +85,18 @@ pirateplot(formula = weight ~ Time,
            )
 ```
 
+If you specify a single color name in the `pal` argument, all plotting elements will be that color:
+
+```{r, fig.width = 6, fig.height = 5, fig.align='center'}
+pirateplot(formula = weight ~ Diet,
+           data = ChickWeight,
+           pal = "black"
+           )
+```
+
 You can override the color of any specific element by using one of the x.col arguments (e.g.; `bar.col`, `point.col`, `inf.col`, `line.col`). In this example, I'll change the palette to `southpark` (try running `yarrr::piratepal("southpark", "show")`), and then make the points and bars gray.
 
-```{r, fig.width = 6, fig.height = 6}
+```{r, fig.width = 6, fig.height = 6, fig.align='center'}
 pirateplot(formula = weight ~ Time,
            data = ChickWeight,
            pal = "southpark",   # Use the southpark color palette,
@@ -91,11 +105,14 @@ pirateplot(formula = weight ~ Time,
            )
 ```
 
+
+
+
 # Opacities
 
 You can adjust the opacities of individual plotting elements in one of two ways. The `theme.o` argument allows you to specify an opacity theme. There are currently 3 themes supported. For example, `theme.o = 2` will turn off the inference boxes and turn up the bars:
 
-```{r, fig.width = 6, fig.height = 6}
+```{r, fig.width = 6, fig.height = 6, fig.align='center'}
 pirateplot(formula = weight ~ Diet,
            data = ChickWeight,
            theme.o = 2, # Use opacity theme 2
@@ -103,9 +120,9 @@ pirateplot(formula = weight ~ Diet,
            )
 ```
 
-`theme.o = 0` will turn off all of the opacities. You can then manually turn on each one with the x.o arguments (e.g.; `bean.o`, `point.o`, `line.o`)
+Or, you can turn off all of the opacities with `theme.o = 0` and then selectively turn up individual elements with `bar.o`, `bean.o`, `point.o`, and `inf.o`:
 
-```{r, fig.width = 6, fig.height = 6}
+```{r, fig.width = 6, fig.height = 6, eval = F, echo = F, fig.align='center'}
 pirateplot(formula = weight ~ Diet,
            data = ChickWeight,
            theme.o = 0, # Turn off all opacities,
@@ -116,9 +133,41 @@ pirateplot(formula = weight ~ Diet,
            )
 ```
 
+Here is a plot with only the points
+```{r, fig.width = 6, fig.height = 6, fig.align='center'}
+pirateplot(formula = weight ~ Diet,
+           data = ChickWeight,
+           theme.o = 0, # Turn off all opacities,
+           point.o = .1 # Turn point opacities up to .1
+           )
+```
+
+Now I'll add the beans
+```{r, fig.width = 6, fig.height = 6, fig.align='center'}
+pirateplot(formula = weight ~ Diet,
+           data = ChickWeight,
+           theme.o = 0, 
+           point.o = .1,
+           bean.o = .5 # Turn on beans to .5
+           )
+```
+
+Or just make a barplot with HDIs (and a gray palette)
+
+```{r, fig.width = 6, fig.height = 6, fig.align='center'}
+pirateplot(formula = weight ~ Time,
+           data = ChickWeight,
+           theme.o = 0, 
+           bar.o = .5, # Turn bar up to .5
+           inf.o = .8, # Turn 95% HDI to .8
+           pal = gray(.1)
+           )
+```
+
+
 You can specify the x.o arguments as *vectors* to selectively turn up (or down) specific elements for specific groups:
 
-```{r, fig.width = 6, fig.height = 6}
+```{r, fig.width = 6, fig.height = 6, fig.align='center'}
 pirateplot(formula = weight ~ Diet,
            data = ChickWeight,
            pal = "basel",
