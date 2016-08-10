@@ -56,13 +56,13 @@ if(trans < 0 | trans > 1) {stop("Problem: trans must be a number between 0 and 1
       "basel.pal" =  data.frame(
         "blue1" = rgb(12, 91, 176, alpha = (1 - trans) * 255, maxColorValue = 255),
         "red" = rgb(238, 0, 17, alpha = (1- trans) * 255, maxColorValue = 255),
-        "green" = rgb(161, 199, 32, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "blue2" = rgb(20, 155, 237, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "turquoise" = rgb(22, 160, 140, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "green" = rgb(21, 152, 61, alpha = (1 - trans) * 255, maxColorValue = 255),
         "pink" = rgb(236, 87, 154, alpha = (1 - trans) * 255, maxColorValue = 255),
         "orange" = rgb(250, 107, 9, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "blue2" = rgb(20, 155, 237, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "green2" = rgb(161, 199, 32, alpha = (1 - trans) * 255, maxColorValue = 255),
         "yellow" = rgb(254, 193, 11, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "green2" = rgb(21, 152, 61, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "turquoise" = rgb(22, 160, 140, alpha = (1 - trans) * 255, maxColorValue = 255),
         "poop" = rgb(154, 112, 62, alpha = (1 - trans) * 255, maxColorValue = 255),
         stringsAsFactors = F),
 

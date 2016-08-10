@@ -35,7 +35,8 @@ pirateplot(formula = weight ~ Diet,
            line.o = c(.5, .5, .5, .5),
            inf.o = c(.1, .1, .1, .9),
            bar.o = c(.1, .8, .1, .1),
-           main = "4 Elements of a pirateplot()"
+           main = "4 Elements of a pirateplot()", 
+           pal = "google"
           )
 
 
