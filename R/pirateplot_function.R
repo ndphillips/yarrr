@@ -826,6 +826,9 @@ if(inf == "ci") {
   inf.lb <- mean(dv.i) - 1.96 * sqrt(mean(dv.i) * (1 - mean(dv.i)) / length(dv.i)) - .5 / length(dv.i)
   inf.ub <- mean(dv.i) + 1.96 * sqrt(mean(dv.i) * (1 - mean(dv.i)) / length(dv.i)) + .5 / length(dv.i)
 
+  if(inf.lb < 0) {inf.lb <- 0}
+  if(inf.lb > 1) {inf.ub <- 1}
+
 }
 }
 
