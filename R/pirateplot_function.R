@@ -827,9 +827,9 @@ if(is.null(xaxt) == T) {
 
   if(n.iv == 2) {
 
-    mtext(iv.names[1], side = 1, line = 2, at = 0, adj = 1)
+    mtext(iv.names[1], side = 1, line = 2, at = 0, adj = 0)
 
-    mtext(iv.names[2], side = 1, line = .5, at = 0, adj = 1)
+    mtext(iv.names[2], side = 1, line = .5, at = 0, adj = 0)
 
     text.loc <- (iv.lengths[1] + 1) / 2 * (2 *(1:iv.lengths[2]) - 1)
 
