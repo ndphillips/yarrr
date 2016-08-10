@@ -103,8 +103,68 @@ pirateplot <- function(
 ## TESTING
 
 {
-
-
+  # formula = weight ~ Time
+  # data = ChickWeight
+  # line.fun = mean
+  # pal = "appletv"
+  # back.col = gray(1)
+  # point.cex = 1
+  # point.pch = 16
+  # point.lwd = 1
+  # cut.min = NULL
+  # cut.max = NULL
+  # width.min = .3
+  # width.max = NA
+  # bean.o = NULL
+  # point.o = NULL
+  # bar.o = NULL
+  # inf.o = NULL
+  # line.o = NULL
+  # inf = "hdi"
+  # inf.p = .95
+  # theme.o = 1
+  # hdi.iter = 1e3
+  # jitter.val = .03
+  # line.lwd = 4
+  # bean.lwd = 1
+  # inf.lwd = 1
+  # bar.border.lwd = 1
+  # gl.col = NULL
+  # ylim = NULL
+  # xlim = NULL
+  # xlab = NULL
+  # ylab = NULL
+  # main = NULL
+  # yaxt = NULL
+  # xaxt = NULL
+  # point.col = NULL
+  # bar.col = NULL
+  # bean.border.col = NULL
+  # inf.col = NULL
+  # average.line.col = NULL
+  # bar.border.col = NULL
+  # at = NULL
+  # bw = "nrd0"
+  # adjust = 1
+  # add = F
+  # sortx = "alphabetical"
+  # cex.lab = 1
+  # cex.axis = 1
+  # bty = "n"
+  # evidence = F
+  # family = NULL
+  #
+  #
+  #
+  # formula = Accuracy ~ Set + ORDER
+  # data = dataset[dataset$ORDER == "Resp_SCREE3",]
+  # main = "PPV by condition"
+  # line.fun = mean
+  # #theme.o = 2
+  # jitter.val = .2
+  # inf = "ci" #Show confidence interval (95%)
+  # inf.o = 0.2 #Opacity of ci
+  # pal = "google"
 
 }
 
@@ -649,7 +709,7 @@ if(evidence == T) {layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(5, 2), wi
     {
       # Calculate bean densities
 
-    if(length(dv.i) > 5) {  # only if n > 5
+    if(length(dv.i) > 3) {  # only if n > 5
 
       dens.i <- density(dv.i, bw, adjust)
 
@@ -727,9 +787,14 @@ if(evidence == T) {layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(5, 2), wi
 
     # Add inference band
 
-    if(inf.o[bean.i] > 0 & length(dv.i) > 3) {
+    if(inf.o[bean.i] > 0 & length(dv.i) > 3 & sd(dv.i) > 0) {
 
-      if(length(dv.i) <= 3) {message("Note: Some beans had fewer than 4 observations and won't have HDI bands.")}
+      if(length(dv.i) <= 3) {
+
+        message(paste("Note: Group ", bean.i, " had too few observations (", length(dv.i), ") for an inference band", sep = ""))
+        message(paste("Note: Group", bean.i, "had no variance, so no inference band :("))
+
+        }
 
       if(inf == "hdi") {
 
@@ -827,9 +892,9 @@ if(is.null(xaxt) == T) {
 
   if(n.iv == 2) {
 
-    mtext(iv.names[1], side = 1, line = 2, at = 0, adj = 0)
+    mtext(iv.names[1], side = 1, line = 2, at = par("usr")[1], adj = 1)
 
-    mtext(iv.names[2], side = 1, line = .5, at = 0, adj = 0)
+    mtext(iv.names[2], side = 1, line = .5, at = par("usr")[1], adj = 1)
 
     text.loc <- (iv.lengths[1] + 1) / 2 * (2 *(1:iv.lengths[2]) - 1)
 
