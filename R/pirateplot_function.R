@@ -774,7 +774,7 @@ bar.border.lwd <- rep(bar.border.lwd, length.out = n.beans)
 
     # Add raw data
 
-if(setequal(dv.i, c(0, 1)) == F) {
+#if(setequal(dv.i, c(0, 1)) == F) {
 
     points(rep(x.loc.i, length(dv.i)) + rnorm(length(dv.i), mean = 0, sd = jitter.val),
            dv.i,
@@ -784,7 +784,7 @@ if(setequal(dv.i, c(0, 1)) == F) {
            lwd = point.lwd
     )
 
-}
+#}
 
     # Add Line
     segments(x.loc.i - width.max,
