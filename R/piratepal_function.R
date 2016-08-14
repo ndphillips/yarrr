@@ -65,15 +65,17 @@ if(trans < 0 | trans > 1) {stop("Problem: trans must be a number between 0 and 1
         "turquoise" = rgb(22, 160, 140, alpha = (1 - trans) * 255, maxColorValue = 255),
         "poop" = rgb(154, 112, 62, alpha = (1 - trans) * 255, maxColorValue = 255),
         stringsAsFactors = F),
-
-      # "molehills.pal" = data.frame(
-      #   "gray" = rgb(155, 155, 155, alpha = (1 - trans) * 255, maxColorValue = 255),
-      #   "red" = rgb(190, 23, 36, alpha = (1 - trans) * 255, maxColorValue = 255),
-      #   "green" = rgb(59, 170, 53, alpha = (1 - trans) * 255, maxColorValue = 255),
-      #
-      #
-      # )
-
+      "pony.pal" = data.frame(
+        "pink" = rgb(235, 82, 145, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "orange" = rgb(251, 187, 104, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "lpink" = rgb(245, 186, 207, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "lblue" = rgb(157, 218, 245, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "purple1" = rgb(99, 81, 160, alpha = (1- trans) * 255, maxColorValue = 255),
+        "gray" = rgb(236, 241, 244, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "yellow" = rgb(254, 247, 158, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "dblue" = rgb(23, 148, 206, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "purple2" = rgb(151, 44, 141, alpha = (1- trans) * 255, maxColorValue = 255),
+        stringsAsFactors = F),
       "southpark.pal" = data.frame(
         "blue" = rgb(47, 134, 255, alpha = (1 - trans) * 255, maxColorValue = 255),
         "yellow" = rgb(235, 171, 22, alpha = (1- trans) * 255, maxColorValue = 255),
@@ -108,16 +110,6 @@ if(trans < 0 | trans > 1) {stop("Problem: trans must be a number between 0 and 1
         "green1" = rgb(187, 190, 112, alpha = (1 - trans) * 255, maxColorValue = 255),
         "green2" = rgb(89, 89, 41, alpha = (1 - trans) * 255, maxColorValue = 255),
         "brown" = rgb(42, 20, 1, alpha = (1 - trans) * 255, maxColorValue = 255),
-        stringsAsFactors = F),
-
-      memento.pal =data.frame(
-        "gray1" = rgb(13, 13, 33, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "blue1" = rgb(11, 29, 81, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "green" = rgb(48, 53, 47, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "blue2" = rgb(49, 67, 95, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "blue3" = rgb(27, 71, 148, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "tan" = rgb(135, 120, 117, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "green" = rgb(94, 135, 122, alpha = (1 - trans) * 255, maxColorValue = 255),
         stringsAsFactors = F),
 
       malcovich.pal =data.frame(
@@ -162,17 +154,6 @@ if(trans < 0 | trans > 1) {stop("Problem: trans must be a number between 0 and 1
         "tan1" = rgb(173, 157, 11, alpha = (1 - trans) * 255, maxColorValue = 255),
         "blue" = rgb(148, 196, 223, alpha = (1 - trans) * 255, maxColorValue = 255),
         "tan2" = rgb(230, 221, 168, alpha = (1 - trans) * 255, maxColorValue = 255),
-
-        stringsAsFactors = F),
-
-      ghostbusters.pal =data.frame(
-        "black" = rgb(0, 0, 0, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "brown" = rgb(42, 24, 16, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "green1" = rgb(58, 53, 32, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "red" = rgb(98, 0, 7, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "gray" = rgb(101, 91, 92, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "green2" = rgb(119, 120, 107, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "tan" = rgb(155, 142, 114, alpha = (1 - trans) * 255, maxColorValue = 255),
 
         stringsAsFactors = F),
 

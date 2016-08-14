@@ -668,7 +668,6 @@ if(evidence == T) {layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(5, 2), wi
 
   }
 
-
 # BEANS
 {
 
@@ -907,9 +906,6 @@ rect(x.loc.i - width.max * .8,
     #
     # }
 
-
-  }
-
 # Add bean names for IV 1
 
 if(n.iv == 1) {line.t <- .5}
@@ -945,6 +941,9 @@ if(is.null(xaxt) == T) {
   }
 
 }
+}
+
+
 
 }
 
