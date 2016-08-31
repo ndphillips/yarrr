@@ -33,7 +33,7 @@
 #' @importFrom BayesFactor ttestBF
 #' @importFrom grDevices col2rgb gray rgb
 #' @importFrom graphics abline axis layout mtext par plot points polygon rasterImage rect segments text
-#' @importFrom stats density model.frame optimize rnorm t.test
+#' @importFrom stats density model.frame optimize rnorm t.test qbeta sd
 #' @importFrom utils vignette
 #' @export
 #' @examples
