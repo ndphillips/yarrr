@@ -5,10 +5,11 @@ The `yarrr` package contains a mixture of data, functions and tutorials supporti
 
 To install the package from github, run the following code
 
-`install("devtools") # Install the devtools package to get the install_github function`
-`install_github("ndphillips/yarrr", build_vignette = T) # Install the yarrr package`
-`library("yarrr") # Load the package`
-
+```
+install("devtools") # Install the devtools package to get the install_github function
+library::install_github("ndphillips/yarrr", build_vignette = T) # Install the yarrr package
+library("yarrr") # Load the package
+```
 
 Here are the most important parts of the package:
 
