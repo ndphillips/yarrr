@@ -10,10 +10,10 @@
 #' @param point.cex,point.pch,point.lwd (numeric) Numbers indicating the size, pch type, and line width of raw data points.
 #' @param width.min,width.max (numeric) The minimum and maximum width of a bean.
 #' @param cut.min,cut.max (numeric) Optimal minimum and maximum values of the beans.
-#' @param inf (string) A string indicating what types of inference lines to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI).
+#' @param inf (string) A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI).
 #' @param inf.p (numeric) A number between 0 and 1 indicating the level of confidence to use in calculating inferences for either confidence intervals or HDIs. The default is 0.95
 #' @param theme.o (integer) An integer in the set 0, 1, 2, 3, specifying an opacity theme (that is, specific values of bar.o, point.o, etc.). You can override specific opacity values in a theme by specifying bar.o, inf.o (etc.)
-#' @param bar.o,point.o,inf.o,line.o,bean.o (numeric) A number between 0 and 1 indicating how opaque to make the bars, points, inference line, average line, and beans respectively. These values override whatever is in the specified theme
+#' @param bar.o,point.o,inf.o,line.o,bean.o (numeric) A number between 0 and 1 indicating how opaque to make the bars, points, inference band, average line, and beans respectively. These values override whatever is in the specified theme
 #' @param point.col,bar.col,bean.border.col,inf.col,average.line.col,bar.border.col (string) An optional vector of colors specifying the colors of the plotting elements. This will override values in the palette.
 #' @param bean.lwd,inf.lwd,line.lwd,bar.border.lwd (numeric) A vector of numbers indicating the line widths of various elements.
 #' @param hdi.iter (integer) An integer indicating how many iterations to run when calculating the HDI. Larger values lead to better estimates, but can be more time consuming.
@@ -24,6 +24,7 @@
 #' @param sortx (string) An optional argument indicating how to sort the x values. Can be "sequential" (as they are found in the original dataframe), "alphabetical", or a string indicating a function (i.e.; "mean")
 #' @param add (logical) A logical value indicating whether to add the pirateplot to an existing plotting space or not.
 #' @param evidence (logical) A logical value indicating whether to show Bayesian evidence (I'm still working on this...)
+#' @param inf.band Either "wide" to indicate a fixed width band, or "tight" to indcate a band constrained by the bean
 #' @param family a font family (may not be working yet...)
 #' @param cex.lab,cex.axis Size of the labels and axes.
 #' @param bty,xlim,ylim,xlab,ylab,main,yaxt,xaxt General plotting arguments
@@ -96,6 +97,7 @@ pirateplot <- function(
   bty = "n",
   evidence = F,
   family = NULL,
+  inf.band = "wide",
   ...
 ) {
 
@@ -153,18 +155,8 @@ pirateplot <- function(
   # bty = "n"
   # evidence = F
   # family = NULL
-  #
-  #
-  #
-  # formula = Accuracy ~ Set + ORDER
-  # data = dataset[dataset$ORDER == "Resp_SCREE3",]
-  # main = "PPV by condition"
-  # line.fun = mean
-  # #theme.o = 2
-  # jitter.val = .2
-  # inf = "ci" #Show confidence interval (95%)
-  # inf.o = 0.2 #Opacity of ci
-  # pal = "google"
+  # inf.band = "wide"
+
 
 }
 
@@ -631,11 +623,6 @@ if(evidence == T) {layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(5, 2), wi
  # mtext(side = 1, text = my.xlab, family = family)
 
 
-  # Add labels
-
-
-
-
   # Add y-axis
 
   if(is.null(yaxt)) {
@@ -659,16 +646,15 @@ if(evidence == T) {layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(5, 2), wi
 
   if(is.null(gl.col) == F) {
 
-    abline(h = seq(min(y.levels),
-                   max(y.levels),
-                   length.out = 21),
-           lwd = c(.75, .25),
-           col = gl.col)
+    abline(h = seq(min(y.levels), max(y.levels), length.out = length(y.levels) * 2 - 1),
+           lwd = c(1, .5),
+           col = gl.col,
+           lty = 3)
   }
 
   }
 
-# BEANS
+# PIRATEPLOT ELEMENTS
 {
 
 if(is.na(width.max)) {
@@ -678,13 +664,12 @@ if(is.na(width.max)) {
 
 }
 
-
 bean.lwd <- rep(bean.lwd, length.out = n.beans)
 inf.lwd <- rep(inf.lwd, length.out = n.beans)
 line.lwd <- rep(line.lwd, length.out = n.beans)
 bar.border.lwd <- rep(bar.border.lwd, length.out = n.beans)
 
-  for (bean.i in 1:n.beans) {
+for (bean.i in 1:n.beans) {
 
     dv.i <- data.2[data.2$bean.num == bean.i, dv.name]
 
@@ -694,118 +679,132 @@ bar.border.lwd <- rep(bar.border.lwd, length.out = n.beans)
 
     x.loc.i <- bean.mtx$x.loc[bean.i]
 
-    # Add bar
+# CALCULATE DENSITIES
 
-    rect(x.loc.i - width.max,
-         0,
-         x.loc.i + width.max,
-         fun.val,
-         col = bar.col[bean.i],
-         border = bar.border.col[bean.i],
-         lwd = bar.border.lwd[bean.i]
-    )
+if(length(dv.i) > 3) {  # only if n > 5
 
+  dens.i <- density(dv.i, bw, adjust)
 
+  dens.y.i <- dens.i$y
+  dens.x.i <- dens.i$x
 
-    # Add bean
-    {
-      # Calculate bean densities
+  # Rescale density according to width.max and width.min
 
-    if(length(dv.i) > 3) {  # only if n > 5
+  if(max(dens.y.i) < width.min) {
 
-      dens.i <- density(dv.i, bw, adjust)
-
-      dens.y.i <- dens.i$y
-      dens.x.i <- dens.i$x
-
-      # Rescale density according to width.max and width.min
-
-      if(max(dens.y.i) < width.min) {
-
-        dens.y.i <- dens.y.i / max(dens.y.i) * width.min
-
-      }
-
-      if(max(dens.y.i) > width.max) {
-
-        dens.y.i <- dens.y.i / max(dens.y.i) * width.max
-
-      }
-
-      # adjust to cut.min and cut.max
-
-      dens.x.plot.i <- dens.x.i
-      dens.y.plot.i <- dens.y.i
-
-      if(is.null(cut.min) == F) {
-
-        dens.x.plot.i <- dens.x.i[dens.x.i > cut.min]
-        dens.y.plot.i <- dens.y.i[dens.x.i > cut.min]
-
-      }
-
-
-      if(is.null(cut.max) == F) {
-
-        dens.x.plot.i <- dens.x.i[dens.x.i < cut.max]
-        dens.y.plot.i <- dens.y.i[dens.x.i < cut.max]
-
-      }
-
-
-  if(length(setdiff(dv.i, c(0, 1))) > 0) {
-
-  polygon(c(x.loc.i - dens.y.plot.i[1:(length(dens.x.plot.i))],
-            x.loc.i + rev(dens.y.plot.i[1:(length(dens.x.plot.i))])),
-          c(dens.x.plot.i[1:(length(dens.x.plot.i))],
-            rev(dens.x.plot.i[1:(length(dens.x.plot.i))])),
-          col = gray(1, alpha = bean.o[bean.i]),
-          border = bean.border.col[bean.i],
-          lwd = bean.lwd[bean.i]
-  )
+    dens.y.i <- dens.y.i / max(dens.y.i) * width.min
 
   }
 
-    }
+  if(max(dens.y.i) > width.max) {
 
-    }
+    dens.y.i <- dens.y.i / max(dens.y.i) * width.max
+
+  }
+
+  # adjust to cut.min and cut.max
+
+  dens.x.plot.i <- dens.x.i
+  dens.y.plot.i <- dens.y.i
+
+  if(is.null(cut.min) == F) {
+
+    dens.x.plot.i <- dens.x.i[dens.x.i > cut.min]
+    dens.y.plot.i <- dens.y.i[dens.x.i > cut.min]
+
+  }
 
 
-    # Add raw data
+  if(is.null(cut.max) == F) {
 
-#if(setequal(dv.i, c(0, 1)) == F) {
+    dens.x.plot.i <- dens.x.i[dens.x.i < cut.max]
+    dens.y.plot.i <- dens.y.i[dens.x.i < cut.max]
 
-    points(rep(x.loc.i, length(dv.i)) + rnorm(length(dv.i), mean = 0, sd = jitter.val),
-           dv.i,
-           pch = point.pch,
-           col = point.col[bean.i],
-           cex = point.cex,
-           lwd = point.lwd
-    )
+  }
+}
 
-#}
+# BAR
+{
+rect(x.loc.i - width.max,
+     0,
+     x.loc.i + width.max,
+     fun.val,
+     col = bar.col[bean.i],
+     border = bar.border.col[bean.i],
+     lwd = bar.border.lwd[bean.i]
+)
+}
 
-    # Add Line
-    segments(x.loc.i - width.max,
-             fun.val,
-             x.loc.i + width.max,
-             fun.val,
-             col = average.line.col[bean.i],
-             lwd = line.lwd[bean.i],
-             lend = 3
-    )
+# BEAN
+{
 
-    # Add inference band
+if(length(setdiff(dv.i, c(0, 1))) > 0) {
 
-    if(inf.o[bean.i] > 0 & length(dv.i) > 3 & sd(dv.i) > 0) {
+polygon(c(x.loc.i - dens.y.plot.i[1:(length(dens.x.plot.i))],
+        x.loc.i + rev(dens.y.plot.i[1:(length(dens.x.plot.i))])),
+      c(dens.x.plot.i[1:(length(dens.x.plot.i))],
+        rev(dens.x.plot.i[1:(length(dens.x.plot.i))])),
+      col = gray(1, alpha = bean.o[bean.i]),
+      border = bean.border.col[bean.i],
+      lwd = bean.lwd[bean.i]
+)
 
-      if(length(dv.i) <= 3) {
+}
 
-        message(paste("Note: Group ", bean.i, " had too few observations (", length(dv.i), ") for an inference band", sep = ""))
-        message(paste("Note: Group", bean.i, "had no variance, so no inference band :("))
+}
 
-        }
+# POINTS
+{
+points(rep(x.loc.i, length(dv.i)) + rnorm(length(dv.i), mean = 0, sd = jitter.val),
+       dv.i,
+       pch = point.pch,
+       col = point.col[bean.i],
+       cex = point.cex,
+       lwd = point.lwd
+)
+}
 
+# LINE
+{
+
+if(inf.band == "wide") {
+segments(x.loc.i - width.max,
+         fun.val,
+         x.loc.i + width.max,
+         fun.val,
+         col = average.line.col[bean.i],
+         lwd = line.lwd[bean.i],
+         lend = 3
+)
+}
+
+if(inf.band == "tight") {
+
+  fun.loc <- which(abs(dens.x.i - fun.val) == min(abs(dens.x.i - fun.val)))
+
+  segments(x.loc.i - dens.y.i[fun.loc],
+           fun.val,
+           x.loc.i + dens.y.i[fun.loc],
+           fun.val,
+           col = average.line.col[bean.i],
+           lwd = line.lwd[bean.i],
+           lend = 3
+  )
+}
+
+
+}
+
+# BAND
+{
+if(inf.o[bean.i] > 0 & length(dv.i) > 3 & sd(dv.i) > 0) {
+
+if(length(dv.i) <= 3) {
+
+  message(paste("Note: Group ", bean.i, " had too few observations (", length(dv.i), ") for an inference band", sep = ""))
+  message(paste("Note: Group", bean.i, "had no variance, so no inference band :("))
+
+  }
 
 # Binary data
 
@@ -845,7 +844,7 @@ samples <- ttest.bf[,1]
 inf.lb <- hdi(samples)[1]
 inf.ub <- hdi(samples)[2]
 
-  }
+}
 
 if(inf == "ci") {
 
@@ -862,6 +861,8 @@ dens.inf.y <- dens.y.i[dens.x.i >= inf.lb & dens.x.i <= inf.ub]
 
 # Draw HDI band
 
+if(inf.band == "wide") {
+
 rect(x.loc.i - width.max * .8,
      inf.lb,
      x.loc.i + width.max * .8,
@@ -872,9 +873,22 @@ rect(x.loc.i - width.max * .8,
 
 }
 
-    }
+if(inf.band == "tight") {
 
+  polygon(c(x.loc.i - dens.inf.y[1:(length(dens.inf.x))],
+            x.loc.i + rev(dens.inf.y[1:(length(dens.inf.x))])),
+          c(dens.inf.x[1:(length(dens.inf.x))],
+            rev(dens.inf.x[1:(length(dens.inf.x))])),
+          col = inf.col[bean.i],
+          border = bean.border.col[bean.i],
+          lwd = bean.lwd[bean.i]
+  )
+}
+}
 
+}
+
+}
     # Add function lines
 
     # fun.dens <- dens.y.i[abs(dens.x.i - fun.val) == min(abs(dens.x.i - fun.val))]

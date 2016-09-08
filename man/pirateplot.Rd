@@ -16,7 +16,7 @@ pirateplot(formula = weight ~ Time, data = ChickWeight, line.fun = mean,
   inf.col = NULL, average.line.col = NULL, bar.border.col = NULL,
   at = NULL, bw = "nrd0", adjust = 1, add = F, sortx = "alphabetical",
   cex.lab = 1, cex.axis = 1, bty = "n", evidence = F, family = NULL,
-  ...)
+  inf.band = "wide", ...)
 }
 \arguments{
 \item{formula}{(formula) A formula in the form y ~ x1 + x2 indicating the vertical response variable (y) and 1 or two independent varaibles}
@@ -33,9 +33,9 @@ pirateplot(formula = weight ~ Time, data = ChickWeight, line.fun = mean,
 
 \item{width.min, width.max}{(numeric) The minimum and maximum width of a bean.}
 
-\item{bar.o, point.o, inf.o, line.o, bean.o}{(numeric) A number between 0 and 1 indicating how opaque to make the bars, points, inference line, average line, and beans respectively. These values override whatever is in the specified theme}
+\item{bar.o, point.o, inf.o, line.o, bean.o}{(numeric) A number between 0 and 1 indicating how opaque to make the bars, points, inference band, average line, and beans respectively. These values override whatever is in the specified theme}
 
-\item{inf}{(string) A string indicating what types of inference lines to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI).}
+\item{inf}{(string) A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI).}
 
 \item{inf.p}{(numeric) A number between 0 and 1 indicating the level of confidence to use in calculating inferences for either confidence intervals or HDIs. The default is 0.95}
 
@@ -68,6 +68,8 @@ pirateplot(formula = weight ~ Time, data = ChickWeight, line.fun = mean,
 \item{evidence}{(logical) A logical value indicating whether to show Bayesian evidence (I'm still working on this...)}
 
 \item{family}{a font family (may not be working yet...)}
+
+\item{inf.band}{Either "wide" to indicate a fixed width band, or "tight" to indcate a band constrained by the bean}
 
 \item{...}{other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)}
 }
