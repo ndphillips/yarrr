@@ -7,24 +7,10 @@ To install the package from github, run the following code
 
 ```
 install("devtools") # Install the devtools package to get the install_github function
-<<<<<<< HEAD
 install_github("ndphillips/yarrr", build_vignette = T) # Install the yarrr package
 library("yarrr") # Load the package
 ```
 
-## Updates
-
-0.0.6
-
-- Added `hdi.band` argument to `pirateplot()`. Setting `hdi.band = "tight"` will constrain inference bands to bean densities
-- Minor changes to gridlines when specifying `gl.col`
-
-
-=======
-library::install_github("ndphillips/yarrr", build_vignette = T) # Install the yarrr package
-library("yarrr") # Load the package
-```
->>>>>>> 2e0ff3d5e1a84f00b5d36e12aaebdb684b7784b0
 
 Here are the most important parts of the package:
 
@@ -43,3 +29,9 @@ For example, here is a pirateplot of the weight of chickens (from the `ChickWeig
 See http://rpubs.com/yarrr/pirateplot for details.
 
 
+## Updates
+
+0.0.6
+
+- Added `hdi.band` argument to `pirateplot()`. Setting `hdi.band = "tight"` will constrain inference bands to bean densities
+- Minor changes to gridlines when specifying `gl.col`
