@@ -15,7 +15,7 @@
 #' @param theme.o (integer) An integer in the set 0, 1, 2, 3, specifying an opacity theme (that is, specific values of bar.o, point.o, etc.). You can override specific opacity values in a theme by specifying bar.o, inf.o (etc.)
 #' @param bar.o,point.o,inf.o,line.o,bean.o (numeric) A number between 0 and 1 indicating how opaque to make the bars, points, inference band, average line, and beans respectively. These values override whatever is in the specified theme
 #' @param point.col,bar.col,bean.border.col,inf.col,average.line.col,bar.border.col (string) An optional vector of colors specifying the colors of the plotting elements. This will override values in the palette.
-#' @param bean.lwd,inf.lwd,line.lwd,bar.border.lwd (numeric) A vector of numbers indicating the line widths of various elements.
+#' @param bean.lwd,bean.lty,inf.lwd,line.lwd,bar.border.lwd (numeric) A vector of numbers customizing the look of beans and lines.
 #' @param hdi.iter (integer) An integer indicating how many iterations to run when calculating the HDI. Larger values lead to better estimates, but can be more time consuming.
 #' @param bw (string) The smoothing bandwidth to use for the bean. (see ?density)
 #' @param adjust (numeric) Adjustment for the bandwidth (see ?density)
@@ -71,6 +71,7 @@ pirateplot <- function(
   jitter.val = .03,
   line.lwd = 4,
   bean.lwd = 1,
+  bean.lty = 1,
   inf.lwd = 1,
   bar.border.lwd = 1,
   gl.col = NULL,
@@ -665,6 +666,7 @@ if(is.na(width.max)) {
 }
 
 bean.lwd <- rep(bean.lwd, length.out = n.beans)
+bean.lty <- rep(bean.lty, length.out = n.beans)
 inf.lwd <- rep(inf.lwd, length.out = n.beans)
 line.lwd <- rep(line.lwd, length.out = n.beans)
 bar.border.lwd <- rep(bar.border.lwd, length.out = n.beans)
@@ -746,7 +748,7 @@ polygon(c(x.loc.i - dens.y.plot.i[1:(length(dens.x.plot.i))],
         rev(dens.x.plot.i[1:(length(dens.x.plot.i))])),
       col = gray(1, alpha = bean.o[bean.i]),
       border = bean.border.col[bean.i],
-      lwd = bean.lwd[bean.i]
+      lwd = bean.lwd[bean.i], lty = bean.lty[bean.i]
 )
 
 }
