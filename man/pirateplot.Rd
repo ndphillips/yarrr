@@ -10,13 +10,13 @@ pirateplot(formula = weight ~ Time, data = ChickWeight, line.fun = mean,
   width.max = NA, bean.o = NULL, point.o = NULL, bar.o = NULL,
   inf.o = NULL, line.o = NULL, inf = "hdi", inf.p = 0.95, theme.o = 1,
   hdi.iter = 1000, jitter.val = 0.03, line.lwd = 4, bean.lwd = 1,
-  inf.lwd = 1, bar.border.lwd = 1, gl.col = NULL, ylim = NULL,
-  xlim = NULL, xlab = NULL, ylab = NULL, main = NULL, yaxt = NULL,
-  xaxt = NULL, point.col = NULL, bar.col = NULL, bean.border.col = NULL,
-  inf.col = NULL, average.line.col = NULL, bar.border.col = NULL,
-  at = NULL, bw = "nrd0", adjust = 1, add = F, sortx = "alphabetical",
-  cex.lab = 1, cex.axis = 1, bty = "n", evidence = F, family = NULL,
-  inf.band = "wide", ...)
+  bean.lty = 1, inf.lwd = 1, bar.border.lwd = 1, gl.col = NULL,
+  ylim = NULL, xlim = NULL, xlab = NULL, ylab = NULL, main = NULL,
+  yaxt = NULL, xaxt = NULL, point.col = NULL, bar.col = NULL,
+  bean.border.col = NULL, inf.col = NULL, average.line.col = NULL,
+  bar.border.col = NULL, at = NULL, bw = "nrd0", adjust = 1, add = F,
+  sortx = "alphabetical", cex.lab = 1, cex.axis = 1, bty = "n",
+  evidence = F, family = NULL, inf.band = "wide", ...)
 }
 \arguments{
 \item{formula}{(formula) A formula in the form y ~ x1 + x2 indicating the vertical response variable (y) and 1 or two independent varaibles}
@@ -45,7 +45,7 @@ pirateplot(formula = weight ~ Time, data = ChickWeight, line.fun = mean,
 
 \item{jitter.val}{(numeric) A number indicaing how much to jitter the points horizontally. Defaults to 0.05.}
 
-\item{bean.lwd, inf.lwd, line.lwd, bar.border.lwd}{(numeric) A vector of numbers indicating the line widths of various elements.}
+\item{bean.lwd, bean.lty, inf.lwd, line.lwd, bar.border.lwd}{(numeric) A vector of numbers customizing the look of beans and lines.}
 
 \item{gl.col, back.col}{(string) An optional string indicating the color of the horizontal gridlines and plotting background.}
 

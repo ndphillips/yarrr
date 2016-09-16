@@ -1,8 +1,13 @@
 # Create pirate dataset for YaRrr
+
+rerun <- F
+
+if(rerun) {
+
 {
-  
-set.seed(100)  
-  
+
+set.seed(100)
+
 n <- 1000
 
 pirates <- data.frame("id" = 1:n,
@@ -26,8 +31,8 @@ pirates$age[pirates$sex == "other"] <- round(rnorm(n.other, mean = 27.5, sd = 5)
 
 college.p <- 1 / (1 + exp(-pirates$age + 30))
 
-pirates$college <- unlist(lapply(1:n, function(x) {sample(c("JSSFP", 
-                                                            "CCCC"), size = 1, 
+pirates$college <- unlist(lapply(1:n, function(x) {sample(c("JSSFP",
+                                                            "CCCC"), size = 1,
                                                           prob = c(college.p[x], 1 - college.p[x]))}))
 
 
@@ -60,54 +65,54 @@ pirates$favorite.pirate[pirates$sex != "male"] <- sample(x = c("Jack Sparrow", "
 
 # Create sword type as a function of headband
 
-pirates$sword.type[pirates$headband == "yes"] <- sample(c("cutlass", "sabre", "scimitar", "banana"), 
-                                                        size = sum(pirates$headband == "yes"), replace = T, 
+pirates$sword.type[pirates$headband == "yes"] <- sample(c("cutlass", "sabre", "scimitar", "banana"),
+                                                        size = sum(pirates$headband == "yes"), replace = T,
                                                         prob = c(.9, .04, .04, .01))
 
-pirates$sword.type[pirates$headband == "no"] <- sample(c("cutlass", "sabre", "scimitar", "banana"), 
-                                                       size = sum(pirates$headband == "no"), replace = T, 
+pirates$sword.type[pirates$headband == "no"] <- sample(c("cutlass", "sabre", "scimitar", "banana"),
+                                                       size = sum(pirates$headband == "no"), replace = T,
                                                        prob = c(.1, .3, .3, .3))
 
 # Create eye-patch as a function of age and parrots
 
 pirates$eyepatch <- unlist(lapply(1:nrow(pirates), function(x) {
-  
+
   age.i <- pirates$age[x]
   parrots.i <- pirates$parrots[x]
-  
+
   patch.prob <- 1 / (1 + exp(-age.i / 50 - parrots.i / 20))
-  
+
   patch.i <- sample(c(1, 0), size = 1, replace = T, prob = c(patch.prob, 1 - patch.prob))
-  
-  
+
+
   return(patch.i)
-  
+
 }))
 
 
 # Create sword speed as a function of eyepatch use and sword.type
 
 pirates$sword.time <- unlist(lapply(1:nrow(pirates), function(x) {
-  
+
   sword.i <- pirates$sword.type[x]
   eyepatch.i <- pirates$eyepatch[x]
-  
+
   sword.num.convert <- data.frame("sword" = c("cutlass", "sabre", "scimitar", "banana"),
                                   "num" = c(15, 2, 1, .0001)
   )
-  
+
   eyepatch.num.convert <- data.frame("eyepatch" = c(1, 0),
                                      "num" = c(1, 5)
   )
-  
+
   sword.num <- sword.num.convert$num[sword.num.convert$sword == sword.i]
-  eyepatch.num <- eyepatch.num.convert$num[eyepatch.num.convert$eyepatch == eyepatch.i] 
-  
+  eyepatch.num <- eyepatch.num.convert$num[eyepatch.num.convert$eyepatch == eyepatch.i]
+
   speed.i <- rexp(1, rate = (sword.num + eyepatch.num / 5) / 10)
 
-  
+
   return(round(speed.i, 2))
-  
+
 }))
 
 
@@ -115,55 +120,55 @@ pirates$sword.time <- unlist(lapply(1:nrow(pirates), function(x) {
 # Create beard-length as a function of sex and tattoos
 
 pirates$beard.length <- unlist(lapply(1:nrow(pirates), function(x) {
-  
+
   sex.i <- pirates$sex[x]
   tattoos.i <- pirates$tattoos[x]
-  
+
   if(sex.i == "male") {sex.num <- 10}
-  if(sex.i == "female") {sex.num <- 0} 
+  if(sex.i == "female") {sex.num <- 0}
   if(sex.i == "other") {sex.num <- 5}
-  
+
   beard.length <- rnorm(1, mean = sex.num + tattoos.i, sd = 5)
-  
+
 if(sex.i == "female") {beard.length <- rnorm(1, mean = 0, sd = 1)}
   if(beard.length < 0) {beard.length <- 0}
-  
+
   return(round(beard.length, 0))
-  
+
 }))
 
 # Create favorite pixar movie as a function of eyepatch
 
 pirates$fav.pixar <- unlist(lapply(1:nrow(pirates), function(x) {
 
-  movie.vec <- c("Toy Story", 
-                 "A Bug's Life", 
-                 "Toy Story 2", 
-                 "Monsters, Inc.", 
-                 "Finding Nemo", 
-                 "The Incredibles", 
-                 "Cars", 
+  movie.vec <- c("Toy Story",
+                 "A Bug's Life",
+                 "Toy Story 2",
+                 "Monsters, Inc.",
+                 "Finding Nemo",
+                 "The Incredibles",
+                 "Cars",
                  "Ratatouille",
-                 "WALL-E", 
-                 "Up", 
-                 "Toy Story 3", 
-                 "Cars 2", 
-                 "Brave", 
-                 "Monsters University", 
+                 "WALL-E",
+                 "Up",
+                 "Toy Story 3",
+                 "Cars 2",
+                 "Brave",
+                 "Monsters University",
                  "Inside Out")
-  
+
   patch.i <- pirates$eyepatch[x]
   prob.vec.1 <- c(10, 10, 10, 20, 200, 30, 10, 1, 25, 40, 5, 5, 10, 35, 5)
   prob.vec.2 <- c(10, 10, 10, 20, 10, 30, 10, 1, 25, 40, 5, 5, 10, 35, 200)
-  
+
   if(patch.i == 0) {prob.vec.i <- prob.vec.1}
   if(patch.i > 0) {prob.vec.i <- prob.vec.2}
-  
+
 fav.pix <- sample(movie.vec, size = 1, prob = prob.vec.i / sum(prob.vec.i))
-  
-  
+
+
   return(fav.pix)
-  
+
 }))
 
 # Height as a function of sex
@@ -224,7 +229,7 @@ col.vec <- sample(1:ncol(pirateserrors), size = 50, replace = T)
 
 for(i in 1:length(row.vec)) {
 
-pirateserrors[row.vec[i], col.vec[i]] <- NA 
+pirateserrors[row.vec[i], col.vec[i]] <- NA
 
 }
 
@@ -234,14 +239,6 @@ write.table(pirateserrors, file = "yarrr/data/Users/Nathaniel/Dropbox/Git/YaRrr_
 save(pirateserrors, file = "/Users/Nathaniel/Dropbox/Git/YaRrr_Book/yarrr/data/pirateserrors.RData")
 
 }
-
-
-
-
-
-
-
-
 
 
 # Ship dataset
@@ -256,28 +253,25 @@ shipauction <- data.frame(cannons = sample(c(seq(2, 20, 2)), size = 1000, replac
                     stringsAsFactors = F
 )
 
-
-
-
 shipauction$style <- sapply(1:nrow(shipauction), function(x) {
-  sample(c("modern", "classic"), 1, 
-         prob = c(1 - 1 / (1 + exp(-((shipauction$age[x] - 50) / 10))), 
+  sample(c("modern", "classic"), 1,
+         prob = c(1 - 1 / (1 + exp(-((shipauction$age[x] - 50) / 10))),
                   1 / (1 + exp(-((shipauction$age[x] - 50) / 10)))))})
 
-shipauction$price[shipauction$style == "modern"] <- with(shipauction[shipauction$style == "modern",], 
-                                       10000 + 
-                                       100 * cannons + 
-                                       500 * rooms + 
-                                       (-500) * age + 
+shipauction$price[shipauction$style == "modern"] <- with(shipauction[shipauction$style == "modern",],
+                                       10000 +
+                                       100 * cannons +
+                                       500 * rooms +
+                                       (-500) * age +
                                        200 * condition
 )
 
 
 shipauction$price[shipauction$style == "classic"] <- with(shipauction[shipauction$style == "classic",],
-                                                          0 + 
-                                                           100 * cannons + 
-                                                           500 * rooms + 
-                                                           (300) * age + 
+                                                          0 +
+                                                           100 * cannons +
+                                                           500 * rooms +
+                                                           (300) * age +
                                                            200 * condition
 )
 
@@ -290,3 +284,5 @@ shipauction$price <- round(shipauction$price + rnorm(1000, mean = 0, sd = 4000),
 summary(lm(price~., data = shipauction))
 
 write.table(shipauction, "/Users/Nathaniel/Dropbox/Git/YaRrr_Book/data/shipauction.txt", sep = "\t")
+
+}
