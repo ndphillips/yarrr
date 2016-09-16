@@ -199,8 +199,8 @@ rownames(pirates) <- 1:n
 
 # ------------------
 # Write table to file
-write.table(pirates, file = "yarrr/data/pirates.txt", sep = "\t")
-save(pirates, file = "yarrr/data/pirates.RData")
+write.table(pirates, file = "data/pirates.txt", sep = "\t")
+save(pirates, file = "data/pirates.RData")
 # ------------------
 
 # ---------
