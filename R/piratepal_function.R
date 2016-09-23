@@ -558,7 +558,7 @@ segments(locations.to.use, text.heights + .05, locations.to.use, point.heights, 
 
 }
 
-if(is.null(output) == F) {
+if(is.null(output) == F & plot.result == F) {
 return(output)
 }
 
