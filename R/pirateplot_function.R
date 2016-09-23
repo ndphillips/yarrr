@@ -105,115 +105,7 @@ pirateplot <- function(
 
 ## TESTING
 
-{
-  # formula = weight ~ Time
-  # data = ChickWeight
-  # line.fun = mean
-  # pal = "appletv"
-  # back.col = gray(1)
-  # point.cex = 1
-  # point.pch = 16
-  # point.lwd = 1
-  # cut.min = NULL
-  # cut.max = NULL
-  # width.min = .3
-  # width.max = NA
-  # bean.o = NULL
-  # point.o = NULL
-  # bar.o = NULL
-  # inf.o = NULL
-  # line.o = NULL
-  # inf = "hdi"
-  # inf.p = .95
-  # theme.o = 1
-  # hdi.iter = 1e3
-  # jitter.val = .03
-  # line.lwd = 4
-  # bean.lwd = 1
-  # bean.lty = 1
-  # inf.lwd = 1
-  # bar.border.lwd = 1
-  # gl.col = NULL
-  # ylim = NULL
-  # xlim = NULL
-  # xlab = NULL
-  # ylab = NULL
-  # main = NULL
-  # yaxt = NULL
-  # xaxt = NULL
-  # point.col = NULL
-  # bar.col = NULL
-  # bean.border.col = NULL
-  # inf.col = NULL
-  # average.line.col = NULL
-  # bar.border.col = NULL
-  # at = NULL
-  # bw = "nrd0"
-  # adjust = 1
-  # add = F
-  # sortx = "alphabetical"
-  # cex.lab = 1
-  # cex.axis = 1
-  # bty = "n"
-  # evidence = F
-  # family = NULL
-  # inf.band = "wide"
-}
 
-  # ChickWeight$iv2 <- sample(1:2, size = nrow(ChickWeight), replace = T)
-  # ChickWeight$iv3 <- sample(1:3, size = nrow(ChickWeight), replace = T)
-  #
-  # formula = weight ~ Diet + iv2 + iv3
-  # data = ChickWeight
-  # line.fun = mean
-  # pal = "appletv"
-  # back.col = gray(1)
-  # point.cex = 1
-  # point.pch = 16
-  # point.lwd = 1
-  # cut.min = NULL
-  # cut.max = NULL
-  # width.min = .3
-  # width.max = NA
-  # bean.o = NULL
-  # point.o = NULL
-  # bar.o = NULL
-  # inf.o = NULL
-  # line.o = NULL
-  # inf = "hdi"
-  # inf.p = .95
-  # theme.o = 1
-  # hdi.iter = 1e3
-  # jitter.val = .03
-  # line.lwd = 4
-  # bean.lwd = 1
-  # inf.lwd = 1
-  # bar.border.lwd = 1
-  # gl.col = NULL
-  # ylim = NULL
-  # xlim = NULL
-  # xlab = NULL
-  # ylab = NULL
-  # main = NULL
-  # yaxt = NULL
-  # xaxt = NULL
-  # point.col = NULL
-  # bar.col = NULL
-  # bean.border.col = NULL
-  # inf.col = NULL
-  # average.line.col = NULL
-  # bar.border.col = NULL
-  # at = NULL
-  # bw = "nrd0"
-  # adjust = 1
-  # add = F
-  # sortx = "alphabetical"
-  # cex.lab = 1
-  # cex.axis = 1
-  # bty = "n"
-  # evidence = F
-  # family = NULL
-  # inf.band = "wide"
 
 # -----
 #  SETUP
@@ -816,7 +708,7 @@ rect(x.loc.i - width.max,
 # BEAN
 {
 
-if(length(setdiff(dv.i, c(0, 1))) > 0) {
+if(length(setdiff(dv.i, c(0, 1))) > 0 & length(dv.i) > 3) {
 
 polygon(c(x.loc.i - dens.y.plot.i[1:(length(dens.x.plot.i))],
         x.loc.i + rev(dens.y.plot.i[1:(length(dens.x.plot.i))])),
