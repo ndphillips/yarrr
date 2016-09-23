@@ -15,7 +15,7 @@ pirateplot(formula = weight ~ Time, data = ChickWeight, line.fun = mean,
   yaxt = NULL, xaxt = NULL, point.col = NULL, bar.col = NULL,
   bean.border.col = NULL, inf.col = NULL, average.line.col = NULL,
   bar.border.col = NULL, at = NULL, bw = "nrd0", adjust = 1, add = F,
-  sortx = "alphabetical", cex.lab = 1, cex.axis = 1, bty = "n",
+  sortx = "alphabetical", cex.lab = NULL, cex.axis = 1, bty = "n",
   evidence = F, family = NULL, inf.band = "wide", ...)
 }
 \arguments{

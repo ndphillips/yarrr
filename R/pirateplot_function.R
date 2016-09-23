@@ -93,7 +93,7 @@ pirateplot <- function(
   adjust = 1,
   add = F,
   sortx = "alphabetical",
-  cex.lab = 1,
+  cex.lab = NULL,
   cex.axis = 1,
   bty = "n",
   evidence = F,
@@ -107,6 +107,63 @@ pirateplot <- function(
 
 {
   # formula = weight ~ Time
+  # data = ChickWeight
+  # line.fun = mean
+  # pal = "appletv"
+  # back.col = gray(1)
+  # point.cex = 1
+  # point.pch = 16
+  # point.lwd = 1
+  # cut.min = NULL
+  # cut.max = NULL
+  # width.min = .3
+  # width.max = NA
+  # bean.o = NULL
+  # point.o = NULL
+  # bar.o = NULL
+  # inf.o = NULL
+  # line.o = NULL
+  # inf = "hdi"
+  # inf.p = .95
+  # theme.o = 1
+  # hdi.iter = 1e3
+  # jitter.val = .03
+  # line.lwd = 4
+  # bean.lwd = 1
+  # bean.lty = 1
+  # inf.lwd = 1
+  # bar.border.lwd = 1
+  # gl.col = NULL
+  # ylim = NULL
+  # xlim = NULL
+  # xlab = NULL
+  # ylab = NULL
+  # main = NULL
+  # yaxt = NULL
+  # xaxt = NULL
+  # point.col = NULL
+  # bar.col = NULL
+  # bean.border.col = NULL
+  # inf.col = NULL
+  # average.line.col = NULL
+  # bar.border.col = NULL
+  # at = NULL
+  # bw = "nrd0"
+  # adjust = 1
+  # add = F
+  # sortx = "alphabetical"
+  # cex.lab = 1
+  # cex.axis = 1
+  # bty = "n"
+  # evidence = F
+  # family = NULL
+  # inf.band = "wide"
+}
+
+  # ChickWeight$iv2 <- sample(1:2, size = nrow(ChickWeight), replace = T)
+  # ChickWeight$iv3 <- sample(1:3, size = nrow(ChickWeight), replace = T)
+  #
+  # formula = weight ~ Diet + iv2 + iv3
   # data = ChickWeight
   # line.fun = mean
   # pal = "appletv"
@@ -158,443 +215,452 @@ pirateplot <- function(
   # family = NULL
   # inf.band = "wide"
 
-
-}
-
-
 # -----
 #  SETUP
 # ------
-  {
-  # Reshape dataframe to include relevant variables
+{
 
-  data.2 <- model.frame(formula = formula,
-                        data = data)
+# Reshape dataframe to include relevant variables
 
-  dv.name <- names(data.2)[1]
-  dv.v <- data.2[,1]
+data <- model.frame(formula = formula,
+                      data = data)
 
-  # Determine levels of each IV
+dv.name <- names(data)[1]
+dv.v <- data[,1]
 
-  if(substr(sortx, 1, 1) == "a") {
+# GET IV INFORMATION
 
-    iv.levels <- lapply(2:ncol(data.2), FUN = function(x) {sort(unique(data.2[,x]))})
+n.iv <- ncol(data) - 1
+if(n.iv > 3) {stop("Currently only 1, 2, or 3 IVs are supported in pirateplot(). Please reduce.")}
 
-  }
-  if(substr(sortx, 1, 1) == "s") {
+# selection.mtx dictates which values are in each sub-plot
 
-    iv.levels <- lapply(2:ncol(data.2), FUN = function(x) {unique(data.2[,x])})
+if(n.iv %in% 1:2) {
 
-  }
+selection.mtx <- matrix(TRUE, nrow = nrow(data), ncol = 1)
 
-  # TO DO
-  # Add a new sorting function based on function (e.g.; mean) values.
+}
 
-  # if(is.function(get(sortx))) {
-  #
-  #   tapply()
-  #
-  #   iv.levels <- lapply(2:ncol(data.2), FUN = function(x) {unique(data.2[,x])})
-  #
-  #
-  #
-  # }
+if(n.iv == 3) {
 
-  # Info about IV(s)
+  iv3.levels <- sort(unique(data[,4]))
+  selection.mtx <- matrix(unlist(lapply(iv3.levels, FUN = function(x) {data[,4] == x})), nrow = nrow(data), ncol = length(iv3.levels), byrow = F)
 
-  n.iv <- length(iv.levels)
-  iv.lengths <- sapply(1:n.iv, FUN = function(x) {length(iv.levels[[x]])})
-  iv.names <- names(data.2)[2:ncol(data.2)]
+}
 
+n.subplots <- ncol(selection.mtx)
 
-  # Set up bean info
+}
 
-  bean.mtx <- expand.grid(iv.levels)
-  names(bean.mtx) <- names(data.2)[2:ncol(data.2)]
-  n.beans <- nrow(bean.mtx)
-  bean.mtx$bean.num <- 1:nrow(bean.mtx)
+# Loop over subplots
+if(n.subplots == 1) {par(mfrow = c(1, 1))}
+if(n.subplots == 2) {par(mfrow = c(1, 2))}
+if(n.subplots == 3) {par(mfrow = c(1, 3))}
+if(n.subplots == 4) {par(mfrow = c(2, 2))}
+if(n.subplots %in% c(5, 6)) {par(mfrow = c(2, 3))}
+if(n.subplots > 7) {par(mfrow = c(ceiling(sqrt(n.subplots)), ceiling(sqrt(n.subplots))))}
 
-  # Determine bean x locations
+for(subplot.i in 1:n.subplots) {
 
-  if(is.null(at)) {
+data.i <- data[selection.mtx[,subplot.i],]
 
-  bean.loc <- 1:n.beans
+# Remove potential iv3 column
 
-  group.spacing <- 1
+data.i <- data.i[,1:min(ncol(data.i), 3)]
 
-  if(n.iv == 2) {
+# Determine levels of each IV
 
-    bean.loc <- bean.loc + rep(group.spacing * (0:(iv.lengths[2] - 1)), each = iv.lengths[1])
+if(substr(sortx, 1, 1) == "a") {
 
-  }
+  iv.levels <- lapply(2:ncol(data.i), FUN = function(x) {sort(unique(data.i[,x]))})
 
-  }
+}
 
-  if(!is.null(at)) {
+if(substr(sortx, 1, 1) == "s") {
 
-   bean.loc <- rep(at, length.out = n.beans)
+  iv.levels <- lapply(2:ncol(data.i), FUN = function(x) {unique(data.i[,x])})
 
-    }
-
-  bean.mtx$x.loc <- bean.loc
-
-  data.2 <- merge(data.2, bean.mtx)
-
-  # Determine number of colors (equal to the number of unique values of IV 1)
-
-  n.cols <- iv.lengths[1]
-
-  # Determine opacity values
-
-  if(theme.o == 2) {
-
-    if(is.null(point.o)) {point.o <- .3}
-    if(is.null(bean.o)) {bean.o <- .1}
-    if(is.null(inf.o)) {inf.o <- 0}
-    if(is.null(line.o)) {line.o <- .5}
-    if(is.null(bar.o)) {bar.o <- .5}
-
-  }
-
-  if(theme.o == 3) {
-
-
-    if(is.null(point.o)) {point.o <- .8}
-    if(is.null(bean.o)) {bean.o <- .5}
-    if(is.null(inf.o)) {inf.o <- 0}
-    if(is.null(line.o)) {line.o <- .1}
-    if(is.null(bar.o)) {bar.o <- .1}
-
-
-  }
-
-  if(theme.o == 1) {
-
-    if(is.null(point.o)) {point.o <- .2}
-    if(is.null(bean.o)) {bean.o <- .2}
-    if(is.null(inf.o)) {inf.o <- .8}
-    if(is.null(line.o)) {line.o <- 1}
-    if(is.null(bar.o)) {bar.o <- .1}
-
-  }
-
-  if(theme.o == 0) {
-
-    if(is.null(point.o)) {point.o <- 0}
-    if(is.null(bean.o)) {bean.o <- 0}
-    if(is.null(inf.o)) {inf.o <- 0}
-    if(is.null(line.o)) {line.o <- 0}
-    if(is.null(bar.o)) {bar.o <- 0}
-
-  }
-
-  ## Repeat transparency values
-
-  point.o <- rep(point.o, length.out = n.beans)
-  bean.o <- rep(bean.o, length.out = n.beans)
-  inf.o <- rep(inf.o, length.out = n.beans)
-  line.o <- rep(line.o, length.out = n.beans)
-  bar.o <- rep(bar.o, length.out = n.beans)
-
-
-  # Get colors
-
-  # If palette is in piratepal()...
-
-  if(mean(pal %in% piratepal("names")) == 1) {
-
-    if (is.null(point.col)) {
-
-      point.col <- piratepal(palette = pal,
-                             length.out = n.cols,
-                             trans = 0)
-
-
-      } else {
-
-        point.col <- rep(transparent(point.col,
-                                     trans.val = 0),
-                                     length.out = n.cols)
-        }
-
-
-    if (is.null(bean.border.col)) {
-
-      bean.border.col <- piratepal(palette = pal,
-                             length.out = n.cols,
-                             trans = 0)
-
-    } else {
-
-      bean.border.col <- rep(transparent(bean.border.col,
-                                   trans.val = 0),
-                       length.out = n.cols)
-    }
-
-
-    if (is.null(inf.col)) {
-
-      inf.col <- piratepal(palette = pal,
-                                   length.out = n.cols,
-                                   trans = 0)
-
-    } else {
-
-      inf.col <- rep(transparent(inf.col,
-                                         trans.val = 0),
-                             length.out = n.cols)
-    }
-
-
-    if (is.null(average.line.col)) {
-
-      average.line.col <- piratepal(palette = pal,
-                                length.out = n.cols,
-                                trans = 0)
-
-    } else {
-
-      average.line.col <- rep(transparent(average.line.col,
-                                          trans.val = 0),
-                                          length.out = n.cols)
-    }
-
-    if (is.null(bar.col)) {
-
-      bar.col <- piratepal(palette = pal,
-                                    length.out = n.cols,
-                                    trans = 0)
-
-    } else {
-
-      bar.col <- rep(transparent(bar.col,
-                                trans.val = 0),
-                              length.out = n.cols)
-    }
-
-
-
-  }
-
-  # If palette is NOT in piratepal()...
-
-  if(mean(pal %in% piratepal("names")) != 1) {
-
-    if(length(pal) < n.cols) {pal <- rep(pal, n.cols)}
-
-    if(is.null(point.col)) {
-
-    point.col <- rep(pal, length.out = n.cols)
-
-    } else {
-
-      point.col <- rep(point.col, length.out = n.cols)
-
-    }
-
-
-    if(is.null(bean.border.col)) {
-
-      bean.border.col <- rep(pal, length.out = n.cols)
-
-    } else {
-
-      bean.border.col <- rep(bean.border.col, length.out = n.cols)
-
-    }
-
-    if(is.null(inf.col)) {
-
-      inf.col <- rep(pal, length.out = n.cols)
-
-    } else {
-
-      inf.col <- rep(inf.col, length.out = n.cols)
-
-    }
-
-
-    if(is.null(average.line.col)) {
-
-      average.line.col <- rep(pal, length.out = n.cols)
-
-    } else {
-
-      average.line.col <- rep(average.line.col, length.out = n.cols)
-
-    }
-
-
-    if(is.null(bar.col)) {
-
-      bar.col <- rep(pal, length.out = n.cols)
-
-    } else {
-
-      bar.col <- rep(bar.col, length.out = n.cols)
-
-    }
-
-
-
-
-
-
-  }
-
-
-  # Make colors transparent according to transparency (point.o, bar.o, ...) vectors
-
-
-  if(n.iv == 1) {
-
-    for(i in 1:n.beans) {
-
-      point.col[i] <- transparent(point.col[i], trans.val = 1 - point.o[i])
-      bean.border.col[i] <- transparent(bean.border.col[i], trans.val = 1 - bean.o[i])
-      inf.col[i] <- transparent(inf.col[i], trans.val = 1 - inf.o[i])
-      average.line.col[i] <- transparent(average.line.col[i], trans.val = 1 - line.o[i])
-      bar.col[i] <- transparent(bar.col[i], trans.val = 1 - bar.o[i])
-
-    }
-
-  }
-
-  if(n.iv == 2) {
-
-    point.col <- rep(point.col, times = iv.lengths[2])
-    bean.border.col <- rep(bean.border.col, times = iv.lengths[2])
-    inf.col <- rep(inf.col, times = iv.lengths[2])
-    average.line.col <- rep(average.line.col, times = iv.lengths[2])
-    bar.col <- rep(bar.col, times = iv.lengths[2])
-
-
-    point.o <- rep(point.o, times = 2)
-    bean.o <- rep(bean.o, times = 2)
-    inf.o <- rep(inf.o, times = 2)
-    line.o <- rep(line.o, times = 2)
-    bar.o <- rep(bar.o, times = 2)
-
-
-
-    for(i in 1:n.beans) {
-
-      point.col[i] <- transparent(point.col[i], trans.val = 1 - point.o[i])
-      bean.border.col[i] <- transparent(bean.border.col[i], trans.val = 1 - bean.o[i])
-      inf.col[i] <- transparent(inf.col[i], trans.val = 1 - inf.o[i])
-      average.line.col[i] <- transparent(average.line.col[i], trans.val = 1 - line.o[i])
-      bar.col[i] <- transparent(bar.col[i], trans.val = 1 - bar.o[i])
-
-    }
-
-
-  }
-
-
-
-  if(is.null(bar.border.col)) {bar.border.col <- bar.col}
-  if(is.null(bar.border.col) == F) {bar.border.col <- rep(bar.border.col, times = length(bar.col))}
-
-
-
-  # Create plotting space
-
-# Determine y limits (y axis limits)
-  # y axis breaks (y.levels)
-
-
-  if(is.null(ylim) == TRUE) {
-
-    # Determine best step size
-
-    steps.p <- c(
-                seq(1e-3, 1e-2, 1e-3),
-                seq(1e-4, 1e-3, 1e-3),
-                seq(1e-5, 1e-4, 1e-4),
-                seq(1e-6, 1e-5, 1e-5),
-                seq(1e-7, 1e-6, 1e-6),
-                seq(1e-8, 1e-7, 1e-7),
-                seq(1e-9, 1e-8, 1e-8),
-                1/2, 1/5, 1/10, 1/25, 1/50, 1/100,
-                 1, 2, 5, 10, 25, 50, 100,
-                 seq(1e2, 1e3, 1e2),
-                 seq(1e3, 1e4, 1e3),
-                 seq(1e4, 1e5, 1e4),
-                 seq(1e5, 1e6, 1e5),
-                 seq(1e6, 1e7, 1e6),
-                 seq(1e7, 1e8, 1e7),
-                 seq(1e8, 1e9, 1e8)
-                )
-
-
-    range <- max(dv.v) - min(dv.v)
-
-    steps.p.m <- range / steps.p
-    best.step.size <- min(steps.p[which(abs(steps.p.m - 10) == min(abs(steps.p.m - 10)))])
-
-    plot.min <- floor(min(dv.v) / best.step.size) * best.step.size
-    plot.max <- ceiling(max(dv.v) / best.step.size) * best.step.size
-    plot.height <- plot.max - plot.min
-
-    ylim <- c(plot.min, plot.max)
-    y.levels <- seq(plot.min, plot.max, by = best.step.size)
-
-  }
-
-  if(is.null(ylim) == FALSE) {
-
-    steps.p <- c(
-      seq(1e-3, 1e-2, 1e-3),
-      seq(1e-4, 1e-3, 1e-3),
-      seq(1e-5, 1e-4, 1e-4),
-      seq(1e-6, 1e-5, 1e-5),
-      seq(1e-7, 1e-6, 1e-6),
-      seq(1e-8, 1e-7, 1e-7),
-      seq(1e-9, 1e-8, 1e-8),
-      1/2, 1/5, 1/10, 1/25, 1/50, 1/100,
-      1, 2, 5, 10, 25, 50, 100,
-      seq(1e2, 1e3, 1e2),
-      seq(1e3, 1e4, 1e3),
-      seq(1e4, 1e5, 1e4),
-      seq(1e5, 1e6, 1e5),
-      seq(1e6, 1e7, 1e6),
-      seq(1e7, 1e8, 1e7),
-      seq(1e8, 1e9, 1e8)
-    )
-
-    range <- ylim[2] - ylim[1]
-
-    steps.p.m <- range / steps.p
-    best.step.size <- min(steps.p[which(abs(steps.p.m - 10) == min(abs(steps.p.m - 10)))])
-
-    plot.min <- floor(ylim[1] / best.step.size) * best.step.size
-    plot.max <- ceiling((max(dv.v) - plot.min)/  best.step.size) * best.step.size
-
-    y.levels <- seq(ylim[1], ylim[2], by = best.step.size)
-
-  }
-
-
-
-  if(is.null(xlim)) {xlim <- c(min(bean.loc) - .5, max(bean.loc) + .5)}
-
-
-
-  # Determine x and y labels
-
-  if(n.iv == 1 & is.null(xlab)) {my.xlab <- iv.names[1]}
-  if(n.iv == 1 & is.null(xlab) == F) {my.xlab <- xlab}
-
-  if(n.iv > 1) {my.xlab <- ""}
-
-
-  if(is.null(ylab)) {ylab <- dv.name}
 }
 
 
-# -----
-#  MAIN PLOT
-# ------
+iv.lengths <- sapply(1:length(iv.levels), FUN = function(x) {length(iv.levels[[x]])})
+iv.names <- names(data.i)[2:ncol(data.i)]
+subplot.n.iv <- length(iv.levels)
+
+# Set up bean info
+{
+bean.mtx <- expand.grid(iv.levels)
+names(bean.mtx) <- names(data.i)[2:ncol(data.i)]
+n.beans <- nrow(bean.mtx)
+bean.mtx$bean.num <- 1:nrow(bean.mtx)
+
+# Determine bean x locations
+
+if(is.null(at)) {
+
+bean.loc <- 1:n.beans
+
+group.spacing <- 1
+
+if(subplot.n.iv == 2) {
+
+  bean.loc <- bean.loc + rep(group.spacing * (0:(iv.lengths[2] - 1)), each = iv.lengths[1])
+
+}
+
+}
+
+if(!is.null(at)) {
+
+ bean.loc <- rep(at, length.out = n.beans)
+
+  }
+
+bean.mtx$x.loc <- bean.loc
+
+data.i <- merge(data.i, bean.mtx)
+}
+
+# COLORS AND TRANSPARENCIES
+{
+n.cols <- iv.lengths[1]
+
+# Determine opacity values
+
+if(theme.o == 2) {
+
+  if(is.null(point.o)) {point.o <- .3}
+  if(is.null(bean.o)) {bean.o <- .1}
+  if(is.null(inf.o)) {inf.o <- 0}
+  if(is.null(line.o)) {line.o <- .5}
+  if(is.null(bar.o)) {bar.o <- .5}
+
+}
+
+if(theme.o == 3) {
+
+
+  if(is.null(point.o)) {point.o <- .8}
+  if(is.null(bean.o)) {bean.o <- .5}
+  if(is.null(inf.o)) {inf.o <- 0}
+  if(is.null(line.o)) {line.o <- .1}
+  if(is.null(bar.o)) {bar.o <- .1}
+
+
+}
+
+if(theme.o == 1) {
+
+  if(is.null(point.o)) {point.o <- .2}
+  if(is.null(bean.o)) {bean.o <- .2}
+  if(is.null(inf.o)) {inf.o <- .8}
+  if(is.null(line.o)) {line.o <- 1}
+  if(is.null(bar.o)) {bar.o <- .1}
+
+}
+
+if(theme.o == 0) {
+
+  if(is.null(point.o)) {point.o <- 0}
+  if(is.null(bean.o)) {bean.o <- 0}
+  if(is.null(inf.o)) {inf.o <- 0}
+  if(is.null(line.o)) {line.o <- 0}
+  if(is.null(bar.o)) {bar.o <- 0}
+
+}
+
+## Repeat transparency values
+
+point.o <- rep(point.o, length.out = n.beans)
+bean.o <- rep(bean.o, length.out = n.beans)
+inf.o <- rep(inf.o, length.out = n.beans)
+line.o <- rep(line.o, length.out = n.beans)
+bar.o <- rep(bar.o, length.out = n.beans)
+
+
+# Get colors
+
+# If palette is in piratepal()...
+
+if(mean(pal %in% piratepal("names")) == 1) {
+
+  if (is.null(point.col)) {
+
+    point.col <- piratepal(palette = pal,
+                           length.out = n.cols,
+                           trans = 0)
+
+
+    } else {
+
+      point.col <- rep(transparent(point.col,
+                                   trans.val = 0),
+                                   length.out = n.cols)
+      }
+
+
+  if (is.null(bean.border.col)) {
+
+    bean.border.col <- piratepal(palette = pal,
+                           length.out = n.cols,
+                           trans = 0)
+
+  } else {
+
+    bean.border.col <- rep(transparent(bean.border.col,
+                                 trans.val = 0),
+                     length.out = n.cols)
+  }
+
+
+  if (is.null(inf.col)) {
+
+    inf.col <- piratepal(palette = pal,
+                                 length.out = n.cols,
+                                 trans = 0)
+
+  } else {
+
+    inf.col <- rep(transparent(inf.col,
+                                       trans.val = 0),
+                           length.out = n.cols)
+  }
+
+
+  if (is.null(average.line.col)) {
+
+    average.line.col <- piratepal(palette = pal,
+                              length.out = n.cols,
+                              trans = 0)
+
+  } else {
+
+    average.line.col <- rep(transparent(average.line.col,
+                                        trans.val = 0),
+                                        length.out = n.cols)
+  }
+
+  if (is.null(bar.col)) {
+
+    bar.col <- piratepal(palette = pal,
+                                  length.out = n.cols,
+                                  trans = 0)
+
+  } else {
+
+    bar.col <- rep(transparent(bar.col,
+                              trans.val = 0),
+                            length.out = n.cols)
+  }
+
+
+
+}
+
+# If palette is NOT in piratepal()...
+
+if(mean(pal %in% piratepal("names")) != 1) {
+
+  if(length(pal) < n.cols) {pal <- rep(pal, n.cols)}
+
+  if(is.null(point.col)) {
+
+  point.col <- rep(pal, length.out = n.cols)
+
+  } else {
+
+    point.col <- rep(point.col, length.out = n.cols)
+
+  }
+
+
+  if(is.null(bean.border.col)) {
+
+    bean.border.col <- rep(pal, length.out = n.cols)
+
+  } else {
+
+    bean.border.col <- rep(bean.border.col, length.out = n.cols)
+
+  }
+
+  if(is.null(inf.col)) {
+
+    inf.col <- rep(pal, length.out = n.cols)
+
+  } else {
+
+    inf.col <- rep(inf.col, length.out = n.cols)
+
+  }
+
+
+  if(is.null(average.line.col)) {
+
+    average.line.col <- rep(pal, length.out = n.cols)
+
+  } else {
+
+    average.line.col <- rep(average.line.col, length.out = n.cols)
+
+  }
+
+
+  if(is.null(bar.col)) {
+
+    bar.col <- rep(pal, length.out = n.cols)
+
+  } else {
+
+    bar.col <- rep(bar.col, length.out = n.cols)
+
+  }
+
+
+
+
+
+
+}
+
+# Make colors transparent according to transparency (point.o, bar.o, ...) vectors
+
+if(subplot.n.iv == 1) {
+
+  for(i in 1:n.beans) {
+
+    point.col[i] <- transparent(point.col[i], trans.val = 1 - point.o[i])
+    bean.border.col[i] <- transparent(bean.border.col[i], trans.val = 1 - bean.o[i])
+    inf.col[i] <- transparent(inf.col[i], trans.val = 1 - inf.o[i])
+    average.line.col[i] <- transparent(average.line.col[i], trans.val = 1 - line.o[i])
+    bar.col[i] <- transparent(bar.col[i], trans.val = 1 - bar.o[i])
+
+  }
+
+}
+
+if(subplot.n.iv == 2) {
+
+  point.col <- rep(point.col, times = iv.lengths[2])
+  bean.border.col <- rep(bean.border.col, times = iv.lengths[2])
+  inf.col <- rep(inf.col, times = iv.lengths[2])
+  average.line.col <- rep(average.line.col, times = iv.lengths[2])
+  bar.col <- rep(bar.col, times = iv.lengths[2])
+
+
+  point.o <- rep(point.o, times = 2)
+  bean.o <- rep(bean.o, times = 2)
+  inf.o <- rep(inf.o, times = 2)
+  line.o <- rep(line.o, times = 2)
+  bar.o <- rep(bar.o, times = 2)
+
+
+
+  for(i in 1:n.beans) {
+
+    point.col[i] <- transparent(point.col[i], trans.val = 1 - point.o[i])
+    bean.border.col[i] <- transparent(bean.border.col[i], trans.val = 1 - bean.o[i])
+    inf.col[i] <- transparent(inf.col[i], trans.val = 1 - inf.o[i])
+    average.line.col[i] <- transparent(average.line.col[i], trans.val = 1 - line.o[i])
+    bar.col[i] <- transparent(bar.col[i], trans.val = 1 - bar.o[i])
+
+  }
+
+
+}
+
+if(is.null(bar.border.col)) {bar.border.col <- bar.col}
+if(is.null(bar.border.col) == F) {bar.border.col <- rep(bar.border.col, times = length(bar.col))}
+}
+
+# PLOTTING SPACE
+{
+# Determine y limits (y axis limits)
+# y axis breaks (y.levels)
+
+
+if(is.null(ylim) == TRUE) {
+
+  # Determine best step size
+
+  steps.p <- c(
+              seq(1e-3, 1e-2, 1e-3),
+              seq(1e-4, 1e-3, 1e-3),
+              seq(1e-5, 1e-4, 1e-4),
+              seq(1e-6, 1e-5, 1e-5),
+              seq(1e-7, 1e-6, 1e-6),
+              seq(1e-8, 1e-7, 1e-7),
+              seq(1e-9, 1e-8, 1e-8),
+              1/2, 1/5, 1/10, 1/25, 1/50, 1/100,
+               1, 2, 5, 10, 25, 50, 100,
+               seq(1e2, 1e3, 1e2),
+               seq(1e3, 1e4, 1e3),
+               seq(1e4, 1e5, 1e4),
+               seq(1e5, 1e6, 1e5),
+               seq(1e6, 1e7, 1e6),
+               seq(1e7, 1e8, 1e7),
+               seq(1e8, 1e9, 1e8)
+              )
+
+
+  range <- max(dv.v) - min(dv.v)
+
+  steps.p.m <- range / steps.p
+  best.step.size <- min(steps.p[which(abs(steps.p.m - 10) == min(abs(steps.p.m - 10)))])
+
+  plot.min <- floor(min(dv.v) / best.step.size) * best.step.size
+  plot.max <- ceiling(max(dv.v) / best.step.size) * best.step.size
+  plot.height <- plot.max - plot.min
+
+  ylim <- c(plot.min, plot.max)
+  y.levels <- seq(plot.min, plot.max, by = best.step.size)
+
+}
+
+if(is.null(ylim) == FALSE) {
+
+  steps.p <- c(
+    seq(1e-3, 1e-2, 1e-3),
+    seq(1e-4, 1e-3, 1e-3),
+    seq(1e-5, 1e-4, 1e-4),
+    seq(1e-6, 1e-5, 1e-5),
+    seq(1e-7, 1e-6, 1e-6),
+    seq(1e-8, 1e-7, 1e-7),
+    seq(1e-9, 1e-8, 1e-8),
+    1/2, 1/5, 1/10, 1/25, 1/50, 1/100,
+    1, 2, 5, 10, 25, 50, 100,
+    seq(1e2, 1e3, 1e2),
+    seq(1e3, 1e4, 1e3),
+    seq(1e4, 1e5, 1e4),
+    seq(1e5, 1e6, 1e5),
+    seq(1e6, 1e7, 1e6),
+    seq(1e7, 1e8, 1e7),
+    seq(1e8, 1e9, 1e8)
+  )
+
+  range <- ylim[2] - ylim[1]
+
+  steps.p.m <- range / steps.p
+  best.step.size <- min(steps.p[which(abs(steps.p.m - 10) == min(abs(steps.p.m - 10)))])
+
+  plot.min <- floor(ylim[1] / best.step.size) * best.step.size
+  plot.max <- ceiling((max(dv.v) - plot.min)/  best.step.size) * best.step.size
+
+  y.levels <- seq(ylim[1], ylim[2], by = best.step.size)
+
+}
+
+if(is.null(xlim)) {xlim <- c(min(bean.loc) - .5, max(bean.loc) + .5)}
+
+# Determine x and y labels
+
+if(subplot.n.iv == 1 & is.null(xlab)) {my.xlab <- iv.names[1]}
+if(subplot.n.iv == 1 & is.null(xlab) == F) {my.xlab <- xlab}
+
+if(subplot.n.iv > 1) {my.xlab <- ""}
+
+if(is.null(ylab)) {ylab <- dv.name}
+}
 
 # PLOTTING SPACE
 if(add == F) {
@@ -619,6 +685,16 @@ if(evidence == T) {layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(5, 2), wi
        bty = bty,
        ...
   )
+
+
+  # Add title for iv3
+
+  if(n.iv > 2) {
+
+    top.text <- paste(names(data)[4], " = ", iv3.levels[subplot.i], sep = "")
+    mtext(text = top.text, side = 3)
+
+  }
 
  # mtext(side = 1, text = my.xlab)
  # mtext(side = 1, text = my.xlab, family = family)
@@ -660,8 +736,8 @@ if(evidence == T) {layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(5, 2), wi
 
 if(is.na(width.max)) {
 
-  if(n.iv == 1) {width.max <- .45}
-  if(n.iv == 2) {width.max <- .5}
+  if(subplot.n.iv == 1) {width.max <- .45}
+  if(subplot.n.iv == 2) {width.max <- .5}
 
 }
 
@@ -673,7 +749,7 @@ bar.border.lwd <- rep(bar.border.lwd, length.out = n.beans)
 
 for (bean.i in 1:n.beans) {
 
-    dv.i <- data.2[data.2$bean.num == bean.i, dv.name]
+    dv.i <- data.i[data.i$bean.num == bean.i, dv.name]
 
     if(is.logical(dv.i)) {dv.i <- as.numeric(dv.i)}
 
@@ -808,7 +884,7 @@ if(length(dv.i) <= 3) {
 
   }
 
-# Binary data
+# Binary data.i
 
 if(length(setdiff(dv.i, c(0, 1))) == 0) {
 
@@ -832,7 +908,7 @@ if(inf == "ci") {
 }
 }
 
-# Non-Binary data
+# Non-Binary data.i
 
 if(length(setdiff(dv.i, c(0, 1))) > 0) {
 
@@ -924,10 +1000,16 @@ if(inf.band == "tight") {
 
 # Add bean names for IV 1
 
-if(n.iv == 1) {line.t <- .5}
-if(n.iv == 2) {line.t <- 2}
+if(subplot.n.iv == 1) {line.t <- .5}
+if(subplot.n.iv == 2) {line.t <- 2}
 
 if(is.null(xaxt) == T) {
+
+  if(is.null(cex.lab)) {
+
+    cex.lab <- 1 / ((n.subplots - 1) * .1 + 1)
+
+  }
 
   mtext(bean.mtx[,1],
         side = 1,
@@ -938,11 +1020,11 @@ if(is.null(xaxt) == T) {
 
   # Add names for IV 2
 
-  if(n.iv == 2) {
+  if(subplot.n.iv == 2) {
 
-    mtext(iv.names[1], side = 1, line = 2, at = par("usr")[1], adj = 1)
+    mtext(iv.names[1], side = 1, line = 2, at = par("usr")[1], adj = 1, cex = cex.lab)
 
-    mtext(iv.names[2], side = 1, line = .5, at = par("usr")[1], adj = 1)
+    mtext(iv.names[2], side = 1, line = .5, at = par("usr")[1], adj = 1, cex = cex.lab)
 
     text.loc <- (iv.lengths[1] + 1) / 2 * (2 *(1:iv.lengths[2]) - 1)
 
@@ -959,9 +1041,9 @@ if(is.null(xaxt) == T) {
 }
 }
 
-
-
 }
+
+  }
 
 # ----
 # EVIDENCE
@@ -971,13 +1053,13 @@ if(is.null(xaxt) == T) {
 #
 #   # Convert IVs to factors
 #
-# for(iv.i in 1:n.iv) {
+# for(iv.i in 1:subplot.n.iv) {
 #
-# data.2[,iv.i] <- as.factor(data.2[,iv.i])
+# data[,iv.i] <- as.factor(data[,iv.i])
 #
 #   }
 #
-# bf <- BayesFactor::anovaBF(formula = formula, data = data.2[,1:(n.iv + 1)])
+# bf <- BayesFactor::anovaBF(formula = formula, data = data[,1:(subplot.n.iv + 1)])
 #
 # bf.vec <- extractBF(bf)$bf
 #
@@ -1054,10 +1136,10 @@ if(is.null(xaxt) == T) {
 #  }
 #
 #
-# if(n.iv == 1) {bar.loc.vec <- c(.5) ; bar.widths <- .1}
-# if(n.iv == 2) {bar.loc.vec <- c(.3, .7) ; bar.widths <- .1}
+# if(subplot.n.iv == 1) {bar.loc.vec <- c(.5) ; bar.widths <- .1}
+# if(subplot.n.iv == 2) {bar.loc.vec <- c(.3, .7) ; bar.widths <- .1}
 #
-# for(iv.i in 1:n.iv) {
+# for(iv.i in 1:subplot.n.iv) {
 #
 # add.bf.bar(bf.vec[iv.i],
 #            x.loc = c(bar.loc.vec[iv.i] - bar.widths / 2, bar.loc.vec[iv.i] + bar.widths / 2),

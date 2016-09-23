@@ -33,6 +33,8 @@ See http://rpubs.com/yarrr/pirateplot for details.
 
 0.0.7
 
+- `pirateplot()` can now handle up to 3 IVs! Levels of the third IV are shown in separate plots in a grid.
+
 Bug-fixes
 
 - The `inf.p` parameter in `pirateplot()` was prevously not being passed to the Bayesian HDIs, rendering all inference bands to be the default of 95% (thanks to Roman Pahl for catching this). This has now been fixed
