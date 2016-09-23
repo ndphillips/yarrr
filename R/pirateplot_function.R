@@ -843,8 +843,8 @@ samples <- ttest.bf[,1]
 
 # using the hdi function from Kruschke
 
-inf.lb <- hdi(samples)[1]
-inf.ub <- hdi(samples)[2]
+inf.lb <- hdi(samples, credMass = inf.p)[1]
+inf.ub <- hdi(samples, credMass = inf.p)[2]
 
 }
 

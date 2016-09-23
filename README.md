@@ -31,6 +31,12 @@ See http://rpubs.com/yarrr/pirateplot for details.
 
 ## Updates
 
+0.0.7
+
+Bug-fixes
+
+- The `inf.p` parameter in `pirateplot()` was prevously not being passed to the Bayesian HDIs, rendering all inference bands to be the default of 95% (thanks to Roman Pahl for catching this). This has now been fixed
+
 0.0.6
 
 - Added `hdi.band` argument to `pirateplot()`. Setting `hdi.band = "tight"` will constrain inference bands to bean densities
