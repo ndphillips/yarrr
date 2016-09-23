@@ -33,7 +33,7 @@ See http://rpubs.com/yarrr/pirateplot for details.
 
 0.0.7
 
-- `pirateplot()` can now handle up to 3 IVs! Levels of the third IV are shown in separate plots in a grid.
+- `pirateplot()` can now handle up to 3 IVs! (e.g.; `pirateplot(age ~ sex + headband + favorite.pirate, data = pirates)`. Levels of the third IV are shown in separate plots in a grid.
 
 Bug-fixes
 
