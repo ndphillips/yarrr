@@ -556,6 +556,10 @@ segments(locations.to.use, text.heights + .05, locations.to.use, point.heights, 
   text(.5, .9, paste("trans = ", trans, sep = ""))
 
 
+  # Reset margins
+
+  par(mar = c(5, 4, 4, 1) + .1)
+
 }
 
 if(is.null(output) == F & plot.result == F) {
