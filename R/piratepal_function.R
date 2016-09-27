@@ -558,7 +558,7 @@ segments(locations.to.use, text.heights + .05, locations.to.use, point.heights, 
 
   # Reset margins
 
-  par(mar = c(5, 4, 4, 1) + .1)
+  par("mar" = c(5, 4, 4, 1) + .1)
 
 }
 
