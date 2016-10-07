@@ -1,15 +1,14 @@
 #' BeardLengths
 #'
-#' A dataframe containing the ship and beard lengths of 150 pirates.
+#' A dataframe containing the lengths of beards on 3 different pirate ships
 #'
 #'
 #' @format A data frame containing 150 rows and 2 columns
 #' \describe{
-#'   \item{Ship}{A string indicating which ship the pirate is stationed on}
-#'   \item{Beard}{The length of the pirate's beard in cm}
-#' }
+#'   \item{Ship}{(character) - The pirate's ship}
+#'   \item{Beard}{(numeric) - The length of the pirate's beard in cm}
+#'  }
 #' @source 2015 annual international pirate meeting at the Bodensee in Konstanz, Germany
-#' @examples
 #'
 #'
 #'

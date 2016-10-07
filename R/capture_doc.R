@@ -17,7 +17,6 @@
 #'   \item{treasure}{(numeric) - How much treasure was found on the ship when it was captured?}
 #'  }
 #' @source 2015 annual international pirate meeting at the Bodensee in Konstanz, Germany
-#' @examples
 #'
 #'
 #'

@@ -15,7 +15,6 @@
 #'   \item{price}{(numeric) The actual selling price of the ship (in gold pieces, obviously)}
 #' }
 #' @source 2015 annual pirate auction in Portland Oregon
-#' @examples
 #'
 #'
 "auction"

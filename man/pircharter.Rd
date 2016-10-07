@@ -19,11 +19,5 @@ pircharter
 \description{
 A dataframe containing travel times of chartered ships from three pirate companies to three different destinations.
 }
-\examples{
-
-
-
-
-}
 \keyword{datasets}
 

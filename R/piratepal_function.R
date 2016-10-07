@@ -65,6 +65,7 @@ if(trans < 0 | trans > 1) {stop("Problem: trans must be a number between 0 and 1
         "turquoise" = rgb(22, 160, 140, alpha = (1 - trans) * 255, maxColorValue = 255),
         "poop" = rgb(154, 112, 62, alpha = (1 - trans) * 255, maxColorValue = 255),
         stringsAsFactors = F),
+
       "pony.pal" = data.frame(
         "pink" = rgb(235, 82, 145, alpha = (1 - trans) * 255, maxColorValue = 255),
         "orange" = rgb(251, 187, 104, alpha = (1 - trans) * 255, maxColorValue = 255),
@@ -76,6 +77,18 @@ if(trans < 0 | trans > 1) {stop("Problem: trans must be a number between 0 and 1
         "dblue" = rgb(23, 148, 206, alpha = (1 - trans) * 255, maxColorValue = 255),
         "purple2" = rgb(151, 44, 141, alpha = (1- trans) * 255, maxColorValue = 255),
         stringsAsFactors = F),
+
+      "xmen.pal" = data.frame(
+        "blue" = rgb(2, 108, 203, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "red" = rgb(245, 30, 2, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "green" = rgb(5, 177, 2, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "orange" = rgb(251, 159, 83, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "gray" = rgb(155, 155, 155, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "pink" = rgb(251, 130, 190, alpha = (1- trans) * 255, maxColorValue = 255),
+        "brown" = rgb(186, 98, 34, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "yellow" = rgb(238, 194, 41, alpha = (1 - trans) * 255, maxColorValue = 255),
+        stringsAsFactors = F),
+
       "southpark.pal" = data.frame(
         "blue" = rgb(47, 134, 255, alpha = (1 - trans) * 255, maxColorValue = 255),
         "yellow" = rgb(235, 171, 22, alpha = (1- trans) * 255, maxColorValue = 255),

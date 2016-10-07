@@ -79,6 +79,8 @@ The pirateplot function creates an RDI plot (Raw data, Descriptive and Inferenti
 \examples{
 
 
+# pirateplot of chicken weights
+pirateplot(formula = weight ~ Time, data = ChickWeight)
 
   # See the vignette
  vignette("pirateplot", package = "yarrr")

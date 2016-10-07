@@ -10,7 +10,6 @@
 #'   \item{time}{(numeric) - The travel time of the ship in hours}
 #'  }
 #' @source 2015 annual international pirate meeting at the Bodensee in Konstanz, Germany
-#' @examples
 #'
 #'
 #'

@@ -26,10 +26,5 @@ capture
 \description{
 A dataframe containing a historical record of every ship the Perilous Pigeon captured on the Bodensee in the years 2014 and 2015
 }
-\examples{
-
-
-
-}
 \keyword{datasets}
 
