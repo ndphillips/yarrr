@@ -98,6 +98,18 @@ if(trans < 0 | trans > 1) {stop("Problem: trans must be a number between 0 and 1
         "orange" = rgb(241, 72, 9, alpha = (1 - trans) * 255, maxColorValue = 255),
         stringsAsFactors = F),
 
+
+
+      # http://www.google.com
+
+      google.pal =data.frame(
+        "blue" = rgb(61, 121, 243, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "red" = rgb(230, 53, 47, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "yellow" = rgb(249, 185, 10, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "green" = rgb(52, 167, 75, alpha = (1 - trans) * 255, maxColorValue = 255),
+        stringsAsFactors = F),
+
+
       "eternal.pal" = data.frame(
         "purple1" = rgb(23, 12, 46, alpha = (1 - trans) * 255, maxColorValue = 255),
         "red" = rgb(117, 16, 41, alpha = (1 - trans) * 255, maxColorValue = 255),
@@ -117,35 +129,35 @@ if(trans < 0 | trans > 1) {stop("Problem: trans must be a number between 0 and 1
         "tan" = rgb(150, 142, 76, alpha = (1 - trans) * 255, maxColorValue = 255),
         stringsAsFactors = F),
 
-      "monalisa.pal" = data.frame(
-        "tan" = rgb(187, 163, 112, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "yellow" = rgb(202, 162, 65, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "green1" = rgb(187, 190, 112, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "green2" = rgb(89, 89, 41, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "brown" = rgb(42, 20, 1, alpha = (1 - trans) * 255, maxColorValue = 255),
-        stringsAsFactors = F),
+      # "monalisa.pal" = data.frame(
+      #   "tan" = rgb(187, 163, 112, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "yellow" = rgb(202, 162, 65, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "green1" = rgb(187, 190, 112, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "green2" = rgb(89, 89, 41, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "brown" = rgb(42, 20, 1, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   stringsAsFactors = F),
 
-      malcovich.pal =data.frame(
-        "gray1" = rgb(5, 5, 5, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "blue1" = rgb(20, 24, 27, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "green" = rgb(46, 77, 73, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "brown" = rgb(77, 64, 57, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "blue2" = rgb(48, 92, 110, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "blue3" = rgb(117, 125, 139, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "gray" = rgb(164, 160, 159, alpha = (1 - trans) * 255, maxColorValue = 255),
+      # malcovich.pal =data.frame(
+      #   "gray1" = rgb(5, 5, 5, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "blue1" = rgb(20, 24, 27, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "green" = rgb(46, 77, 73, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "brown" = rgb(77, 64, 57, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "blue2" = rgb(48, 92, 110, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "blue3" = rgb(117, 125, 139, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "gray" = rgb(164, 160, 159, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #
+      #   stringsAsFactors = F),
 
-        stringsAsFactors = F),
-
-      toystory.pal =data.frame(
-        "gray1" = rgb(15, 10, 10, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "blue1" = rgb(36, 24, 40, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "red" = rgb(251, 27, 34, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "brown" = rgb(94, 72, 57, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "green" = rgb(125, 153, 58, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "yellow" = rgb(227, 191, 71, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "blue2" = rgb(167, 208, 235, alpha = (1 - trans) * 255, maxColorValue = 255),
-
-        stringsAsFactors = F),
+      # toystory.pal =data.frame(
+      #   "gray1" = rgb(15, 10, 10, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "blue1" = rgb(36, 24, 40, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "red" = rgb(251, 27, 34, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "brown" = rgb(94, 72, 57, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "green" = rgb(125, 153, 58, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "yellow" = rgb(227, 191, 71, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "blue2" = rgb(167, 208, 235, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #
+      #   stringsAsFactors = F),
 
       usualsuspects.pal =data.frame(
         "gray1" = rgb(50, 51, 55, alpha = (1 - trans) * 255, maxColorValue = 255),
@@ -301,103 +313,93 @@ if(trans < 0 | trans > 1) {stop("Problem: trans must be a number between 0 and 1
         "purple" = rgb(90, 88, 149, alpha = (1 - trans) * 255, maxColorValue = 255),
         "paleorange" = rgb(229, 186, 58, alpha = (1 - trans) * 255, maxColorValue = 255),
         "salmon" = rgb(216, 108, 79, alpha = (1 - trans) * 255, maxColorValue = 255),
-        stringsAsFactors = F),
+        stringsAsFactors = F)
 
-
-
-      # http://www.google.com
-
-      google.pal =data.frame(
-        "blue" = rgb(61, 121, 243, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "red" = rgb(230, 53, 47, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "yellow" = rgb(249, 185, 10, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "green" = rgb(52, 167, 75, alpha = (1 - trans) * 255, maxColorValue = 255),
-        stringsAsFactors = F),
 
 
 
 
       # http://www.informationisbeautiful.net/visualizations/drugs-world/
 
-      drugs.pal =data.frame(
-        "blue" = rgb(170, 220, 226, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "green" = rgb(162, 206, 37, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "yellow" = rgb(244, 238, 43, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "orange" = rgb(207, 79, 26, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "purple" = rgb(217, 82, 156, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "gray" = rgb(225, 224, 224, alpha = (1 - trans) * 255, maxColorValue = 255),
-        stringsAsFactors = F),
+      # drugs.pal =data.frame(
+      #   "blue" = rgb(170, 220, 226, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "green" = rgb(162, 206, 37, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "yellow" = rgb(244, 238, 43, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "orange" = rgb(207, 79, 26, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "purple" = rgb(217, 82, 156, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "gray" = rgb(225, 224, 224, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   stringsAsFactors = F),
 
 
 
 
       # http://www.colourlovers.com/palette/92095/Giant_Goldfish
 
-      goldfish.pal =data.frame(
-        "blue" = rgb(105, 210, 231, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "green" = rgb(167, 219, 216, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "gray" = rgb(224, 228, 204, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "orange1" = rgb(243, 134, 48, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "orange2" = rgb(250, 105, 0, alpha = (1 - trans) * 255, maxColorValue = 255),
-        stringsAsFactors = F),
+      # goldfish.pal =data.frame(
+      #   "blue" = rgb(105, 210, 231, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "green" = rgb(167, 219, 216, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "gray" = rgb(224, 228, 204, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "orange1" = rgb(243, 134, 48, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "orange2" = rgb(250, 105, 0, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   stringsAsFactors = F),
 
 
       # http://www.colourlovers.com/palette/694737/Thought_Provoking
 
-      provoking.pal =data.frame(
-        "yellow" = rgb(236, 208, 120, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "orange" = rgb(217, 91, 67, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "red" = rgb(192, 41, 66, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "brown" = rgb(84, 36, 55, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "blue" = rgb(83, 119, 122, alpha = (1 - trans) * 255, maxColorValue = 255),
-        stringsAsFactors = F),
+      # provoking.pal =data.frame(
+      #   "yellow" = rgb(236, 208, 120, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "orange" = rgb(217, 91, 67, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "red" = rgb(192, 41, 66, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "brown" = rgb(84, 36, 55, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "blue" = rgb(83, 119, 122, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   stringsAsFactors = F),
 
 
       # http://www.colourlovers.com/palette/1930/cheer_up_emo_kid
-
-      emo.pal =data.frame(
-        "grayblue" = rgb(85, 98, 112, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "blue" = rgb(78, 205, 196, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "green" = rgb(199, 244, 100, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "salmon" = rgb(255, 107, 107, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "magenta" = rgb(196, 77, 88, alpha = (1 - trans) * 255, maxColorValue = 255),
-        stringsAsFactors = F),
+#
+#       emo.pal =data.frame(
+#         "grayblue" = rgb(85, 98, 112, alpha = (1 - trans) * 255, maxColorValue = 255),
+#         "blue" = rgb(78, 205, 196, alpha = (1 - trans) * 255, maxColorValue = 255),
+#         "green" = rgb(199, 244, 100, alpha = (1 - trans) * 255, maxColorValue = 255),
+#         "salmon" = rgb(255, 107, 107, alpha = (1 - trans) * 255, maxColorValue = 255),
+#         "magenta" = rgb(196, 77, 88, alpha = (1 - trans) * 255, maxColorValue = 255),
+#         stringsAsFactors = F),
 
 
 
       # http://www.colourlovers.com/palette/49963/let_them_eat_cake
 
-      cake.pal =data.frame(
-        "brown" = rgb(119, 79, 56, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "red" = rgb(224, 142, 121, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "creme1" = rgb(241, 212, 175, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "creme2" = rgb(236, 229, 206, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "blue" = rgb(197, 224, 220, alpha = (1 - trans) * 255, maxColorValue = 255),
-        stringsAsFactors = F),
-
+      # cake.pal =data.frame(
+      #   "brown" = rgb(119, 79, 56, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "red" = rgb(224, 142, 121, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "creme1" = rgb(241, 212, 175, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "creme2" = rgb(236, 229, 206, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "blue" = rgb(197, 224, 220, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   stringsAsFactors = F),
+      #
 
 
       # http://www.colourlovers.com/palette/443995/i_demand_a_pancake
 
-      pancake.pal=data.frame(
-        "brown" = rgb(89, 79, 79, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "blue1" = rgb(84, 121, 128, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "blue2" = rgb(69, 173, 168, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "green" = rgb(157, 224, 173, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "yellow" = rgb(229, 252, 194, alpha = (1 - trans) * 255, maxColorValue = 255),
-        stringsAsFactors = F),
+      # pancake.pal=data.frame(
+      #   "brown" = rgb(89, 79, 79, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "blue1" = rgb(84, 121, 128, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "blue2" = rgb(69, 173, 168, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "green" = rgb(157, 224, 173, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "yellow" = rgb(229, 252, 194, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   stringsAsFactors = F),
 
 
 
       #   http://www.colourlovers.com/fashion/trends/street-fashion/7759/LUBITEL
 
-      lubitel.pal =data.frame(
-        "blue" = rgb(55, 58, 69, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "gray" = rgb(194, 194, 194, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "brown1" = rgb(179, 152, 109, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "red" = rgb(120, 36, 29, alpha = (1 - trans) * 255, maxColorValue = 255),
-        "brown2" = rgb(94, 62, 53, alpha = (1 - trans) * 255, maxColorValue = 255),
-        stringsAsFactors = F)
+      # lubitel.pal =data.frame(
+      #   "blue" = rgb(55, 58, 69, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "gray" = rgb(194, 194, 194, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "brown1" = rgb(179, 152, 109, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "red" = rgb(120, 36, 29, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   "brown2" = rgb(94, 62, 53, alpha = (1 - trans) * 255, maxColorValue = 255),
+      #   stringsAsFactors = F)
 
 
     )

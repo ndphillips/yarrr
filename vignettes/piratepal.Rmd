@@ -31,19 +31,33 @@ To see all of the palettes, run `piratepal("all")`
 piratepal(palette = "all")
 ```
 
-Once you find a palette you'd like to use, you can return the colors as a vector by specifying the name of the palette in the `palette` argument:
+Once you find a palette you'd like to use, you can return the colors as a vector by specifying the name of the palette in the `palette` argument. Here is the Google palette
 
 ```{r}
-piratepal(palette = "ipod")
+piratepal(palette = "google")
 ```
 
-If you want to see a palette in detail (and possibly some images that inspired the palette), include the argument `plot.result = T`.
+If you want to see a palette in detail (and possibly some images that inspired the palette), include the argument `plot.result = T`. Here's where the `southpark` palette comes from.
 
 ```{r, fig.width = 6, fig.height = 6, fig.align='center'}
 piratepal(palette = "southpark", 
-          trans = .1,
+          trans = .5,
           plot.result = T)
 ```
+
+
+You can look at a random palette by setting `palette = "random"`:
+
+```{r echo = F}
+set.seed(105)
+```
+
+
+```{r, fig.width = 6, fig.height = 6, fig.align='center'}
+piratepal("random", plot.result = T)
+```
+
+
 
 Some of the palettes are darker than others. Here's the nightmare-inducing evildead palette (I'll up the transparency to .5 to make it a bit less scarring...)
 
@@ -53,13 +67,12 @@ piratepal(palette = "evildead",
           plot.result = T)
 ```
 
-You can use palettes in your plots by entering the palette as color arguments. I'll create a scatterplot using the nemo palette with `piratepal('nemo', trans = .5)`:
+Here's a scatterplot using the nemo palette with `piratepal('nemo', trans = .5)`:
 
 ```{r, fig.width = 6, fig.height = 6, fig.align = 'center'}
 nemo.cols <- piratepal(palette = "nemo",  
                      trans = .2)
 
-set.seed(100) # For reproducibility
 x <- rnorm(100)
 y <- x + rnorm(100)
 
@@ -113,10 +126,12 @@ segments(line.start.x,
 points(balloon.x, balloon.y, pch = 21, 
        bg = balloon.colors,
        col = gray(.9), cex = rnorm(100, 2, .3))
+```
 
-# reset par
+```{r, echo = F}
 par(mar = c(5, 4, 4, 1) + .1)
 ```
+
 
 ### Have a favorite palette?
 

@@ -75,15 +75,15 @@ pirateplot(formula = time ~ cleaner + type,
 
 # Colors
 
-You can adjust colors in many ways. You can select an overall color palette using the pal argument, where pal is the name of a color palette in the piratepal() function (to see all the palettes, run `piratepal(palette = "all", action = "s")`)
+You can adjust colors in many ways. You can select an overall color palette using the `pal` argument, where `pal` is the name of a color palette in the `piratepal()` function (to see all the palettes, run `piratepal(palette = "all")`)
 
 ```{r, fig.width = 6, fig.height = 6}
-pirateplot(formula = weight ~ Time,
+pirateplot(formula = weight ~ Diet,
            data = ChickWeight,
-           pal = "southpark")   # Use the southpark color palette
+           pal = "xmen")   # Use the xmen color palette
 ```
 
-If you specify a single color name in the `pal` argument, all plotting elements will be that color:
+If you specify a single color name in the `pal` argument, all plotting elements will be that color. For example, to make a gray-scale pirateplot, just use `pal = "black"`
 
 ```{r, fig.width = 6, fig.height = 5, fig.align='center'}
 pirateplot(formula = weight ~ Diet,
@@ -97,7 +97,8 @@ You can override the color of any specific element by using one of the x.col arg
 pirateplot(formula = weight ~ Time,
            data = ChickWeight,
            pal = "southpark",   # Use the southpark color palette,
-           point.col = "gray",  # black points
+           point.col = "gray",  # gray points
+           bean.border.col = "gray", # gray bean borders
            bar.col = "gray")   # gray bars
 ```
 
@@ -112,8 +113,7 @@ You can adjust the opacities of individual plotting elements in one of two ways.
 pirateplot(formula = weight ~ Diet,
            data = ChickWeight,
            theme.o = 2, # Use opacity theme 2
-           main = "Opacity themes with theme.o"
-           )
+           main = "Opacity themes with theme.o")
 ```
 
 Or, you can turn off all of the opacities with `theme.o = 0` and then selectively turn up individual elements with `bar.o`, `bean.o`, `point.o`, and `inf.o`:
