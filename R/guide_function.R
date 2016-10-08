@@ -1,20 +1,9 @@
-#' yarrr.guide
+#'Opens the HTML manual for the yarrr package
 #'
-#' Opens the yarrr package guide
-#'
-#' @export
-#' @examples
-#'
-#'
-#' # open the yarrr package guide
-#' yarrr.guide()
-#'
-#'
-
-yarrr.guide <- function() {
-
-  vignette("guide", package = "yarrr")
-
+#'@keywords misc
+#'@export
+yarrr.guide <- function(){
+  vignette('guide', package = 'yarrr')
 }
 
 

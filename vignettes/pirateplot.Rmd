@@ -36,8 +36,7 @@ pirateplot(formula = weight ~ Diet,
            inf.o = c(.1, .1, .1, .9),
            bar.o = c(.1, .8, .1, .1),
            main = "4 Elements of a pirateplot()", 
-           pal = "google"
-          )
+           pal = "google")
 
 
 text(.7, 350, labels = "Points")
@@ -70,8 +69,7 @@ The major arguments to pirateplot() are a dataframe and a formula in the form `f
 ```{r, fig.width = 6, fig.height = 5, fig.align='center'}
 pirateplot(formula = time ~ cleaner + type,
            data = poopdeck,
-           main = "Poopdeck Cleaning Time"
-           )
+           main = "Poopdeck Cleaning Time")
 ```
 
 
@@ -82,8 +80,7 @@ You can adjust colors in many ways. You can select an overall color palette usin
 ```{r, fig.width = 6, fig.height = 6}
 pirateplot(formula = weight ~ Time,
            data = ChickWeight,
-           pal = "southpark"   # Use the southpark color palette
-           )
+           pal = "southpark")   # Use the southpark color palette
 ```
 
 If you specify a single color name in the `pal` argument, all plotting elements will be that color:
@@ -91,8 +88,7 @@ If you specify a single color name in the `pal` argument, all plotting elements 
 ```{r, fig.width = 6, fig.height = 5, fig.align='center'}
 pirateplot(formula = weight ~ Diet,
            data = ChickWeight,
-           pal = "black"
-           )
+           pal = "black")
 ```
 
 You can override the color of any specific element by using one of the x.col arguments (e.g.; `bar.col`, `point.col`, `inf.col`, `line.col`). In this example, I'll change the palette to `southpark` (try running `yarrr::piratepal("southpark", "show")`), and then make the points and bars gray.
@@ -102,8 +98,7 @@ pirateplot(formula = weight ~ Time,
            data = ChickWeight,
            pal = "southpark",   # Use the southpark color palette,
            point.col = "gray",  # black points
-           bar.col = "gray"   # gray bars
-           )
+           bar.col = "gray")   # gray bars
 ```
 
 
@@ -130,8 +125,7 @@ pirateplot(formula = weight ~ Diet,
            point.o = .1, # Turn point opacities up to .1
            inf.o = .3, # Turn inf opacities up to .3
            bean.o = .9, # Turn beans way up
-           main = "Changing opacities individually with point.o, inf.o (etc.)"
-           )
+           main = "Changing opacities individually with point.o, inf.o (etc.)")
 ```
 
 Here is a plot with only the points
@@ -139,8 +133,7 @@ Here is a plot with only the points
 pirateplot(formula = weight ~ Diet,
            data = ChickWeight,
            theme.o = 0, # Turn off all opacities,
-           point.o = .1 # Turn point opacities up to .1
-           )
+           point.o = .1) # Turn point opacities up to .1
 ```
 
 Now I'll add the beans
@@ -149,8 +142,7 @@ pirateplot(formula = weight ~ Diet,
            data = ChickWeight,
            theme.o = 0, 
            point.o = .1,
-           bean.o = .5 # Turn on beans to .5
-           )
+           bean.o = .5) # Turn on beans to .5
 ```
 
 Or just make a barplot with HDIs (and a gray palette)
@@ -161,8 +153,7 @@ pirateplot(formula = weight ~ Time,
            theme.o = 0, 
            bar.o = .5, # Turn bar up to .5
            inf.o = .8, # Turn 95% HDI to .8
-           pal = gray(.1)
-           )
+           pal = gray(.1))
 ```
 
 
@@ -176,8 +167,7 @@ pirateplot(formula = weight ~ Diet,
            point.o = c(.1, .05, .2, .05), # Selectively turn up point opacities
            inf.o = c(.9, .1, .9, .1), # Selectively turn up inf opacities
            bean.o = c(1, .1, 1, .1), # Selective bean opacity adjustment
-           main = "Adjusting opacities between groups"
-           )
+           main = "Adjusting opacities between groups")
 ```
 
 # Additional arguments
@@ -191,8 +181,7 @@ pirateplot(formula = weight ~ Diet + Time,
            theme.o = 1, # Turn off all opacities,
            back.col = gray(.96),
            gl.col = "white",
-           main = "back.col, gl.col"
-           )
+           main = "back.col, gl.col")
 ```
 
 # References

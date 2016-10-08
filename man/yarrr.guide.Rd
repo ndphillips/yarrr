@@ -2,19 +2,12 @@
 % Please edit documentation in R/guide_function.R
 \name{yarrr.guide}
 \alias{yarrr.guide}
-\title{yarrr.guide}
+\title{Opens the HTML manual for the yarrr package}
 \usage{
 yarrr.guide()
 }
 \description{
-Opens the yarrr package guide
+Opens the HTML manual for the yarrr package
 }
-\examples{
-
-
-# open the yarrr package guide
-yarrr.guide()
-
-
-}
+\keyword{misc}
 

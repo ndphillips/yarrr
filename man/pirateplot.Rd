@@ -4,11 +4,11 @@
 \alias{pirateplot}
 \title{pirateplot}
 \usage{
-pirateplot(formula = weight ~ Time, data = ChickWeight, line.fun = mean,
-  pal = "basel", back.col = gray(1), point.cex = 1, point.pch = 16,
-  point.lwd = 1, cut.min = NULL, cut.max = NULL, width.min = 0.3,
-  width.max = NA, bean.o = NULL, point.o = NULL, bar.o = NULL,
-  inf.o = NULL, line.o = NULL, inf = "hdi", inf.p = 0.95, theme.o = 1,
+pirateplot(formula = NULL, data = NULL, line.fun = mean, pal = "basel",
+  back.col = gray(1), point.cex = 1, point.pch = 16, point.lwd = 1,
+  cut.min = NULL, cut.max = NULL, width.min = 0.3, width.max = NA,
+  bean.o = NULL, point.o = NULL, bar.o = NULL, inf.o = NULL,
+  line.o = NULL, inf = "hdi", inf.p = 0.95, theme.o = 1,
   hdi.iter = 1000, jitter.val = 0.03, line.lwd = 4, bean.lwd = 1,
   bean.lty = 1, inf.lwd = 1, bar.border.lwd = 1, gl.col = NULL,
   ylim = NULL, xlim = NULL, xlab = NULL, ylab = NULL, main = NULL,
@@ -65,9 +65,9 @@ pirateplot(formula = weight ~ Time, data = ChickWeight, line.fun = mean,
 
 \item{bty, xlim, ylim, xlab, ylab, main, yaxt, xaxt}{General plotting arguments}
 
-\item{evidence}{(logical) A logical value indicating whether to show Bayesian evidence (I'm still working on this...)}
+\item{evidence}{(logical) A logical value indicating whether to show Bayesian evidence (Not currently in use)}
 
-\item{family}{a font family (may not be working yet...)}
+\item{family}{a font family (Not currently in use)}
 
 \item{inf.band}{Either "wide" to indicate a fixed width band, or "tight" to indcate a band constrained by the bean}
 

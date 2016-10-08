@@ -36,8 +36,7 @@ library(yarrr)
 ```{r, fig.width = 6, fig.height = 6, fig.align='center'}
 pirateplot(formula = weight ~ Time,
            data = ChickWeight,
-           main = "Chicken weights by Time (week)"
-           )
+           main = "Chicken weights by Time (week)")
 ```
 
 ## piratepal()
@@ -63,7 +62,6 @@ plot(x = x, y = y, col =  my.cols,
      pch = 16,
      cex = runif(100, min = 0, max = 2),
      main = "piratepal('google', trans = .5)")
-    
 ```
 
 

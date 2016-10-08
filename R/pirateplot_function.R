@@ -23,9 +23,9 @@
 #' @param at (numeric) An optional vector specifying the locations of the beans. Especially helpful when adding beans to an existing plot with add = T
 #' @param sortx (string) An optional argument indicating how to sort the x values. Can be "sequential" (as they are found in the original dataframe), "alphabetical", or a string indicating a function (i.e.; "mean")
 #' @param add (logical) A logical value indicating whether to add the pirateplot to an existing plotting space or not.
-#' @param evidence (logical) A logical value indicating whether to show Bayesian evidence (I'm still working on this...)
+#' @param evidence (logical) A logical value indicating whether to show Bayesian evidence (Not currently in use)
 #' @param inf.band Either "wide" to indicate a fixed width band, or "tight" to indcate a band constrained by the bean
-#' @param family a font family (may not be working yet...)
+#' @param family a font family (Not currently in use)
 #' @param cex.lab,cex.axis Size of the labels and axes.
 #' @param bty,xlim,ylim,xlab,ylab,main,yaxt,xaxt General plotting arguments
 #' @param ... other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)
@@ -48,8 +48,8 @@
 #'
 
 pirateplot <- function(
-  formula = weight ~ Time,
-  data = ChickWeight,
+  formula = NULL,
+  data = NULL,
   line.fun = mean,
   pal = "basel",
   back.col = gray(1),
