@@ -19,7 +19,7 @@ pirateplot(formula = NULL, data = NULL, line.fun = mean, pal = "basel",
   evidence = F, family = NULL, inf.band = "wide", ...)
 }
 \arguments{
-\item{formula}{(formula) A formula in the form y ~ x1 + x2 indicating the vertical response variable (y) and 1 or two independent varaibles}
+\item{formula}{(formula) A formula in the form y ~ x1 + x2 + x3 indicating the vertical response variable (y) and up to three independent varaibles}
 
 \item{data}{(dataframe) A dataframe containing the variables specified in formula.}
 
