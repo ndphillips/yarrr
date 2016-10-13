@@ -836,7 +836,7 @@ if(inf == "iqr") {
     if (is.null(quant.add.length)) {
       quant.add.length <- c(rep(0.65, length(quant.add)))
     }
-    if (is.null(quant.add.length)) {
+    if (is.null(quant.add.width)) {
       quant.add.width <- c(rep(0.3, length(quant.add)))
     }
 
@@ -848,7 +848,7 @@ if(inf == "iqr") {
 
       stats.limit[i] <- quant.add[i]/100
 
-      # print lines
+      # draw lines
       segments(x.loc.i + (quant.add.length[i] - width.max), # left end
                line.fun(quantile(dv.i, probs = stats.limit[i])),
                x.loc.i - (quant.add.length[i] - width.max), # right end
