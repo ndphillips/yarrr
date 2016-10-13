@@ -31,7 +31,11 @@ See http://rpubs.com/yarrr/pirateplot for details.
 
 ## Updates
 
-### 0.0.7
+### 0.0.9
+
+- Added `iqr` as a new argument to `inf` which sets inference band limits to the inter-quartile range (25th and 75th percentiles)
+
+### 0.0.8
 
 Major
 
