@@ -29,6 +29,10 @@
 #' @param cex.lab,cex.axis Size of the labels and axes.
 #' @param bty,xlim,ylim,xlab,ylab,main,yaxt,xaxt General plotting arguments
 #' @param ... other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)
+#' @param quant.add numeric vector of length two. Adds horizontal lines representing custom quantiles.
+#' @param quant.add.length numeric vector of length two. Specifies line lengths of \code{quant.add}.
+#' Must be between 1(full length) and 0.5(invisible). Default to 0.65 and only used if \code{quant.add} is set.
+#' The first number refers to the upper quantile, the second to the lower one.
 #' @keywords plot
 #' @importFrom BayesFactor ttestBF
 #' @importFrom grDevices col2rgb gray rgb
@@ -100,6 +104,8 @@ pirateplot <- function(
   evidence = F,
   family = NULL,
   inf.band = "wide",
+  quant.add = NULL,
+  quant.add.length = c(0.65, 0.65),
   ...
 ) {
 
@@ -821,6 +827,35 @@ if(inf == "iqr") {
 
   inf.lb <- quantile(dv.i, probs = .25)
   inf.ub <- quantile(dv.i, probs = .75)
+
+  if (!is.null(quant.add)) {
+
+    # for (i in length(quant.add))
+
+    if (length(quant.add) == 2) {
+      stats.ub <- quant.add[2]/100
+      stats.lb <- quant.add[1]/100
+
+      # lower line
+      segments(x.loc.i + (quant.add.length[1] - width.max), # left end
+               line.fun(quantile(dv.i, probs = stats.lb)),
+               x.loc.i - (quant.add.length[1] - width.max), # right end
+               line.fun(quantile(dv.i, probs = stats.lb)),
+               col = average.line.col[bean.i],
+               lwd = line.lwd[bean.i] * 0.3,
+               lend = 3
+      )
+      # upper line
+      segments(x.loc.i + (quant.add.length[2] - width.max), # left end
+               line.fun(quantile(dv.i, probs = stats.ub)),
+               x.loc.i - (quant.add.length[2] - width.max), # right end
+               line.fun(quantile(dv.i, probs = stats.ub)),
+               col = average.line.col[bean.i],
+               lwd = line.lwd[bean.i] * 0.3,
+               lend = 3
+      )
+    }
+  }
 
 }
 
