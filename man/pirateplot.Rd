@@ -16,7 +16,8 @@ pirateplot(formula = NULL, data = NULL, line.fun = mean, pal = "basel",
   bean.border.col = NULL, inf.col = NULL, average.line.col = NULL,
   bar.border.col = NULL, at = NULL, bw = "nrd0", adjust = 1, add = F,
   sortx = "alphabetical", cex.lab = NULL, cex.axis = 1, bty = "n",
-  evidence = F, family = NULL, inf.band = "wide", ...)
+  evidence = F, family = NULL, inf.band = "wide", quant.add = NULL,
+  quant.add.length = NULL, ...)
 }
 \arguments{
 \item{formula}{(formula) A formula in the form y ~ x1 + x2 + x3 indicating the vertical response variable (y) and up to three independent varaibles}
@@ -70,6 +71,12 @@ pirateplot(formula = NULL, data = NULL, line.fun = mean, pal = "basel",
 \item{family}{a font family (Not currently in use)}
 
 \item{inf.band}{Either "wide" to indicate a fixed width band, or "tight" to indcate a band constrained by the bean}
+
+\item{quant.add}{numeric. Adds horizontal lines representing custom quantiles.}
+
+\item{quant.add.length}{numeric. Specifies line lengths of \code{quant.add}.
+Must be between 1(full length) and 0.5(invisible). Default to 0.65 and only used if \code{quant.add} is set.
+Must be the same length as \code{quant.add}.}
 
 \item{...}{other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)}
 }
