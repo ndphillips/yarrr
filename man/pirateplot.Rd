@@ -35,7 +35,7 @@ pirateplot(formula = NULL, data = NULL, line.fun = mean, pal = "basel",
 
 \item{bar.o, point.o, inf.o, line.o, bean.o}{(numeric) A number between 0 and 1 indicating how opaque to make the bars, points, inference band, average line, and beans respectively. These values override whatever is in the specified theme}
 
-\item{inf}{(string) A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI).}
+\item{inf}{(string) A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range.}
 
 \item{inf.p}{(numeric) A number between 0 and 1 indicating the level of confidence to use in calculating inferences for either confidence intervals or HDIs. The default is 0.95}
 

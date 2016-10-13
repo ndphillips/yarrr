@@ -40,21 +40,21 @@ pirateplot(formula = weight ~ Diet,
 
 
 text(.7, 350, labels = "Points")
-text(.7, 350, labels = "Raw Data", pos = 1, cex = .8)
-arrows(.7, 320, .97, 270, length = .1)
+text(.7, 345, labels = "Raw Data", pos = 1, cex = .8)
+arrows(.7, 310, .97, 270, length = .1)
 
-text(1.35, 200, labels = "Bar")
-text(1.35, 200, labels = "Center", pos = 1, cex = .8)
-arrows(1.35, 170, 1.54, 125, length = .1)
+text(1.4, 200, labels = "Bar/Line")
+text(1.4, 200, labels = "Center", pos = 1, cex = .8)
+arrows(1.4, 170, 1.54, 125, length = .1)
 
 text(2.4, 250, labels = "Bean")
 text(2.4, 250, labels = "Density", pos = 1, cex = .8)
 arrows(2.4, 220, 2.85, 200, length = .1)
 
-text(3.4, 300, labels = "Inf")
-text(3.4, 300, labels = "Inference", pos = 1, cex = .8)
+text(3.4, 300, labels = "Band")
+text(3.4, 290, labels = "Inference\n95% HDI)", pos = 1, cex = .8)
 
-arrows(3.4, 270, 3.8, 150, length = .1)
+arrows(3.4, 240, 3.8, 150, length = .1)
 ```
 
 ```{r, echo = F, message = F, results='hide'}

@@ -10,7 +10,7 @@
 #' @param point.cex,point.pch,point.lwd (numeric) Numbers indicating the size, pch type, and line width of raw data points.
 #' @param width.min,width.max (numeric) The minimum and maximum width of a bean.
 #' @param cut.min,cut.max (numeric) Optimal minimum and maximum values of the beans.
-#' @param inf (string) A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI).
+#' @param inf (string) A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range.
 #' @param inf.p (numeric) A number between 0 and 1 indicating the level of confidence to use in calculating inferences for either confidence intervals or HDIs. The default is 0.95
 #' @param theme.o (integer) An integer in the set 0, 1, 2, 3, specifying an opacity theme (that is, specific values of bar.o, point.o, etc.). You can override specific opacity values in a theme by specifying bar.o, inf.o (etc.)
 #' @param bar.o,point.o,inf.o,line.o,bean.o (numeric) A number between 0 and 1 indicating how opaque to make the bars, points, inference band, average line, and beans respectively. These values override whatever is in the specified theme
@@ -33,7 +33,7 @@
 #' @importFrom BayesFactor ttestBF
 #' @importFrom grDevices col2rgb gray rgb
 #' @importFrom graphics abline axis layout mtext par plot points polygon rasterImage rect segments text
-#' @importFrom stats density model.frame optimize rnorm t.test qbeta sd
+#' @importFrom stats density model.frame optimize rnorm t.test qbeta sd quantile
 #' @importFrom utils vignette
 #' @export
 #' @examples
@@ -816,6 +816,14 @@ inf.lb <- hdi(samples, credMass = inf.p)[1]
 inf.ub <- hdi(samples, credMass = inf.p)[2]
 
 }
+
+if(inf == "iqr") {
+
+  inf.lb <- quantile(dv.i, probs = .25)
+  inf.ub <- quantile(dv.i, probs = .75)
+
+}
+
 
 if(inf == "ci") {
 
