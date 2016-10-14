@@ -1,6 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Build Status](https://travis-ci.org/ndphillips/yarrr.svg?branch=master)](https://travis-ci.org/ndphillips/yarrr) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/yarrr)](http://cran.r-project.org/package=yarr) [![Rdoc](http://www.rdocumentation.org/badges/version/yarrr)](http://www.rdocumentation.org/packages/yarrr) [![Downloads](http://cranlogs.r-pkg.org/badges/yarrr?color=brightgreen)](http://www.r-pkg.org/pkg/yarrr)
+[![Build Status](https://travis-ci.org/ndphillips/yarrr.svg?branch=master)](https://travis-ci.org/ndphillips/yarrr) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/yarrr)](http://cran.r-project.org/package=yarrr) [![Rdoc](http://www.rdocumentation.org/badges/version/yarrr)](http://www.rdocumentation.org/packages/yarrr) [![Downloads](http://cranlogs.r-pkg.org/badges/yarrr?color=brightgreen)](http://www.r-pkg.org/pkg/yarrr)
 
 yarrr
 =====
