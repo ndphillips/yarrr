@@ -29,6 +29,11 @@
 #' @param cex.lab,cex.axis Size of the labels and axes.
 #' @param bty,xlim,ylim,xlab,ylab,main,yaxt,xaxt General plotting arguments
 #' @param ... other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)
+#' @param quant.add numeric. Adds horizontal lines representing custom quantiles.
+#' @param quant.add.length,quant.add.width numeric. Specifies line lengths/widths of \code{quant.add}.
+#' Length: Must be between 1(full length) and 0.5(invisible). Default to 0.65 and only used if \code{quant.add} is set.
+#' Width: Must be > 0 to be visible. Default to 0.3
+#' Both arguments must be the same length as \code{quant.add} if specified manually.
 #' @keywords plot
 #' @importFrom BayesFactor ttestBF
 #' @importFrom grDevices col2rgb gray rgb
@@ -100,6 +105,9 @@ pirateplot <- function(
   evidence = F,
   family = NULL,
   inf.band = "wide",
+  quant.add = NULL,
+  quant.add.length = NULL,
+  quant.add.width = NULL,
   ...
 ) {
 
@@ -821,6 +829,36 @@ if(inf == "iqr") {
 
   inf.lb <- quantile(dv.i, probs = .25)
   inf.ub <- quantile(dv.i, probs = .75)
+
+  if (!is.null(quant.add)) {
+
+    # set default line length if length is not given manually
+    if (is.null(quant.add.length)) {
+      quant.add.length <- c(rep(0.65, length(quant.add)))
+    }
+    if (is.null(quant.add.width)) {
+      quant.add.width <- c(rep(0.3, length(quant.add)))
+    }
+
+
+    # init empty vector for loop
+    stats.limit = c()
+
+    for (i in 1:length(quant.add)) {
+
+      stats.limit[i] <- quant.add[i]/100
+
+      # draw lines
+      segments(x.loc.i + (quant.add.length[i] - width.max), # left end
+               line.fun(quantile(dv.i, probs = stats.limit[i])),
+               x.loc.i - (quant.add.length[i] - width.max), # right end
+               line.fun(quantile(dv.i, probs = stats.limit[i])),
+               col = average.line.col[bean.i],
+               lwd = line.lwd[bean.i] * quant.add.width[i],
+               lend = 3
+      )
+    }
+  }
 
 }
 
