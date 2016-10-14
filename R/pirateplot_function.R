@@ -28,6 +28,11 @@
 #' @param family a font family (Not currently in use)
 #' @param cex.lab,cex.axis Size of the labels and axes.
 #' @param bty,xlim,ylim,xlab,ylab,main,yaxt,xaxt General plotting arguments
+#' @param quant numeric. Adds horizontal lines representing custom quantiles.
+#' @param quant.length,quant.width numeric. Specifies line lengths/widths of \code{quant}.
+#' Length: Must be between 1(full length) and 0.5(invisible). Default to 0.65 and only used if \code{quant} is set.
+#' Width: Must be > 0 to be visible. Default to 0.3
+#' Both arguments must be the same length as \code{quant} if specified manually.
 #' @param ... other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)
 #' @keywords plot
 #' @importFrom BayesFactor ttestBF
@@ -100,6 +105,9 @@ pirateplot <- function(
   evidence = F,
   family = NULL,
   inf.band = "wide",
+  quant = NULL,
+  quant.length = NULL,
+  quant.width = NULL,
   ...
 ) {
 
@@ -694,6 +702,38 @@ if(length(dv.i) > 3) {  # only if n > 5
   }
 }
 
+# QUANTILES
+
+if (!is.null(quant)) {
+
+  # set default line length if length is not given manually
+  if (is.null(quant.length)) {
+    quant.length <- c(rep(0.65, length(quant)))
+  }
+  if (is.null(quant.width)) {
+    quant.width <- c(rep(0.3, length(quant)))
+  }
+
+
+  # init empty vector for loop
+  stats.limit = c()
+
+  for (i in 1:length(quant)) {
+
+    stats.limit[i] <- quant[i]
+
+    # draw lines
+    segments(x.loc.i + (quant.length[i] - width.max), # left end
+             line.fun(quantile(dv.i, probs = stats.limit[i])),
+             x.loc.i - (quant.length[i] - width.max), # right end
+             line.fun(quantile(dv.i, probs = stats.limit[i])),
+             col = average.line.col[bean.i],
+             lwd = line.lwd[bean.i] * quant.width[i],
+             lend = 3
+    )
+  }
+}
+
 # BAR
 {
 rect(x.loc.i - width.max,
@@ -838,7 +878,7 @@ inf.ub <- ci.i[2]
 dens.inf.x <- dens.x.i[dens.x.i >= inf.lb & dens.x.i <= inf.ub]
 dens.inf.y <- dens.y.i[dens.x.i >= inf.lb & dens.x.i <= inf.ub]
 
-# Draw HDI band
+# Draw inf band
 
 if(inf.band == "wide") {
 
