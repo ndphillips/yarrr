@@ -2,6 +2,8 @@
 
 * Added a `NEWS.md` file to track changes to the package.
 
+* Added `quant`, `quant.length` and `quant.width` arguments that add horizontal lines for specified quantiles to each bean (thanks @pat-s)
+
 # yarrr 0.0.7
 
 * `pirateplot()` can now handle up to 3 IVs!  
