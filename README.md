@@ -9,12 +9,12 @@ YaRrr Package
 
 The `yarrr` package contains a mixture of data, functions and tutorials supporting the e-book YaRrr! The Pirate's Guide to R (www.thepiratesguidetor.com).
 
-To install the package from github, run the following code
+To install the package from CRAN, run the following code
 
 ``` r
-install("devtools") # Install the devtools package to get the install_github function
-devtools::install_github("ndphillips/yarrr", build_vignette = T) # Install the yarrr package
-library("yarrr") # Load the package
+install.packages("yarrr") # install yarrr
+library("yarrr") # load yarrr
+yarrr.guide() # run main package guide
 ```
 
 Here are the most important parts of the package:
