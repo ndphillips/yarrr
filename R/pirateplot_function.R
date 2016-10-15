@@ -1,22 +1,22 @@
 #' pirateplot
 #'
-#' The pirateplot function creates an RDI plot (Raw data, Descriptive and Inferential statistic) pirate version of the fantastic beanplot function in the beanplot package. Just like a beanplot, pirateplot takes a discrete iv and a continuous dv, and creates a plot showing raw data, smoothed densities and central tendency. In addition, pirateplot adds the option for a 95\% Highest Density Intervals (HDI), and has a few aesthetic differences preferred by pirates.
+#' The pirateplot function creates an RDI (Raw data, Descriptive and Inferential statistic) plot showing the relationship between 1 - 3 categorical independent variables and 1 continuous dependent variable. The plot shows all raw data (shown as points), smoothed densities (shown as beans), and inferential statistics such as 95% Bayesian Highest Density Intervals (shown as bands).
 #'
 #' @param formula formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent varaibles
 #' @param data dataframe. A dataframe containing the variables specified in formula.
-#' @param avg.line.fun function. A function that determines how average lines and bar heights are determined (default is mean).
 #' @param pal string. The color palette of the plot. Can be a single color, a vector of colors, or the name of a palette in the piratepal() function (e.g.; "basel", "google", "southpark"). To see all the palettes, run \code{piratepal(palette = "all", action = "show")}
+#' @param point.col,bar.col,bean.col,bean.fill.col,inf.col,inf.border.col,avg.line.col,bar.border.col,quant.col (string) An optional vector of colors specifying the colors of the plotting elements. This will override values in the palette.
+#' @param theme.o integer. An integer in the set 0, 1 specifying an opacity theme (that is, specific values of bar.o, point.o, etc.). \code{theme = 0} turns off all opacities which can then be individually specified using bar.o, inf.o (etc.)
+#' @param bar.o,point.o,inf.o,avg.line.o,bean.o,bean.fill.o,bar.border.o (numeric) A number between 0 and 1 indicating how opaque to make the bars, points, inference band, average line, and beans respectively. These values override whatever is in the specified theme
+#' @param avg.line.fun function. A function that determines how average lines and bar heights are determined (default is mean).
 #' @param gl.col,back.col string. The color of the horizontal gridlines and plotting background.
 #' @param point.cex,point.pch,point.lwd numeric.  The size, pch type, and line width of raw data points.
+#' @param bean.lwd,bean.lty,inf.lwd,avg.line.lwd,bar.lwd numeric. Vectors of numbers customizing the look of beans and lines.
 #' @param width.min,width.max numeric. The minimum/maximum width of the beans.
 #' @param cut.min,cut.max numeric. Optional minimum and maximum values of the beans.
 #' @param inf string. A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range.
 #' @param inf.band string. Either \code{"wide"} to indicate a fixed width band, or \code{"tight"} to indicate a band constrained by the bean
 #' @param inf.p numeric. A number between 0 and 1 indicating the level of confidence to use in calculating inferences for either confidence intervals or HDIs. The default is 0.95
-#' @param theme.o integer. An integer in the set 0, 1 specifying an opacity theme (that is, specific values of bar.o, point.o, etc.). \code{theme = 0} turns off all opacities which can then be individually specified using bar.o, inf.o (etc.)
-#' @param bar.o,point.o,inf.o,avg.line.o,bean.o,bean.fill.o,bar.border.o (numeric) A number between 0 and 1 indicating how opaque to make the bars, points, inference band, average line, and beans respectively. These values override whatever is in the specified theme
-#' @param point.col,bar.col,bean.col,bean.fill.col,inf.col,inf.border.col,avg.line.col,bar.border.col,quant.col (string) An optional vector of colors specifying the colors of the plotting elements. This will override values in the palette.
-#' @param bean.lwd,bean.lty,inf.lwd,line.lwd,bar.border.lwd (numeric) A vector of numbers customizing the look of beans and lines.
 #' @param hdi.iter integer. Number of iterations to run when calculating the HDI. Larger values lead to better estimates, but can be more time consuming.
 #' @param bw,adjust Arguments passed to density calculations for beans (see ?density)
 #' @param jitter.val numeric. Amount of jitter added to points horizontally. Defaults to 0.05.
@@ -75,11 +75,11 @@ pirateplot <- function(
   avg.line.col = NULL,
   bar.border.col = NULL,
   quant.col = NULL,
-  line.lwd = 4,
+  avg.line.lwd = 4,
   bean.lwd = 1,
   bean.lty = 1,
   inf.lwd = 1,
-  bar.border.lwd = 1,
+  bar.lwd = 1,
   at = NULL,
   bw = "nrd0",
   adjust = 1,
@@ -522,8 +522,8 @@ if(is.na(width.max)) {
 bean.lwd <- rep(bean.lwd, length.out = n.beans)
 bean.lty <- rep(bean.lty, length.out = n.beans)
 inf.lwd <- rep(inf.lwd, length.out = n.beans)
-line.lwd <- rep(line.lwd, length.out = n.beans)
-bar.border.lwd <- rep(bar.border.lwd, length.out = n.beans)
+avg.line.lwd <- rep(avg.line.lwd, length.out = n.beans)
+bar.lwd <- rep(bar.lwd, length.out = n.beans)
 
 for (bean.i in 1:n.beans) {
 
@@ -610,7 +610,7 @@ rect(x.loc.i - width.max,
                        trans.val = 1 - opac.df$bar.o[bean.i]),
      border = transparent(colors.df$bar.border.col[bean.i],
                           trans.val = 1 - opac.df$bar.border.o[bean.i]),
-     lwd = bar.border.lwd[bean.i]
+     lwd = bar.lwd[bean.i]
 )
 }
 
@@ -637,7 +637,7 @@ segments(x.loc.i - width.max,
          fun.val,
          col = transparent(colors.df$avg.line.col[bean.i],
                            trans.val = 1 - opac.df$avg.line.o[bean.i]),
-         lwd = line.lwd[bean.i],
+         lwd = avg.line.lwd[bean.i],
          lend = 3
 )
 }
@@ -652,7 +652,7 @@ if(inf.band == "tight") {
            fun.val,
            col = transparent(colors.df$avg.line.col[bean.i],
                              trans.val = 1 - opac.df$avg.line.o[bean.i]),
-           lwd = line.lwd[bean.i],
+           lwd = avg.line.lwd[bean.i],
            lend = 3
   )
 }
