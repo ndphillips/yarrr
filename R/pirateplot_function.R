@@ -2,33 +2,32 @@
 #'
 #' The pirateplot function creates an RDI plot (Raw data, Descriptive and Inferential statistic) pirate version of the fantastic beanplot function in the beanplot package. Just like a beanplot, pirateplot takes a discrete iv and a continuous dv, and creates a plot showing raw data, smoothed densities and central tendency. In addition, pirateplot adds the option for a 95\% Highest Density Intervals (HDI), and has a few aesthetic differences preferred by pirates.
 #'
-#' @param formula (formula) A formula in the form y ~ x1 + x2 + x3 indicating the vertical response variable (y) and up to three independent varaibles
-#' @param data (dataframe) A dataframe containing the variables specified in formula.
-#' @param line.fun (function) A function that determines how average lines and bar heights are determined (default is mean).
-#' @param pal (string) A string indicating the color palette of the plot. Can be a single color, a vector of colors, or the name of a palette in the piratepal() function (e.g.; "basel", "google", "southpark"). To see all the palettes, run piratepal(palette = "all", action = "show")
-#' @param gl.col,back.col (string) An optional string indicating the color of the horizontal gridlines and plotting background.
-#' @param point.cex,point.pch,point.lwd (numeric) Numbers indicating the size, pch type, and line width of raw data points.
-#' @param width.min,width.max (numeric) The minimum and maximum width of a bean.
-#' @param cut.min,cut.max (numeric) Optimal minimum and maximum values of the beans.
-#' @param inf (string) A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range.
-#' @param inf.p (numeric) A number between 0 and 1 indicating the level of confidence to use in calculating inferences for either confidence intervals or HDIs. The default is 0.95
-#' @param theme.o (integer) An integer in the set 0, 1 specifying an opacity theme (that is, specific values of bar.o, point.o, etc.). You can override specific opacity values in a theme by specifying bar.o, inf.o (etc.)
+#' @param formula formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent varaibles
+#' @param data dataframe. A dataframe containing the variables specified in formula.
+#' @param avg.line.fun function. A function that determines how average lines and bar heights are determined (default is mean).
+#' @param pal string. The color palette of the plot. Can be a single color, a vector of colors, or the name of a palette in the piratepal() function (e.g.; "basel", "google", "southpark"). To see all the palettes, run \code{piratepal(palette = "all", action = "show")}
+#' @param gl.col,back.col string. The color of the horizontal gridlines and plotting background.
+#' @param point.cex,point.pch,point.lwd numeric.  The size, pch type, and line width of raw data points.
+#' @param width.min,width.max numeric. The minimum/maximum width of the beans.
+#' @param cut.min,cut.max numeric. Optional minimum and maximum values of the beans.
+#' @param inf string. A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range.
+#' @param inf.band string. Either \code{"wide"} to indicate a fixed width band, or \code{"tight"} to indicate a band constrained by the bean
+#' @param inf.p numeric. A number between 0 and 1 indicating the level of confidence to use in calculating inferences for either confidence intervals or HDIs. The default is 0.95
+#' @param theme.o integer. An integer in the set 0, 1 specifying an opacity theme (that is, specific values of bar.o, point.o, etc.). \code{theme = 0} turns off all opacities which can then be individually specified using bar.o, inf.o (etc.)
 #' @param bar.o,point.o,inf.o,avg.line.o,bean.o,bean.fill.o,bar.border.o (numeric) A number between 0 and 1 indicating how opaque to make the bars, points, inference band, average line, and beans respectively. These values override whatever is in the specified theme
 #' @param point.col,bar.col,bean.col,bean.fill.col,inf.col,inf.border.col,avg.line.col,bar.border.col,quant.col (string) An optional vector of colors specifying the colors of the plotting elements. This will override values in the palette.
 #' @param bean.lwd,bean.lty,inf.lwd,line.lwd,bar.border.lwd (numeric) A vector of numbers customizing the look of beans and lines.
-#' @param hdi.iter (integer) An integer indicating how many iterations to run when calculating the HDI. Larger values lead to better estimates, but can be more time consuming.
+#' @param hdi.iter integer. Number of iterations to run when calculating the HDI. Larger values lead to better estimates, but can be more time consuming.
 #' @param bw,adjust Arguments passed to density calculations for beans (see ?density)
-#' @param jitter.val (numeric) A number indicaing how much to jitter the points horizontally. Defaults to 0.05.
-#' @param at (numeric) An optional vector specifying the locations of the beans. Especially helpful when adding beans to an existing plot with add = T
-#' @param sortx (string) An optional argument indicating how to sort the x values. Can be "sequential" (as they are found in the original dataframe), "alphabetical", or a string indicating a function (i.e.; "mean")
-#' @param add (logical) A logical value indicating whether to add the pirateplot to an existing plotting space or not.
-#' @param evidence (logical) A logical value indicating whether to show Bayesian evidence (Not currently in use)
-#' @param inf.band Either "wide" to indicate a fixed width band, or "tight" to indcate a band constrained by the bean
+#' @param jitter.val numeric. Amount of jitter added to points horizontally. Defaults to 0.05.
+#' @param at integer. Locations of the beans. Especially helpful when adding beans to an existing plot with add = T
+#' @param sortx string. How to sort the x values. Can be "sequential" (as they are found in the original dataframe), "alphabetical", or a string indicating a function (i.e.; "mean")
+#' @param add logical. Whether to add the pirateplot to an existing plotting space or not.
+#' @param evidence logical. Should Bayesian evidence be shown? (currently ignored)
 #' @param quant numeric. A vector of quantiles specifying where to add horizontal lines
 #' @param quant.length,quant.lwd numeric. Specifies line lengths/widths of \code{quant}.
 #' @param family a font family (Not currently in use)
-#' @param cex.lab,cex.axis Size of the labels and axes.
-#' @param bty,xlim,ylim,xlab,ylab,main,yaxt,xaxt General plotting arguments
+#' @param bty,xlim,ylim,xlab,ylab,main,yaxt,xaxt,cex.lab,cex.axis General plotting arguments
 #' @param ... other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)
 #' @keywords plot
 #' @importFrom BayesFactor ttestBF
@@ -51,7 +50,7 @@
 pirateplot <- function(
   formula = NULL,
   data = NULL,
-  line.fun = mean,
+  avg.line.fun = mean,
   pal = "basel",
   back.col = gray(1),
   point.cex = 1,
@@ -532,7 +531,7 @@ for (bean.i in 1:n.beans) {
 
   if(is.logical(dv.i)) {dv.i <- as.numeric(dv.i)}
 
-  fun.val <- line.fun(dv.i)
+  fun.val <- avg.line.fun(dv.i)
 
   x.loc.i <- bean.mtx$x.loc[bean.i]
 
