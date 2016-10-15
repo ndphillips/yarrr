@@ -611,7 +611,7 @@ if (!is.null(quant)) {
     quant.length <- c(rep(0.65 * width.max, length(quant)))
   }
   if (is.null(quant.lwd)) {
-    quant.lwd <- c(rep(0.3, length(quant)))
+    quant.lwd <- c(rep(1, length(quant)))
   }
 
 
@@ -638,8 +638,8 @@ rect(x.loc.i - width.max,
      0,
      x.loc.i + width.max,
      fun.val,
-     col = bar.col[bean.i],
-     border = bar.border.col[bean.i],
+     col = transparent(colors.df$bar.col[bean.i], trans.val = 1 - opac.df$bar.o[bean.i]),
+     border = transparent(colors.df$bar.border.col[bean.i], trans.val = 1 - opac.df$bar.border.o[bean.i]),
      lwd = bar.border.lwd[bean.i]
 )
 }
