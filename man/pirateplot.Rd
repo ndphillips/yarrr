@@ -19,7 +19,8 @@ pirateplot(formula = NULL, data = NULL, avg.line.fun = mean,
   hdi.iter = 1000, inf.band = "wide", cut.min = NULL, cut.max = NULL,
   width.min = 0.3, width.max = NA, ylim = NULL, xlim = NULL,
   xlab = NULL, ylab = NULL, main = NULL, yaxt = NULL, xaxt = NULL,
-  bar.border.lwd = NULL, line.fun = NULL, ...)
+  gl.lwd = NULL, gl.lty = NULL, bar.border.lwd = NULL, line.fun = NULL,
+  ...)
 }
 \arguments{
 \item{formula}{formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent varaibles}
@@ -76,6 +77,8 @@ pirateplot(formula = NULL, data = NULL, avg.line.fun = mean,
 
 \item{width.min, width.max}{numeric. The minimum/maximum width of the beans.}
 
+\item{gl.lwd, gl.lty}{Customization for grid lines.}
+
 \item{bar.border.lwd, line.fun}{depricated arguments}
 
 \item{...}{other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)}
@@ -86,8 +89,33 @@ The pirateplot function creates an RDI (Raw data, Descriptive and Inferential st
 \examples{
 
 
-# pirateplot of chicken weights
-pirateplot(formula = weight ~ Time, data = ChickWeight)
+# pirateplot of chicken weights by diet
+pirateplot(formula = weight ~ Diet,
+           data = ChickWeight)
+
+
+# Some customizations on ChickWeight
+pirateplot(formula = weight ~ Time,
+          data = ChickWeight,
+          pal = gray(.1), # Dark gray palette
+          quant = c(.1, .9),   # Add .10 and .90 quantiles
+          bean.fill.col = "white", # Fill beans with white
+          bean.fill.o = 1, # Full filling opacity
+          back.col = "snow1", # Bit of color in the background
+          gl.col = "black", # Black gridlines
+          gl.lwd = c(.25, 0), # Just major gridlines
+          gl.lty = 1) # solid gridlines
+
+
+# More customizations now with 2 IVs on ToothGrowth
+pirateplot(formula = len ~ dose + supp,
+          data = ToothGrowth,
+          pal = gray(.1), # Dark gray palette
+          inf.col = piratepal("basel"), # add color to bands
+          inf.o = .7, # Slightly transparent bands
+          bar.o = 0, # Turn off main bars
+          gl.col = gray(.6)) # mid-gray gridlines
+
 
   # See the vignette
  vignette("pirateplot", package = "yarrr")

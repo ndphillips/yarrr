@@ -27,6 +27,7 @@
 #' @param quant.length,quant.lwd numeric. Specifies line lengths/widths of \code{quant}.
 #' @param family a font family (Not currently in use)
 #' @param cex.lab,cex.axis Size of the labels and axes.
+#' @param gl.lwd,gl.lty Customization for grid lines.
 #' @param bty,xlim,ylim,xlab,ylab,main,yaxt,xaxt General plotting arguments
 #' @param quant numeric. Adds horizontal lines representing custom quantiles.
 #' @param bar.border.lwd,line.fun depricated arguments
@@ -41,8 +42,33 @@
 #' @examples
 #'
 #'
-#' # pirateplot of chicken weights
-#' pirateplot(formula = weight ~ Time, data = ChickWeight)
+#' # pirateplot of chicken weights by diet
+#' pirateplot(formula = weight ~ Diet,
+#'            data = ChickWeight)
+#'
+#'
+#' # Some customizations on ChickWeight
+#'pirateplot(formula = weight ~ Time,
+#'           data = ChickWeight,
+#'           pal = gray(.1), # Dark gray palette
+#'           quant = c(.1, .9),   # Add .10 and .90 quantiles
+#'           bean.fill.col = "white", # Fill beans with white
+#'           bean.fill.o = 1, # Full filling opacity
+#'           back.col = "snow1", # Bit of color in the background
+#'           gl.col = "black", # Black gridlines
+#'           gl.lwd = c(.25, 0), # Just major gridlines
+#'           gl.lty = 1) # solid gridlines
+#'
+#'
+#'# More customizations now with 2 IVs on ToothGrowth
+#'pirateplot(formula = len ~ dose + supp,
+#'           data = ToothGrowth,
+#'           pal = gray(.1), # Dark gray palette
+#'           inf.col = piratepal("basel"), # add color to bands
+#'           inf.o = .7, # Slightly transparent bands
+#'           bar.o = 0, # Turn off main bars
+#'           gl.col = gray(.6)) # mid-gray gridlines
+#'
 #'
 #'   # See the vignette
 #'  vignette("pirateplot", package = "yarrr")
@@ -110,6 +136,8 @@ pirateplot <- function(
   main = NULL,
   yaxt = NULL,
   xaxt = NULL,
+  gl.lwd = NULL,
+  gl.lty = NULL,
   bar.border.lwd = NULL,
   line.fun = NULL,
   ...
@@ -281,7 +309,7 @@ if(theme.o == 1) {
  opac.df$inf.o <- .8
  opac.df$avg.line.o <- 1
  opac.df$bar.o <- .1
- opac.df$bar.border.o <- .1
+ opac.df$bar.border.o <- 0
 
 }
 
@@ -518,10 +546,13 @@ if(evidence == T) {layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(5, 2), wi
 
   if(is.null(gl.col) == F) {
 
+    if(is.null(gl.lwd)) {gl.lwd <- c(1, .5)}
+    if(is.null(gl.lty)) {gl.lty <- 3}
+
     abline(h = seq(min(y.levels), max(y.levels), length.out = length(y.levels) * 2 - 1),
-           lwd = c(1, .5),
+           lwd = gl.lwd,
            col = gl.col,
-           lty = 3)
+           lty = gl.lty)
   }
 
   }
