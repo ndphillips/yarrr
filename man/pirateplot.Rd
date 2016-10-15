@@ -7,16 +7,19 @@
 pirateplot(formula = NULL, data = NULL, line.fun = mean, pal = "basel",
   back.col = gray(1), point.cex = 1, point.pch = 16, point.lwd = 1,
   cut.min = NULL, cut.max = NULL, width.min = 0.3, width.max = NA,
-  bean.o = NULL, point.o = NULL, bar.o = NULL, inf.o = NULL,
-  line.o = NULL, inf = "hdi", inf.p = 0.95, theme.o = 1,
-  hdi.iter = 1000, jitter.val = 0.03, line.lwd = 4, bean.lwd = 1,
-  bean.lty = 1, inf.lwd = 1, bar.border.lwd = 1, gl.col = NULL,
-  ylim = NULL, xlim = NULL, xlab = NULL, ylab = NULL, main = NULL,
-  yaxt = NULL, xaxt = NULL, point.col = NULL, bar.col = NULL,
-  bean.border.col = NULL, inf.col = NULL, average.line.col = NULL,
-  bar.border.col = NULL, at = NULL, bw = "nrd0", adjust = 1, add = F,
-  sortx = "alphabetical", cex.lab = NULL, cex.axis = 1, bty = "n",
-  evidence = F, family = NULL, inf.band = "wide", ...)
+  bean.o = NULL, bean.fill.o = NULL, point.o = NULL, bar.o = NULL,
+  bar.border.o = NULL, inf.o = NULL, avg.line.o = NULL, inf = "hdi",
+  inf.p = 0.95, theme.o = 1, hdi.iter = 1000, jitter.val = 0.03,
+  line.lwd = 4, bean.lwd = 1, bean.lty = 1, inf.lwd = 1,
+  bar.border.lwd = 1, gl.col = NULL, ylim = NULL, xlim = NULL,
+  xlab = NULL, ylab = NULL, main = NULL, yaxt = NULL, xaxt = NULL,
+  point.col = NULL, bar.col = NULL, bean.col = NULL,
+  bean.fill.col = NULL, inf.col = NULL, inf.border.col = NULL,
+  avg.line.col = NULL, bar.border.col = NULL, quant.col = NULL,
+  at = NULL, bw = "nrd0", adjust = 1, add = F, sortx = "alphabetical",
+  cex.lab = NULL, cex.axis = 1, quant = NULL, quant.length = NULL,
+  quant.lwd = NULL, bty = "n", evidence = F, family = NULL,
+  inf.band = "wide", ...)
 }
 \arguments{
 \item{formula}{(formula) A formula in the form y ~ x1 + x2 + x3 indicating the vertical response variable (y) and up to three independent varaibles}
@@ -33,7 +36,7 @@ pirateplot(formula = NULL, data = NULL, line.fun = mean, pal = "basel",
 
 \item{width.min, width.max}{(numeric) The minimum and maximum width of a bean.}
 
-\item{bar.o, point.o, inf.o, line.o, bean.o}{(numeric) A number between 0 and 1 indicating how opaque to make the bars, points, inference band, average line, and beans respectively. These values override whatever is in the specified theme}
+\item{bar.o, point.o, inf.o, avg.line.o, bean.o, bean.fill.o, bar.border.o}{(numeric) A number between 0 and 1 indicating how opaque to make the bars, points, inference band, average line, and beans respectively. These values override whatever is in the specified theme}
 
 \item{inf}{(string) A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range.}
 
@@ -49,7 +52,7 @@ pirateplot(formula = NULL, data = NULL, line.fun = mean, pal = "basel",
 
 \item{gl.col, back.col}{(string) An optional string indicating the color of the horizontal gridlines and plotting background.}
 
-\item{point.col, bar.col, bean.border.col, inf.col, average.line.col, bar.border.col}{(string) An optional vector of colors specifying the colors of the plotting elements. This will override values in the palette.}
+\item{point.col, bar.col, bean.col, bean.fill.col, inf.col, inf.border.col, avg.line.col, bar.border.col, quant.col}{(string) An optional vector of colors specifying the colors of the plotting elements. This will override values in the palette.}
 
 \item{at}{(numeric) An optional vector specifying the locations of the beans. Especially helpful when adding beans to an existing plot with add = T}
 
@@ -62,6 +65,10 @@ pirateplot(formula = NULL, data = NULL, line.fun = mean, pal = "basel",
 \item{sortx}{(string) An optional argument indicating how to sort the x values. Can be "sequential" (as they are found in the original dataframe), "alphabetical", or a string indicating a function (i.e.; "mean")}
 
 \item{cex.lab, cex.axis}{Size of the labels and axes.}
+
+\item{quant}{numeric. Adds horizontal lines representing custom quantiles.}
+
+\item{quant.length, quant.lwd}{numeric. Specifies line lengths/widths of \code{quant}.}
 
 \item{bty, xlim, ylim, xlab, ylab, main, yaxt, xaxt}{General plotting arguments}
 
