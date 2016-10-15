@@ -47,16 +47,14 @@
 #'           data = ChickWeight)
 #'
 #'# Some customizations
-#'pirateplot(formula = weight ~ Diet,
+#'pirateplot(formula = weight ~ Time,
 #'           data = ChickWeight,
-#'           main = "Chicken weights by Diet",
+#'           main = "Chicken weights by Time",
 #'           pal = gray(.1), # Dark gray palette
-#'           quant = c(.1, .9), # Add lines at .10 and .90 quantiles
-#'           bean.fill.col = "white", # Fill beans with white
-#'           bean.fill.o = 1, # Full filling opacity
-#'           gl.col = "black", # Black gridlines
-#'           gl.lwd = c(.25, 0), # Just major gridlines
-#'           gl.lty = 1) # solid gridlines
+#'           bar.o = 0, # Turn off bars
+#'           quant = c(.1, .9), # .10 and .90 quantile lines
+#'           gl.lwd = c(.25, 0), # light major gridlines
+#'           gl.col = "black") # black gridlines
 #'
 #'# More customizations now with 2 IVs
 #'pirateplot(formula = len ~ dose + supp,
@@ -69,9 +67,7 @@
 #'           point.o = .5,
 #'           gl.col = gray(.6)) # mid-gray gridlines
 #'
-#'# Some more...
-#'
-#'pirateplot(age ~ sex + eyepatch,
+#'pirateplot(formula = age ~ sex + eyepatch,
 #'           data = pirates,
 #'           pal = "google", # use the google palette
 #'           main = "Pirate Ages",
