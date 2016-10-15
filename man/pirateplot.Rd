@@ -4,6 +4,7 @@
 \alias{pirateplot}
 \title{pirateplot}
 \usage{
+<<<<<<< HEAD
 pirateplot(formula = NULL, data = NULL, line.fun = mean, pal = "basel",
   back.col = gray(1), point.cex = 1, point.pch = 16, point.lwd = 1,
   cut.min = NULL, cut.max = NULL, width.min = 0.3, width.max = NA,
@@ -18,59 +19,77 @@ pirateplot(formula = NULL, data = NULL, line.fun = mean, pal = "basel",
   sortx = "alphabetical", cex.lab = NULL, cex.axis = 1, bty = "n",
   evidence = F, family = NULL, inf.band = "wide", quant = NULL,
   quant.length = NULL, quant.width = NULL, ...)
+=======
+pirateplot(formula = NULL, data = NULL, avg.line.fun = mean,
+  pal = "basel", back.col = gray(1), point.cex = 1, point.pch = 16,
+  point.lwd = 1, jitter.val = 0.03, theme.o = 1, bean.o = NULL,
+  bean.fill.o = NULL, point.o = NULL, bar.o = NULL, bar.border.o = NULL,
+  inf.o = NULL, avg.line.o = NULL, gl.col = NULL, point.col = NULL,
+  bar.col = NULL, bean.col = NULL, bean.fill.col = NULL, inf.col = NULL,
+  inf.border.col = NULL, avg.line.col = NULL, bar.border.col = NULL,
+  quant.col = NULL, avg.line.lwd = 4, bean.lwd = 1, bean.lty = 1,
+  inf.lwd = 1, bar.lwd = 1, at = NULL, bw = "nrd0", adjust = 1,
+  add = FALSE, sortx = "alphabetical", cex.lab = NULL, cex.axis = 1,
+  quant = NULL, quant.length = NULL, quant.lwd = NULL, bty = "n",
+  evidence = FALSE, family = NULL, inf = "hdi", inf.p = 0.95,
+  hdi.iter = 1000, inf.band = "wide", cut.min = NULL, cut.max = NULL,
+  width.min = 0.3, width.max = NA, ylim = NULL, xlim = NULL,
+  xlab = NULL, ylab = NULL, main = NULL, yaxt = NULL, xaxt = NULL,
+  ...)
+>>>>>>> dev
 }
 \arguments{
-\item{formula}{(formula) A formula in the form y ~ x1 + x2 + x3 indicating the vertical response variable (y) and up to three independent varaibles}
+\item{formula}{formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent varaibles}
 
-\item{data}{(dataframe) A dataframe containing the variables specified in formula.}
+\item{data}{dataframe. A dataframe containing the variables specified in formula.}
 
-\item{line.fun}{(function) A function that determines how average lines and bar heights are determined (default is mean).}
+\item{avg.line.fun}{function. A function that determines how average lines and bar heights are determined (default is mean).}
 
-\item{pal}{(string) A string indicating the color palette of the plot. Can be a single color, a vector of colors, or the name of a palette in the piratepal() function (e.g.; "basel", "google", "southpark"). To see all the palettes, run piratepal(palette = "all", action = "show")}
+\item{pal}{string. The color palette of the plot. Can be a single color, a vector of colors, or the name of a palette in the piratepal() function (e.g.; "basel", "google", "southpark"). To see all the palettes, run \code{piratepal(palette = "all", action = "show")}}
 
-\item{point.cex, point.pch, point.lwd}{(numeric) Numbers indicating the size, pch type, and line width of raw data points.}
+\item{point.cex, point.pch, point.lwd}{numeric.  The size, pch type, and line width of raw data points.}
 
-\item{cut.min, cut.max}{(numeric) Optimal minimum and maximum values of the beans.}
+\item{jitter.val}{numeric. Amount of jitter added to points horizontally. Defaults to 0.05.}
 
-\item{width.min, width.max}{(numeric) The minimum and maximum width of a bean.}
+\item{theme.o}{integer. An integer in the set 0, 1 specifying an opacity theme (that is, specific values of bar.o, point.o, etc.). \code{theme = 0} turns off all opacities which can then be individually specified using bar.o, inf.o (etc.)}
 
-\item{bar.o, point.o, inf.o, line.o, bean.o}{(numeric) A number between 0 and 1 indicating how opaque to make the bars, points, inference band, average line, and beans respectively. These values override whatever is in the specified theme}
+\item{bar.o, point.o, inf.o, avg.line.o, bean.o, bean.fill.o, bar.border.o}{(numeric) A number between 0 and 1 indicating how opaque to make the bars, points, inference band, average line, and beans respectively. These values override whatever is in the specified theme}
 
-\item{inf}{(string) A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range.}
+\item{gl.col, back.col}{string. The color of the horizontal gridlines and plotting background.}
 
-\item{inf.p}{(numeric) A number between 0 and 1 indicating the level of confidence to use in calculating inferences for either confidence intervals or HDIs. The default is 0.95}
+\item{point.col, bar.col, bean.col, bean.fill.col, inf.col, inf.border.col, avg.line.col, bar.border.col, quant.col}{(string) An optional vector of colors specifying the colors of the plotting elements. This will override values in the palette.}
 
-\item{theme.o}{(integer) An integer in the set 0, 1, 2, 3, specifying an opacity theme (that is, specific values of bar.o, point.o, etc.). You can override specific opacity values in a theme by specifying bar.o, inf.o (etc.)}
+\item{bean.lwd, bean.lty, inf.lwd, avg.line.lwd, bar.lwd}{numeric. Vectors of numbers customizing the look of beans and lines.}
 
-\item{hdi.iter}{(integer) An integer indicating how many iterations to run when calculating the HDI. Larger values lead to better estimates, but can be more time consuming.}
+\item{at}{integer. Locations of the beans. Especially helpful when adding beans to an existing plot with add = T}
 
-\item{jitter.val}{(numeric) A number indicaing how much to jitter the points horizontally. Defaults to 0.05.}
+\item{bw, adjust}{Arguments passed to density calculations for beans (see ?density)}
 
-\item{bean.lwd, bean.lty, inf.lwd, line.lwd, bar.border.lwd}{(numeric) A vector of numbers customizing the look of beans and lines.}
+\item{add}{logical. Whether to add the pirateplot to an existing plotting space or not.}
 
-\item{gl.col, back.col}{(string) An optional string indicating the color of the horizontal gridlines and plotting background.}
+\item{sortx}{string. How to sort the x values. Can be "sequential" (as they are found in the original dataframe), "alphabetical", or a string indicating a function (i.e.; "mean")}
 
-\item{point.col, bar.col, bean.border.col, inf.col, average.line.col, bar.border.col}{(string) An optional vector of colors specifying the colors of the plotting elements. This will override values in the palette.}
+\item{quant}{numeric. A vector of quantiles specifying where to add horizontal lines}
 
-\item{at}{(numeric) An optional vector specifying the locations of the beans. Especially helpful when adding beans to an existing plot with add = T}
+\item{quant.length, quant.lwd}{numeric. Specifies line lengths/widths of \code{quant}.}
 
-\item{bw}{(string) The smoothing bandwidth to use for the bean. (see ?density)}
+\item{bty, xlim, ylim, xlab, ylab, main, yaxt, xaxt, cex.lab, cex.axis}{General plotting arguments}
 
-\item{adjust}{(numeric) Adjustment for the bandwidth (see ?density)}
-
-\item{add}{(logical) A logical value indicating whether to add the pirateplot to an existing plotting space or not.}
-
-\item{sortx}{(string) An optional argument indicating how to sort the x values. Can be "sequential" (as they are found in the original dataframe), "alphabetical", or a string indicating a function (i.e.; "mean")}
-
-\item{cex.lab, cex.axis}{Size of the labels and axes.}
-
-\item{bty, xlim, ylim, xlab, ylab, main, yaxt, xaxt}{General plotting arguments}
-
-\item{evidence}{(logical) A logical value indicating whether to show Bayesian evidence (Not currently in use)}
+\item{evidence}{logical. Should Bayesian evidence be shown? (currently ignored)}
 
 \item{family}{a font family (Not currently in use)}
 
-\item{inf.band}{Either "wide" to indicate a fixed width band, or "tight" to indcate a band constrained by the bean}
+\item{inf}{string. A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range.}
+
+\item{inf.p}{numeric. A number between 0 and 1 indicating the level of confidence to use in calculating inferences for either confidence intervals or HDIs. The default is 0.95}
+
+\item{hdi.iter}{integer. Number of iterations to run when calculating the HDI. Larger values lead to better estimates, but can be more time consuming.}
+
+\item{inf.band}{string. Either \code{"wide"} to indicate a fixed width band, or \code{"tight"} to indicate a band constrained by the bean}
+
+\item{cut.min, cut.max}{numeric. Optional minimum and maximum values of the beans.}
+
+\item{width.min, width.max}{numeric. The minimum/maximum width of the beans.}
 
 \item{quant}{numeric. Adds horizontal lines representing custom quantiles.}
 
@@ -82,7 +101,7 @@ Both arguments must be the same length as \code{quant} if specified manually.}
 \item{...}{other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)}
 }
 \description{
-The pirateplot function creates an RDI plot (Raw data, Descriptive and Inferential statistic) pirate version of the fantastic beanplot function in the beanplot package. Just like a beanplot, pirateplot takes a discrete iv and a continuous dv, and creates a plot showing raw data, smoothed densities and central tendency. In addition, pirateplot adds the option for a 95\% Highest Density Intervals (HDI), and has a few aesthetic differences preferred by pirates.
+The pirateplot function creates an RDI (Raw data, Descriptive and Inferential statistic) plot showing the relationship between 1 - 3 categorical independent variables and 1 continuous dependent variable. The plot shows all raw data (shown as points), smoothed densities (shown as beans), and inferential statistics such as 95% Bayesian Highest Density Intervals (shown as bands).
 }
 \examples{
 
