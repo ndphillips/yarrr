@@ -24,20 +24,12 @@
 #' @param sortx string. How to sort the x values. Can be "sequential" (as they are found in the original dataframe), "alphabetical", or a string indicating a function (i.e.; "mean")
 #' @param add logical. Whether to add the pirateplot to an existing plotting space or not.
 #' @param evidence logical. Should Bayesian evidence be shown? (currently ignored)
-#' @param quant numeric. A vector of quantiles specifying where to add horizontal lines
 #' @param quant.length,quant.lwd numeric. Specifies line lengths/widths of \code{quant}.
 #' @param family a font family (Not currently in use)
-<<<<<<< HEAD
 #' @param cex.lab,cex.axis Size of the labels and axes.
 #' @param bty,xlim,ylim,xlab,ylab,main,yaxt,xaxt General plotting arguments
 #' @param quant numeric. Adds horizontal lines representing custom quantiles.
-#' @param quant.length,quant.width numeric. Specifies line lengths/widths of \code{quant}.
-#' Length: Must be between 1(full length) and 0.5(invisible). Default to 0.65 and only used if \code{quant} is set.
-#' Width: Must be > 0 to be visible. Default to 0.3
-#' Both arguments must be the same length as \code{quant} if specified manually.
-=======
-#' @param bty,xlim,ylim,xlab,ylab,main,yaxt,xaxt,cex.lab,cex.axis General plotting arguments
->>>>>>> dev
+#' @param bar.border.lwd,line.fun depricated arguments
 #' @param ... other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)
 #' @keywords plot
 #' @importFrom BayesFactor ttestBF
@@ -107,11 +99,6 @@ pirateplot <- function(
   inf.p = .95,
   hdi.iter = 1e3,
   inf.band = "wide",
-<<<<<<< HEAD
-  quant = NULL,
-  quant.length = NULL,
-  quant.width = NULL,
-=======
   cut.min = NULL,
   cut.max = NULL,
   width.min = .3,
@@ -123,20 +110,34 @@ pirateplot <- function(
   main = NULL,
   yaxt = NULL,
   xaxt = NULL,
->>>>>>> dev
+  bar.border.lwd = NULL,
+  line.fun = NULL,
   ...
 ) {
-
-
-#
-# # TESTING
-# #
 
 
 
 # -----
 #  SETUP
 # ------
+
+# Check for depricated arguments
+
+if(is.null(bar.border.lwd) == FALSE) {
+
+  message("bar.border.lwd is depricated. Use bar.lwd intead")
+
+  bar.lwd <- bar.border.lwd
+}
+
+if(is.null(line.fun) == FALSE) {
+
+  message("line.fun is depricated. Use avg.line.fun intead")
+
+  avg.line.fun <- line.fun
+
+}
+
 
 # Look for missing critical inputs
 
@@ -595,17 +596,22 @@ if(length(dv.i) > 3) {  # only if n > 5
   }
 }
 
-<<<<<<< HEAD
+
 # QUANTILES
 
 if (!is.null(quant)) {
 
   # set default line length if length is not given manually
+
+  if(is.null(quant.lwd) == FALSE) {quant.lwd <- rep(quant.lwd, length.out = length(quant))}
+  if(is.null(quant.length) == FALSE) {quant.length <- rep(quant.length, length.out = length(quant))}
+
+
   if (is.null(quant.length)) {
-    quant.length <- c(rep(0.65, length(quant)))
+    quant.length <- c(rep(0.65 * width.max, length(quant)))
   }
-  if (is.null(quant.width)) {
-    quant.width <- c(rep(0.3, length(quant)))
+  if (is.null(quant.lwd)) {
+    quant.lwd <- c(rep(0.3, length(quant)))
   }
 
 
@@ -614,15 +620,13 @@ if (!is.null(quant)) {
 
   for (i in 1:length(quant)) {
 
-    stats.limit[i] <- quant[i]
-
     # draw lines
     segments(x.loc.i + (quant.length[i] - width.max), # left end
-             line.fun(quantile(dv.i, probs = stats.limit[i])),
+             quantile(dv.i, probs = quant[i]),
              x.loc.i - (quant.length[i] - width.max), # right end
-             line.fun(quantile(dv.i, probs = stats.limit[i])),
-             col = average.line.col[bean.i],
-             lwd = line.lwd[bean.i] * quant.width[i],
+             quantile(dv.i, probs = quant[i]),
+             col = avg.line.col[bean.i],
+             lwd = quant.lwd[i],
              lend = 3
     )
   }
@@ -639,8 +643,7 @@ rect(x.loc.i - width.max,
      lwd = bar.border.lwd[bean.i]
 )
 }
-=======
->>>>>>> dev
+
 
 # BEAN
 {

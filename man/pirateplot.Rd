@@ -4,22 +4,6 @@
 \alias{pirateplot}
 \title{pirateplot}
 \usage{
-<<<<<<< HEAD
-pirateplot(formula = NULL, data = NULL, line.fun = mean, pal = "basel",
-  back.col = gray(1), point.cex = 1, point.pch = 16, point.lwd = 1,
-  cut.min = NULL, cut.max = NULL, width.min = 0.3, width.max = NA,
-  bean.o = NULL, point.o = NULL, bar.o = NULL, inf.o = NULL,
-  line.o = NULL, inf = "hdi", inf.p = 0.95, theme.o = 1,
-  hdi.iter = 1000, jitter.val = 0.03, line.lwd = 4, bean.lwd = 1,
-  bean.lty = 1, inf.lwd = 1, bar.border.lwd = 1, gl.col = NULL,
-  ylim = NULL, xlim = NULL, xlab = NULL, ylab = NULL, main = NULL,
-  yaxt = NULL, xaxt = NULL, point.col = NULL, bar.col = NULL,
-  bean.border.col = NULL, inf.col = NULL, average.line.col = NULL,
-  bar.border.col = NULL, at = NULL, bw = "nrd0", adjust = 1, add = F,
-  sortx = "alphabetical", cex.lab = NULL, cex.axis = 1, bty = "n",
-  evidence = F, family = NULL, inf.band = "wide", quant = NULL,
-  quant.length = NULL, quant.width = NULL, ...)
-=======
 pirateplot(formula = NULL, data = NULL, avg.line.fun = mean,
   pal = "basel", back.col = gray(1), point.cex = 1, point.pch = 16,
   point.lwd = 1, jitter.val = 0.03, theme.o = 1, bean.o = NULL,
@@ -35,8 +19,7 @@ pirateplot(formula = NULL, data = NULL, avg.line.fun = mean,
   hdi.iter = 1000, inf.band = "wide", cut.min = NULL, cut.max = NULL,
   width.min = 0.3, width.max = NA, ylim = NULL, xlim = NULL,
   xlab = NULL, ylab = NULL, main = NULL, yaxt = NULL, xaxt = NULL,
-  ...)
->>>>>>> dev
+  bar.border.lwd = NULL, line.fun = NULL, ...)
 }
 \arguments{
 \item{formula}{formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent varaibles}
@@ -69,11 +52,13 @@ pirateplot(formula = NULL, data = NULL, avg.line.fun = mean,
 
 \item{sortx}{string. How to sort the x values. Can be "sequential" (as they are found in the original dataframe), "alphabetical", or a string indicating a function (i.e.; "mean")}
 
-\item{quant}{numeric. A vector of quantiles specifying where to add horizontal lines}
+\item{cex.lab, cex.axis}{Size of the labels and axes.}
+
+\item{quant}{numeric. Adds horizontal lines representing custom quantiles.}
 
 \item{quant.length, quant.lwd}{numeric. Specifies line lengths/widths of \code{quant}.}
 
-\item{bty, xlim, ylim, xlab, ylab, main, yaxt, xaxt, cex.lab, cex.axis}{General plotting arguments}
+\item{bty, xlim, ylim, xlab, ylab, main, yaxt, xaxt}{General plotting arguments}
 
 \item{evidence}{logical. Should Bayesian evidence be shown? (currently ignored)}
 
@@ -91,12 +76,7 @@ pirateplot(formula = NULL, data = NULL, avg.line.fun = mean,
 
 \item{width.min, width.max}{numeric. The minimum/maximum width of the beans.}
 
-\item{quant}{numeric. Adds horizontal lines representing custom quantiles.}
-
-\item{quant.length, quant.width}{numeric. Specifies line lengths/widths of \code{quant}.
-Length: Must be between 1(full length) and 0.5(invisible). Default to 0.65 and only used if \code{quant} is set.
-Width: Must be > 0 to be visible. Default to 0.3
-Both arguments must be the same length as \code{quant} if specified manually.}
+\item{bar.border.lwd, line.fun}{depricated arguments}
 
 \item{...}{other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)}
 }
