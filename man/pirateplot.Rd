@@ -6,20 +6,20 @@
 \usage{
 pirateplot(formula = NULL, data = NULL, line.fun = mean, pal = "basel",
   back.col = gray(1), point.cex = 1, point.pch = 16, point.lwd = 1,
-  cut.min = NULL, cut.max = NULL, width.min = 0.3, width.max = NA,
-  bean.o = NULL, bean.fill.o = NULL, point.o = NULL, bar.o = NULL,
-  bar.border.o = NULL, inf.o = NULL, avg.line.o = NULL, inf = "hdi",
-  inf.p = 0.95, theme.o = 1, hdi.iter = 1000, jitter.val = 0.03,
-  line.lwd = 4, bean.lwd = 1, bean.lty = 1, inf.lwd = 1,
-  bar.border.lwd = 1, gl.col = NULL, ylim = NULL, xlim = NULL,
+  jitter.val = 0.03, theme.o = 1, bean.o = NULL, bean.fill.o = NULL,
+  point.o = NULL, bar.o = NULL, bar.border.o = NULL, inf.o = NULL,
+  avg.line.o = NULL, gl.col = NULL, point.col = NULL, bar.col = NULL,
+  bean.col = NULL, bean.fill.col = NULL, inf.col = NULL,
+  inf.border.col = NULL, avg.line.col = NULL, bar.border.col = NULL,
+  quant.col = NULL, line.lwd = 4, bean.lwd = 1, bean.lty = 1,
+  inf.lwd = 1, bar.border.lwd = 1, at = NULL, bw = "nrd0", adjust = 1,
+  add = FALSE, sortx = "alphabetical", cex.lab = NULL, cex.axis = 1,
+  quant = NULL, quant.length = NULL, quant.lwd = NULL, bty = "n",
+  evidence = FALSE, family = NULL, inf = "hdi", inf.p = 0.95,
+  hdi.iter = 1000, inf.band = "wide", cut.min = NULL, cut.max = NULL,
+  width.min = 0.3, width.max = NA, ylim = NULL, xlim = NULL,
   xlab = NULL, ylab = NULL, main = NULL, yaxt = NULL, xaxt = NULL,
-  point.col = NULL, bar.col = NULL, bean.col = NULL,
-  bean.fill.col = NULL, inf.col = NULL, inf.border.col = NULL,
-  avg.line.col = NULL, bar.border.col = NULL, quant.col = NULL,
-  at = NULL, bw = "nrd0", adjust = 1, add = F, sortx = "alphabetical",
-  cex.lab = NULL, cex.axis = 1, quant = NULL, quant.length = NULL,
-  quant.lwd = NULL, bty = "n", evidence = F, family = NULL,
-  inf.band = "wide", ...)
+  ...)
 }
 \arguments{
 \item{formula}{(formula) A formula in the form y ~ x1 + x2 + x3 indicating the vertical response variable (y) and up to three independent varaibles}
@@ -32,33 +32,21 @@ pirateplot(formula = NULL, data = NULL, line.fun = mean, pal = "basel",
 
 \item{point.cex, point.pch, point.lwd}{(numeric) Numbers indicating the size, pch type, and line width of raw data points.}
 
-\item{cut.min, cut.max}{(numeric) Optimal minimum and maximum values of the beans.}
-
-\item{width.min, width.max}{(numeric) The minimum and maximum width of a bean.}
-
-\item{bar.o, point.o, inf.o, avg.line.o, bean.o, bean.fill.o, bar.border.o}{(numeric) A number between 0 and 1 indicating how opaque to make the bars, points, inference band, average line, and beans respectively. These values override whatever is in the specified theme}
-
-\item{inf}{(string) A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range.}
-
-\item{inf.p}{(numeric) A number between 0 and 1 indicating the level of confidence to use in calculating inferences for either confidence intervals or HDIs. The default is 0.95}
-
-\item{theme.o}{(integer) An integer in the set 0, 1, 2, 3, specifying an opacity theme (that is, specific values of bar.o, point.o, etc.). You can override specific opacity values in a theme by specifying bar.o, inf.o (etc.)}
-
-\item{hdi.iter}{(integer) An integer indicating how many iterations to run when calculating the HDI. Larger values lead to better estimates, but can be more time consuming.}
-
 \item{jitter.val}{(numeric) A number indicaing how much to jitter the points horizontally. Defaults to 0.05.}
 
-\item{bean.lwd, bean.lty, inf.lwd, line.lwd, bar.border.lwd}{(numeric) A vector of numbers customizing the look of beans and lines.}
+\item{theme.o}{(integer) An integer in the set 0, 1 specifying an opacity theme (that is, specific values of bar.o, point.o, etc.). You can override specific opacity values in a theme by specifying bar.o, inf.o (etc.)}
+
+\item{bar.o, point.o, inf.o, avg.line.o, bean.o, bean.fill.o, bar.border.o}{(numeric) A number between 0 and 1 indicating how opaque to make the bars, points, inference band, average line, and beans respectively. These values override whatever is in the specified theme}
 
 \item{gl.col, back.col}{(string) An optional string indicating the color of the horizontal gridlines and plotting background.}
 
 \item{point.col, bar.col, bean.col, bean.fill.col, inf.col, inf.border.col, avg.line.col, bar.border.col, quant.col}{(string) An optional vector of colors specifying the colors of the plotting elements. This will override values in the palette.}
 
+\item{bean.lwd, bean.lty, inf.lwd, line.lwd, bar.border.lwd}{(numeric) A vector of numbers customizing the look of beans and lines.}
+
 \item{at}{(numeric) An optional vector specifying the locations of the beans. Especially helpful when adding beans to an existing plot with add = T}
 
-\item{bw}{(string) The smoothing bandwidth to use for the bean. (see ?density)}
-
-\item{adjust}{(numeric) Adjustment for the bandwidth (see ?density)}
+\item{bw, adjust}{Arguments passed to density calculations for beans (see ?density)}
 
 \item{add}{(logical) A logical value indicating whether to add the pirateplot to an existing plotting space or not.}
 
@@ -66,7 +54,7 @@ pirateplot(formula = NULL, data = NULL, line.fun = mean, pal = "basel",
 
 \item{cex.lab, cex.axis}{Size of the labels and axes.}
 
-\item{quant}{numeric. Adds horizontal lines representing custom quantiles.}
+\item{quant}{numeric. A vector of quantiles specifying where to add horizontal lines}
 
 \item{quant.length, quant.lwd}{numeric. Specifies line lengths/widths of \code{quant}.}
 
@@ -76,7 +64,17 @@ pirateplot(formula = NULL, data = NULL, line.fun = mean, pal = "basel",
 
 \item{family}{a font family (Not currently in use)}
 
+\item{inf}{(string) A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range.}
+
+\item{inf.p}{(numeric) A number between 0 and 1 indicating the level of confidence to use in calculating inferences for either confidence intervals or HDIs. The default is 0.95}
+
+\item{hdi.iter}{(integer) An integer indicating how many iterations to run when calculating the HDI. Larger values lead to better estimates, but can be more time consuming.}
+
 \item{inf.band}{Either "wide" to indicate a fixed width band, or "tight" to indcate a band constrained by the bean}
+
+\item{cut.min, cut.max}{(numeric) Optimal minimum and maximum values of the beans.}
+
+\item{width.min, width.max}{(numeric) The minimum and maximum width of a bean.}
 
 \item{...}{other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)}
 }

@@ -12,20 +12,19 @@
 #' @param cut.min,cut.max (numeric) Optimal minimum and maximum values of the beans.
 #' @param inf (string) A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range.
 #' @param inf.p (numeric) A number between 0 and 1 indicating the level of confidence to use in calculating inferences for either confidence intervals or HDIs. The default is 0.95
-#' @param theme.o (integer) An integer in the set 0, 1, 2, 3, specifying an opacity theme (that is, specific values of bar.o, point.o, etc.). You can override specific opacity values in a theme by specifying bar.o, inf.o (etc.)
+#' @param theme.o (integer) An integer in the set 0, 1 specifying an opacity theme (that is, specific values of bar.o, point.o, etc.). You can override specific opacity values in a theme by specifying bar.o, inf.o (etc.)
 #' @param bar.o,point.o,inf.o,avg.line.o,bean.o,bean.fill.o,bar.border.o (numeric) A number between 0 and 1 indicating how opaque to make the bars, points, inference band, average line, and beans respectively. These values override whatever is in the specified theme
 #' @param point.col,bar.col,bean.col,bean.fill.col,inf.col,inf.border.col,avg.line.col,bar.border.col,quant.col (string) An optional vector of colors specifying the colors of the plotting elements. This will override values in the palette.
 #' @param bean.lwd,bean.lty,inf.lwd,line.lwd,bar.border.lwd (numeric) A vector of numbers customizing the look of beans and lines.
 #' @param hdi.iter (integer) An integer indicating how many iterations to run when calculating the HDI. Larger values lead to better estimates, but can be more time consuming.
-#' @param bw (string) The smoothing bandwidth to use for the bean. (see ?density)
-#' @param adjust (numeric) Adjustment for the bandwidth (see ?density)
+#' @param bw,adjust Arguments passed to density calculations for beans (see ?density)
 #' @param jitter.val (numeric) A number indicaing how much to jitter the points horizontally. Defaults to 0.05.
 #' @param at (numeric) An optional vector specifying the locations of the beans. Especially helpful when adding beans to an existing plot with add = T
 #' @param sortx (string) An optional argument indicating how to sort the x values. Can be "sequential" (as they are found in the original dataframe), "alphabetical", or a string indicating a function (i.e.; "mean")
 #' @param add (logical) A logical value indicating whether to add the pirateplot to an existing plotting space or not.
 #' @param evidence (logical) A logical value indicating whether to show Bayesian evidence (Not currently in use)
 #' @param inf.band Either "wide" to indicate a fixed width band, or "tight" to indcate a band constrained by the bean
-#' @param quant numeric. Adds horizontal lines representing custom quantiles.
+#' @param quant numeric. A vector of quantiles specifying where to add horizontal lines
 #' @param quant.length,quant.lwd numeric. Specifies line lengths/widths of \code{quant}.
 #' @param family a font family (Not currently in use)
 #' @param cex.lab,cex.axis Size of the labels and axes.
@@ -58,10 +57,8 @@ pirateplot <- function(
   point.cex = 1,
   point.pch = 16,
   point.lwd = 1,
-  cut.min = NULL,
-  cut.max = NULL,
-  width.min = .3,
-  width.max = NA,
+  jitter.val = .03,
+  theme.o = 1,
   bean.o = NULL,
   bean.fill.o = NULL,
   point.o = NULL,
@@ -69,24 +66,7 @@ pirateplot <- function(
   bar.border.o = NULL,
   inf.o = NULL,
   avg.line.o = NULL,
-  inf = "hdi",
-  inf.p = .95,
-  theme.o = 1,
-  hdi.iter = 1e3,
-  jitter.val = .03,
-  line.lwd = 4,
-  bean.lwd = 1,
-  bean.lty = 1,
-  inf.lwd = 1,
-  bar.border.lwd = 1,
   gl.col = NULL,
-  ylim = NULL,
-  xlim = NULL,
-  xlab = NULL,
-  ylab = NULL,
-  main = NULL,
-  yaxt = NULL,
-  xaxt = NULL,
   point.col = NULL,
   bar.col = NULL,
   bean.col = NULL,
@@ -96,10 +76,15 @@ pirateplot <- function(
   avg.line.col = NULL,
   bar.border.col = NULL,
   quant.col = NULL,
+  line.lwd = 4,
+  bean.lwd = 1,
+  bean.lty = 1,
+  inf.lwd = 1,
+  bar.border.lwd = 1,
   at = NULL,
   bw = "nrd0",
   adjust = 1,
-  add = F,
+  add = FALSE,
   sortx = "alphabetical",
   cex.lab = NULL,
   cex.axis = 1,
@@ -107,9 +92,23 @@ pirateplot <- function(
   quant.length = NULL,
   quant.lwd = NULL,
   bty = "n",
-  evidence = F,
+  evidence = FALSE,
   family = NULL,
+  inf = "hdi",
+  inf.p = .95,
+  hdi.iter = 1e3,
   inf.band = "wide",
+  cut.min = NULL,
+  cut.max = NULL,
+  width.min = .3,
+  width.max = NA,
+  ylim = NULL,
+  xlim = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  main = NULL,
+  yaxt = NULL,
+  xaxt = NULL,
   ...
 ) {
 
