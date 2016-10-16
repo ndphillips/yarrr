@@ -91,7 +91,6 @@
 #'#  And use 3 IVs
 #'pirateplot(formula = height ~ headband + eyepatch + sex,
 #'           data = pirates,
-#'           main = "Chicken weights by Time",
 #'           pal = gray(.1), # Dark gray palette
 #'           theme = 0, # Start from scratch
 #'           inf.f.o = .7, # Band opacity
