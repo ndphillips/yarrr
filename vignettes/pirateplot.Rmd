@@ -95,7 +95,7 @@ pirateplot(formula = weight ~ Time,
 
 ## Theme 2
 
-`theme = 2`, emphasizes the beans and deemphasizes the points:
+`theme = 2`, emphasizes the beans and changes the look of the points:
 
 ```{r fig.align='center', fig.width = 6, fig.height = 4}
 # Default theme
