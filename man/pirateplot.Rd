@@ -6,21 +6,22 @@
 \usage{
 pirateplot(formula = NULL, data = NULL, avg.line.fun = mean,
   pal = "basel", back.col = gray(1), point.cex = 1, point.pch = 16,
-  point.lwd = 1, jitter.val = 0.03, theme.o = 1, bean.o = NULL,
-  bean.fill.o = NULL, point.o = NULL, bar.o = NULL, bar.border.o = NULL,
-  inf.fill.o = NULL, inf.border.o = NULL, avg.line.o = NULL,
-  gl.col = NULL, point.col = NULL, bar.col = NULL, bean.col = NULL,
-  bean.fill.col = NULL, inf.col = NULL, inf.border.col = NULL,
-  avg.line.col = NULL, bar.border.col = NULL, quant.col = NULL,
-  avg.line.lwd = 4, bean.lwd = 1, bean.lty = 1, inf.lwd = 1,
-  bar.lwd = 1, at = NULL, bw = "nrd0", adjust = 1, add = FALSE,
-  sortx = "alphabetical", cex.lab = NULL, cex.axis = 1, quant = NULL,
-  quant.length = NULL, quant.lwd = NULL, bty = "n", evidence = FALSE,
-  family = NULL, inf = "hdi", inf.p = 0.95, hdi.iter = 1000,
-  inf.band = "wide", cut.min = NULL, cut.max = NULL, width.min = 0.3,
-  width.max = NA, ylim = NULL, xlim = NULL, xlab = NULL, ylab = NULL,
-  main = NULL, yaxt = NULL, xaxt = NULL, gl.lwd = NULL, gl.lty = NULL,
-  bar.border.lwd = NULL, line.fun = NULL, inf.o = NULL, ...)
+  point.lwd = 1, jitter.val = 0.03, theme = 1, bean.b.o = NULL,
+  bean.f.o = NULL, point.o = NULL, bar.f.o = NULL, bar.b.o = NULL,
+  inf.f.o = NULL, inf.b.o = NULL, avg.line.o = NULL, gl.col = NULL,
+  point.col = NULL, point.bg = NULL, bar.f.col = NULL,
+  bean.b.col = NULL, bean.f.col = NULL, inf.f.col = NULL,
+  inf.b.col = NULL, avg.line.col = NULL, bar.b.col = NULL,
+  quant.col = NULL, avg.line.lwd = 4, bean.lwd = 1, bean.lty = 1,
+  inf.lwd = 1, bar.lwd = 1, at = NULL, bw = "nrd0", adjust = 1,
+  add = FALSE, sortx = "alphabetical", cex.lab = NULL, cex.axis = 1,
+  quant = NULL, quant.length = NULL, quant.lwd = NULL, bty = "n",
+  evidence = FALSE, family = NULL, inf = "hdi", inf.p = 0.95,
+  hdi.iter = 1000, inf.band = "wide", cut.min = NULL, cut.max = NULL,
+  width.min = 0.3, width.max = NA, ylim = NULL, xlim = NULL,
+  xlab = NULL, ylab = NULL, main = NULL, yaxt = NULL, xaxt = NULL,
+  gl.lwd = NULL, gl.lty = NULL, bar.b.lwd = NULL, line.fun = NULL,
+  inf.o = NULL, bean.o = NULL, inf.col = NULL, theme.o = NULL, ...)
 }
 \arguments{
 \item{formula}{formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent varaibles}
@@ -35,13 +36,13 @@ pirateplot(formula = NULL, data = NULL, avg.line.fun = mean,
 
 \item{jitter.val}{numeric. Amount of jitter added to points horizontally. Defaults to 0.05.}
 
-\item{theme.o}{integer. An integer in the set 0, 1 specifying an opacity theme (that is, specific values of bar.o, point.o, etc.). \code{theme = 0} turns off all opacities which can then be individually specified using bar.o, inf.fill.o (etc.)}
+\item{theme}{integer. An integer in the set 0, 1, 2 specifying a theme (that is, new default values for opacities and colors). \code{theme = 0} turns off all opacities which can then be individually specified individually.}
 
-\item{bar.o, point.o, inf.fill.o, inf.border.o, avg.line.o, bean.o, bean.fill.o, bar.border.o}{(numeric) A number between 0 and 1 indicating how opaque to make the bars, points, inference band, average line, and beans respectively. These values override whatever is in the specified theme}
+\item{bar.f.o, point.o, inf.f.o, inf.b.o, avg.line.o, bean.b.o, bean.f.o, bar.b.o}{numeric. A number between 0 and 1 indicating how opaque to make the bars, points, inference band, average line, and beans respectively. These values override whatever is in the specified theme}
 
 \item{gl.col, back.col}{string. The color of the horizontal gridlines and plotting background.}
 
-\item{point.col, bar.col, bean.col, bean.fill.col, inf.col, inf.border.col, avg.line.col, bar.border.col, quant.col}{(string) An optional vector of colors specifying the colors of the plotting elements. This will override values in the palette.}
+\item{point.col, bar.f.col, bean.b.col, bean.f.col, inf.f.col, inf.b.col, avg.line.col, bar.b.col, quant.col, point.bg}{string. Vectors of colors specifying the colors of the plotting elements. This will override values in the palette. f stands for filling, b stands for border.}
 
 \item{bean.lwd, bean.lty, inf.lwd, avg.line.lwd, bar.lwd}{numeric. Vectors of numbers customizing the look of beans and lines.}
 
@@ -79,7 +80,7 @@ pirateplot(formula = NULL, data = NULL, avg.line.fun = mean,
 
 \item{gl.lwd, gl.lty}{Customization for grid lines.}
 
-\item{bar.border.lwd, line.fun, inf.o}{depricated arguments}
+\item{bar.b.lwd, line.fun, inf.o, bean.o, inf.col, theme.o}{depricated arguments}
 
 \item{...}{other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)}
 }
@@ -93,40 +94,61 @@ The pirateplot function creates an RDI (Raw data, Descriptive and Inferential st
 pirateplot(formula = weight ~ Time,
           data = ChickWeight)
 
-# Some customizations
+# Black and white version
 pirateplot(formula = weight ~ Time,
           data = ChickWeight,
           main = "Chicken weights by Time",
-          pal = gray(.1), # Dark gray palette
-          bar.o = 0, # Turn off bars
-          quant = c(.1, .9), # .10 and .90 quantile lines
-          gl.lwd = c(.25, 0), # light major gridlines
-          gl.col = "black") # black gridlines
+          pal = gray(.2)) # Dark gray palette
 
-# More customizations now with 2 IVs
-pirateplot(formula = len ~ dose + supp,
-          data = ToothGrowth,
-          main = "Guinea pig tooth length",
-          pal = gray(.1), # Dark gray palette
-          inf.col = piratepal("basel"), # Add color to bands
-          inf.fill.o = .7, # Slightly transparent bands
-          bar.o = 0, # Turn off main bars
-          point.o = .5,
-          gl.col = gray(.6)) # mid-gray gridlines
+# Now using theme 2
+pirateplot(formula = weight ~ Time,
+          data = ChickWeight,
+          main = "Chicken weight by time",
+          theme = 2, # Turn off all elements
+          gl.col = "gray") # gray gridlines
 
-pirateplot(formula = age ~ sex + eyepatch,
-          data = pirates,
-          pal = "google", # google palette
-          main = "Pirate Ages",
-          theme.o = 0, # Turn off all elements
-          bean.fill.o = .5, # Fill beans halfway
-          inf.fill.o = .8, # Fill inf most of the way
-          inf.border.o = 1, # Full inf borders,
-          inf.col = "white",  # White inf
-          inf.border.col = "black", # Black inf border
-          gl.col = "gray", # Gray gridlines
+
+# Start with theme 2, but then customise!
+pirateplot(formula = weight ~ Time,
+          data = ChickWeight,
+          theme = 2, # theme 2
+          pal = "xmen", # xmen palette
+          main = "Chicken weights by Time",
+          point.o = .4, # Add points
+          point.col = "black",
+          point.bg = "white",
+          point.pch = 21,
+          bean.f.o = .2, # Turn down bean filling
+          inf.f.o = .8, # Turn up inf filling
+          gl.col = "gray", # gridlines
           gl.lwd = c(.5, 0)) # turn off minor grid lines
 
+# Theme 2 with 2 IVs
+pirateplot(formula = len ~ dose + supp,
+          data = ToothGrowth,
+          theme = 2,
+          main = "Guinea pig tooth length by supplement",
+          point.pch = 16,  # Point specifications...
+          point.col = "black",
+          point.o = .7,
+          inf.f.o = .9, # inference band opacity
+          gl.col = "gray")
+
+
+# Build everything from scratch with theme 0
+#  And use 3 IVs
+pirateplot(formula = height ~ headband + eyepatch + sex,
+          data = pirates,
+          main = "Chicken weights by Time",
+          pal = gray(.1), # Dark gray palette
+          theme = 0, # Start from scratch
+          inf.f.o = .7, # Band opacity
+          inf.f.col = piratepal("basel"), # Add color to bands
+          point.o = .1, # Point opacity
+          avg.line.o = .8, # Average line opacity
+          gl.col = gray(.6), # Gridline specifications
+          gl.lty = 1,
+          gl.lwd = c(.5, 0))
 
   # See the vignette for more details
  vignette("pirateplot", package = "yarrr")

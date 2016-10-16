@@ -5,9 +5,9 @@
 #' @param formula formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent varaibles
 #' @param data dataframe. A dataframe containing the variables specified in formula.
 #' @param pal string. The color palette of the plot. Can be a single color, a vector of colors, or the name of a palette in the piratepal() function (e.g.; "basel", "google", "southpark"). To see all the palettes, run \code{piratepal(palette = "all", action = "show")}
-#' @param point.col,bar.col,bean.col,bean.fill.col,inf.col,inf.border.col,avg.line.col,bar.border.col,quant.col (string) An optional vector of colors specifying the colors of the plotting elements. This will override values in the palette.
-#' @param theme.o integer. An integer in the set 0, 1 specifying an opacity theme (that is, specific values of bar.o, point.o, etc.). \code{theme = 0} turns off all opacities which can then be individually specified using bar.o, inf.fill.o (etc.)
-#' @param bar.o,point.o,inf.fill.o,inf.border.o,avg.line.o,bean.o,bean.fill.o,bar.border.o (numeric) A number between 0 and 1 indicating how opaque to make the bars, points, inference band, average line, and beans respectively. These values override whatever is in the specified theme
+#' @param point.col,bar.f.col,bean.b.col,bean.f.col,inf.f.col,inf.b.col,avg.line.col,bar.b.col,quant.col,point.bg string. Vectors of colors specifying the colors of the plotting elements. This will override values in the palette. f stands for filling, b stands for border.
+#' @param theme integer. An integer in the set 0, 1, 2 specifying a theme (that is, new default values for opacities and colors). \code{theme = 0} turns off all opacities which can then be individually specified individually.
+#' @param bar.f.o,point.o,inf.f.o,inf.b.o,avg.line.o,bean.b.o,bean.f.o,bar.b.o numeric. A number between 0 and 1 indicating how opaque to make the bars, points, inference band, average line, and beans respectively. These values override whatever is in the specified theme
 #' @param avg.line.fun function. A function that determines how average lines and bar heights are determined (default is mean).
 #' @param gl.col,back.col string. The color of the horizontal gridlines and plotting background.
 #' @param point.cex,point.pch,point.lwd numeric.  The size, pch type, and line width of raw data points.
@@ -30,7 +30,7 @@
 #' @param gl.lwd,gl.lty Customization for grid lines.
 #' @param bty,xlim,ylim,xlab,ylab,main,yaxt,xaxt General plotting arguments
 #' @param quant numeric. Adds horizontal lines representing custom quantiles.
-#' @param bar.border.lwd,line.fun,inf.o depricated arguments
+#' @param bar.b.lwd,line.fun,inf.o,bean.o,inf.col,theme.o depricated arguments
 #' @param ... other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)
 #' @keywords plot
 #' @importFrom BayesFactor ttestBF
@@ -46,40 +46,61 @@
 #'pirateplot(formula = weight ~ Time,
 #'           data = ChickWeight)
 #'
-#'# Some customizations
+#'# Black and white version
 #'pirateplot(formula = weight ~ Time,
 #'           data = ChickWeight,
 #'           main = "Chicken weights by Time",
-#'           pal = gray(.1), # Dark gray palette
-#'           bar.o = 0, # Turn off bars
-#'           quant = c(.1, .9), # .10 and .90 quantile lines
-#'           gl.lwd = c(.25, 0), # light major gridlines
-#'           gl.col = "black") # black gridlines
+#'           pal = gray(.2)) # Dark gray palette
 #'
-#'# More customizations now with 2 IVs
-#'pirateplot(formula = len ~ dose + supp,
-#'           data = ToothGrowth,
-#'           main = "Guinea pig tooth length",
-#'           pal = gray(.1), # Dark gray palette
-#'           inf.col = piratepal("basel"), # Add color to bands
-#'           inf.fill.o = .7, # Slightly transparent bands
-#'           bar.o = 0, # Turn off main bars
-#'           point.o = .5,
-#'           gl.col = gray(.6)) # mid-gray gridlines
+#'# Now using theme 2
+#'pirateplot(formula = weight ~ Time,
+#'           data = ChickWeight,
+#'           main = "Chicken weight by time",
+#'           theme = 2, # Turn off all elements
+#'           gl.col = "gray") # gray gridlines
 #'
-#'pirateplot(formula = age ~ sex + eyepatch,
-#'           data = pirates,
-#'           pal = "google", # google palette
-#'           main = "Pirate Ages",
-#'           theme.o = 0, # Turn off all elements
-#'           bean.fill.o = .5, # Fill beans halfway
-#'           inf.fill.o = .8, # Fill inf most of the way
-#'           inf.border.o = 1, # Full inf borders,
-#'           inf.col = "white",  # White inf
-#'           inf.border.col = "black", # Black inf border
-#'           gl.col = "gray", # Gray gridlines
+#'
+#'# Start with theme 2, but then customise!
+#'pirateplot(formula = weight ~ Time,
+#'           data = ChickWeight,
+#'           theme = 2, # theme 2
+#'           pal = "xmen", # xmen palette
+#'           main = "Chicken weights by Time",
+#'           point.o = .4, # Add points
+#'           point.col = "black",
+#'           point.bg = "white",
+#'           point.pch = 21,
+#'           bean.f.o = .2, # Turn down bean filling
+#'           inf.f.o = .8, # Turn up inf filling
+#'           gl.col = "gray", # gridlines
 #'           gl.lwd = c(.5, 0)) # turn off minor grid lines
 #'
+#'# Theme 2 with 2 IVs
+#'pirateplot(formula = len ~ dose + supp,
+#'           data = ToothGrowth,
+#'           theme = 2,
+#'           main = "Guinea pig tooth length by supplement",
+#'           point.pch = 16,  # Point specifications...
+#'           point.col = "black",
+#'           point.o = .7,
+#'           inf.f.o = .9, # inference band opacity
+#'           gl.col = "gray")
+#'
+#'
+#'# Build everything from scratch with theme 0
+#'#  And use 3 IVs
+#'pirateplot(formula = height ~ headband + eyepatch + sex,
+#'           data = pirates,
+#'           main = "Chicken weights by Time",
+#'           pal = gray(.1), # Dark gray palette
+#'           theme = 0, # Start from scratch
+#'           inf.f.o = .7, # Band opacity
+#'           inf.f.col = piratepal("basel"), # Add color to bands
+#'           point.o = .1, # Point opacity
+#'           avg.line.o = .8, # Average line opacity
+#'           gl.col = gray(.6), # Gridline specifications
+#'           gl.lty = 1,
+#'           gl.lwd = c(.5, 0))
 #'
 #'   # See the vignette for more details
 #'  vignette("pirateplot", package = "yarrr")
@@ -96,24 +117,25 @@ pirateplot <- function(
   point.pch = 16,
   point.lwd = 1,
   jitter.val = .03,
-  theme.o = 1,
-  bean.o = NULL,
-  bean.fill.o = NULL,
+  theme = 1,
+  bean.b.o = NULL,
+  bean.f.o = NULL,
   point.o = NULL,
-  bar.o = NULL,
-  bar.border.o = NULL,
-  inf.fill.o = NULL,
-  inf.border.o = NULL,
+  bar.f.o = NULL,
+  bar.b.o = NULL,
+  inf.f.o = NULL,
+  inf.b.o = NULL,
   avg.line.o = NULL,
   gl.col = NULL,
   point.col = NULL,
-  bar.col = NULL,
-  bean.col = NULL,
-  bean.fill.col = NULL,
-  inf.col = NULL,
-  inf.border.col = NULL,
+  point.bg = NULL,
+  bar.f.col = NULL,
+  bean.b.col = NULL,
+  bean.f.col = NULL,
+  inf.f.col = NULL,
+  inf.b.col = NULL,
   avg.line.col = NULL,
-  bar.border.col = NULL,
+  bar.b.col = NULL,
   quant.col = NULL,
   avg.line.lwd = 4,
   bean.lwd = 1,
@@ -150,25 +172,26 @@ pirateplot <- function(
   xaxt = NULL,
   gl.lwd = NULL,
   gl.lty = NULL,
-  bar.border.lwd = NULL,
+  bar.b.lwd = NULL,
   line.fun = NULL,
   inf.o = NULL,
+  bean.o = NULL,
+  inf.col = NULL,
+  theme.o = NULL,
   ...
 ) {
-#
-
 
 # -----
 #  SETUP
 # ------
 
 # Check for depricated arguments
+{
+if(is.null(bar.b.lwd) == FALSE) {
 
-if(is.null(bar.border.lwd) == FALSE) {
+  message("bar.b.lwd is depricated. Use bar.lwd intead")
 
-  message("bar.border.lwd is depricated. Use bar.lwd intead")
-
-  bar.lwd <- bar.border.lwd
+  bar.lwd <- bar.b.lwd
 }
 
 if(is.null(line.fun) == FALSE) {
@@ -179,32 +202,56 @@ if(is.null(line.fun) == FALSE) {
 
 }
 
-  if(is.null(inf.o) == FALSE) {
+if(is.null(inf.o) == FALSE) {
 
-    message("inf.o is depricated. Use inf.fill.o intead")
+  message("inf.o is depricated. Use inf.f.o intead")
 
-    inf.fill.o <- inf.o
+  inf.f.o <- inf.o
 
-  }
+}
 
+if(is.null(bean.o) == FALSE) {
+
+  message("bean.o is depricated. Use bean.b.o intead")
+
+  bean.b.o <- bean.o
+
+}
+
+if(is.null(inf.col) == FALSE) {
+
+  message("inf.col is depricated. Use inf.f.col intead")
+
+  inf.f.col <- inf.col
+
+}
+
+if(is.null(theme.o) == FALSE) {
+
+  message("theme.o is depricated. Use theme intead")
+
+  theme <- theme.o
+
+}
+}
 
 # Look for missing critical inputs
-
+{
 if(is.null(data)) {stop("You must specify a dataframe in the data argument!")}
 if(is.null(formula) | class(formula) != "formula") {stop("You must specify a valid formula in the formula argument!")}
-
-{
+}
 
 # Reshape dataframe to include relevant variables
-
+{
 data <- model.frame(formula = formula,
                       data = data)
 
 dv.name <- names(data)[1]
 dv.v <- data[,1]
+}
 
 # GET IV INFORMATION
-
+{
 n.iv <- ncol(data) - 1
 if(n.iv > 3) {stop("Currently only 1, 2, or 3 IVs are supported in pirateplot(). Please reduce.")}
 
@@ -225,7 +272,8 @@ if(n.iv == 3) {
 
 n.subplots <- ncol(selection.mtx)
 
-}
+
+
 
 # Loop over subplots (only relevant when there is a third IV)
 if(n.subplots == 1) {par(mfrow = c(1, 1))}
@@ -235,15 +283,19 @@ if(n.subplots == 4) {par(mfrow = c(2, 2))}
 if(n.subplots %in% c(5, 6)) {par(mfrow = c(2, 3))}
 if(n.subplots > 7) {par(mfrow = c(ceiling(sqrt(n.subplots)), ceiling(sqrt(n.subplots))))}
 
+}
+
+# Loop over subplots
 for(subplot.i in 1:n.subplots) {
 
+# Select data for current subplot
 data.i <- data[selection.mtx[,subplot.i],]
 
 # Remove potential iv3 column
 data.i <- data.i[,1:min(ncol(data.i), 3)]
 
 # Determine levels of each IV
-
+{
 if(substr(sortx, 1, 1) == "a") {
 
   iv.levels <- lapply(2:ncol(data.i),
@@ -257,10 +309,10 @@ if(substr(sortx, 1, 1) == "s") {
 
 }
 
-
 iv.lengths <- sapply(1:length(iv.levels), FUN = function(x) {length(iv.levels[[x]])})
 iv.names <- names(data.i)[2:ncol(data.i)]
 subplot.n.iv <- length(iv.levels)
+}
 
 # Set up bean info
 {
@@ -301,62 +353,86 @@ data.i <- merge(data.i, bean.mtx)
 # Set number of colors to number of levels of the first IV
 n.cols <- iv.lengths[1]
 
+# DEFINE THEMES
+{
+if((theme %in% 0:2) == FALSE) {
+
+  print("theme must be an integer between 0 and 2. I'll set it to 1 for now.")
+  theme <- 1
+
+}
+
+if(theme == 0) {
+
+  if(is.null(point.o)) {point.o <- 0}
+  if(is.null(bean.b.o)) {bean.b.o <- 0}
+  if(is.null(bean.f.o)) {bean.f.o <- 0}
+  if(is.null(inf.f.o)) {inf.f.o <- 0}
+  if(is.null(inf.b.o)) {inf.b.o <- 0}
+  if(is.null(avg.line.o)) {avg.line.o <- 0}
+  if(is.null(bar.f.o)) {bar.f.o <- 0}
+  if(is.null(bar.b.o)) {bar.b.o <- 0}
+
+}
+
+if(theme == 1) {
+
+  if(is.null(point.o)) {point.o <- .2}
+  if(is.null(bean.b.o)) {bean.b.o <- .2}
+  if(is.null(bean.f.o)) {bean.f.o <- 0}
+  if(is.null(inf.f.o)) {inf.f.o <- .8}
+  if(is.null(inf.b.o)) {inf.b.o <- .8}
+  if(is.null(avg.line.o)) {avg.line.o <- 1}
+  if(is.null(bar.f.o)) {bar.f.o <- .1}
+  if(is.null(bar.b.o)) {bar.b.o <- 0}
+
+}
+
+if(theme == 2) {
+
+if(is.null(point.o)) {point.o <- 0}
+if(is.null(bean.b.o)) {bean.b.o <- 0}
+if(is.null(bean.f.o)) {bean.f.o <- .5}
+if(is.null(inf.f.o))  {inf.f.o <- .5}
+if(is.null(inf.b.o)) {inf.b.o <- 1}
+if(is.null(avg.line.o))  {avg.line.o <- 1}
+if(is.null(bar.f.o))  {bar.f.o <- 0}
+if(is.null(bar.b.o))  {bar.b.o <- 0}
+
+if(is.null(inf.f.col)) {inf.f.col <- "white"}
+if(is.null(inf.b.col)) {inf.b.col <-  "black"}
+if(is.null(avg.line.col)) {avg.line.col <- "black"}
+
+}
+}
+
 # DEFINE OPACITIES
 {
 
 opac.df <- data.frame(
   point.o = rep(NA, n.beans),
-  bean.o = rep(NA, n.beans),
-  bean.fill.o = rep(NA, n.beans),
-  inf.fill.o = rep(NA, n.beans),
-  inf.border.o = rep(NA, n.beans),
+  bean.b.o = rep(NA, n.beans),
+  bean.f.o = rep(NA, n.beans),
+  inf.f.o = rep(NA, n.beans),
+  inf.b.o = rep(NA, n.beans),
   avg.line.o = rep(NA, n.beans),
-  bar.o = rep(NA, n.beans),
-  bar.border.o = rep(NA, n.beans)
+  bar.f.o = rep(NA, n.beans),
+  bar.b.o = rep(NA, n.beans)
 )
 rownames(opac.df) <- 1:n.beans
 
-if((theme.o %in% c(0, 1)) == FALSE) {
 
-  print("theme.o must be either 0 or 1. I'll set it to 1 for now.")
-  theme.o <- 1
 
-}
-
-if(theme.o == 1) {
-
- opac.df$point.o <- .2
- opac.df$bean.o <- .2
- opac.df$bean.fill.o <- 0
- opac.df$inf.fill.o <- .8
- opac.df$inf.border.o <- .8
- opac.df$avg.line.o <- 1
- opac.df$bar.o <- .1
- opac.df$bar.border.o <- 0
-
-}
-
-if(theme.o == 0) {
-
-  opac.df$point.o <- 0
-  opac.df$bean.o <- 0
-  opac.df$bean.fill.o <- 0
-  opac.df$inf.fill.o <- 0
-  opac.df$inf.border.o <- 0
-  opac.df$avg.line.o <- 0
-  opac.df$bar.o <- 0
-  opac.df$bar.border.o <- 0
-}
 
 # If opacity values are specified, update them.
 if(is.null(point.o) == FALSE) {opac.df$point.o <- rep(point.o, length.out = n.beans)}
-if(is.null(bean.o) == FALSE) {opac.df$point.o <- rep(bean.o, length.out = n.beans)}
-if(is.null(bean.fill.o) == FALSE) {opac.df$bean.fill.o <- rep(bean.fill.o, length.out = n.beans)}
-if(is.null(inf.fill.o) == FALSE) {opac.df$inf.fill.o <- rep(inf.fill.o, length.out = n.beans)}
-if(is.null(inf.border.o) == FALSE) {opac.df$inf.border.o <- rep(inf.border.o, length.out = n.beans)}
+if(is.null(bean.b.o) == FALSE) {opac.df$bean.b.o <- rep(bean.b.o, length.out = n.beans)}
+if(is.null(bean.f.o) == FALSE) {opac.df$bean.f.o <- rep(bean.f.o, length.out = n.beans)}
+if(is.null(inf.f.o) == FALSE) {opac.df$inf.f.o <- rep(inf.f.o, length.out = n.beans)}
+if(is.null(inf.b.o) == FALSE) {opac.df$inf.b.o <- rep(inf.b.o, length.out = n.beans)}
 if(is.null(avg.line.o) == FALSE) {opac.df$avg.line.o <- rep(avg.line.o, length.out = n.beans)}
-if(is.null(bar.o) == FALSE) {opac.df$bar.o <- rep(bar.o, length.out = n.beans)}
-if(is.null(bar.border.o) == FALSE) {opac.df$bar.border.o <- rep(bar.border.o, length.out = n.beans)}
+if(is.null(bar.f.o) == FALSE) {opac.df$bar.f.o <- rep(bar.f.o, length.out = n.beans)}
+if(is.null(bar.b.o) == FALSE) {opac.df$bar.b.o <- rep(bar.b.o, length.out = n.beans)}
 
 }
 
@@ -364,13 +440,14 @@ if(is.null(bar.border.o) == FALSE) {opac.df$bar.border.o <- rep(bar.border.o, le
 {
 colors.df <- data.frame(
   point.col = rep(NA, n.beans),
-  bean.col = rep(NA, n.beans),
-  bean.fill.col = rep(NA, n.beans),
-  inf.col = rep(NA, n.beans),
-  inf.border.col = rep(NA, n.beans),
+  point.bg = rep(NA, n.beans),
+  bean.b.col = rep(NA, n.beans),
+  bean.f.col = rep(NA, n.beans),
+  inf.f.col = rep(NA, n.beans),
+  inf.b.col = rep(NA, n.beans),
   avg.line.col = rep(NA, n.beans),
-  bar.col = rep(NA, n.beans),
-  bar.border.col = rep(NA, n.beans),
+  bar.f.col = rep(NA, n.beans),
+  bar.b.col = rep(NA, n.beans),
   quant.col = rep(NA, n.beans)
 )
 rownames(colors.df) <- 1:n.beans
@@ -380,13 +457,14 @@ rownames(colors.df) <- 1:n.beans
 if(mean(pal %in% piratepal("names")) == 1) {
 
 colors.df$point.col <- rep(piratepal(palette = pal, length.out = n.cols), length.out = n.beans)
-colors.df$bean.col <- rep(piratepal(palette = pal, length.out = n.cols), length.out = n.beans)
-colors.df$bean.fill.col <- rep(piratepal(palette = pal, length.out = n.cols), length.out = n.beans)
-colors.df$inf.col <- rep(piratepal(palette = pal, length.out = n.cols), length.out = n.beans)
-colors.df$inf.border.col <- rep(piratepal(palette = pal, length.out = n.cols), length.out = n.beans)
+colors.df$point.bg <- rep(piratepal(palette = pal, length.out = n.cols), length.out = n.beans)
+colors.df$bean.b.col <- rep(piratepal(palette = pal, length.out = n.cols), length.out = n.beans)
+colors.df$bean.f.col <- rep(piratepal(palette = pal, length.out = n.cols), length.out = n.beans)
+colors.df$inf.f.col <- rep(piratepal(palette = pal, length.out = n.cols), length.out = n.beans)
+colors.df$inf.b.col <- rep(piratepal(palette = pal, length.out = n.cols), length.out = n.beans)
 colors.df$avg.line.col <- rep(piratepal(palette = pal, length.out = n.cols), length.out = n.beans)
-colors.df$bar.col <- rep(piratepal(palette = pal, length.out = n.cols), length.out = n.beans)
-colors.df$bar.border.col <- rep(piratepal(palette = pal, length.out = n.cols), length.out = n.beans)
+colors.df$bar.f.col <- rep(piratepal(palette = pal, length.out = n.cols), length.out = n.beans)
+colors.df$bar.b.col <- rep(piratepal(palette = pal, length.out = n.cols), length.out = n.beans)
 colors.df$quant.col <- rep(piratepal(palette = pal, length.out = n.cols), length.out = n.beans)
 
 }
@@ -396,13 +474,14 @@ colors.df$quant.col <- rep(piratepal(palette = pal, length.out = n.cols), length
 if(mean(pal %in% piratepal("names")) != 1) {
 
 colors.df$point.col <- rep(pal, length.out = n.beans)
-colors.df$bean.col <- rep(pal, length.out = n.beans)
-colors.df$bean.fill.col <- rep("white", length.out = n.beans)
-colors.df$inf.col <- rep(pal, length.out = n.beans)
-colors.df$inf.border.col <- rep(pal, length.out = n.beans)
+colors.df$point.bg <- rep(pal, length.out = n.beans)
+colors.df$bean.b.col <- rep(pal, length.out = n.beans)
+colors.df$bean.f.col <- rep("white", length.out = n.beans)
+colors.df$inf.f.col <- rep(pal, length.out = n.beans)
+colors.df$inf.b.col <- rep(pal, length.out = n.beans)
 colors.df$avg.line.col <- rep(pal, length.out = n.beans)
-colors.df$bar.col <- rep(pal, length.out = n.beans)
-colors.df$bar.border.col <- rep(pal, length.out = n.beans)
+colors.df$bar.f.col <- rep(pal, length.out = n.beans)
+colors.df$bar.b.col <- rep(pal, length.out = n.beans)
 colors.df$quant.col <- rep(pal, length.out = n.beans)
 
 }
@@ -410,13 +489,14 @@ colors.df$quant.col <- rep(pal, length.out = n.beans)
 # Apply specified colors
 
 if(is.null(point.col) == FALSE) {colors.df$point.col <- rep(point.col, length.out = n.beans)}
-if(is.null(bean.col) == FALSE) {colors.df$bean.col <- rep(bean.col, length.out = n.beans)}
-if(is.null(bean.fill.col) == FALSE) {colors.df$bean.fill.col <- rep(bean.fill.col, length.out = n.beans)}
-if(is.null(inf.col) == FALSE) {colors.df$inf.col <- rep(inf.col, length.out = n.beans)}
-if(is.null(inf.border.col) == FALSE) {colors.df$inf.border.col <- rep(inf.border.col, length.out = n.beans)}
+if(is.null(point.bg) == FALSE) {colors.df$point.bg <- rep(point.bg, length.out = n.beans)}
+if(is.null(bean.b.col) == FALSE) {colors.df$bean.b.col <- rep(bean.b.col, length.out = n.beans)}
+if(is.null(bean.f.col) == FALSE) {colors.df$bean.f.col <- rep(bean.f.col, length.out = n.beans)}
+if(is.null(inf.f.col) == FALSE) {colors.df$inf.f.col <- rep(inf.f.col, length.out = n.beans)}
+if(is.null(inf.b.col) == FALSE) {colors.df$inf.b.col <- rep(inf.b.col, length.out = n.beans)}
 if(is.null(avg.line.col) == FALSE) {colors.df$avg.line.col <- rep(avg.line.col, length.out = n.beans)}
-if(is.null(bar.col) == FALSE) {colors.df$bar.col <- rep(bar.col, length.out = n.beans)}
-if(is.null(bar.border.col) == FALSE) {colors.df$bar.border.col <- rep(bar.border.col, length.out = n.beans)}
+if(is.null(bar.f.col) == FALSE) {colors.df$bar.f.col <- rep(bar.f.col, length.out = n.beans)}
+if(is.null(bar.b.col) == FALSE) {colors.df$bar.b.col <- rep(bar.b.col, length.out = n.beans)}
 if(is.null(quant.col) == FALSE) {colors.df$quant.col <- rep(quant.col, length.out = n.beans)}
 
 }
@@ -528,17 +608,17 @@ if(add == F) {
   )
 
 
-  # Add title for iv3
+# Add title for iv3
 
-  if(n.iv > 2) {
+if(n.iv > 2) {
 
-    top.text <- paste(names(data)[4], " = ", iv3.levels[subplot.i], sep = "")
-    mtext(text = top.text, side = 3)
+  top.text <- paste(names(data)[4], " = ", iv3.levels[subplot.i], sep = "")
+  mtext(text = top.text, side = 3)
 
-  }
+}
 
 # Y-AXIS
-
+{
 if(is.null(yaxt)) {
 
 axis(side = 2,
@@ -549,15 +629,17 @@ axis(side = 2,
      cex.axis = cex.axis)
 
 }
+}
 
 # BACKGROUND
-
+{
 rect(-1e10, -1e10, 1e10, 1e10,
      col = back.col,
      border = NA)
+}
 
 # GRIDLINES
-
+{
 if(is.null(gl.col) == F) {
 
   if(is.null(gl.lwd)) {gl.lwd <- c(1, .5)}
@@ -568,8 +650,8 @@ if(is.null(gl.col) == F) {
          col = gl.col,
          lty = gl.lty)
 }
-
-  }
+}
+}
 
 # PIRATEPLOT ELEMENTS
 {
@@ -587,13 +669,12 @@ inf.lwd <- rep(inf.lwd, length.out = n.beans)
 avg.line.lwd <- rep(avg.line.lwd, length.out = n.beans)
 bar.lwd <- rep(bar.lwd, length.out = n.beans)
 
+# Loop over beans
 for (bean.i in 1:n.beans) {
 
 dv.i <- data.i[data.i$bean.num == bean.i, dv.name]
 
 if(is.logical(dv.i)) {dv.i <- as.numeric(dv.i)}
-
-fun.val <- avg.line.fun(dv.i)
 
 x.loc.i <- bean.mtx$x.loc[bean.i]
 
@@ -641,51 +722,15 @@ if(length(dv.i) > 3) {  # only if n > 5
   }
 }
 
-
-# QUANTILES
-#
-# if (!is.null(quant)) {
-#
-#   # set default line length if length is not given manually
-#
-#   if(is.null(quant.lwd) == FALSE) {quant.lwd <- rep(quant.lwd, length.out = length(quant))}
-#   if(is.null(quant.length) == FALSE) {quant.length <- rep(quant.length, length.out = length(quant))}
-#
-#
-#   if (is.null(quant.length)) {
-#     quant.length <- c(rep(0.65 * width.max, length(quant)))
-#   }
-#   if (is.null(quant.lwd)) {
-#     quant.lwd <- c(rep(1, length(quant)))
-#   }
-#
-#
-#   # init empty vector for loop
-#   stats.limit = c()
-#
-#   for (i in 1:length(quant)) {
-#
-#     # draw lines
-#     segments(x.loc.i + (quant.length[i] - width.max), # left end
-#              quantile(dv.i, probs = quant[i]),
-#              x.loc.i - (quant.length[i] - width.max), # right end
-#              quantile(dv.i, probs = quant[i]),
-#              col = avg.line.col[bean.i],
-#              lwd = quant.lwd[i],
-#              lend = 3
-#     )
-#   }
-# }
-
 # BAR
 {
-rect(x.loc.i - width.max,
-     0,
-     x.loc.i + width.max,
-     fun.val,
-     col = transparent(colors.df$bar.col[bean.i], trans.val = 1 - opac.df$bar.o[bean.i]),
-     border = transparent(colors.df$bar.border.col[bean.i], trans.val = 1 - opac.df$bar.border.o[bean.i]),
-     lwd = bar.border.lwd[bean.i]
+rect(xleft = x.loc.i - width.max,
+     ybottom = 0,
+     xright = x.loc.i + width.max,
+     ytop = avg.line.fun(dv.i),
+     col = transparent(colors.df$bar.f.col[bean.i], trans.val = 1 - opac.df$bar.f.o[bean.i]),
+     border = transparent(colors.df$bar.b.col[bean.i], trans.val = 1 - opac.df$bar.b.o[bean.i]),
+     lwd = bar.b.lwd[bean.i]
 )
 }
 
@@ -698,10 +743,10 @@ if(length(setdiff(dv.i, c(0, 1))) > 0 & length(dv.i) > 3) {
             x.loc.i + rev(dens.y.plot.i[1:(length(dens.x.plot.i))])),
           c(dens.x.plot.i[1:(length(dens.x.plot.i))],
             rev(dens.x.plot.i[1:(length(dens.x.plot.i))])),
-          col = transparent(colors.df$bean.fill.col[bean.i],
-                            trans.val = 1 - opac.df$bean.fill.o[bean.i]),
-          border = transparent(colors.df$bean.col[bean.i],
-                               trans.val = 1 - opac.df$bean.o[bean.i]),
+          col = transparent(colors.df$bean.f.col[bean.i],
+                            trans.val = 1 - opac.df$bean.f.o[bean.i]),
+          border = transparent(colors.df$bean.b.col[bean.i],
+                               trans.val = 1 - opac.df$bean.b.o[bean.i]),
           lwd = bean.lwd[bean.i], lty = bean.lty[bean.i]
   )
 
@@ -711,44 +756,31 @@ if(length(setdiff(dv.i, c(0, 1))) > 0 & length(dv.i) > 3) {
 
 # POINTS
 {
+
+# 1-color points
+if((point.pch %in% 21:25) == FALSE) {
+  points(x = rep(x.loc.i, length(dv.i)) + rnorm(length(dv.i), mean = 0, sd = jitter.val),
+         y = dv.i,
+         pch = point.pch,
+         col = transparent(colors.df$point.col[bean.i],
+                           trans.val = 1 - opac.df$point.o[bean.i]),
+         cex = point.cex,
+         lwd = point.lwd
+  )
+}
+
+# 2-color points
+if(point.pch %in% 21:25) {
 points(x = rep(x.loc.i, length(dv.i)) + rnorm(length(dv.i), mean = 0, sd = jitter.val),
        y = dv.i,
        pch = point.pch,
        col = transparent(colors.df$point.col[bean.i],
                          trans.val = 1 - opac.df$point.o[bean.i]),
+       bg = transparent(colors.df$point.bg[bean.i],
+                         trans.val = 1 - opac.df$point.o[bean.i]),
        cex = point.cex,
        lwd = point.lwd
 )
-}
-
-# AVERAGE LINE
-{
-
-if(inf.band == "wide") {
-segments(x.loc.i - width.max,
-         fun.val,
-         x.loc.i + width.max,
-         fun.val,
-         col = transparent(colors.df$avg.line.col[bean.i],
-                           trans.val = 1 - opac.df$avg.line.o[bean.i]),
-         lwd = avg.line.lwd[bean.i],
-         lend = 3
-)
-}
-
-if(inf.band == "tight") {
-
-  fun.loc <- which(abs(dens.x.i - fun.val) == min(abs(dens.x.i - fun.val)))
-
-  segments(x.loc.i - dens.y.i[fun.loc],
-           fun.val,
-           x.loc.i + dens.y.i[fun.loc],
-           fun.val,
-           col = transparent(colors.df$avg.line.col[bean.i],
-                             trans.val = 1 - opac.df$avg.line.o[bean.i]),
-           lwd = avg.line.lwd[bean.i],
-           lend = 3
-  )
 }
 
 }
@@ -761,7 +793,7 @@ if (!is.null(quant)) {
     quant.length <- c(rep(0.65, length(quant)))
   } else {quant.length <- rep(quant.length, length.out = length(quant))}
   if (is.null(quant.lwd)) {
-    quant.lwd <- c(rep(0.3, length(quant)))
+    quant.lwd <- c(rep(0.75, length(quant)))
   } else {quant.lwd <- rep(quant.lwd, length.out = length(quant))}
 
   for (i in 1:length(quant)) {
@@ -856,11 +888,11 @@ rect(x.loc.i - width.max * .8,
      inf.lb,
      x.loc.i + width.max * .8,
      inf.ub,
-     col = transparent(colors.df$inf.col[bean.i],
-                       trans.val = 1 - opac.df$inf.fill.o[bean.i]),
+     col = transparent(colors.df$inf.f.col[bean.i],
+                       trans.val = 1 - opac.df$inf.f.o[bean.i]),
      lwd = inf.lwd[bean.i],
-     border = transparent(colors.df$inf.border.col[bean.i],
-                          trans.val = 1 - opac.df$inf.border.o[bean.i])
+     border = transparent(colors.df$inf.b.col[bean.i],
+                          trans.val = 1 - opac.df$inf.b.o[bean.i])
 )
 
 }
@@ -871,14 +903,46 @@ if(inf.band == "tight") {
             x.loc.i + rev(dens.inf.y[1:(length(dens.inf.x))])),
           c(dens.inf.x[1:(length(dens.inf.x))],
             rev(dens.inf.x[1:(length(dens.inf.x))])),
-          col = transparent(colors.df$inf.col[bean.i],
-                            trans.val = 1 - opac.df$inf.fill.o[bean.i]),
-          border = transparent(colors.df$inf.border.col[bean.i],
-                               trans.val = 1 - colors.df$inf.border.o[bean.i]),
+          col = transparent(colors.df$inf.f.col[bean.i],
+                            trans.val = 1 - opac.df$inf.f.o[bean.i]),
+          border = transparent(colors.df$inf.b.col[bean.i],
+                               trans.val = 1 - colors.df$inf.b.o[bean.i]),
           lwd = bean.lwd[bean.i]
   )
 }
 }
+
+}
+
+# AVERAGE LINE
+{
+
+  if(inf.band == "wide") {
+    segments(x0 = x.loc.i - width.max,
+             y0 = avg.line.fun(dv.i),
+             x1 = x.loc.i + width.max,
+             y1 = avg.line.fun(dv.i),
+             col = transparent(colors.df$avg.line.col[bean.i],
+                               trans.val = 1 - opac.df$avg.line.o[bean.i]),
+             lwd = avg.line.lwd[bean.i],
+             lend = 3
+    )
+  }
+
+  if(inf.band == "tight") {
+
+    fun.loc <- which(abs(dens.x.i - avg.line.fun(dv.i)) == min(abs(dens.x.i - avg.line.fun(dv.i))))
+
+    segments(x.loc.i - dens.y.i[fun.loc],
+             avg.line.fun(dv.i),
+             x.loc.i + dens.y.i[fun.loc],
+             avg.line.fun(dv.i),
+             col = transparent(colors.df$avg.line.col[bean.i],
+                               trans.val = 1 - opac.df$avg.line.o[bean.i]),
+             lwd = avg.line.lwd[bean.i],
+             lend = 3
+    )
+  }
 
 }
 
@@ -925,127 +989,9 @@ if(is.null(xaxt) == T) {
   }
 
 }
-}
 
 }
 
-  }
+}
 
-# ----
-# EVIDENCE
-# ----
-#
-# if(evidence) {
-#
-#   # Convert IVs to factors
-#
-# for(iv.i in 1:subplot.n.iv) {
-#
-# data[,iv.i] <- as.factor(data[,iv.i])
-#
-#   }
-#
-# bf <- BayesFactor::anovaBF(formula = formula, data = data[,1:(subplot.n.iv + 1)])
-#
-# bf.vec <- extractBF(bf)$bf
-#
-# par(mar = c(0, 0, 3, 0))
-# plot(1, xlim = c(0, 1), ylim = c(0, 1), bty = "n", xlab = "", ylab = "", xaxt = "n", yaxt = "n", type = "n")
-#
-# add.bf.bar <- function(bf.val, x.loc, y.loc, add.labels = F) {
-#
-# rect(x.loc[1], y.loc[1], x.loc[2], y.loc[2], border = gray(.5, .5), col = "white")
-#
-# bf.scale <- c(0, 1 / 150, 1 / 20, 1 / 3, 1, 3, 20, 150, Inf)
-# bf.labels <- c("Very Strong", "Strong", "Positive", "Weak", "Weak", "Positive", "Strong", "Very Strong")
-#
-# bf.i.label <- bf.labels[bf.val < bf.scale[2:length(bf.scale)] & bf.val > bf.scale[1:(length(bf.scale) - 1)]]
-#
-# if(bf.val > 1) {in.favor <- "alt"}
-# if(bf.val < 1) {in.favor <- "null"}
-#
-# bf.col.fun <- circlize::colorRamp2(breaks = c(-1, 0, 1),
-#                                  colors = c("red", "yellow", "blue"),
-#                                  transparency = .7)
-#
-# bf.val.t <- bf.val
-# if(bf.val > 150) {bf.val.t <- 150}
-# if(bf.val < (1 / 150)) {bf.val.t <- 1 / 150}
-#
-# bf.val.t.log <- log(bf.val.t, base = 10)
-#
-# if(bf.val > 1) {
-#
-#  bf.val.scale <- bf.val.t.log / log(150, base = 10)
-#  bf.yloc <- mean(y.loc) + bf.val.scale * (y.loc[2] - y.loc[1]) / 2
-#
-#  }
-#
-# if(bf.val < 1) {
-#
-#  bf.val.scale <- -1 * bf.val.t.log / log(1 / 150, base = 10)
-#  bf.yloc <- mean(y.loc) + bf.val.scale * (y.loc[2] - y.loc[1]) / 2
-#
-#  }
-#
-#
-#
-#  rect(x.loc[1],
-#       mean(y.loc),
-#       x.loc[2],
-#       bf.yloc,
-#       col = bf.col.fun(bf.val.scale), border = NA)
-#
-# if(add.labels) {
-#
-#   # text(x = rep(x.loc[1], length(bf.scale)),
-#   #      y = bf.l.scale / log(max(bf.scale), base = 10),
-#   #      labels = bf.scale, adj = 1
-#   #      )
-#
-#
-#   text(mean(x.loc), min(y.loc) + .75 * diff(y.loc),
-#        labels = paste("BF = ", round(bf.val.t, 1), sep = ""))
-#
-#
-#   if(bf.val < 1) {concl.text <- paste(bf.i.label, " Evidence for\nNO effect", sep = "")}
-#   if(bf.val > 1) {concl.text <- paste(bf.i.label, " Evidence for a\nTRUE effect", sep = "")}
-#
-#   text(mean(x.loc), min(y.loc) + .5 * diff(y.loc),
-#        labels = concl.text)
-#
-# }
-#
-#
-#
-#
-#  }
-#
-#
-# if(subplot.n.iv == 1) {bar.loc.vec <- c(.5) ; bar.widths <- .1}
-# if(subplot.n.iv == 2) {bar.loc.vec <- c(.3, .7) ; bar.widths <- .1}
-#
-# for(iv.i in 1:subplot.n.iv) {
-#
-# add.bf.bar(bf.vec[iv.i],
-#            x.loc = c(bar.loc.vec[iv.i] - bar.widths / 2, bar.loc.vec[iv.i] + bar.widths / 2),
-#            y.loc = c(.1, .9),
-#            add.labels = T
-# )
-#
-#   text(x = bar.loc.vec[iv.i], y = 1, labels = iv.names[iv.i])
-#
-#
-# }
-#
-#
-# }
-
-
-  # reset parameters
-
-  # par(mfrow = c(1, 1))
-  # par(mar = c(5, 4, 4, 1) + .1)
-
-
-
+}
