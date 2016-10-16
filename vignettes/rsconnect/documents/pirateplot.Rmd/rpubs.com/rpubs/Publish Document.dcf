@@ -1,8 +1,0 @@
-name: Publish Document
-title:
-account: rpubs
-server: rpubs.com
-appId: https://api.rpubs.com/api/v1/document/219063/14ccf2cb93fb4f118b64b1ada55486a6
-bundleId: https://api.rpubs.com/api/v1/document/219063/14ccf2cb93fb4f118b64b1ada55486a6
-url: http://rpubs.com/YaRrr/219063/edit
-when: 1476623136.21213

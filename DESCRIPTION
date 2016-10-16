@@ -1,10 +1,10 @@
 Package: yarrr
-Title: A Companion to the e-Book YaRrr!: The Pirate's Guide to R
-Version: 0.0.9
-Date: 2016-10-13
+Title: A Companion to the e-Book "YaRrr!: The Pirate's Guide to R"
+Version: 0.1.1
+Date: 2016-10-16
 Authors@R: person("Nathaniel", "Phillips", email = "yarrr.book@gmail.com",
                   role = c("aut", "cre"))
-Description: Contains a mixture of functions and data sets referred to in the introductory e-book YaRrr!: The Pirate's Guide to R. The latest version of the e-book is available for free at <https://www.thepiratesguidetor.com>.
+Description: Contains a mixture of functions and data sets referred to in the introductory e-book "YaRrr!: The Pirate's Guide to R". The latest version of the e-book is available for free at <https://www.thepiratesguidetor.com>.
 Depends: jpeg,BayesFactor
 License: GPL-2
 LazyData: true

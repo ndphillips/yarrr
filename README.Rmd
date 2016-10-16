@@ -13,14 +13,14 @@ knitr::opts_chunk$set(
 ```
 
 [![Build Status](https://travis-ci.org/ndphillips/yarrr.svg?branch=master)](https://travis-ci.org/ndphillips/yarrr)
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/yarrr)](http://cran.r-project.org/package=yarr)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/yarrr)](https://CRAN.R-project.org/package=yarrr)
 [![Rdoc](http://www.rdocumentation.org/badges/version/yarrr)](http://www.rdocumentation.org/packages/yarrr)
 [![Downloads](http://cranlogs.r-pkg.org/badges/yarrr?color=brightgreen)](http://www.r-pkg.org/pkg/yarrr)
 
 # yarrr
 YaRrr Package
 
-The `yarrr` package contains a mixture of data, functions and tutorials supporting the e-book YaRrr! The Pirate's Guide to R (www.thepiratesguidetor.com). 
+The `yarrr` package contains a mixture of data, functions and tutorials supporting the e-book "YaRrr! The Pirate's Guide to R" (www.thepiratesguidetor.com). 
 
 To install the (stable) version from CRAN, run the following code
 
