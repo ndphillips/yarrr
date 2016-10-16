@@ -504,6 +504,63 @@ if(is.null(quant.col) == FALSE) {colors.df$quant.col <- rep(quant.col, length.ou
 
 # SETUP PLOTTING SPACE
 {
+
+# Determine margins
+if(n.subplots == 1) {
+  par(mar = c(5, 4, 4, 1) + .1)
+  add.yaxt <- TRUE
+  }
+if(n.subplots %in% c(2, 3)) {
+
+  if(subplot.i == 1) {
+
+    par(mar = c(5, 4, 4, 1) + .1)
+    add.yaxt <- TRUE
+
+    }
+  if(subplot.i > 1) {
+
+    par(mar = c(5, 2, 2, 1) + .1)
+
+    add.yaxt <- FALSE
+    }
+
+
+}
+if(n.subplots == c(4)) {
+
+  if(subplot.i %in% c(1, 3)) {
+
+    par(mar = c(5, 4, 4, 1) + .1)} else {
+    par(mar = c(5, 2, 2, 1) + .1)
+
+  }
+
+}
+if(n.subplots %in% c(5, 6)) {
+
+  if(subplot.i %in% c(1, 4)) {
+
+    par(mar = c(5, 4, 4, 1) + .1)} else {
+      par(mar = c(5, 2, 2, 1) + .1)
+
+    }
+
+}
+if(n.subplots > 6) {
+
+  if(subplot.i %in% seq(ceiling(sqrt(n.subplots)) + 1,
+                        n.subplots + 1,
+                        length.out = ceiling(sqrt(n.subplots)))) {
+
+    par(mar = c(5, 4, 4, 1) + .1)} else {
+
+      par(mar = c(5, 2, 2, 1) + .1)
+
+    }
+
+}
+
 # Determine y limits (y axis limits)
 # y axis breaks (y.levels)
 
