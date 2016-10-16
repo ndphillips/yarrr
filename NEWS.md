@@ -2,7 +2,13 @@
 
 * Added a `NEWS.md` file to track changes to the package.
 
+* Re-structured code generating colors and opacities in `pirateplot()` to make future updates easier.
+
 * Added `quant`, `quant.length` and `quant.width` arguments that add horizontal lines for specified quantiles to each bean (thanks @pat-s)
+
+* Added several new arguments (e.g.;  `bean.fill.col` for customising pirateplots
+
+
 
 # yarrr 0.0.7
 

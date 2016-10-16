@@ -6,8 +6,8 @@
 #' @param data dataframe. A dataframe containing the variables specified in formula.
 #' @param pal string. The color palette of the plot. Can be a single color, a vector of colors, or the name of a palette in the piratepal() function (e.g.; "basel", "google", "southpark"). To see all the palettes, run \code{piratepal(palette = "all", action = "show")}
 #' @param point.col,bar.col,bean.col,bean.fill.col,inf.col,inf.border.col,avg.line.col,bar.border.col,quant.col (string) An optional vector of colors specifying the colors of the plotting elements. This will override values in the palette.
-#' @param theme.o integer. An integer in the set 0, 1 specifying an opacity theme (that is, specific values of bar.o, point.o, etc.). \code{theme = 0} turns off all opacities which can then be individually specified using bar.o, inf.o (etc.)
-#' @param bar.o,point.o,inf.o,inf.border.o,avg.line.o,bean.o,bean.fill.o,bar.border.o (numeric) A number between 0 and 1 indicating how opaque to make the bars, points, inference band, average line, and beans respectively. These values override whatever is in the specified theme
+#' @param theme.o integer. An integer in the set 0, 1 specifying an opacity theme (that is, specific values of bar.o, point.o, etc.). \code{theme = 0} turns off all opacities which can then be individually specified using bar.o, inf.fill.o (etc.)
+#' @param bar.o,point.o,inf.fill.o,inf.border.o,avg.line.o,bean.o,bean.fill.o,bar.border.o (numeric) A number between 0 and 1 indicating how opaque to make the bars, points, inference band, average line, and beans respectively. These values override whatever is in the specified theme
 #' @param avg.line.fun function. A function that determines how average lines and bar heights are determined (default is mean).
 #' @param gl.col,back.col string. The color of the horizontal gridlines and plotting background.
 #' @param point.cex,point.pch,point.lwd numeric.  The size, pch type, and line width of raw data points.
@@ -30,7 +30,7 @@
 #' @param gl.lwd,gl.lty Customization for grid lines.
 #' @param bty,xlim,ylim,xlab,ylab,main,yaxt,xaxt General plotting arguments
 #' @param quant numeric. Adds horizontal lines representing custom quantiles.
-#' @param bar.border.lwd,line.fun depricated arguments
+#' @param bar.border.lwd,line.fun,inf.o depricated arguments
 #' @param ... other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)
 #' @keywords plot
 #' @importFrom BayesFactor ttestBF
@@ -62,23 +62,23 @@
 #'           main = "Guinea pig tooth length",
 #'           pal = gray(.1), # Dark gray palette
 #'           inf.col = piratepal("basel"), # Add color to bands
-#'           inf.o = .7, # Slightly transparent bands
+#'           inf.fill.o = .7, # Slightly transparent bands
 #'           bar.o = 0, # Turn off main bars
 #'           point.o = .5,
 #'           gl.col = gray(.6)) # mid-gray gridlines
 #'
 #'pirateplot(formula = age ~ sex + eyepatch,
 #'           data = pirates,
-#'           pal = "google", # use the google palette
+#'           pal = "google", # google palette
 #'           main = "Pirate Ages",
-#'           point.o = 0,  # Turn off points
-#'           bar.o = 0, # Turn off bars
-#'           avg.line.o = 0, # Turn off average line
-#'           inf.col = "white",  # White bands
-#'           inf.border.col = "black", # Black band border
+#'           theme.o = 0, # Turn off all elements
 #'           bean.fill.o = .5, # Fill beans halfway
+#'           inf.fill.o = .8, # Fill inf most of the way
+#'           inf.border.o = 1, # Full inf borders,
+#'           inf.col = "white",  # White inf
+#'           inf.border.col = "black", # Black inf border
 #'           gl.col = "gray", # Gray gridlines
-#'           gl.lwd = c(.5, 0)) # Turn off minor grid lines
+#'           gl.lwd = c(.5, 0)) # turn off minor grid lines
 #'
 #'
 #'   # See the vignette for more details
@@ -102,7 +102,7 @@ pirateplot <- function(
   point.o = NULL,
   bar.o = NULL,
   bar.border.o = NULL,
-  inf.o = NULL,
+  inf.fill.o = NULL,
   inf.border.o = NULL,
   avg.line.o = NULL,
   gl.col = NULL,
@@ -152,9 +152,10 @@ pirateplot <- function(
   gl.lty = NULL,
   bar.border.lwd = NULL,
   line.fun = NULL,
+  inf.o = NULL,
   ...
 ) {
-
+#
 
 
 # -----
@@ -177,6 +178,14 @@ if(is.null(line.fun) == FALSE) {
   avg.line.fun <- line.fun
 
 }
+
+  if(is.null(inf.o) == FALSE) {
+
+    message("inf.o is depricated. Use inf.fill.o intead")
+
+    inf.fill.o <- inf.o
+
+  }
 
 
 # Look for missing critical inputs
@@ -299,7 +308,7 @@ opac.df <- data.frame(
   point.o = rep(NA, n.beans),
   bean.o = rep(NA, n.beans),
   bean.fill.o = rep(NA, n.beans),
-  inf.o = rep(NA, n.beans),
+  inf.fill.o = rep(NA, n.beans),
   inf.border.o = rep(NA, n.beans),
   avg.line.o = rep(NA, n.beans),
   bar.o = rep(NA, n.beans),
@@ -319,7 +328,7 @@ if(theme.o == 1) {
  opac.df$point.o <- .2
  opac.df$bean.o <- .2
  opac.df$bean.fill.o <- 0
- opac.df$inf.o <- .8
+ opac.df$inf.fill.o <- .8
  opac.df$inf.border.o <- .8
  opac.df$avg.line.o <- 1
  opac.df$bar.o <- .1
@@ -332,7 +341,7 @@ if(theme.o == 0) {
   opac.df$point.o <- 0
   opac.df$bean.o <- 0
   opac.df$bean.fill.o <- 0
-  opac.df$inf.o <- 0
+  opac.df$inf.fill.o <- 0
   opac.df$inf.border.o <- 0
   opac.df$avg.line.o <- 0
   opac.df$bar.o <- 0
@@ -343,7 +352,7 @@ if(theme.o == 0) {
 if(is.null(point.o) == FALSE) {opac.df$point.o <- rep(point.o, length.out = n.beans)}
 if(is.null(bean.o) == FALSE) {opac.df$point.o <- rep(bean.o, length.out = n.beans)}
 if(is.null(bean.fill.o) == FALSE) {opac.df$bean.fill.o <- rep(bean.fill.o, length.out = n.beans)}
-if(is.null(inf.o) == FALSE) {opac.df$inf.o <- rep(inf.o, length.out = n.beans)}
+if(is.null(inf.fill.o) == FALSE) {opac.df$inf.fill.o <- rep(inf.fill.o, length.out = n.beans)}
 if(is.null(inf.border.o) == FALSE) {opac.df$inf.border.o <- rep(inf.border.o, length.out = n.beans)}
 if(is.null(avg.line.o) == FALSE) {opac.df$avg.line.o <- rep(avg.line.o, length.out = n.beans)}
 if(is.null(bar.o) == FALSE) {opac.df$bar.o <- rep(bar.o, length.out = n.beans)}
@@ -504,13 +513,6 @@ if(is.null(ylab)) {ylab <- dv.name}
 # PLOTTING SPACE
 if(add == F) {
 
-#showtext::showtext.auto()
-
-#par(mar = c(5, 4, 4, 1) + .1)
-
-if(evidence == T) {layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(5, 2), widths = 5)}
-
-
   plot(1,
        xlim = xlim,
        ylim = ylim,
@@ -535,41 +537,37 @@ if(evidence == T) {layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(5, 2), wi
 
   }
 
- # mtext(side = 1, text = my.xlab)
- # mtext(side = 1, text = my.xlab, family = family)
+# Y-AXIS
 
+if(is.null(yaxt)) {
 
-  # Add y-axis
+axis(side = 2,
+     at = y.levels,
+     las = 1,
+     lwd = 1,
+     lwd.ticks = 1,
+     cex.axis = cex.axis)
 
-  if(is.null(yaxt)) {
+}
 
-  axis(side = 2,
-       at = y.levels,
-       las = 1,
-       lwd = 1,
-       lwd.ticks = 1,
-       cex.axis = cex.axis)
+# BACKGROUND
 
-  }
+rect(-1e10, -1e10, 1e10, 1e10,
+     col = back.col,
+     border = NA)
 
-  # Add background
+# GRIDLINES
 
-    rect(-1e10, -1e10, 1e10, 1e10,
-         col = back.col,
-         border = NA)
+if(is.null(gl.col) == F) {
 
-  # Add gridlines
+  if(is.null(gl.lwd)) {gl.lwd <- c(1, .5)}
+  if(is.null(gl.lty)) {gl.lty <- 3}
 
-  if(is.null(gl.col) == F) {
-
-    if(is.null(gl.lwd)) {gl.lwd <- c(1, .5)}
-    if(is.null(gl.lty)) {gl.lty <- 3}
-
-    abline(h = seq(min(y.levels), max(y.levels), length.out = length(y.levels) * 2 - 1),
-           lwd = gl.lwd,
-           col = gl.col,
-           lty = gl.lty)
-  }
+  abline(h = seq(min(y.levels), max(y.levels), length.out = length(y.levels) * 2 - 1),
+         lwd = gl.lwd,
+         col = gl.col,
+         lty = gl.lty)
+}
 
   }
 
@@ -591,13 +589,13 @@ bar.lwd <- rep(bar.lwd, length.out = n.beans)
 
 for (bean.i in 1:n.beans) {
 
-  dv.i <- data.i[data.i$bean.num == bean.i, dv.name]
+dv.i <- data.i[data.i$bean.num == bean.i, dv.name]
 
-  if(is.logical(dv.i)) {dv.i <- as.numeric(dv.i)}
+if(is.logical(dv.i)) {dv.i <- as.numeric(dv.i)}
 
-  fun.val <- avg.line.fun(dv.i)
+fun.val <- avg.line.fun(dv.i)
 
-  x.loc.i <- bean.mtx$x.loc[bean.i]
+x.loc.i <- bean.mtx$x.loc[bean.i]
 
 # CALCULATE DENSITIES
 
@@ -645,39 +643,39 @@ if(length(dv.i) > 3) {  # only if n > 5
 
 
 # QUANTILES
-
-if (!is.null(quant)) {
-
-  # set default line length if length is not given manually
-
-  if(is.null(quant.lwd) == FALSE) {quant.lwd <- rep(quant.lwd, length.out = length(quant))}
-  if(is.null(quant.length) == FALSE) {quant.length <- rep(quant.length, length.out = length(quant))}
-
-
-  if (is.null(quant.length)) {
-    quant.length <- c(rep(0.65 * width.max, length(quant)))
-  }
-  if (is.null(quant.lwd)) {
-    quant.lwd <- c(rep(1, length(quant)))
-  }
-
-
-  # init empty vector for loop
-  stats.limit = c()
-
-  for (i in 1:length(quant)) {
-
-    # draw lines
-    segments(x.loc.i + (quant.length[i] - width.max), # left end
-             quantile(dv.i, probs = quant[i]),
-             x.loc.i - (quant.length[i] - width.max), # right end
-             quantile(dv.i, probs = quant[i]),
-             col = avg.line.col[bean.i],
-             lwd = quant.lwd[i],
-             lend = 3
-    )
-  }
-}
+#
+# if (!is.null(quant)) {
+#
+#   # set default line length if length is not given manually
+#
+#   if(is.null(quant.lwd) == FALSE) {quant.lwd <- rep(quant.lwd, length.out = length(quant))}
+#   if(is.null(quant.length) == FALSE) {quant.length <- rep(quant.length, length.out = length(quant))}
+#
+#
+#   if (is.null(quant.length)) {
+#     quant.length <- c(rep(0.65 * width.max, length(quant)))
+#   }
+#   if (is.null(quant.lwd)) {
+#     quant.lwd <- c(rep(1, length(quant)))
+#   }
+#
+#
+#   # init empty vector for loop
+#   stats.limit = c()
+#
+#   for (i in 1:length(quant)) {
+#
+#     # draw lines
+#     segments(x.loc.i + (quant.length[i] - width.max), # left end
+#              quantile(dv.i, probs = quant[i]),
+#              x.loc.i - (quant.length[i] - width.max), # right end
+#              quantile(dv.i, probs = quant[i]),
+#              col = avg.line.col[bean.i],
+#              lwd = quant.lwd[i],
+#              lend = 3
+#     )
+#   }
+# }
 
 # BAR
 {
@@ -690,7 +688,6 @@ rect(x.loc.i - width.max,
      lwd = bar.border.lwd[bean.i]
 )
 }
-
 
 # BEAN
 {
@@ -711,21 +708,6 @@ if(length(setdiff(dv.i, c(0, 1))) > 0 & length(dv.i) > 3) {
 }
 
 }
-
-# BAR
-{
-rect(x.loc.i - width.max,
-     0,
-     x.loc.i + width.max,
-     fun.val,
-     col = transparent(colors.df$bar.col[bean.i],
-                       trans.val = 1 - opac.df$bar.o[bean.i]),
-     border = transparent(colors.df$bar.border.col[bean.i],
-                          trans.val = 1 - opac.df$bar.border.o[bean.i]),
-     lwd = bar.lwd[bean.i]
-)
-}
-
 
 # POINTS
 {
@@ -769,11 +751,9 @@ if(inf.band == "tight") {
   )
 }
 
-
 }
 
 # QUANTILES
-
 if (!is.null(quant)) {
 
   # set default line length if length is not given manually
@@ -798,9 +778,9 @@ if (!is.null(quant)) {
   }
 }
 
-# BAND
+# INFERENCE BAND
 {
-if(opac.df$bean.o[bean.i] > 0 & length(dv.i) > 3 & sd(dv.i) > 0) {
+if(length(dv.i) > 3 & sd(dv.i) > 0) {
 
 if(length(dv.i) <= 3) {
 
@@ -834,7 +814,6 @@ if(inf == "ci") {
 }
 
 # Non-Binary data.i
-
 if(length(setdiff(dv.i, c(0, 1))) > 0) {
 
 if(inf == "hdi") {
@@ -855,7 +834,6 @@ if(inf == "iqr") {
   inf.ub <- quantile(dv.i, probs = .75)
 
 }
-
 
 if(inf == "ci") {
 
@@ -879,7 +857,7 @@ rect(x.loc.i - width.max * .8,
      x.loc.i + width.max * .8,
      inf.ub,
      col = transparent(colors.df$inf.col[bean.i],
-                       trans.val = 1 - opac.df$inf.o[bean.i]),
+                       trans.val = 1 - opac.df$inf.fill.o[bean.i]),
      lwd = inf.lwd[bean.i],
      border = transparent(colors.df$inf.border.col[bean.i],
                           trans.val = 1 - opac.df$inf.border.o[bean.i])
@@ -894,7 +872,7 @@ if(inf.band == "tight") {
           c(dens.inf.x[1:(length(dens.inf.x))],
             rev(dens.inf.x[1:(length(dens.inf.x))])),
           col = transparent(colors.df$inf.col[bean.i],
-                            trans.val = 1 - opac.df$inf.o[bean.i]),
+                            trans.val = 1 - opac.df$inf.fill.o[bean.i]),
           border = transparent(colors.df$inf.border.col[bean.i],
                                trans.val = 1 - colors.df$inf.border.o[bean.i]),
           lwd = bean.lwd[bean.i]
