@@ -188,14 +188,14 @@ pirateplot <- function(
 {
 if(is.null(bar.b.lwd) == FALSE) {
 
-  message("bar.b.lwd is depricated. Use bar.lwd intead")
+  message("bar.b.lwd is depricated. Use bar.lwd instead")
 
   bar.lwd <- bar.b.lwd
 }
 
 if(is.null(line.fun) == FALSE) {
 
-  message("line.fun is depricated. Use avg.line.fun intead")
+  message("line.fun is depricated. Use avg.line.fun instead")
 
   avg.line.fun <- line.fun
 
@@ -203,7 +203,7 @@ if(is.null(line.fun) == FALSE) {
 
 if(is.null(inf.o) == FALSE) {
 
-  message("inf.o is depricated. Use inf.f.o intead")
+  message("inf.o is depricated. Use inf.f.o instead")
 
   inf.f.o <- inf.o
 
@@ -211,7 +211,7 @@ if(is.null(inf.o) == FALSE) {
 
 if(is.null(bean.o) == FALSE) {
 
-  message("bean.o is depricated. Use bean.b.o intead")
+  message("bean.o is depricated. Use bean.b.o instead")
 
   bean.b.o <- bean.o
 
@@ -219,7 +219,7 @@ if(is.null(bean.o) == FALSE) {
 
 if(is.null(inf.col) == FALSE) {
 
-  message("inf.col is depricated. Use inf.f.col intead")
+  message("inf.col is depricated. Use inf.f.col instead")
 
   inf.f.col <- inf.col
 
@@ -227,7 +227,7 @@ if(is.null(inf.col) == FALSE) {
 
 if(is.null(theme.o) == FALSE) {
 
-  message("theme.o is depricated. Use theme intead")
+  message("theme.o is depricated. Use theme instead")
 
   theme <- theme.o
 
@@ -520,7 +520,7 @@ if(n.subplots %in% c(2, 3)) {
     }
   if(subplot.i > 1) {
 
-    par(mar = c(5, 2, 2, 1) + .1)
+    par(mar = c(5, 2, 4, 1) + .1)
 
     add.yaxt <- FALSE
     }
@@ -532,7 +532,7 @@ if(n.subplots == c(4)) {
   if(subplot.i %in% c(1, 3)) {
 
     par(mar = c(5, 4, 4, 1) + .1)} else {
-    par(mar = c(5, 2, 2, 1) + .1)
+    par(mar = c(5, 2, 4, 1) + .1)
 
   }
 
@@ -542,7 +542,7 @@ if(n.subplots %in% c(5, 6)) {
   if(subplot.i %in% c(1, 4)) {
 
     par(mar = c(5, 4, 4, 1) + .1)} else {
-      par(mar = c(5, 2, 2, 1) + .1)
+      par(mar = c(5, 2, 4, 1) + .1)
 
     }
 
@@ -555,7 +555,7 @@ if(n.subplots > 6) {
 
     par(mar = c(5, 4, 4, 1) + .1)} else {
 
-      par(mar = c(5, 2, 2, 1) + .1)
+      par(mar = c(5, 2, 4, 1) + .1)
 
     }
 
