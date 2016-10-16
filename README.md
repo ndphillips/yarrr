@@ -7,7 +7,7 @@ yarrr
 
 YaRrr Package
 
-The `yarrr` package contains a mixture of data, functions and tutorials supporting the e-book YaRrr! The Pirate's Guide to R (www.thepiratesguidetor.com).
+The `yarrr` package contains a mixture of data, functions and tutorials supporting the e-book "YaRrr! The Pirate's Guide to R" (www.thepiratesguidetor.com).
 
 To install the (stable) version from CRAN, run the following code
 
@@ -29,9 +29,23 @@ The `pirateplot` function creates a pirateplot, a transparent (both literally an
 For example, here is a pirateplot of the weight of chickens (from the `ChickWeight` dataset)
 
 ``` r
-yarrr::pirateplot(formula = weight ~ Time, data = ChickWeight)
+pirateplot(formula = weight ~ Time, 
+           data = ChickWeight)
 ```
 
 ![ChickenWeight pirateplot](http://nathanieldphillips.com/wp-content/uploads/2016/08/chickenplot.png)
 
-See <http://rpubs.com/yarrr/pirateplot> for details.
+Here's an alternative version using `theme = 2` and some additional arguments
+
+``` r
+pirateplot(formula = weight ~ Time, 
+           data = ChickWeight,
+           main = "Chicken Weights",
+           theme = 2,
+           back.col = gray(.97),
+           gl.col = gray(.5))
+```
+
+![ChickenWeight pirateplot](https://dl.dropboxusercontent.com/u/7618380/chickentheme2.png)
+
+See `?pirateplot` or <https://cran.r-project.org/web/packages/yarrr/vignettes/pirateplot.html> for more details
