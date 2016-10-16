@@ -8,6 +8,7 @@
 
 * Added several new arguments (e.g.;  `bean.fill.col` for customising pirateplots
 
+* Improved theme support (now under `theme` rather than `theme.o`)
 
 
 # yarrr 0.0.7
