@@ -125,7 +125,7 @@ pirateplot <- function(
   inf.f.o = NULL,
   inf.b.o = NULL,
   avg.line.o = NULL,
-  gl.col = NULL,
+  gl.col = gray(.7),
   point.col = NULL,
   point.bg = NULL,
   bar.f.col = NULL,
