@@ -111,7 +111,7 @@ pirateplot <- function(
   data = NULL,
   avg.line.fun = mean,
   pal = "basel",
-  back.col = gray(1),
+  back.col = NULL,
   point.cex = NULL,
   point.pch = 16,
   point.lwd = 1,
@@ -404,6 +404,10 @@ if(is.null(inf.b.col)) {inf.b.col <-  "black"}
 if(is.null(avg.line.col)) {avg.line.col <- "black"}
 if(is.null(point.col)) {point.col <- "black"}
 if(is.null(point.cex)) {point.cex <- .5}
+
+if(is.null(back.col)) {back.col <- gray(.97)}
+if(is.null(gl.col)) {gl.col <- gray(.5)}
+
 }
 }
 
@@ -681,6 +685,7 @@ if(is.null(yaxt)) {
 
 axis(side = 2,
      at = y.levels,
+     labels = prettyNum(y.levels, big.mark = ","),
      las = 1,
      lwd = 1,
      lwd.ticks = 1,
@@ -691,9 +696,14 @@ axis(side = 2,
 
 # BACKGROUND
 {
+
+if(is.null(back.col) == FALSE) {
+
 rect(-1e10, -1e10, 1e10, 1e10,
      col = back.col,
      border = NA)
+
+}
 }
 
 # GRIDLINES

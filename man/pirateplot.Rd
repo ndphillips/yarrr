@@ -5,7 +5,7 @@
 \title{pirateplot}
 \usage{
 pirateplot(formula = NULL, data = NULL, avg.line.fun = mean,
-  pal = "basel", back.col = gray(1), point.cex = NULL, point.pch = 16,
+  pal = "basel", back.col = NULL, point.cex = NULL, point.pch = 16,
   point.lwd = 1, jitter.val = 0.03, theme = 1, bean.b.o = NULL,
   bean.f.o = NULL, point.o = NULL, bar.f.o = NULL, bar.b.o = NULL,
   inf.f.o = NULL, inf.b.o = NULL, avg.line.o = NULL, gl.col = NULL,
