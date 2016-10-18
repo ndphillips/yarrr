@@ -28,7 +28,7 @@ A pirateplot has 4 main elements
 ```{r, fig.width = 6, fig.height = 5, echo = F, fig.align='center'}
 pirateplot(formula = weight ~ Diet,
            data = ChickWeight,
-           theme = 1,
+           theme = 2,
            bean.f.o = c(0, .1, .7, .1),
         #   bean.b.o = c(0, .1, 1, .1),
            point.o = c(.4, .1, .1, .1),
@@ -95,7 +95,7 @@ pirateplot(formula = weight ~ Time,
 
 ## Theme 2
 
-`theme = 2`, emphasizes the beans and changes the look of the points:
+`theme = 2` has a brigher look
 
 ```{r fig.align='center', fig.width = 6, fig.height = 4}
 # Default theme
@@ -137,11 +137,12 @@ pirateplot(formula = weight ~ Time,
            main = "southpark color palette")
 ```
 
-The second method is to simply enter a vector of one or more colors. Here, I'll create a black and white pirateplot of the same data by specifying `pal = gray(.1)`
+The second method is to simply enter a vector of one or more colors. Here, I'll create a black and white pirateplot from theme 2 by specifying `pal = gray(.1)`
 
 ```{r fig.width = 6, fig.height = 4, fig.align = "center"}
 pirateplot(formula = weight ~ Time,
            data = ChickWeight,
+           theme = 2,
            pal = gray(.1),
            main = "pal = gray(.1)")
 ```
@@ -151,6 +152,7 @@ You can even specify palette colors as a vector to selectively color elements:
 ```{r fig.width = 6, fig.height = 4, fig.align = "center"}
 pirateplot(formula = weight ~ Time,
            data = ChickWeight,
+           theme = 2,
            main = "Selective color adjustment",
            pal = gray(c(rep(.9, 5), .1, rep(.9, 3), .1)))
 ```
@@ -267,7 +269,6 @@ You can use up to 3 categorical IVs in your plot. Here are some examples:
 pirateplot(formula = height ~ sex + eyepatch,
            data = pirates,
            main = "Pirate Heights",
-           theme = 2,
            gl.col = gray(.7))
 ```
 
