@@ -377,6 +377,28 @@ if(theme == 0) {
 
 if(theme == 1) {
 
+  if(is.null(point.o)) {point.o <- .3}
+  if(is.null(bean.b.o)) {bean.b.o <- 0}
+  if(is.null(bean.f.o)) {bean.f.o <- .5}
+  if(is.null(inf.f.o))  {inf.f.o <- .5}
+  if(is.null(inf.b.o)) {inf.b.o <- 1}
+  if(is.null(avg.line.o))  {avg.line.o <- 1}
+  if(is.null(bar.f.o))  {bar.f.o <- 0}
+  if(is.null(bar.b.o))  {bar.b.o <- 0}
+
+  if(is.null(inf.f.col)) {inf.f.col <- "white"}
+  if(is.null(inf.b.col)) {inf.b.col <-  "black"}
+  if(is.null(avg.line.col)) {avg.line.col <- "black"}
+  if(is.null(point.col)) {point.col <- "black"}
+  if(is.null(point.cex)) {point.cex <- .5}
+
+  if(is.null(back.col)) {back.col <- gray(.97)}
+  if(is.null(gl.col)) {gl.col <- gray(.5)}
+
+}
+
+if(theme == 2) {
+
   if(is.null(point.o)) {point.o <- .2}
   if(is.null(bean.b.o)) {bean.b.o <- .2}
   if(is.null(bean.f.o)) {bean.f.o <- 0}
@@ -388,27 +410,6 @@ if(theme == 1) {
   if(is.null(point.cex)) {point.cex <- 1}
 }
 
-if(theme == 2) {
-
-if(is.null(point.o)) {point.o <- .3}
-if(is.null(bean.b.o)) {bean.b.o <- 0}
-if(is.null(bean.f.o)) {bean.f.o <- .5}
-if(is.null(inf.f.o))  {inf.f.o <- .5}
-if(is.null(inf.b.o)) {inf.b.o <- 1}
-if(is.null(avg.line.o))  {avg.line.o <- 1}
-if(is.null(bar.f.o))  {bar.f.o <- 0}
-if(is.null(bar.b.o))  {bar.b.o <- 0}
-
-if(is.null(inf.f.col)) {inf.f.col <- "white"}
-if(is.null(inf.b.col)) {inf.b.col <-  "black"}
-if(is.null(avg.line.col)) {avg.line.col <- "black"}
-if(is.null(point.col)) {point.col <- "black"}
-if(is.null(point.cex)) {point.cex <- .5}
-
-if(is.null(back.col)) {back.col <- gray(.97)}
-if(is.null(gl.col)) {gl.col <- gray(.5)}
-
-}
 }
 
 # DEFINE OPACITIES
