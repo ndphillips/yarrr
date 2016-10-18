@@ -271,11 +271,7 @@ if(n.iv == 3) {
 
 n.subplots <- ncol(selection.mtx)
 
-
-
-
 # Loop over subplots (only relevant when there is a third IV)
-if(n.subplots == 1) {par(mfrow = c(1, 1))}
 if(n.subplots == 2) {par(mfrow = c(1, 2))}
 if(n.subplots == 3) {par(mfrow = c(1, 3))}
 if(n.subplots == 4) {par(mfrow = c(2, 2))}
