@@ -29,9 +29,14 @@ The `pirateplot` function creates a pirateplot, a transparent (both literally an
 For example, here is a pirateplot of the weight of chickens (from the `ChickWeight` dataset)
 
 ``` r
-yarrr::pirateplot(formula = weight ~ Time, data = ChickWeight)
+yarrr::pirateplot(formula = weight ~ Time, 
+                  data = ChickWeight,
+                  theme = 2,
+                  main = "pirateplot of Chicken Weights",
+                  back.col = gray(.97),
+                  gl.col = gray(.5))
 ```
 
-![ChickenWeight pirateplot](http://nathanieldphillips.com/wp-content/uploads/2016/08/chickenplot.png)
+![ChickenWeight pirateplot](https://dl.dropboxusercontent.com/u/7618380/chickenplot.png)
 
 See <http://rpubs.com/yarrr/pirateplot> for details.
