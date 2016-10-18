@@ -397,7 +397,7 @@ if(theme == 1) {
 
 if(theme == 2) {
 
-  if(is.null(point.o)) {point.o <- .2}
+  if(is.null(point.o)) {point.o <- .1}
   if(is.null(bean.b.o)) {bean.b.o <- .2}
   if(is.null(bean.f.o)) {bean.f.o <- 0}
   if(is.null(inf.f.o)) {inf.f.o <- .8}
@@ -405,7 +405,13 @@ if(theme == 2) {
   if(is.null(avg.line.o)) {avg.line.o <- 1}
   if(is.null(bar.f.o)) {bar.f.o <- .1}
   if(is.null(bar.b.o)) {bar.b.o <- 0}
-  if(is.null(point.cex)) {point.cex <- 1}
+  if(is.null(point.cex)) {point.cex <- .7}
+  if(is.null(point.col)) {point.col <- "black"}
+  if(is.null(gl.col)) {gl.col <- gray(.7)}
+  if(is.null(bean.lwd)) {bean.lwd <- 2}
+  if(is.null(avg.line.col)) {avg.line.col <- gray(.4)}
+
+
 }
 
 }
