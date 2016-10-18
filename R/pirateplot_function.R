@@ -275,7 +275,6 @@ n.subplots <- ncol(selection.mtx)
 
 
 # Loop over subplots (only relevant when there is a third IV)
-if(n.subplots == 1) {par(mfrow = c(1, 1))}
 if(n.subplots == 2) {par(mfrow = c(1, 2))}
 if(n.subplots == 3) {par(mfrow = c(1, 3))}
 if(n.subplots == 4) {par(mfrow = c(2, 2))}
@@ -700,7 +699,10 @@ axis(side = 2,
 
 if(is.null(back.col) == FALSE) {
 
-rect(-1e10, -1e10, 1e10, 1e10,
+rect(xleft = par("usr")[1],
+     ybottom = par("usr")[3],
+     xright = par("usr")[2],
+     ytop = par("usr")[4],
      col = back.col,
      border = NA)
 
