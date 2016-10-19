@@ -191,10 +191,12 @@ pirateplot(formula = weight ~ Time,
            inf.f.o = .4, # Inference fill
            inf.b.o = .8, # Inference border
            avg.line.o = 1, # Average line
+           bar.f.o = .8, # Bar
            inf.f.col = "white", # Inf fill col
            inf.b.col = "black", # Inf border col
            point.col = "black", # point col
            avg.line.col = "black", # avg line col
+           bar.f.col = gray(.8), # bar filling color
            point.cex = .5 # Small points
            )
 ```
@@ -209,6 +211,8 @@ pirateplot(formula = weight ~ Time,
            inf.f.o = 0, # Turn off inf fill
            inf.b.o = 0, # Turn off inf border
            point.o = .2,   # Turn up points
+           bar.f.o = .5, # Turn up bars
+           avg.line.o = 0, # Turn off average line
            point.col = "black" # Black points
            )
 ```
