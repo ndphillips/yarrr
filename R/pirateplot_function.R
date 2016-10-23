@@ -4,6 +4,7 @@
 #'
 #' @param formula formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent varaibles
 #' @param data dataframe. A dataframe containing the variables specified in formula.
+#' @param plot logical. If \code{TRUE} (the default), thent the pirateplot is produced. If \code{FALSE}, the data summaries created in the plot are returned as a list.
 #' @param pal string. The color palette of the plot. Can be a single color, a vector of colors, or the name of a palette in the piratepal() function (e.g.; "basel", "google", "southpark"). To see all the palettes, run \code{piratepal(palette = "all", action = "show")}
 #' @param point.col,bar.f.col,bean.b.col,bean.f.col,inf.f.col,inf.b.col,avg.line.col,bar.b.col,quant.col,point.bg string. Vectors of colors specifying the colors of the plotting elements. This will override values in the palette. f stands for filling, b stands for border.
 #' @param theme integer. An integer in the set 0, 1, 2 specifying a theme (that is, new default values for opacities and colors). \code{theme = 0} turns off all opacities which can then be individually specified individually.
@@ -46,11 +47,6 @@
 #'pirateplot(formula = weight ~ Time,
 #'           data = ChickWeight)
 #'
-#'# Black and white version
-#'pirateplot(formula = weight ~ Time,
-#'           data = ChickWeight,
-#'           main = "Chicken weights by Time",
-#'           pal = gray(.2)) # Dark gray palette
 #'
 #'# Now using theme 2
 #'pirateplot(formula = weight ~ Time,
@@ -108,6 +104,7 @@
 pirateplot <- function(
   formula = NULL,
   data = NULL,
+  plot = TRUE,
   avg.line.fun = mean,
   pal = "basel",
   back.col = NULL,
@@ -178,6 +175,8 @@ pirateplot <- function(
   theme.o = NULL,
   ...
 ) {
+#
+#
 
 
 
@@ -248,6 +247,7 @@ data <- model.frame(formula = formula,
 
 dv.name <- names(data)[1]
 dv.v <- data[,1]
+all.iv.names <- names(data)[2:ncol(data)]
 }
 
 # GET IV INFORMATION
@@ -256,7 +256,6 @@ n.iv <- ncol(data) - 1
 if(n.iv > 3) {stop("Currently only 1, 2, or 3 IVs are supported in pirateplot(). Please reduce.")}
 
 # selection.mtx dictates which values are in each sub-plot
-
 if(n.iv %in% 1:2) {
 
 selection.mtx <- matrix(TRUE, nrow = nrow(data), ncol = 1)
@@ -265,6 +264,7 @@ selection.mtx <- matrix(TRUE, nrow = nrow(data), ncol = 1)
 
 if(n.iv == 3) {
 
+  iv3.name <- names(data)[4]
   iv3.levels <- sort(unique(data[,4]))
   selection.mtx <- matrix(unlist(lapply(iv3.levels, FUN = function(x) {data[,4] == x})), nrow = nrow(data), ncol = length(iv3.levels), byrow = F)
 
@@ -284,9 +284,9 @@ if(n.subplots > 7) {par(mfrow = c(ceiling(sqrt(n.subplots)), ceiling(sqrt(n.subp
 
 }
 
-# Setup output list
 
-output.ls <- vector("list", length = n.subplots)
+# Setup outputs
+summary.ls <- vector("list", length = n.subplots)
 
 # Loop over subplots
 for(subplot.i in 1:n.subplots) {
@@ -350,6 +350,92 @@ bean.mtx$x.loc <- bean.loc
 data.i <- merge(data.i, bean.mtx)
 
 }
+
+
+# Calculate summary statistics in summary
+
+summary <- data.frame("n" = rep(NA, n.beans),
+                      "avg" = rep(NA, n.beans),
+                      "inf.lb" = rep(NA, n.beans),
+                      "inf.ub" = rep(NA, n.beans))
+
+summary <- cbind(bean.mtx[,(1:ncol(bean.mtx) - 1)], summary)
+
+if(n.subplots > 1) {summary[iv3.name] <- iv3.levels[subplot.i]}
+
+
+for(bean.i in 1:n.beans) {
+
+  dv.i <- data.i[data.i$bean.num == bean.i, dv.name]
+  if(is.logical(dv.i)) {dv.i <- as.numeric(dv.i)}
+
+  summary$n[bean.i] <- length(dv.i)
+  summary$avg[bean.i] <- avg.line.fun(dv.i)
+
+  # Calculate inference
+
+  # Binary data.i
+
+  if(length(setdiff(dv.i, c(0, 1))) == 0) {
+
+    if(inf == "hdi") {
+
+      # Calculate HDI from beta(Success + 1, Failure + 1)
+      inf.lb <- qbeta(.025, shape1 = sum(dv.i) + 1, shape2 = sum(dv.i == 0) + 1)
+      inf.ub <- qbeta(.975, shape1 = sum(dv.i) + 1, shape2 = sum(dv.i == 0) + 1)
+
+    }
+
+    if(inf == "ci") {
+
+      # Calculate 95% CI with Normal distribution approximation to binomial
+      inf.lb <- mean(dv.i) - 1.96 * sqrt(mean(dv.i) * (1 - mean(dv.i)) / length(dv.i)) - .5 / length(dv.i)
+      inf.ub <- mean(dv.i) + 1.96 * sqrt(mean(dv.i) * (1 - mean(dv.i)) / length(dv.i)) + .5 / length(dv.i)
+
+      if(inf.lb < 0) {inf.lb <- 0}
+      if(inf.lb > 1) {inf.ub <- 1}
+
+    }
+  }
+
+  # Non-Binary data.i
+  if(length(setdiff(dv.i, c(0, 1))) > 0) {
+
+    if(inf == "hdi") {
+
+      ttest.bf <- BayesFactor::ttestBF(dv.i, posterior = T, iterations = hdi.iter, progress = F)
+      samples <- ttest.bf[,1]
+
+      # using the hdi function from Kruschke
+
+      inf.lb <- hdi(samples, credMass = inf.p)[1]
+      inf.ub <- hdi(samples, credMass = inf.p)[2]
+
+    }
+
+    if(inf == "iqr") {
+
+      inf.lb <- quantile(dv.i, probs = .25)
+      inf.ub <- quantile(dv.i, probs = .75)
+
+    }
+
+    if(inf == "ci") {
+
+      ci.i <- t.test(dv.i, conf.level = inf.p)$conf.int
+
+      inf.lb <- ci.i[1]
+      inf.ub <- ci.i[2]
+
+    }
+  }
+
+  summary$inf.lb[bean.i] <- inf.lb
+  summary$inf.ub[bean.i] <- inf.ub
+
+}
+
+if(plot == TRUE) {
 
 # COLORS AND TRANSPARENCIES
 
@@ -752,16 +838,6 @@ inf.lwd <- rep(inf.lwd, length.out = n.beans)
 avg.line.lwd <- rep(avg.line.lwd, length.out = n.beans)
 bar.lwd <- rep(bar.lwd, length.out = n.beans)
 
-
-# Setup output object
-
-output <- data.frame("n" = rep(NA, n.beans),
-                     "avg" = rep(NA, n.beans),
-                     "inf.lb" = rep(NA, n.beans),
-                     "inf.ub" = rep(NA, n.beans))
-
-output <- cbind(bean.mtx[,(1:ncol(bean.mtx) - 1)], output)
-
 # Loop over beans
 for (bean.i in 1:n.beans) {
 
@@ -770,7 +846,6 @@ dv.i <- data.i[data.i$bean.num == bean.i, dv.name]
 if(is.logical(dv.i)) {dv.i <- as.numeric(dv.i)}
 
 x.loc.i <- bean.mtx$x.loc[bean.i]
-
 
 # CALCULATE DENSITIES
 
@@ -821,7 +896,7 @@ if(length(dv.i) > 3) {  # only if n > 5
 rect(xleft = x.loc.i - width.max,
      ybottom = 0,
      xright = x.loc.i + width.max,
-     ytop = avg.line.fun(dv.i),
+     ytop = summary$avg[dv.i],
      col = transparent(colors.df$bar.f.col[bean.i], trans.val = 1 - opac.df$bar.f.o[bean.i]),
      border = transparent(colors.df$bar.b.col[bean.i], trans.val = 1 - opac.df$bar.b.o[bean.i]),
      lwd = bar.b.lwd[bean.i]
@@ -925,73 +1000,17 @@ if(length(dv.i) <= 3) {
 
   }
 
-# Binary data.i
-
-if(length(setdiff(dv.i, c(0, 1))) == 0) {
-
-if(inf == "hdi") {
-
-  # Calculate HDI from beta(Success + 1, Failure + 1)
-inf.lb <- qbeta(.025, shape1 = sum(dv.i) + 1, shape2 = sum(dv.i == 0) + 1)
-inf.ub <- qbeta(.975, shape1 = sum(dv.i) + 1, shape2 = sum(dv.i == 0) + 1)
-
-}
-
-if(inf == "ci") {
-
-  # Calculate 95% CI with Normal distribution approximation to binomial
-  inf.lb <- mean(dv.i) - 1.96 * sqrt(mean(dv.i) * (1 - mean(dv.i)) / length(dv.i)) - .5 / length(dv.i)
-  inf.ub <- mean(dv.i) + 1.96 * sqrt(mean(dv.i) * (1 - mean(dv.i)) / length(dv.i)) + .5 / length(dv.i)
-
-  if(inf.lb < 0) {inf.lb <- 0}
-  if(inf.lb > 1) {inf.ub <- 1}
-
-}
-}
-
-# Non-Binary data.i
-if(length(setdiff(dv.i, c(0, 1))) > 0) {
-
-if(inf == "hdi") {
-
-ttest.bf <- BayesFactor::ttestBF(dv.i, posterior = T, iterations = hdi.iter, progress = F)
-samples <- ttest.bf[,1]
-
-# using the hdi function from Kruschke
-
-inf.lb <- hdi(samples, credMass = inf.p)[1]
-inf.ub <- hdi(samples, credMass = inf.p)[2]
-
-}
-
-if(inf == "iqr") {
-
-  inf.lb <- quantile(dv.i, probs = .25)
-  inf.ub <- quantile(dv.i, probs = .75)
-
-}
-
-if(inf == "ci") {
-
-ci.i <- t.test(dv.i, conf.level = inf.p)$conf.int
-
-inf.lb <- ci.i[1]
-inf.ub <- ci.i[2]
-
-}
-}
-
-dens.inf.x <- dens.x.i[dens.x.i >= inf.lb & dens.x.i <= inf.ub]
-dens.inf.y <- dens.y.i[dens.x.i >= inf.lb & dens.x.i <= inf.ub]
+dens.inf.x <- dens.x.i[dens.x.i >= summary$inf.lb[bean.i] & dens.x.i <= summary$inf.ub[bean.i]]
+dens.inf.y <- dens.y.i[dens.x.i >= summary$inf.lb[bean.i] & dens.x.i <= summary$inf.ub[bean.i]]
 
 # Draw inf band
 
 if(inf.band == "wide") {
 
 rect(x.loc.i - width.max * .8,
-     inf.lb,
+     summary$inf.lb[bean.i],
      x.loc.i + width.max * .8,
-     inf.ub,
+     summary$inf.ub[bean.i],
      col = transparent(colors.df$inf.f.col[bean.i],
                        trans.val = 1 - opac.df$inf.f.o[bean.i]),
      lwd = inf.lwd[bean.i],
@@ -1025,7 +1044,7 @@ if(inf.band == "tight") {
 
   if(inf.band == "wide") {
     segments(x0 = x.loc.i - width.max,
-             y0 = avg.line.fun(dv.i),
+             y0 = summary$avg[bean.i],
              x1 = x.loc.i + width.max,
              y1 = avg.line.fun(dv.i),
              col = transparent(colors.df$avg.line.col[bean.i],
@@ -1040,9 +1059,9 @@ if(inf.band == "tight") {
     fun.loc <- which(abs(dens.x.i - avg.line.fun(dv.i)) == min(abs(dens.x.i - avg.line.fun(dv.i))))
 
     segments(x.loc.i - dens.y.i[fun.loc],
-             avg.line.fun(dv.i),
+             summary$avg[bean.i],
              x.loc.i + dens.y.i[fun.loc],
-             avg.line.fun(dv.i),
+             summary$avg[bean.i],
              col = transparent(colors.df$avg.line.col[bean.i],
                                trans.val = 1 - opac.df$avg.line.o[bean.i]),
              lwd = avg.line.lwd[bean.i],
@@ -1051,13 +1070,6 @@ if(inf.band == "tight") {
   }
 
 }
-
-
-# Write main bean results to output
-output$n[bean.i] <- length(dv.i)
-output$avg[bean.i] <- avg.line.fun(dv.i)
-output$inf.lb[bean.i] <- inf.lb
-output$inf.ub[bean.i] <- inf.ub
 
 }
 
@@ -1104,15 +1116,22 @@ if(is.null(xaxt) == T) {
 }
 
 }
-
-output.ls[[subplot.i]] <- output
-
-if(n.subplots > 1) {
-names(output.ls)[subplot.i] <- iv3.levels[subplot.i]
 }
+
+summary.ls[[subplot.i]] <- summary
 
 }
 
+summary.df <- do.call(summary.ls, what = "rbind")
+summary.df <- summary.df[,c(all.iv.names, setdiff(names(summary.df), all.iv.names))]
+
+output.ls <- list("summary" = summary.df,
+                  "avg.line.fun" =  deparse(substitute(avg.line.fun)),
+                  "inf" = inf,
+                  "inf.p" = inf.p)
+
+if(plot == FALSE) {
 return(output.ls)
+}
 
 }
