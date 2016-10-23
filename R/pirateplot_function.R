@@ -465,7 +465,7 @@ if(theme == 0) {
 if(theme == 1) {
 
   if(is.null(point.o)) {point.o <- .3}
-  if(is.null(bean.b.o)) {bean.b.o <- 0}
+  if(is.null(bean.b.o)) {bean.b.o <- .5}
   if(is.null(bean.f.o)) {bean.f.o <- .5}
   if(is.null(inf.f.o))  {inf.f.o <- .5}
   if(is.null(inf.b.o)) {inf.b.o <- 1}
@@ -984,7 +984,7 @@ if (!is.null(quant)) {
            quantile(dv.i, probs = min(quant)),
            x.loc.i,
            quantile(dv.i, probs = max(quant)), col = colors.df$quant.col[bean.i],
-           lwd = quant.lwd[1], lend = 3, lty = 2)
+           lwd = quant.lwd[1], lend = 3, lty = 1)
 
 }
 

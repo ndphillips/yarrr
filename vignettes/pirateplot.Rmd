@@ -130,24 +130,24 @@ The first way is to specify the name of a color palette in the `piratepal()` fun
 piratepal("all")
 ```
 
-For example, here is a pirateplot using the `"southpark"` palette
+For example, here is a pirateplot using the `"pony"` palette
 
 ```{r fig.width = 6, fig.height = 4, fig.align = "center"}
 pirateplot(formula = weight ~ Time,
            data = ChickWeight,
-           pal = "southpark", 
-           theme = 2,
-           main = "southpark color palette")
+           pal = "pony", 
+           theme = 1,
+           main = "pony color palette")
 ```
 
-The second method is to simply enter a vector of one or more colors. Here, I'll create a black and white pirateplot from theme 2 by specifying `pal = gray(.1)`
+The second method is to simply enter a vector of one or more colors. Here, I'll create a black and white pirateplot from theme 2 by specifying `pal = 'black'`
 
 ```{r fig.width = 6, fig.height = 4, fig.align = "center"}
 pirateplot(formula = weight ~ Time,
            data = ChickWeight,
            theme = 2,
-           pal = gray(.1),
-           main = "pal = gray(.1)")
+           pal = "black",
+           main = "pal = 'black")
 ```
 
 
@@ -179,12 +179,13 @@ pirateplot(formula = weight ~ Time,
            data = ChickWeight,
            theme = 0,
            main = "Fully customized pirateplot",
-           bean.f.o = .2, # Bean fill
+           pal = "southpark", # southpark color palette
+           bean.f.o = .6, # Bean fill
            point.o = .2, # Points
-           inf.f.o = .4, # Inference fill
+           inf.f.o = .7, # Inference fill
            inf.b.o = .8, # Inference border
            avg.line.o = 1, # Average line
-           bar.f.o = .8, # Bar
+           bar.f.o = .5, # Bar
            inf.f.col = "white", # Inf fill col
            inf.b.col = "black", # Inf border col
            point.col = "black", # point col
@@ -264,21 +265,22 @@ pirateplot(formula = weight ~ Time,
 
 You can use up to 3 categorical IVs in your plot. Here are some examples:
 
-```{r fig.width = 6, fig.height = 4, fig.align = "center"}
-pirateplot(formula = height ~ sex + eyepatch,
+```{r fig.width = 10, fig.height = 5, fig.align = "center"}
+pirateplot(formula = height ~ sex + eyepatch + headband,
            data = pirates,
            main = "Pirate Heights")
 ```
 
+Here's a pirateplot with showing the relationship between movie running times based on movie genre and whether the movie is a sequel or not.
 
-```{r fig.width = 7, fig.height = 5, fig.align = "center"}
-pirateplot(formula = time ~ genre + sequel,
+```{r fig.width = 7, fig.height = 4, fig.align = "center"}
+pirateplot(formula = time ~ sequel + genre,
            data = subset(movies, 
-                         genre %in% c("Action", "Adventure", "Comedy") &
+                         genre %in% c("Action", "Adventure", "Comedy", "Horror") &
                          time > 0),
            main = "Movie running times",
            theme = 2,
-           inf.f.col = piratepal("basel")[1:3],
+           inf.f.col = piratepal("basel")[1:4],
            inf.f.o = .8,
            bean.f.o = .1,
            point.o = .05,
@@ -288,10 +290,31 @@ pirateplot(formula = time ~ genre + sequel,
            )
 ```
 
+# Output
+
+If you include the `plot = FALSE` argument to a pirateplot, the function will return some values associated with the plot.
+
+```{r}
+times.pp <- pirateplot(formula = time ~ sequel + genre,
+                       data = subset(movies, 
+                         genre %in% c("Action", "Adventure", "Comedy", "Horror") &
+                         time > 0),
+                         plot = FALSE)
+```
+
+Here's the result. The most interesting element is `$summary` which shows summary statistics for each bean:
+
+```{r}
+times.pp
+```
+
+
+
 # Contribute!
 
 I am very happy to receive new contributions and suggestions to improve the pirateplot. If you come up a new theme (i.e.; customization) that you like, or have a favorite color palette that you'd like to have implemented, please contact me (yarrr.book@gmail.com) or post an issue at [www.github.com/ndphillips/yarrr/issues](www.github.com/ndphillips/yarrr/issues) and I might include it in a future update.
 
 # References
 
+The pirateplot is really a knock-off of the great beanplot package and visualization from @kampstra2008beanplot. 
 

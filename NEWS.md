@@ -1,3 +1,9 @@
+# yarrr 0.1.2
+
+* Minor updates to themes
+
+* You can now assign a pirateplot to a variable to return summary statistics.
+
 # yarrr 0.1.0
 
 * Added a `NEWS.md` file to track changes to the package.
