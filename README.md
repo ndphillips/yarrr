@@ -7,12 +7,12 @@ yarrr
 
 YaRrr Package
 
-The `yarrr` package contains a mixture of data, functions and tutorials supporting the e-book YaRrr! The Pirate's Guide to R (www.thepiratesguidetor.com).
+The `yarrr` package contains a mixture of data, functions and tutorials supporting the e-book "YaRrr! The Pirate's Guide to R" (www.thepiratesguidetor.com).
 
-To install the (stable) version from CRAN, run the following code
+To install yarrr (0.1.1) from CRAN, run the following code
 
 ``` r
-install.packages("yarrr") # install yarrr
+install.packages("yarrr") # install yarrr 0.1.1
 library("yarrr") # load yarrr
 yarrr.guide() # run main package guide
 ```
@@ -26,17 +26,31 @@ pirateplot()
 
 The `pirateplot` function creates a pirateplot, a transparent (both literally and figuratively) plot for displaying continuous data as a function of 1, 2, or 3 discrete variables. Unlike traditional plots, like barplots and boxplots, the pirateplot shows both raw data (jittered points), descriptive statistics (line and/or bar), and inferential statistics (95% Bayesian Highest Density Intervals or Confidence Intervals), in one plot. While the default plot shows all these elements, the user can easily customize the transparency of each element using additional arguments.
 
-For example, here is a pirateplot of the weight of chickens (from the `ChickWeight` dataset)
+For example, here is a default pirateplot of the weight of chickens (from the `ChickWeight` dataset)
 
 ``` r
-yarrr::pirateplot(formula = weight ~ Time, 
-                  data = ChickWeight,
-                  theme = 2,
-                  main = "pirateplot of Chicken Weights",
-                  back.col = gray(.97),
-                  gl.col = gray(.5))
+pirateplot(formula = weight ~ Time, 
+          data = ChickWeight,
+          theme = 2,
+          main = "pirateplot of Chicken Weights",
+          back.col = gray(.97),
+          gl.col = gray(.5))
+
 ```
 
 ![ChickenWeight pirateplot](https://dl.dropboxusercontent.com/u/7618380/chickenplot.png)
 
-See <http://rpubs.com/yarrr/pirateplot> for details.
+Here's an alternative pirateplot of the same data using `theme = 2` and some additional arguments
+
+``` r
+pirateplot(formula = weight ~ Time, 
+           data = ChickWeight,
+           main = "Chicken Weights",
+           theme = 2,
+           back.col = gray(.97),
+           gl.col = gray(.5))
+```
+
+![ChickenWeight pirateplot](https://dl.dropboxusercontent.com/u/7618380/chickentheme2.png)
+
+See `?pirateplot` or <https://cran.r-project.org/web/packages/yarrr/vignettes/pirateplot.html> for more details

@@ -4,12 +4,12 @@
 \alias{pirateplot}
 \title{pirateplot}
 \usage{
-pirateplot(formula = NULL, data = NULL, avg.line.fun = mean,
-  pal = "basel", back.col = gray(1), point.cex = NULL, point.pch = 16,
-  point.lwd = 1, jitter.val = 0.03, theme = 1, bean.b.o = NULL,
-  bean.f.o = NULL, point.o = NULL, bar.f.o = NULL, bar.b.o = NULL,
-  inf.f.o = NULL, inf.b.o = NULL, avg.line.o = NULL, gl.col = NULL,
-  point.col = NULL, point.bg = NULL, bar.f.col = NULL,
+pirateplot(formula = NULL, data = NULL, plot = TRUE,
+  avg.line.fun = mean, pal = "basel", back.col = NULL, point.cex = NULL,
+  point.pch = 16, point.lwd = 1, jitter.val = 0.03, theme = 1,
+  bean.b.o = NULL, bean.f.o = NULL, point.o = NULL, bar.f.o = NULL,
+  bar.b.o = NULL, inf.f.o = NULL, inf.b.o = NULL, avg.line.o = NULL,
+  gl.col = NULL, point.col = NULL, point.bg = NULL, bar.f.col = NULL,
   bean.b.col = NULL, bean.f.col = NULL, inf.f.col = NULL,
   inf.b.col = NULL, avg.line.col = NULL, bar.b.col = NULL,
   quant.col = NULL, avg.line.lwd = 4, bean.lwd = 1, bean.lty = 1,
@@ -27,6 +27,8 @@ pirateplot(formula = NULL, data = NULL, avg.line.fun = mean,
 \item{formula}{formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent varaibles}
 
 \item{data}{dataframe. A dataframe containing the variables specified in formula.}
+
+\item{plot}{logical. If \code{TRUE} (the default), thent the pirateplot is produced. If \code{FALSE}, the data summaries created in the plot are returned as a list.}
 
 \item{avg.line.fun}{function. A function that determines how average lines and bar heights are determined (default is mean).}
 
@@ -94,11 +96,6 @@ The pirateplot function creates an RDI (Raw data, Descriptive and Inferential st
 pirateplot(formula = weight ~ Time,
           data = ChickWeight)
 
-# Black and white version
-pirateplot(formula = weight ~ Time,
-          data = ChickWeight,
-          main = "Chicken weights by Time",
-          pal = gray(.2)) # Dark gray palette
 
 # Now using theme 2
 pirateplot(formula = weight ~ Time,
@@ -126,7 +123,6 @@ pirateplot(formula = weight ~ Time,
 # Theme 2 with 2 IVs
 pirateplot(formula = len ~ dose + supp,
           data = ToothGrowth,
-          theme = 2,
           main = "Guinea pig tooth length by supplement",
           point.pch = 16,  # Point specifications...
           point.col = "black",
