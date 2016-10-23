@@ -89,7 +89,7 @@ knitr::kable(pp.elements, caption = "Main Pirateplot Arguments")
 `theme = 1`, the default theme, shows all four pirateplot elements:
 
 ```{r fig.align='center', fig.width = 6, fig.height = 4}
-# Default theme
+# Theme 1 (the default)
 pirateplot(formula = weight ~ Time,
            data = ChickWeight,
            theme = 1,
@@ -101,12 +101,26 @@ pirateplot(formula = weight ~ Time,
 `theme = 2` has a brigher look
 
 ```{r fig.align='center', fig.width = 6, fig.height = 4}
-# Default theme
+# Theme 2
 pirateplot(formula = weight ~ Time,
            data = ChickWeight,
            theme = 2,
            main = "theme = 2")
 ```
+
+
+## Theme 3
+
+`theme = 3` has a brigher look
+
+```{r fig.align='center', fig.width = 6, fig.height = 4}
+# Theme 3
+pirateplot(formula = weight ~ Time,
+           data = ChickWeight,
+           theme = 3,
+           main = "theme = 3")
+```
+
 
 ## Theme 0
 
@@ -280,10 +294,12 @@ pirateplot(formula = time ~ sequel + genre,
                          time > 0),
            main = "Movie running times",
            theme = 2,
-           inf.f.col = piratepal("basel")[1:4],
+           inf.f.col = piratepal("basel")[1:2],
            inf.f.o = .8,
            bean.f.o = .1,
            point.o = .05,
+           back.col = gray(.97),
+           gl.col = gray(.5),
            avg.line.lwd = 2,
            avg.line.col = "black",
            avg.line.o = 1

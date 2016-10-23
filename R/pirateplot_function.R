@@ -107,7 +107,7 @@ pirateplot <- function(
   pal = "basel",
   back.col = NULL,
   point.cex = NULL,
-  point.pch = 16,
+  point.pch = NULL,
   point.lwd = 1,
   jitter.val = .03,
   theme = 1,
@@ -439,15 +439,16 @@ n.cols <- iv.lengths[1]
 
 # DEFINE THEMES
 {
-if((theme %in% 0:2) == FALSE) {
+if((theme %in% 0:3) == FALSE) {
 
-  print("theme must be an integer between 0 and 2. I'll set it to 1 for now.")
+  print("theme must be an integer between 0 and 3. I'll set it to 1 for now.")
   theme <- 1
 
 }
 
 if(theme == 0) {
 
+  if(is.null(point.pch)) {point.pch <- 16}
   if(is.null(point.o)) {point.o <- 0}
   if(is.null(bean.b.o)) {bean.b.o <- 0}
   if(is.null(bean.f.o)) {bean.f.o <- 0}
@@ -461,7 +462,7 @@ if(theme == 0) {
 }
 
 if(theme == 1) {
-
+  if(is.null(point.pch)) {point.pch <- 16}
   if(is.null(point.o)) {point.o <- .3}
   if(is.null(bean.b.o)) {bean.b.o <- .5}
   if(is.null(bean.f.o)) {bean.f.o <- .5}
@@ -484,10 +485,11 @@ if(theme == 1) {
 
 if(theme == 2) {
 
+  if(is.null(point.pch)) {point.pch <- 16}
   if(is.null(point.o)) {point.o <- .1}
   if(is.null(bean.b.o)) {bean.b.o <- .2}
   if(is.null(bean.f.o)) {bean.f.o <- 0}
-  if(is.null(inf.f.o)) {inf.f.o <- .2}
+  if(is.null(inf.f.o)) {inf.f.o <- .6}
   if(is.null(inf.b.o)) {inf.b.o <- .8}
   if(is.null(avg.line.o)) {avg.line.o <- 1}
   if(is.null(bar.f.o)) {bar.f.o <- 0}
@@ -497,10 +499,37 @@ if(theme == 2) {
   if(is.null(point.col)) {point.col <- "black"}
   # if(is.null(gl.col)) {gl.col <- gray(.7)}
   if(is.null(bean.lwd)) {bean.lwd <- 2}
-  if(is.null(avg.line.col)) {avg.line.col <- gray(.4)}
+  if(is.null(avg.line.col)) {avg.line.col <- "black"}
 
 
 }
+
+if(theme == 3) {
+
+    if(is.null(point.o)) {point.o <- .4}
+    if(is.null(bean.b.o)) {bean.b.o <- .2}
+    if(is.null(bean.f.o)) {bean.f.o <- .2}
+    if(is.null(inf.f.o)) {inf.f.o <- .8}
+    if(is.null(inf.b.o)) {inf.b.o <- .8}
+    if(is.null(avg.line.o)) {avg.line.o <- 1}
+    if(is.null(bar.f.o)) {bar.f.o <- 0}
+    if(is.null(bar.b.o)) {bar.b.o <- 0}
+    if(is.null(bean.b.col)) {bean.b.col <- "black"}
+    if(is.null(point.cex)) {point.cex <- .7}
+    if(is.null(point.col)) {point.col <- "black"}
+    if(is.null(bean.lwd)) {bean.lwd <- 2}
+    if(is.null(avg.line.col)) {avg.line.col <- "black"}
+
+
+    if(is.null(gl.col)) {gl.col <- "gray"}
+    if(is.null(gl.lwd)) {gl.lwd <- c(.5, 0)}
+
+    if(is.null(point.col)) {point.col <- "black"}
+    if(is.null(point.bg)) {point.bg <- "white"}
+    if(is.null(point.pch)) {point.pch <- 21}
+
+
+  }
 
 }
 
