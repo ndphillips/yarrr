@@ -47,6 +47,11 @@
 #'pirateplot(formula = weight ~ Time,
 #'           data = ChickWeight)
 #'
+#'# Same but in grayscale
+#'pirateplot(formula = weight ~ Time,
+#'           data = ChickWeight,
+#'           pal = "gray)
+#'
 #'
 #'# Now using theme 2
 #'pirateplot(formula = weight ~ Time,
@@ -69,7 +74,7 @@
 #'           gl.col = "gray", # gridlines
 #'           gl.lwd = c(.5, 0)) # turn off minor grid lines
 #'
-#'# Theme 2 with 2 IVs
+#'# 2 IVs
 #'pirateplot(formula = len ~ dose + supp,
 #'           data = ToothGrowth,
 #'           main = "Guinea pig tooth length by supplement",
