@@ -462,11 +462,61 @@ if(theme == 0) {
 }
 
 if(theme == 1) {
+
+  if(is.null(point.o)) {point.o <- .4}
+  if(is.null(bean.b.o)) {bean.b.o <- .2}
+  if(is.null(bean.f.o)) {bean.f.o <- .2}
+  if(is.null(inf.f.o)) {inf.f.o <- .8}
+  if(is.null(inf.b.o)) {inf.b.o <- .8}
+  if(is.null(avg.line.o)) {avg.line.o <- 1}
+  if(is.null(bar.f.o)) {bar.f.o <- 0}
+  if(is.null(bar.b.o)) {bar.b.o <- 0}
+  if(is.null(bean.b.col)) {bean.b.col <- "black"}
+  if(is.null(point.cex)) {point.cex <- .7}
+  if(is.null(point.col)) {point.col <- "black"}
+  if(is.null(bean.lwd)) {bean.lwd <- 2}
+  if(is.null(avg.line.col)) {avg.line.col <- "black"}
+
+
+  if(is.null(gl.col)) {gl.col <- "gray"}
+  if(is.null(gl.lwd)) {gl.lwd <- c(.5, 0)}
+
+  if(is.null(point.col)) {point.col <- "black"}
+  if(is.null(point.bg)) {point.bg <- "white"}
+  if(is.null(point.pch)) {point.pch <- 21}
+
+
+}
+
+if(theme == 2) {
+
+  if(is.null(point.pch)) {point.pch <- 16}
+  if(is.null(point.o)) {point.o <- .1}
+  if(is.null(bean.b.o)) {bean.b.o <- 1}
+  if(is.null(bean.f.o)) {bean.f.o <- 1}
+  if(is.null(inf.f.o)) {inf.f.o <- .6}
+  if(is.null(inf.b.o)) {inf.b.o <- .8}
+  if(is.null(avg.line.o)) {avg.line.o <- 1}
+  if(is.null(bar.f.o)) {bar.f.o <- 0}
+  if(is.null(bar.b.o)) {bar.b.o <- 0}
+  if(is.null(bean.b.col)) {bean.b.col <- "black"}
+  if(is.null(point.cex)) {point.cex <- .7}
+  if(is.null(point.col)) {point.col <- "black"}
+  if(is.null(bean.lwd)) {bean.lwd <- 2}
+  if(is.null(avg.line.col)) {avg.line.col <- "black"}
+  if(is.null(bean.f.col)) {bean.f.col <- "white"}
+
+  if(is.null(gl.col)) {gl.col <- "gray"}
+  if(is.null(gl.lwd)) {gl.lwd <- c(.5, 0)}
+
+}
+
+if(theme == 3) {
   if(is.null(point.pch)) {point.pch <- 16}
   if(is.null(point.o)) {point.o <- .3}
   if(is.null(bean.b.o)) {bean.b.o <- .5}
   if(is.null(bean.f.o)) {bean.f.o <- .5}
-  if(is.null(inf.f.o))  {inf.f.o <- .5}
+  if(is.null(inf.f.o))  {inf.f.o <- .9}
   if(is.null(inf.b.o)) {inf.b.o <- 1}
   if(is.null(avg.line.o))  {avg.line.o <- 1}
   if(is.null(bar.f.o))  {bar.f.o <- 0}
@@ -477,59 +527,12 @@ if(theme == 1) {
   if(is.null(avg.line.col)) {avg.line.col <- "black"}
   if(is.null(point.col)) {point.col <- "black"}
   if(is.null(point.cex)) {point.cex <- .5}
-#
-#   if(is.null(back.col)) {back.col <- gray(.97)}
-#   if(is.null(gl.col)) {gl.col <- gray(.5)}
+  #
+  #  if(is.null(back.col)) {back.col <- gray(.97)}
 
+  if(is.null(gl.col)) {gl.col <- "gray"}
+  if(is.null(gl.lwd)) {gl.lwd <- c(.5, 0)}
 }
-
-if(theme == 2) {
-
-  if(is.null(point.pch)) {point.pch <- 16}
-  if(is.null(point.o)) {point.o <- .1}
-  if(is.null(bean.b.o)) {bean.b.o <- .2}
-  if(is.null(bean.f.o)) {bean.f.o <- 0}
-  if(is.null(inf.f.o)) {inf.f.o <- .6}
-  if(is.null(inf.b.o)) {inf.b.o <- .8}
-  if(is.null(avg.line.o)) {avg.line.o <- 1}
-  if(is.null(bar.f.o)) {bar.f.o <- 0}
-  if(is.null(bar.b.o)) {bar.b.o <- 0}
-  if(is.null(bean.b.col)) {bean.b.col <- "black"}
-  if(is.null(point.cex)) {point.cex <- .7}
-  if(is.null(point.col)) {point.col <- "black"}
-  # if(is.null(gl.col)) {gl.col <- gray(.7)}
-  if(is.null(bean.lwd)) {bean.lwd <- 2}
-  if(is.null(avg.line.col)) {avg.line.col <- "black"}
-
-
-}
-
-if(theme == 3) {
-
-    if(is.null(point.o)) {point.o <- .4}
-    if(is.null(bean.b.o)) {bean.b.o <- .2}
-    if(is.null(bean.f.o)) {bean.f.o <- .2}
-    if(is.null(inf.f.o)) {inf.f.o <- .8}
-    if(is.null(inf.b.o)) {inf.b.o <- .8}
-    if(is.null(avg.line.o)) {avg.line.o <- 1}
-    if(is.null(bar.f.o)) {bar.f.o <- 0}
-    if(is.null(bar.b.o)) {bar.b.o <- 0}
-    if(is.null(bean.b.col)) {bean.b.col <- "black"}
-    if(is.null(point.cex)) {point.cex <- .7}
-    if(is.null(point.col)) {point.col <- "black"}
-    if(is.null(bean.lwd)) {bean.lwd <- 2}
-    if(is.null(avg.line.col)) {avg.line.col <- "black"}
-
-
-    if(is.null(gl.col)) {gl.col <- "gray"}
-    if(is.null(gl.lwd)) {gl.lwd <- c(.5, 0)}
-
-    if(is.null(point.col)) {point.col <- "black"}
-    if(is.null(point.bg)) {point.bg <- "white"}
-    if(is.null(point.pch)) {point.pch <- 21}
-
-
-  }
 
 }
 
@@ -809,11 +812,24 @@ axis(side = 2,
      at = y.levels,
      labels = prettyNum(y.levels, big.mark = ","),
      las = 1,
-     lwd = 1,
+     lwd = 0,
      lwd.ticks = 1,
      cex.axis = cex.axis)
 
 }
+
+if(is.null(xaxt)) {
+
+  axis(side = 1,
+       at = bean.loc,
+       labels = rep("", n.beans),
+       lwd = 0,
+       lwd.ticks = 1,
+       cex.axis = cex.axis)
+
+}
+
+
 }
 
 # BACKGROUND
@@ -836,7 +852,7 @@ rect(xleft = par("usr")[1],
 if(is.null(gl.col) == F) {
 
   if(is.null(gl.lwd)) {gl.lwd <- c(1, .5)}
-  if(is.null(gl.lty)) {gl.lty <- 3}
+  if(is.null(gl.lty)) {gl.lty <- 1}
 
   abline(h = seq(min(y.levels), max(y.levels), length.out = length(y.levels) * 2 - 1),
          lwd = gl.lwd,
@@ -1101,8 +1117,8 @@ if(inf.band == "tight") {
 
 # Add bean names for IV 1
 
-if(subplot.n.iv == 1) {line.t <- .5}
-if(subplot.n.iv == 2) {line.t <- 2}
+# if(subplot.n.iv == 1) {line.t <- .7}
+# if(subplot.n.iv == 2) {line.t <- 2}
 
 if(is.null(xaxt) == T) {
 
@@ -1115,7 +1131,7 @@ if(is.null(xaxt) == T) {
   mtext(bean.mtx[,1],
         side = 1,
         at = bean.mtx$x.loc,
-        line = line.t,
+        line = .7,
         cex = cex.lab)
 
 
@@ -1123,15 +1139,15 @@ if(is.null(xaxt) == T) {
 
   if(subplot.n.iv == 2) {
 
-    mtext(iv.names[1], side = 1, line = 2, at = par("usr")[1], adj = 1, cex = cex.lab)
+    mtext(iv.names[2], side = 1, line = 2, at = par("usr")[1], adj = 1, cex = cex.lab)
 
-    mtext(iv.names[2], side = 1, line = .5, at = par("usr")[1], adj = 1, cex = cex.lab)
+    mtext(iv.names[1], side = 1, line = .7, at = par("usr")[1], adj = 1, cex = cex.lab)
 
     text.loc <- (iv.lengths[1] + 1) / 2 * (2 *(1:iv.lengths[2]) - 1)
 
     mtext(text = unique(bean.mtx[,2]),
           side = 1,
-          line = .5,
+          line = 2,
           at = text.loc,
           cex = cex.lab
     )
