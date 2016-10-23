@@ -896,9 +896,11 @@ if(length(dv.i) > 3) {  # only if n > 5
 rect(xleft = x.loc.i - width.max,
      ybottom = 0,
      xright = x.loc.i + width.max,
-     ytop = summary$avg[dv.i],
-     col = transparent(colors.df$bar.f.col[bean.i], trans.val = 1 - opac.df$bar.f.o[bean.i]),
-     border = transparent(colors.df$bar.b.col[bean.i], trans.val = 1 - opac.df$bar.b.o[bean.i]),
+     ytop = summary$avg[bean.i],
+     col = transparent(colors.df$bar.f.col[bean.i],
+                       trans.val = 1 - opac.df$bar.f.o[bean.i]),
+     border = transparent(colors.df$bar.b.col[bean.i],
+                          trans.val = 1 - opac.df$bar.b.o[bean.i]),
      lwd = bar.b.lwd[bean.i]
 )
 
