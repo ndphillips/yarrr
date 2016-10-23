@@ -86,7 +86,7 @@ knitr::kable(pp.elements, caption = "Main Pirateplot Arguments")
 
 ## Theme 1
 
-`theme = 1`, the default theme, shows all four pirateplot elements:
+`theme = 1` is the default
 
 ```{r fig.align='center', fig.width = 6, fig.height = 4}
 # Theme 1 (the default)
@@ -98,7 +98,7 @@ pirateplot(formula = weight ~ Time,
 
 ## Theme 2
 
-`theme = 2` has a brigher look
+Here is `theme = 2`
 
 ```{r fig.align='center', fig.width = 6, fig.height = 4}
 # Theme 2
@@ -111,7 +111,7 @@ pirateplot(formula = weight ~ Time,
 
 ## Theme 3
 
-`theme = 3` has a brigher look
+And now...`theme = 3`!
 
 ```{r fig.align='center', fig.width = 6, fig.height = 4}
 # Theme 3
@@ -195,18 +195,19 @@ pirateplot(formula = weight ~ Time,
            main = "Fully customized pirateplot",
            pal = "southpark", # southpark color palette
            bean.f.o = .6, # Bean fill
-           point.o = .2, # Points
+           point.o = .3, # Points
            inf.f.o = .7, # Inference fill
            inf.b.o = .8, # Inference border
            avg.line.o = 1, # Average line
            bar.f.o = .5, # Bar
            inf.f.col = "white", # Inf fill col
            inf.b.col = "black", # Inf border col
-           point.col = "black", # point col
            avg.line.col = "black", # avg line col
            bar.f.col = gray(.8), # bar filling color
-           point.cex = .5 # Small points
-           )
+           point.pch = 21,
+           point.bg = "white",
+           point.col = "black",
+           point.cex = .7)
 ```
 
 If you don't want to start from scratch, you can also start with a theme, and then make selective adjustments:
@@ -220,7 +221,8 @@ pirateplot(formula = weight ~ Time,
            inf.b.o = 0, # Turn off inf border
            point.o = .2,   # Turn up points
            bar.f.o = .5, # Turn up bars
-           bean.f.o = .1, # Light bean filling
+           bean.f.o = .4, # Light bean filling
+           bean.b.o = .2, # Light bean border
            avg.line.o = 0, # Turn off average line
            point.col = "black" # Black points
            )
@@ -232,9 +234,8 @@ Just to drive the point home, as a barplot is a special case of a pirateplot, yo
 pirateplot(formula = weight ~ Time,
            data = ChickWeight,
            main = "Reducing a pirateplot to a barplot",
-           theme = 0,   # Start from scratch
-           bar.f.o = .7, # Just turn on the bars
-           gl.col = gray(.7))
+           theme = 0, # Start from scratch
+           bar.f.o = .7) # Just turn on the bars
 ```
 
 
@@ -269,7 +270,7 @@ pirateplot(formula = weight ~ Time,
            gl.col = "gray", # Gray gridlines
            gl.lwd = c(.75, .5),
            inf.f.o = .6, # Turn up inf filling
-           bean.b.o = 0, # Turn off bean borders
+           bean.b.o = .4, # Turn down bean borders
            quant = c(.1, .9), # 10th and 90th quantiles
            quant.col = "black" # Black quantile lines
            )
@@ -282,6 +283,7 @@ You can use up to 3 categorical IVs in your plot. Here are some examples:
 ```{r fig.width = 10, fig.height = 5, fig.align = "center"}
 pirateplot(formula = height ~ sex + eyepatch + headband,
            data = pirates,
+           theme = 2,
            main = "Pirate Heights")
 ```
 
@@ -293,17 +295,8 @@ pirateplot(formula = time ~ sequel + genre,
                          genre %in% c("Action", "Adventure", "Comedy", "Horror") &
                          time > 0),
            main = "Movie running times",
-           theme = 2,
-           inf.f.col = piratepal("basel")[1:2],
-           inf.f.o = .8,
-           bean.f.o = .1,
-           point.o = .05,
-           back.col = gray(.97),
-           gl.col = gray(.5),
-           avg.line.lwd = 2,
-           avg.line.col = "black",
-           avg.line.o = 1
-           )
+           theme = 3,
+           pal = "up")
 ```
 
 # Output

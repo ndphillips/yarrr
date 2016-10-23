@@ -458,12 +458,13 @@ if(theme == 0) {
   if(is.null(bar.f.o)) {bar.f.o <- 0}
   if(is.null(bar.b.o)) {bar.b.o <- 0}
   if(is.null(point.cex)) {point.cex <- 1}
+  if(is.null(gl.col)) {gl.col <- "white"}
 
 }
 
 if(theme == 1) {
 
-  if(is.null(point.o)) {point.o <- .4}
+  if(is.null(point.o)) {point.o <- .2}
   if(is.null(bean.b.o)) {bean.b.o <- .2}
   if(is.null(bean.f.o)) {bean.f.o <- .2}
   if(is.null(inf.f.o)) {inf.f.o <- .8}
@@ -483,7 +484,7 @@ if(theme == 1) {
 
   if(is.null(point.col)) {point.col <- "black"}
   if(is.null(point.bg)) {point.bg <- "white"}
-  if(is.null(point.pch)) {point.pch <- 21}
+  if(is.null(point.pch)) {point.pch <- 16}
 
 
 }
