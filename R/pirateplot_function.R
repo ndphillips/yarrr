@@ -179,6 +179,8 @@ pirateplot <- function(
   ...
 ) {
 
+
+
 # -----
 #  SETUP
 # ------
@@ -281,6 +283,10 @@ if(n.subplots %in% c(5, 6)) {par(mfrow = c(2, 3))}
 if(n.subplots > 7) {par(mfrow = c(ceiling(sqrt(n.subplots)), ceiling(sqrt(n.subplots))))}
 
 }
+
+# Setup output list
+
+output.ls <- vector("list", length = n.subplots)
 
 # Loop over subplots
 for(subplot.i in 1:n.subplots) {
@@ -746,6 +752,16 @@ inf.lwd <- rep(inf.lwd, length.out = n.beans)
 avg.line.lwd <- rep(avg.line.lwd, length.out = n.beans)
 bar.lwd <- rep(bar.lwd, length.out = n.beans)
 
+
+# Setup output object
+
+output <- data.frame("n" = rep(NA, n.beans),
+                     "avg" = rep(NA, n.beans),
+                     "inf.lb" = rep(NA, n.beans),
+                     "inf.ub" = rep(NA, n.beans))
+
+output <- cbind(bean.mtx[,(1:ncol(bean.mtx) - 1)], output)
+
 # Loop over beans
 for (bean.i in 1:n.beans) {
 
@@ -754,6 +770,7 @@ dv.i <- data.i[data.i$bean.num == bean.i, dv.name]
 if(is.logical(dv.i)) {dv.i <- as.numeric(dv.i)}
 
 x.loc.i <- bean.mtx$x.loc[bean.i]
+
 
 # CALCULATE DENSITIES
 
@@ -809,6 +826,7 @@ rect(xleft = x.loc.i - width.max,
      border = transparent(colors.df$bar.b.col[bean.i], trans.val = 1 - opac.df$bar.b.o[bean.i]),
      lwd = bar.b.lwd[bean.i]
 )
+
 }
 
 # BEAN
@@ -998,6 +1016,8 @@ if(inf.band == "tight") {
 }
 }
 
+
+
 }
 
 # AVERAGE LINE
@@ -1031,6 +1051,13 @@ if(inf.band == "tight") {
   }
 
 }
+
+
+# Write main bean results to output
+output$n[bean.i] <- length(dv.i)
+output$avg[bean.i] <- avg.line.fun(dv.i)
+output$inf.lb[bean.i] <- inf.lb
+output$inf.ub[bean.i] <- inf.ub
 
 }
 
@@ -1078,6 +1105,14 @@ if(is.null(xaxt) == T) {
 
 }
 
+output.ls[[subplot.i]] <- output
+
+if(n.subplots > 1) {
+names(output.ls)[subplot.i] <- iv3.levels[subplot.i]
 }
+
+}
+
+return(output.ls)
 
 }

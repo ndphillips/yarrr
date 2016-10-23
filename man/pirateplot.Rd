@@ -126,7 +126,6 @@ pirateplot(formula = weight ~ Time,
 # Theme 2 with 2 IVs
 pirateplot(formula = len ~ dose + supp,
           data = ToothGrowth,
-          theme = 2,
           main = "Guinea pig tooth length by supplement",
           point.pch = 16,  # Point specifications...
           point.col = "black",
