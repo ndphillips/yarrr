@@ -1,6 +1,6 @@
 # yarrr 0.1.2
 
-* Minor updates to themes
+* Minor updates to themes. Added `theme = 3`
 
 * You can now assign a pirateplot to a variable to return summary statistics.
 
