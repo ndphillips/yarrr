@@ -6,7 +6,7 @@
 \usage{
 pirateplot(formula = NULL, data = NULL, plot = TRUE,
   avg.line.fun = mean, pal = "basel", back.col = NULL, point.cex = NULL,
-  point.pch = 16, point.lwd = 1, jitter.val = 0.03, theme = 1,
+  point.pch = NULL, point.lwd = 1, jitter.val = 0.03, theme = 1,
   bean.b.o = NULL, bean.f.o = NULL, point.o = NULL, bar.f.o = NULL,
   bar.b.o = NULL, inf.f.o = NULL, inf.b.o = NULL, avg.line.o = NULL,
   gl.col = NULL, point.col = NULL, point.bg = NULL, bar.f.col = NULL,
@@ -15,7 +15,7 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
   quant.col = NULL, avg.line.lwd = 4, bean.lwd = 1, bean.lty = 1,
   inf.lwd = 1, bar.lwd = 1, at = NULL, bw = "nrd0", adjust = 1,
   add = FALSE, sortx = "alphabetical", cex.lab = NULL, cex.axis = 1,
-  quant = NULL, quant.length = NULL, quant.lwd = NULL, bty = "n",
+  quant = NULL, quant.length = NULL, quant.lwd = NULL, bty = "o",
   evidence = FALSE, family = NULL, inf = "hdi", inf.p = 0.95,
   hdi.iter = 1000, inf.band = "wide", cut.min = NULL, cut.max = NULL,
   width.min = 0.3, width.max = NA, ylim = NULL, xlim = NULL,
@@ -101,9 +101,7 @@ pirateplot(formula = weight ~ Time,
 pirateplot(formula = weight ~ Time,
           data = ChickWeight,
           main = "Chicken weight by time",
-          theme = 2, # Turn off all elements
-          gl.col = "gray") # gray gridlines
-
+          theme = 2) # theme 2
 
 # Start with theme 2, but then customise!
 pirateplot(formula = weight ~ Time,

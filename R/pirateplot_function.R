@@ -145,7 +145,7 @@ pirateplot <- function(
   quant = NULL,
   quant.length = NULL,
   quant.lwd = NULL,
-  bty = "n",
+  bty = "o",
   evidence = FALSE,
   family = NULL,
   inf = "hdi",
