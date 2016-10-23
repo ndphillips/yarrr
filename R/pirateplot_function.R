@@ -52,9 +52,7 @@
 #'pirateplot(formula = weight ~ Time,
 #'           data = ChickWeight,
 #'           main = "Chicken weight by time",
-#'           theme = 2, # Turn off all elements
-#'           gl.col = "gray") # gray gridlines
-#'
+#'           theme = 2) # theme 2
 #'
 #'# Start with theme 2, but then customise!
 #'pirateplot(formula = weight ~ Time,
@@ -478,9 +476,9 @@ if(theme == 1) {
   if(is.null(avg.line.col)) {avg.line.col <- "black"}
   if(is.null(point.col)) {point.col <- "black"}
   if(is.null(point.cex)) {point.cex <- .5}
-
-  if(is.null(back.col)) {back.col <- gray(.97)}
-  if(is.null(gl.col)) {gl.col <- gray(.5)}
+#
+#   if(is.null(back.col)) {back.col <- gray(.97)}
+#   if(is.null(gl.col)) {gl.col <- gray(.5)}
 
 }
 
@@ -497,7 +495,7 @@ if(theme == 2) {
   if(is.null(bean.b.col)) {bean.b.col <- "black"}
   if(is.null(point.cex)) {point.cex <- .7}
   if(is.null(point.col)) {point.col <- "black"}
-  if(is.null(gl.col)) {gl.col <- gray(.7)}
+  # if(is.null(gl.col)) {gl.col <- gray(.7)}
   if(is.null(bean.lwd)) {bean.lwd <- 2}
   if(is.null(avg.line.col)) {avg.line.col <- gray(.4)}
 
