@@ -145,7 +145,7 @@ pirateplot <- function(
   adjust = 1,
   add = FALSE,
   sortx = "alphabetical",
-  cex.lab = NULL,
+  cex.lab = 1,
   cex.axis = 1,
   quant = NULL,
   quant.length = NULL,
@@ -498,7 +498,7 @@ if(theme == 2) {
 
   if(is.null(point.pch)) {point.pch <- 16}
   if(is.null(point.o)) {point.o <- .1}
-  if(is.null(bean.b.o)) {bean.b.o <- 1}
+  if(is.null(bean.b.o)) {bean.b.o <- .5}
   if(is.null(bean.f.o)) {bean.f.o <- 1}
   if(is.null(inf.f.o)) {inf.f.o <- .6}
   if(is.null(inf.b.o)) {inf.b.o <- .8}
@@ -824,16 +824,6 @@ axis(side = 2,
 
 }
 
-if(is.null(xaxt)) {
-
-  axis(side = 1,
-       at = bean.loc,
-       labels = rep("", n.beans),
-       lwd = 0,
-       lwd.ticks = 1,
-       cex.axis = cex.axis)
-
-}
 
 
 }
@@ -1126,13 +1116,25 @@ if(inf.band == "tight") {
 # if(subplot.n.iv == 1) {line.t <- .7}
 # if(subplot.n.iv == 2) {line.t <- 2}
 
-if(is.null(xaxt) == T) {
+if(is.null(xaxt) == TRUE) {
 
   if(is.null(cex.lab)) {
 
     cex.lab <- 1 / ((n.subplots - 1) * .1 + 1)
 
   }
+
+
+if(is.null(xaxt)) {
+
+  axis(side = 1,
+       at = bean.loc,
+       labels = rep("", n.beans),
+       lwd = 0,
+       lwd.ticks = 1,
+       cex.axis = cex.axis)
+
+}
 
   mtext(bean.mtx[,1],
         side = 1,
