@@ -14,7 +14,7 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
   inf.b.col = NULL, avg.line.col = NULL, bar.b.col = NULL,
   quant.col = NULL, avg.line.lwd = 4, bean.lwd = 1, bean.lty = 1,
   inf.lwd = 1, bar.lwd = 1, at = NULL, bw = "nrd0", adjust = 1,
-  add = FALSE, sortx = "alphabetical", cex.lab = NULL, cex.axis = 1,
+  add = FALSE, sortx = "alphabetical", cex.lab = 1, cex.axis = 1,
   quant = NULL, quant.length = NULL, quant.lwd = NULL, bty = "o",
   evidence = FALSE, family = NULL, inf = "hdi", inf.p = 0.95,
   hdi.iter = 1000, inf.band = "wide", cut.min = NULL, cut.max = NULL,
@@ -87,7 +87,7 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
 \item{...}{other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)}
 }
 \description{
-The pirateplot function creates an RDI (Raw data, Descriptive and Inferential statistic) plot showing the relationship between 1 - 3 categorical independent variables and 1 continuous dependent variable. The plot shows all raw data (shown as points), smoothed densities (shown as beans), and inferential statistics such as 95% Bayesian Highest Density Intervals (shown as bands).
+The pirateplot function creates an RDI (Raw data, Descriptive and Inferential statistic) plot showing the relationship between 1 to 3 categorical independent variables and 1 continuous dependent variable.
 }
 \examples{
 
@@ -95,6 +95,11 @@ The pirateplot function creates an RDI (Raw data, Descriptive and Inferential st
 # Default pirateplot of weight by Time
 pirateplot(formula = weight ~ Time,
           data = ChickWeight)
+
+# Same but in grayscale
+pirateplot(formula = weight ~ Time,
+          data = ChickWeight,
+          pal = "gray")
 
 
 # Now using theme 2
@@ -118,7 +123,7 @@ pirateplot(formula = weight ~ Time,
           gl.col = "gray", # gridlines
           gl.lwd = c(.5, 0)) # turn off minor grid lines
 
-# Theme 2 with 2 IVs
+# 2 IVs
 pirateplot(formula = len ~ dose + supp,
           data = ToothGrowth,
           main = "Guinea pig tooth length by supplement",

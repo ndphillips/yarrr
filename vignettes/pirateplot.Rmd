@@ -290,7 +290,7 @@ pirateplot(formula = height ~ sex + eyepatch + headband,
 Here's a pirateplot with showing the relationship between movie running times based on movie genre and whether the movie is a sequel or not.
 
 ```{r fig.width = 7, fig.height = 4, fig.align = "center"}
-pirateplot(formula = time ~ sequel + genre,
+pirateplot(formula = time ~ sequel + genre + rating,
            data = subset(movies, 
                          genre %in% c("Action", "Adventure", "Comedy", "Horror") &
                          time > 0),

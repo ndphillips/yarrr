@@ -50,7 +50,7 @@
 #'# Same but in grayscale
 #'pirateplot(formula = weight ~ Time,
 #'           data = ChickWeight,
-#'           pal = "gray)
+#'           pal = "gray")
 #'
 #'
 #'# Now using theme 2
@@ -180,8 +180,85 @@ pirateplot <- function(
 ) {
 #
 #
-
-
+  # formula = time ~ sequel + genre + rating
+  # data = subset(movies,
+  #               genre %in% c("Action", "Adventure", "Comedy", "Horror") &
+  #                 time > 0)
+  # plot = TRUE
+  # avg.line.fun = mean
+  # pal = "basel"
+  # back.col = NULL
+  # point.cex = NULL
+  # point.pch = NULL
+  # point.lwd = 1
+  # jitter.val = .03
+  # theme = 1
+  # bean.b.o = NULL
+  # bean.f.o = NULL
+  # point.o = NULL
+  # bar.f.o = NULL
+  # bar.b.o = NULL
+  # inf.f.o = NULL
+  # inf.b.o = NULL
+  # avg.line.o = NULL
+  # gl.col = NULL
+  # point.col = NULL
+  # point.bg = NULL
+  # bar.f.col = NULL
+  # bean.b.col = NULL
+  # bean.f.col = NULL
+  # inf.f.col = NULL
+  # inf.b.col = NULL
+  # avg.line.col = NULL
+  # bar.b.col = NULL
+  # quant.col = NULL
+  # avg.line.lwd = 4
+  # bean.lwd = 1
+  # bean.lty = 1
+  # inf.lwd = 1
+  # bar.lwd = 1
+  # at = NULL
+  # bw = "nrd0"
+  # adjust = 1
+  # add = FALSE
+  # sortx = "alphabetical"
+  # cex.lab = 1
+  # cex.axis = 1
+  # quant = NULL
+  # quant.length = NULL
+  # quant.lwd = NULL
+  # bty = "o"
+  # evidence = FALSE
+  # family = NULL
+  # inf = "hdi"
+  # inf.p = .95
+  # hdi.iter = 1e3
+  # inf.band = "wide"
+  # cut.min = NULL
+  # cut.max = NULL
+  # width.min = .3
+  # width.max = NA
+  # ylim = NULL
+  # xlim = NULL
+  # xlab = NULL
+  # ylab = NULL
+  # main = NULL
+  # yaxt = NULL
+  # xaxt = NULL
+  # gl.lwd = NULL
+  # gl.lty = NULL
+  # bar.b.lwd = NULL
+  # line.fun = NULL
+  # inf.o = NULL
+  # bean.o = NULL
+  # inf.col = NULL
+  # theme.o = NULL
+  #
+  #
+  # formula = time ~ sequel + genre + rating
+  # data = subset(movies,
+  #               genre %in% c("Action", "Adventure", "Comedy", "Horror") &
+  #                 time > 0)
 
 # -----
 #  SETUP
@@ -284,7 +361,6 @@ if(n.subplots > 7) {par(mfrow = c(ceiling(sqrt(n.subplots)), ceiling(sqrt(n.subp
 
 }
 
-
 # Setup outputs
 summary.ls <- vector("list", length = n.subplots)
 
@@ -351,9 +427,8 @@ data.i <- merge(data.i, bean.mtx)
 
 }
 
-
-# Calculate summary statistics in summary
-
+# Calculate summary statistics for each bean
+{
 summary <- data.frame("n" = rep(NA, n.beans),
                       "avg" = rep(NA, n.beans),
                       "inf.lb" = rep(NA, n.beans),
@@ -364,6 +439,7 @@ summary <- cbind(bean.mtx[,(1:ncol(bean.mtx) - 1)], summary)
 if(n.subplots > 1) {summary[iv3.name] <- iv3.levels[subplot.i]}
 
 
+# Loop over beans in subplot
 for(bean.i in 1:n.beans) {
 
   dv.i <- data.i[data.i$bean.num == bean.i, dv.name]
@@ -433,6 +509,7 @@ for(bean.i in 1:n.beans) {
   summary$inf.lb[bean.i] <- inf.lb
   summary$inf.ub[bean.i] <- inf.ub
 
+}
 }
 
 if(plot == TRUE) {
@@ -652,10 +729,11 @@ if(n.subplots %in% c(2, 3)) {
     par(mar = c(5, 4, 4, 1) + .1)
     add.yaxt <- TRUE
 
-    }
+  }
+
   if(subplot.i > 1) {
 
-    par(mar = c(5, 2, 4, 1) + .1)
+    par(mar = c(5, 3, 4, 1) + .1)
 
     add.yaxt <- FALSE
     }
@@ -667,7 +745,7 @@ if(n.subplots == c(4)) {
   if(subplot.i %in% c(1, 3)) {
 
     par(mar = c(5, 4, 4, 1) + .1)} else {
-    par(mar = c(5, 2, 4, 1) + .1)
+    par(mar = c(5, 3, 4, 1) + .1)
 
   }
 
@@ -677,7 +755,7 @@ if(n.subplots %in% c(5, 6)) {
   if(subplot.i %in% c(1, 4)) {
 
     par(mar = c(5, 4, 4, 1) + .1)} else {
-      par(mar = c(5, 2, 4, 1) + .1)
+      par(mar = c(5, 3, 4, 1) + .1)
 
     }
 
@@ -690,7 +768,7 @@ if(n.subplots > 6) {
 
     par(mar = c(5, 4, 4, 1) + .1)} else {
 
-      par(mar = c(5, 2, 4, 1) + .1)
+      par(mar = c(5, 3, 4, 1) + .1)
 
     }
 
@@ -771,7 +849,7 @@ if(is.null(ylim) == FALSE) {
 
 }
 
-if(is.null(xlim)) {xlim <- c(min(bean.loc) - .5, max(bean.loc) + .5)}
+xlim <- c(min(bean.loc) - .5, max(bean.loc) + .5)
 
 # Determine x and y labels
 
@@ -784,7 +862,7 @@ if(is.null(ylab)) {ylab <- dv.name}
 }
 
 # PLOTTING SPACE
-if(add == F) {
+if(add == FALSE) {
 
   plot(1,
        xlim = xlim,
@@ -796,8 +874,8 @@ if(add == F) {
        ylab = ylab,
        main = main,
        yaxt = yaxt,
-       bty = bty,
-       ...
+       bty = bty#,
+    #   ...
   )
 
 
@@ -806,7 +884,7 @@ if(add == F) {
 if(n.iv > 2) {
 
   top.text <- paste(names(data)[4], " = ", iv3.levels[subplot.i], sep = "")
-  mtext(text = top.text, side = 3)
+  mtext(text = top.text, side = 3, line = 1)
 
 }
 
@@ -856,6 +934,7 @@ if(is.null(gl.col) == F) {
          lty = gl.lty)
 }
 }
+
 }
 
 # PIRATEPLOT ELEMENTS
@@ -1136,26 +1215,28 @@ if(is.null(xaxt)) {
 
 }
 
+  # IV 1 Labels
+
   mtext(bean.mtx[,1],
         side = 1,
         at = bean.mtx$x.loc,
-        line = .7,
+        line = 1,
         cex = cex.lab)
 
 
-  # Add names for IV 2
+  # IV 2 labels
 
   if(subplot.n.iv == 2) {
 
-    mtext(iv.names[2], side = 1, line = 2, at = par("usr")[1], adj = 1, cex = cex.lab)
+    mtext(iv.names[2], side = 1, line = 2.5, at = par("usr")[1], adj = 1, cex = cex.lab)
 
-    mtext(iv.names[1], side = 1, line = .7, at = par("usr")[1], adj = 1, cex = cex.lab)
+    mtext(iv.names[1], side = 1, line = 1, at = par("usr")[1], adj = 1, cex = cex.lab)
 
     text.loc <- (iv.lengths[1] + 1) / 2 * (2 *(1:iv.lengths[2]) - 1)
 
     mtext(text = unique(bean.mtx[,2]),
           side = 1,
-          line = 2,
+          line = 2.5,
           at = text.loc,
           cex = cex.lab
     )
