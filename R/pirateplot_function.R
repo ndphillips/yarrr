@@ -719,7 +719,7 @@ if(is.null(quant.col) == FALSE) {colors.df$quant.col <- rep(quant.col, length.ou
 
 # Determine margins
 if(n.subplots == 1) {
-  par(mar = c(5, 4, 4, 1) + .1)
+ # par(mar = c(5, 4, 4, 1) + .1)
   add.yaxt <- TRUE
   }
 if(n.subplots %in% c(2, 3)) {
@@ -734,8 +734,8 @@ if(n.subplots %in% c(2, 3)) {
   if(subplot.i > 1) {
 
     par(mar = c(5, 3, 4, 1) + .1)
-
     add.yaxt <- FALSE
+
     }
 
 
