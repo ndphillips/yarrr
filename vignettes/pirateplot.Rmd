@@ -259,7 +259,7 @@ pp.elements <- data.frame('element' = c("Background color", "Gridlines", "Quanti
 knitr::kable(pp.elements, caption = "Additonal pirateplot elements")
 ```
 
-Here's an example using a background color, grid lines, and quantile lines.
+Here's an example using a background color, and quantile lines.
 
 ```{r fig.width = 6, fig.height = 4, fig.align = "center"}
 pirateplot(formula = weight ~ Time, 
