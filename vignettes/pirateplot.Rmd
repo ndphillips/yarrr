@@ -264,11 +264,11 @@ Here's an example using a background color, grid lines, and quantile lines.
 ```{r fig.width = 6, fig.height = 4, fig.align = "center"}
 pirateplot(formula = weight ~ Time, 
            data = ChickWeight,
-           main = "Chicken weights by Time",
+           main = "Adding quantile lines and background colors",
            theme = 2, 
            back.col = gray(.98), # Add light gray background
            gl.col = "gray", # Gray gridlines
-           gl.lwd = c(.75, .5),
+           gl.lwd = c(.75, 0),
            inf.f.o = .6, # Turn up inf filling
            bean.b.o = .4, # Turn down bean borders
            quant = c(.1, .9), # 10th and 90th quantiles
