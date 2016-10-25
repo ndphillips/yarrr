@@ -1,8 +1,21 @@
-# yarrr 0.0.9
+# yarrr 0.1.2
+
+* Minor updates to themes. Added `theme = 3`
+
+* You can now assign a pirateplot to a variable to return summary statistics.
+
+# yarrr 0.1.0
 
 * Added a `NEWS.md` file to track changes to the package.
 
+* Re-structured code generating colors and opacities in `pirateplot()` to make future updates easier.
+
 * Added `quant`, `quant.length` and `quant.width` arguments that add horizontal lines for specified quantiles to each bean (thanks @pat-s)
+
+* Added several new arguments (e.g.;  `bean.fill.col` for customising pirateplots
+
+* Improved theme support (now under `theme` rather than `theme.o`)
+
 
 # yarrr 0.0.7
 

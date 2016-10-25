@@ -4,93 +4,151 @@
 \alias{pirateplot}
 \title{pirateplot}
 \usage{
-pirateplot(formula = NULL, data = NULL, line.fun = mean, pal = "basel",
-  back.col = gray(1), point.cex = 1, point.pch = 16, point.lwd = 1,
-  cut.min = NULL, cut.max = NULL, width.min = 0.3, width.max = NA,
-  bean.o = NULL, point.o = NULL, bar.o = NULL, inf.o = NULL,
-  line.o = NULL, inf = "hdi", inf.p = 0.95, theme.o = 1,
-  hdi.iter = 1000, jitter.val = 0.03, line.lwd = 4, bean.lwd = 1,
-  bean.lty = 1, inf.lwd = 1, bar.border.lwd = 1, gl.col = NULL,
-  ylim = NULL, xlim = NULL, xlab = NULL, ylab = NULL, main = NULL,
-  yaxt = NULL, xaxt = NULL, point.col = NULL, bar.col = NULL,
-  bean.border.col = NULL, inf.col = NULL, average.line.col = NULL,
-  bar.border.col = NULL, at = NULL, bw = "nrd0", adjust = 1, add = F,
-  sortx = "alphabetical", cex.lab = NULL, cex.axis = 1, bty = "n",
-  evidence = F, family = NULL, inf.band = "wide", quant = NULL,
-  quant.length = NULL, quant.width = NULL, ...)
+pirateplot(formula = NULL, data = NULL, plot = TRUE,
+  avg.line.fun = mean, pal = "basel", back.col = NULL, point.cex = NULL,
+  point.pch = NULL, point.lwd = 1, jitter.val = 0.03, theme = 1,
+  bean.b.o = NULL, bean.f.o = NULL, point.o = NULL, bar.f.o = NULL,
+  bar.b.o = NULL, inf.f.o = NULL, inf.b.o = NULL, avg.line.o = NULL,
+  gl.col = NULL, point.col = NULL, point.bg = NULL, bar.f.col = NULL,
+  bean.b.col = NULL, bean.f.col = NULL, inf.f.col = NULL,
+  inf.b.col = NULL, avg.line.col = NULL, bar.b.col = NULL,
+  quant.col = NULL, avg.line.lwd = 4, bean.lwd = 1, bean.lty = 1,
+  inf.lwd = 1, bar.lwd = 1, at = NULL, bw = "nrd0", adjust = 1,
+  add = FALSE, sortx = "alphabetical", cex.lab = 1, cex.axis = 1,
+  quant = NULL, quant.length = NULL, quant.lwd = NULL, bty = "o",
+  evidence = FALSE, family = NULL, inf = "hdi", inf.p = 0.95,
+  hdi.iter = 1000, inf.band = "wide", cut.min = NULL, cut.max = NULL,
+  width.min = 0.3, width.max = NA, ylim = NULL, xlim = NULL,
+  xlab = NULL, ylab = NULL, main = NULL, yaxt = NULL, xaxt = NULL,
+  gl.lwd = NULL, gl.lty = NULL, bar.b.lwd = NULL, line.fun = NULL,
+  inf.o = NULL, bean.o = NULL, inf.col = NULL, theme.o = NULL, ...)
 }
 \arguments{
-\item{formula}{(formula) A formula in the form y ~ x1 + x2 + x3 indicating the vertical response variable (y) and up to three independent varaibles}
+\item{formula}{formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent varaibles}
 
-\item{data}{(dataframe) A dataframe containing the variables specified in formula.}
+\item{data}{dataframe. A dataframe containing the variables specified in formula.}
 
-\item{line.fun}{(function) A function that determines how average lines and bar heights are determined (default is mean).}
+\item{plot}{logical. If \code{TRUE} (the default), thent the pirateplot is produced. If \code{FALSE}, the data summaries created in the plot are returned as a list.}
 
-\item{pal}{(string) A string indicating the color palette of the plot. Can be a single color, a vector of colors, or the name of a palette in the piratepal() function (e.g.; "basel", "google", "southpark"). To see all the palettes, run piratepal(palette = "all", action = "show")}
+\item{avg.line.fun}{function. A function that determines how average lines and bar heights are determined (default is mean).}
 
-\item{point.cex, point.pch, point.lwd}{(numeric) Numbers indicating the size, pch type, and line width of raw data points.}
+\item{pal}{string. The color palette of the plot. Can be a single color, a vector of colors, or the name of a palette in the piratepal() function (e.g.; "basel", "google", "southpark"). To see all the palettes, run \code{piratepal(palette = "all", action = "show")}}
 
-\item{cut.min, cut.max}{(numeric) Optimal minimum and maximum values of the beans.}
+\item{point.cex, point.pch, point.lwd}{numeric.  The size, pch type, and line width of raw data points.}
 
-\item{width.min, width.max}{(numeric) The minimum and maximum width of a bean.}
+\item{jitter.val}{numeric. Amount of jitter added to points horizontally. Defaults to 0.05.}
 
-\item{bar.o, point.o, inf.o, line.o, bean.o}{(numeric) A number between 0 and 1 indicating how opaque to make the bars, points, inference band, average line, and beans respectively. These values override whatever is in the specified theme}
+\item{theme}{integer. An integer in the set 0, 1, 2 specifying a theme (that is, new default values for opacities and colors). \code{theme = 0} turns off all opacities which can then be individually specified individually.}
 
-\item{inf}{(string) A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range.}
+\item{bar.f.o, point.o, inf.f.o, inf.b.o, avg.line.o, bean.b.o, bean.f.o, bar.b.o}{numeric. A number between 0 and 1 indicating how opaque to make the bars, points, inference band, average line, and beans respectively. These values override whatever is in the specified theme}
 
-\item{inf.p}{(numeric) A number between 0 and 1 indicating the level of confidence to use in calculating inferences for either confidence intervals or HDIs. The default is 0.95}
+\item{gl.col, back.col}{string. The color of the horizontal gridlines and plotting background.}
 
-\item{theme.o}{(integer) An integer in the set 0, 1, 2, 3, specifying an opacity theme (that is, specific values of bar.o, point.o, etc.). You can override specific opacity values in a theme by specifying bar.o, inf.o (etc.)}
+\item{point.col, bar.f.col, bean.b.col, bean.f.col, inf.f.col, inf.b.col, avg.line.col, bar.b.col, quant.col, point.bg}{string. Vectors of colors specifying the colors of the plotting elements. This will override values in the palette. f stands for filling, b stands for border.}
 
-\item{hdi.iter}{(integer) An integer indicating how many iterations to run when calculating the HDI. Larger values lead to better estimates, but can be more time consuming.}
+\item{bean.lwd, bean.lty, inf.lwd, avg.line.lwd, bar.lwd}{numeric. Vectors of numbers customizing the look of beans and lines.}
 
-\item{jitter.val}{(numeric) A number indicaing how much to jitter the points horizontally. Defaults to 0.05.}
+\item{at}{integer. Locations of the beans. Especially helpful when adding beans to an existing plot with add = T}
 
-\item{bean.lwd, bean.lty, inf.lwd, line.lwd, bar.border.lwd}{(numeric) A vector of numbers customizing the look of beans and lines.}
+\item{bw, adjust}{Arguments passed to density calculations for beans (see ?density)}
 
-\item{gl.col, back.col}{(string) An optional string indicating the color of the horizontal gridlines and plotting background.}
+\item{add}{logical. Whether to add the pirateplot to an existing plotting space or not.}
 
-\item{point.col, bar.col, bean.border.col, inf.col, average.line.col, bar.border.col}{(string) An optional vector of colors specifying the colors of the plotting elements. This will override values in the palette.}
-
-\item{at}{(numeric) An optional vector specifying the locations of the beans. Especially helpful when adding beans to an existing plot with add = T}
-
-\item{bw}{(string) The smoothing bandwidth to use for the bean. (see ?density)}
-
-\item{adjust}{(numeric) Adjustment for the bandwidth (see ?density)}
-
-\item{add}{(logical) A logical value indicating whether to add the pirateplot to an existing plotting space or not.}
-
-\item{sortx}{(string) An optional argument indicating how to sort the x values. Can be "sequential" (as they are found in the original dataframe), "alphabetical", or a string indicating a function (i.e.; "mean")}
+\item{sortx}{string. How to sort the x values. Can be "sequential" (as they are found in the original dataframe), "alphabetical", or a string indicating a function (i.e.; "mean")}
 
 \item{cex.lab, cex.axis}{Size of the labels and axes.}
 
+\item{quant}{numeric. Adds horizontal lines representing custom quantiles.}
+
+\item{quant.length, quant.lwd}{numeric. Specifies line lengths/widths of \code{quant}.}
+
 \item{bty, xlim, ylim, xlab, ylab, main, yaxt, xaxt}{General plotting arguments}
 
-\item{evidence}{(logical) A logical value indicating whether to show Bayesian evidence (Not currently in use)}
+\item{evidence}{logical. Should Bayesian evidence be shown? (currently ignored)}
 
 \item{family}{a font family (Not currently in use)}
 
-\item{inf.band}{Either "wide" to indicate a fixed width band, or "tight" to indcate a band constrained by the bean}
+\item{inf}{string. A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range.}
 
-\item{quant}{numeric. Adds horizontal lines representing custom quantiles.}
+\item{inf.p}{numeric. A number between 0 and 1 indicating the level of confidence to use in calculating inferences for either confidence intervals or HDIs. The default is 0.95}
 
-\item{quant.length, quant.width}{numeric. Specifies line lengths/widths of \code{quant}.
-Length: Must be between 1(full length) and 0.5(invisible). Default to 0.65 and only used if \code{quant} is set.
-Width: Must be > 0 to be visible. Default to 0.3
-Both arguments must be the same length as \code{quant} if specified manually.}
+\item{hdi.iter}{integer. Number of iterations to run when calculating the HDI. Larger values lead to better estimates, but can be more time consuming.}
+
+\item{inf.band}{string. Either \code{"wide"} to indicate a fixed width band, or \code{"tight"} to indicate a band constrained by the bean}
+
+\item{cut.min, cut.max}{numeric. Optional minimum and maximum values of the beans.}
+
+\item{width.min, width.max}{numeric. The minimum/maximum width of the beans.}
+
+\item{gl.lwd, gl.lty}{Customization for grid lines.}
+
+\item{bar.b.lwd, line.fun, inf.o, bean.o, inf.col, theme.o}{depricated arguments}
 
 \item{...}{other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)}
 }
 \description{
-The pirateplot function creates an RDI plot (Raw data, Descriptive and Inferential statistic) pirate version of the fantastic beanplot function in the beanplot package. Just like a beanplot, pirateplot takes a discrete iv and a continuous dv, and creates a plot showing raw data, smoothed densities and central tendency. In addition, pirateplot adds the option for a 95\% Highest Density Intervals (HDI), and has a few aesthetic differences preferred by pirates.
+The pirateplot function creates an RDI (Raw data, Descriptive and Inferential statistic) plot showing the relationship between 1 to 3 categorical independent variables and 1 continuous dependent variable.
 }
 \examples{
 
 
-# pirateplot of chicken weights
-pirateplot(formula = weight ~ Time, data = ChickWeight)
+# Default pirateplot of weight by Time
+pirateplot(formula = weight ~ Time,
+          data = ChickWeight)
 
-  # See the vignette
+# Same but in grayscale
+pirateplot(formula = weight ~ Time,
+          data = ChickWeight,
+          pal = "gray")
+
+
+# Now using theme 2
+pirateplot(formula = weight ~ Time,
+          data = ChickWeight,
+          main = "Chicken weight by time",
+          theme = 2) # theme 2
+
+# Start with theme 2, but then customise!
+pirateplot(formula = weight ~ Time,
+          data = ChickWeight,
+          theme = 2, # theme 2
+          pal = "xmen", # xmen palette
+          main = "Chicken weights by Time",
+          point.o = .4, # Add points
+          point.col = "black",
+          point.bg = "white",
+          point.pch = 21,
+          bean.f.o = .2, # Turn down bean filling
+          inf.f.o = .8, # Turn up inf filling
+          gl.col = "gray", # gridlines
+          gl.lwd = c(.5, 0)) # turn off minor grid lines
+
+# 2 IVs
+pirateplot(formula = len ~ dose + supp,
+          data = ToothGrowth,
+          main = "Guinea pig tooth length by supplement",
+          point.pch = 16,  # Point specifications...
+          point.col = "black",
+          point.o = .7,
+          inf.f.o = .9, # inference band opacity
+          gl.col = "gray")
+
+
+# Build everything from scratch with theme 0
+#  And use 3 IVs
+pirateplot(formula = height ~ headband + eyepatch + sex,
+          data = pirates,
+          pal = gray(.1), # Dark gray palette
+          theme = 0, # Start from scratch
+          inf.f.o = .7, # Band opacity
+          inf.f.col = piratepal("basel"), # Add color to bands
+          point.o = .1, # Point opacity
+          avg.line.o = .8, # Average line opacity
+          gl.col = gray(.6), # Gridline specifications
+          gl.lty = 1,
+          gl.lwd = c(.5, 0))
+
+  # See the vignette for more details
  vignette("pirateplot", package = "yarrr")
 
 
