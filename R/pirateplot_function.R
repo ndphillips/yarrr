@@ -855,8 +855,16 @@ if(subplot.n.iv > 1) {my.xlab <- ""}
 if(is.null(ylab)) {ylab <- dv.name}
 }
 
+
+
+
+
 # PLOTTING SPACE
 if(add == FALSE) {
+
+# X-Axis
+
+if(is.null(xlim)) {xlim <- c(min(bean.loc) - .5, max(bean.loc) + .5)}
 
   plot(1,
        xlim = xlim,
@@ -882,9 +890,6 @@ if(n.iv > 2) {
 
 }
 
-# X-Axis
-
-if(is.null(xlim)) {xlim <- c(min(bean.loc) - .5, max(bean.loc) + .5)}
 
 
 # Y-AXIS
