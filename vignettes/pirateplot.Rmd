@@ -304,12 +304,15 @@ pirateplot(formula = height ~ sex + eyepatch + headband,
 
 Here's a pirateplot with showing the relationship between movie running times based on movie genre and whether the movie is a sequel or not.
 
-```{r fig.width = 7, fig.height = 4, fig.align = "center"}
+```{r fig.width = 8, fig.height = 8, fig.align = "center"}
 pirateplot(formula = time ~ sequel + genre + rating,
            data = subset(movies, 
                          genre %in% c("Action", "Adventure", "Comedy", "Horror") &
+                         rating %in% c("G", "PG", "PG-13", "R") &
                          time > 0),
            theme = 3,
+           cex.lab = .8,
+           inf.disp = "rect",
            pal = "up")
 ```
 
@@ -317,10 +320,11 @@ pirateplot(formula = time ~ sequel + genre + rating,
 
 If you include the `plot = FALSE` argument to a pirateplot, the function will return some values associated with the plot.
 
-```{r}
+```{r fig.width = 10, fig.height = 7, fig.align = "center"}
 times.pp <- pirateplot(formula = time ~ sequel + genre,
                        data = subset(movies, 
                          genre %in% c("Action", "Adventure", "Comedy", "Horror") &
+                           ating %in% c("G", "PG", "PG-13", "R") &
                          time > 0),
                          plot = FALSE)
 ```

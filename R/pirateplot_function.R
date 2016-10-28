@@ -536,7 +536,7 @@ if(theme == 2) {
   if(is.null(avg.line.col)) {avg.line.col <- "black"}
   if(is.null(bean.f.col)) {bean.f.col <- "white"}
 
-  if(is.null(inf.disp)) {inf.disp <- "bean"}
+  if(is.null(inf.disp)) {inf.disp <- "rect"}
 
   if(is.null(gl.col)) {gl.col <- "gray"}
   if(is.null(gl.lwd)) {gl.lwd <- c(.5, 0)}
