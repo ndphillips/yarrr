@@ -2,7 +2,7 @@
 #'
 #' The pirateplot function creates an RDI (Raw data, Descriptive and Inferential statistic) plot showing the relationship between 1 to 3 categorical independent variables and 1 continuous dependent variable.
 #'
-#' @param formula formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent varaibles
+#' @param formula formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent variables
 #' @param data dataframe. A dataframe containing the variables specified in formula.
 #' @param plot logical. If \code{TRUE} (the default), thent the pirateplot is produced. If \code{FALSE}, the data summaries created in the plot are returned as a list.
 #' @param pal string. The color palette of the plot. Can be a single color, a vector of colors, or the name of a palette in the piratepal() function (e.g.; "basel", "google", "southpark"). To see all the palettes, run \code{piratepal(palette = "all", action = "show")}
@@ -21,7 +21,7 @@
 #' @param hdi.iter integer. Number of iterations to run when calculating the HDI. Larger values lead to better estimates, but can be more time consuming.
 #' @param bw,adjust Arguments passed to density calculations for beans (see ?density)
 #' @param jitter.val numeric. Amount of jitter added to points horizontally. Defaults to 0.05.
-#' @param at integer. Locations of the beans. Especially helpful when adding beans to an existing plot with add = T
+#' @param at integer. Locations of the beans. Especially helpful when adding beans to an existing plot with add = TRUE
 #' @param sortx string. How to sort the x values. Can be "sequential" (as they are found in the original dataframe), "alphabetical", or a string indicating a function (i.e.; "mean")
 #' @param add logical. Whether to add the pirateplot to an existing plotting space or not.
 #' @param evidence logical. Should Bayesian evidence be shown? (currently ignored)
