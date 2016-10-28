@@ -845,8 +845,6 @@ if(is.null(ylim) == FALSE) {
 
 }
 
-xlim <- c(min(bean.loc) - .5, max(bean.loc) + .5)
-
 # Determine x and y labels
 
 if(subplot.n.iv == 1 & is.null(xlab)) {my.xlab <- iv.names[1]}
@@ -883,6 +881,11 @@ if(n.iv > 2) {
   mtext(text = top.text, side = 3, line = 1)
 
 }
+
+# X-Axis
+
+if(is.null(xlim)) {xlim <- c(min(bean.loc) - .5, max(bean.loc) + .5)}
+
 
 # Y-AXIS
 {
