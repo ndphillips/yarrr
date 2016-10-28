@@ -31,7 +31,7 @@
 #' @param gl.lwd,gl.lty Customization for grid lines.
 #' @param bty,xlim,ylim,xlab,ylab,main,yaxt,xaxt General plotting arguments
 #' @param quant numeric. Adds horizontal lines representing custom quantiles.
-#' @param bar.b.lwd,line.fun,inf.o,bean.o,inf.col,theme.o,inf,inf.type depricated arguments
+#' @param bar.b.lwd,line.fun,inf.o,bean.o,inf.col,theme.o,inf,inf.type,inf.band depricated arguments
 #' @param ... other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)
 #' @keywords plot
 #' @importFrom BayesFactor ttestBF
@@ -183,85 +183,6 @@ pirateplot <- function(
 ) {
 #
 #
-  # formula = time ~ sequel + genre + rating
-  # data = subset(movies,
-  #               genre %in% c("Action", "Adventure", "Comedy", "Horror") &
-  #                 time > 0)
-  # plot = TRUE
-  # avg.line.fun = mean
-  # pal = "basel"
-  # back.col = NULL
-  # point.cex = NULL
-  # point.pch = NULL
-  # point.lwd = 1
-  # jitter.val = .03
-  # theme = 1
-  # bean.b.o = NULL
-  # bean.f.o = NULL
-  # point.o = NULL
-  # bar.f.o = NULL
-  # bar.b.o = NULL
-  # inf.f.o = NULL
-  # inf.b.o = NULL
-  # avg.line.o = NULL
-  # gl.col = NULL
-  # point.col = NULL
-  # point.bg = NULL
-  # bar.f.col = NULL
-  # bean.b.col = NULL
-  # bean.f.col = NULL
-  # inf.f.col = NULL
-  # inf.b.col = NULL
-  # avg.line.col = NULL
-  # bar.b.col = NULL
-  # quant.col = NULL
-  # avg.line.lwd = 4
-  # bean.lwd = 1
-  # bean.lty = 1
-  # inf.lwd = 1
-  # bar.lwd = 1
-  # at = NULL
-  # bw = "nrd0"
-  # adjust = 1
-  # add = FALSE
-  # sortx = "alphabetical"
-  # cex.lab = 1
-  # cex.axis = 1
-  # quant = NULL
-  # quant.length = NULL
-  # quant.lwd = NULL
-  # bty = "o"
-  # evidence = FALSE
-  # family = NULL
-  # inf = "hdi"
-  # inf.p = .95
-  # hdi.iter = 1e3
-  # inf.disp = "wide"
-  # cut.min = NULL
-  # cut.max = NULL
-  # width.min = .3
-  # width.max = NA
-  # ylim = NULL
-  # xlim = NULL
-  # xlab = NULL
-  # ylab = NULL
-  # main = NULL
-  # yaxt = NULL
-  # xaxt = NULL
-  # gl.lwd = NULL
-  # gl.lty = NULL
-  # bar.b.lwd = NULL
-  # line.fun = NULL
-  # inf.o = NULL
-  # bean.o = NULL
-  # inf.col = NULL
-  # theme.o = NULL
-  #
-  #
-  # formula = time ~ sequel + genre + rating
-  # data = subset(movies,
-  #               genre %in% c("Action", "Adventure", "Comedy", "Horror") &
-  #                 time > 0)
 
 # -----
 #  SETUP
@@ -594,6 +515,7 @@ if(theme == 1) {
 
   if(is.null(inf.disp)) {inf.disp <- "rect"}
 
+
 }
 
 if(theme == 2) {
@@ -614,10 +536,11 @@ if(theme == 2) {
   if(is.null(avg.line.col)) {avg.line.col <- "black"}
   if(is.null(bean.f.col)) {bean.f.col <- "white"}
 
+  if(is.null(inf.disp)) {inf.disp <- "bean"}
+
   if(is.null(gl.col)) {gl.col <- "gray"}
   if(is.null(gl.lwd)) {gl.lwd <- c(.5, 0)}
 
-  if(is.null(inf.disp)) {inf.disp <- "rect"}
 
 
 }
@@ -640,11 +563,11 @@ if(theme == 3) {
   if(is.null(point.cex)) {point.cex <- .5}
   #
   #  if(is.null(back.col)) {back.col <- gray(.97)}
+  if(is.null(inf.disp)) {inf.disp <- "bean"}
 
   if(is.null(gl.col)) {gl.col <- "gray"}
   if(is.null(gl.lwd)) {gl.lwd <- c(.5, 0)}
 
-  if(is.null(inf.disp)) {inf.disp <- "rect"}
 
 
 }
@@ -1242,7 +1165,7 @@ if(inf.disp == "bean") {
           col = transparent(colors.df$inf.f.col[bean.i],
                             trans.val = 1 - opac.df$inf.f.o[bean.i]),
           border = transparent(colors.df$inf.b.col[bean.i],
-                               trans.val = 1 - colors.df$inf.b.o[bean.i]),
+                               trans.val = 1 - opac.df$inf.b.o[bean.i]),
           lwd = bean.lwd[bean.i]
   )
 }
