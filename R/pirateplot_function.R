@@ -15,8 +15,8 @@
 #' @param bean.lwd,bean.lty,inf.lwd,avg.line.lwd,bar.lwd numeric. Vectors of numbers customizing the look of beans and lines.
 #' @param width.min,width.max numeric. The minimum/maximum width of the beans.
 #' @param cut.min,cut.max numeric. Optional minimum and maximum values of the beans.
-#' @param inf string. A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range.
-#' @param inf.band string. Either \code{"wide"} to indicate a fixed width band, or \code{"tight"} to indicate a band constrained by the bean
+#' @param inf.method string. A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range.
+#' @param inf.disp string. How should inference ranges be displayed? \code{"thin"} creates a classic vertical line, \code{"rect"} creates a rectangle, \code{"bean"} forms the inference around the bean.
 #' @param inf.p numeric. A number between 0 and 1 indicating the level of confidence to use in calculating inferences for either confidence intervals or HDIs. The default is 0.95
 #' @param hdi.iter integer. Number of iterations to run when calculating the HDI. Larger values lead to better estimates, but can be more time consuming.
 #' @param bw,adjust Arguments passed to density calculations for beans (see ?density)
@@ -31,7 +31,7 @@
 #' @param gl.lwd,gl.lty Customization for grid lines.
 #' @param bty,xlim,ylim,xlab,ylab,main,yaxt,xaxt General plotting arguments
 #' @param quant numeric. Adds horizontal lines representing custom quantiles.
-#' @param bar.b.lwd,line.fun,inf.o,bean.o,inf.col,theme.o depricated arguments
+#' @param bar.b.lwd,line.fun,inf.o,bean.o,inf.col,theme.o,inf,inf.type depricated arguments
 #' @param ... other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)
 #' @keywords plot
 #' @importFrom BayesFactor ttestBF
@@ -138,7 +138,7 @@ pirateplot <- function(
   avg.line.lwd = 4,
   bean.lwd = 1,
   bean.lty = 1,
-  inf.lwd = 1,
+  inf.lwd = NULL,
   bar.lwd = 1,
   at = NULL,
   bw = "nrd0",
@@ -153,10 +153,10 @@ pirateplot <- function(
   bty = "o",
   evidence = FALSE,
   family = NULL,
-  inf = "hdi",
+  inf.method = "hdi",
   inf.p = .95,
   hdi.iter = 1e3,
-  inf.band = "wide",
+  inf.disp = NULL,
   cut.min = NULL,
   cut.max = NULL,
   width.min = .3,
@@ -176,6 +176,9 @@ pirateplot <- function(
   bean.o = NULL,
   inf.col = NULL,
   theme.o = NULL,
+  inf = NULL,
+  inf.type = NULL,
+  inf.band = NULL,
   ...
 ) {
 #
@@ -233,7 +236,7 @@ pirateplot <- function(
   # inf = "hdi"
   # inf.p = .95
   # hdi.iter = 1e3
-  # inf.band = "wide"
+  # inf.disp = "wide"
   # cut.min = NULL
   # cut.max = NULL
   # width.min = .3
@@ -312,6 +315,23 @@ if(is.null(theme.o) == FALSE) {
   theme <- theme.o
 
 }
+
+if(is.null(inf) == FALSE) {
+
+  message("inf is depricated. Use inf.method instead")
+
+  inf.method <- inf
+
+}
+
+if(is.null(inf.band) == FALSE) {
+
+  message("inf.band is depricated. Use inf.disp instead")
+
+  inf.disp <- inf.band
+
+}
+
 }
 
 # Look for missing critical inputs
@@ -454,7 +474,7 @@ for(bean.i in 1:n.beans) {
 
   if(length(setdiff(dv.i, c(0, 1))) == 0) {
 
-    if(inf == "hdi") {
+    if(inf.method == "hdi") {
 
       # Calculate HDI from beta(Success + 1, Failure + 1)
       inf.lb <- qbeta(.025, shape1 = sum(dv.i) + 1, shape2 = sum(dv.i == 0) + 1)
@@ -462,7 +482,7 @@ for(bean.i in 1:n.beans) {
 
     }
 
-    if(inf == "ci") {
+    if(inf.method == "ci") {
 
       # Calculate 95% CI with Normal distribution approximation to binomial
       inf.lb <- mean(dv.i) - 1.96 * sqrt(mean(dv.i) * (1 - mean(dv.i)) / length(dv.i)) - .5 / length(dv.i)
@@ -477,7 +497,7 @@ for(bean.i in 1:n.beans) {
   # Non-Binary data.i
   if(length(setdiff(dv.i, c(0, 1))) > 0) {
 
-    if(inf == "hdi") {
+    if(inf.method == "hdi") {
 
       ttest.bf <- BayesFactor::ttestBF(dv.i, posterior = T, iterations = hdi.iter, progress = F)
       samples <- ttest.bf[,1]
@@ -489,14 +509,14 @@ for(bean.i in 1:n.beans) {
 
     }
 
-    if(inf == "iqr") {
+    if(inf.method == "iqr") {
 
       inf.lb <- quantile(dv.i, probs = .25)
       inf.ub <- quantile(dv.i, probs = .75)
 
     }
 
-    if(inf == "ci") {
+    if(inf.method == "ci") {
 
       ci.i <- t.test(dv.i, conf.level = inf.p)$conf.int
 
@@ -521,9 +541,9 @@ n.cols <- iv.lengths[1]
 
 # DEFINE THEMES
 {
-if((theme %in% 0:3) == FALSE) {
+if((theme %in% 0:4) == FALSE) {
 
-  print("theme must be an integer between 0 and 3. I'll set it to 1 for now.")
+  print("theme must be an integer between 0 and 4. I'll set it to 1 for now.")
   theme <- 1
 
 }
@@ -541,6 +561,10 @@ if(theme == 0) {
   if(is.null(bar.b.o)) {bar.b.o <- 0}
   if(is.null(point.cex)) {point.cex <- 1}
   if(is.null(gl.col)) {gl.col <- "white"}
+
+  if(is.null(inf.disp)) {inf.disp <- "rect"}
+
+
 
 }
 
@@ -568,6 +592,7 @@ if(theme == 1) {
   if(is.null(point.bg)) {point.bg <- "white"}
   if(is.null(point.pch)) {point.pch <- 16}
 
+  if(is.null(inf.disp)) {inf.disp <- "rect"}
 
 }
 
@@ -592,6 +617,9 @@ if(theme == 2) {
   if(is.null(gl.col)) {gl.col <- "gray"}
   if(is.null(gl.lwd)) {gl.lwd <- c(.5, 0)}
 
+  if(is.null(inf.disp)) {inf.disp <- "rect"}
+
+
 }
 
 if(theme == 3) {
@@ -615,6 +643,51 @@ if(theme == 3) {
 
   if(is.null(gl.col)) {gl.col <- "gray"}
   if(is.null(gl.lwd)) {gl.lwd <- c(.5, 0)}
+
+  if(is.null(inf.disp)) {inf.disp <- "rect"}
+
+
+}
+
+if(theme == 4) {
+
+  if(is.null(point.pch)) {point.pch <- 16}
+  if(is.null(point.o)) {point.o <- .3}
+  if(is.null(bean.b.o)) {bean.b.o <- 0}
+  if(is.null(bean.f.o)) {bean.f.o <- 0}
+  if(is.null(inf.f.o))  {inf.f.o <- 1}
+  if(is.null(inf.b.o)) {inf.b.o <- .5}
+  if(is.null(avg.line.o))  {avg.line.o <- 1}
+  if(is.null(bar.f.o))  {bar.f.o <- 1}
+  if(is.null(bar.b.o))  {bar.b.o <- 1}
+
+  if(is.null(inf.f.col)) {inf.f.col <- "black"}
+  if(is.null(inf.b.col)) {inf.b.col <-  "black"}
+  if(is.null(avg.line.col)) {avg.line.col <- "black"}
+  if(is.null(bar.f.col)) {bar.f.col <- "white"}
+  if(is.null(bar.b.col)) {bar.b.col <- "black"}
+
+  if(is.null(point.col)) {point.col <- "black"}
+  if(is.null(point.cex)) {point.cex <- .5}
+  #
+  #  if(is.null(back.col)) {back.col <- gray(.97)}
+
+  if(is.null(gl.col)) {gl.col <- "gray"}
+  if(is.null(gl.lwd)) {gl.lwd <- c(.5, 0)}
+
+  if(is.null(inf.disp)) {inf.disp <- "line"}
+
+}
+
+
+# Inference lwd depends on inf.disp...
+if(is.null(inf.lwd)) {
+
+
+  if(inf.disp == "line") {inf.lwd <- 2}
+  if(inf.disp %in% c("rect", "bean")) {inf.lwd <- 1}
+
+
 }
 
 }
@@ -1122,7 +1195,30 @@ dens.inf.y <- dens.y.i[dens.x.i >= summary$inf.lb[bean.i] & dens.x.i <= summary$
 
 # Draw inf band
 
-if(inf.band == "wide") {
+
+if(inf.disp == "line") {
+
+  segments(x.loc.i, summary$inf.lb[bean.i],
+           x.loc.i, summary$inf.ub[bean.i],
+           col = transparent(colors.df$inf.f.col[bean.i],
+                             trans.val = 1 - opac.df$inf.f.o[bean.i]),
+           lwd = inf.lwd[bean.i])
+
+  # Add whiskers
+
+  segments(rep(x.loc.i - width.max * .2, 2),
+           c(summary$inf.lb[bean.i], summary$inf.ub[bean.i]),
+           rep(x.loc.i + width.max * .2, 2),
+           c(summary$inf.lb[bean.i], summary$inf.ub[bean.i]),
+           col = transparent(colors.df$inf.f.col[bean.i],
+                             trans.val = 1 - opac.df$inf.f.o[bean.i]),
+           lwd = inf.lwd[bean.i])
+
+
+}
+
+
+if(inf.disp == "rect") {
 
 rect(x.loc.i - width.max * .8,
      summary$inf.lb[bean.i],
@@ -1137,7 +1233,7 @@ rect(x.loc.i - width.max * .8,
 
 }
 
-if(inf.band == "tight") {
+if(inf.disp == "bean") {
 
   polygon(c(x.loc.i - dens.inf.y[1:(length(dens.inf.x))],
             x.loc.i + rev(dens.inf.y[1:(length(dens.inf.x))])),
@@ -1159,7 +1255,7 @@ if(inf.band == "tight") {
 # AVERAGE LINE
 {
 
-  if(inf.band == "wide") {
+  if(inf.disp == "wide") {
     segments(x0 = x.loc.i - width.max,
              y0 = summary$avg[bean.i],
              x1 = x.loc.i + width.max,
@@ -1171,7 +1267,7 @@ if(inf.band == "tight") {
     )
   }
 
-  if(inf.band == "tight") {
+  if(inf.disp == "tight") {
 
     fun.loc <- which(abs(dens.x.i - avg.line.fun(dv.i)) == min(abs(dens.x.i - avg.line.fun(dv.i))))
 
