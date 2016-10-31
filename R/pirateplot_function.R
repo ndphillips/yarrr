@@ -183,6 +183,87 @@ pirateplot <- function(
 ) {
 #
 #
+#
+#
+#   formula = NULL
+#   data = NULL
+#   plot = TRUE
+#   avg.line.fun = mean
+#   pal = "basel"
+#   back.col = NULL
+#   point.cex = NULL
+#   point.pch = NULL
+#   point.lwd = 1
+#   jitter.val = .03
+#   theme = 1
+#   bean.b.o = NULL
+#   bean.f.o = NULL
+#   point.o = NULL
+#   bar.f.o = NULL
+#   bar.b.o = NULL
+#   inf.f.o = NULL
+#   inf.b.o = NULL
+#   avg.line.o = NULL
+#   gl.col = NULL
+#   point.col = NULL
+#   point.bg = NULL
+#   bar.f.col = NULL
+#   bean.b.col = NULL
+#   bean.f.col = NULL
+#   inf.f.col = NULL
+#   inf.b.col = NULL
+#   avg.line.col = NULL
+#   bar.b.col = NULL
+#   quant.col = NULL
+#   avg.line.lwd = 4
+#   bean.lwd = 1
+#   bean.lty = 1
+#   inf.lwd = NULL
+#   bar.lwd = 1
+#   at = NULL
+#   bw = "nrd0"
+#   adjust = 1
+#   add = FALSE
+#   sortx = "alphabetical"
+#   cex.lab = 1
+#   cex.axis = 1
+#   quant = NULL
+#   quant.length = NULL
+#   quant.lwd = NULL
+#   bty = "o"
+#   evidence = FALSE
+#   family = NULL
+#   inf.method = "hdi"
+#   inf.p = .95
+#   hdi.iter = 1e3
+#   inf.disp = NULL
+#   cut.min = NULL
+#   cut.max = NULL
+#   width.min = .3
+#   width.max = NA
+#   ylim = NULL
+#   xlim = NULL
+#   xlab = NULL
+#   ylab = NULL
+#   main = NULL
+#   yaxt = NULL
+#   xaxt = NULL
+#   gl.lwd = NULL
+#   gl.lty = NULL
+#   bar.b.lwd = NULL
+#   line.fun = NULL
+#   inf.o = NULL
+#   bean.o = NULL
+#   inf.col = NULL
+#   theme.o = NULL
+#   inf = NULL
+#   inf.type = NULL
+#   inf.band = NULL
+#
+#   formula = weight ~ Time
+#   data = ChickWeight
+#   theme = 2
+#   main = "theme = 2"
 
 # -----
 #  SETUP
@@ -857,8 +938,6 @@ if(is.null(ylab)) {ylab <- dv.name}
 
 
 
-
-
 # PLOTTING SPACE
 if(add == FALSE) {
 
@@ -1186,7 +1265,7 @@ if(inf.disp == "bean") {
 # AVERAGE LINE
 {
 
-  if(inf.disp == "wide") {
+  if(inf.disp == "bean") {
     segments(x0 = x.loc.i - width.max,
              y0 = summary$avg[bean.i],
              x1 = x.loc.i + width.max,
@@ -1198,7 +1277,7 @@ if(inf.disp == "bean") {
     )
   }
 
-  if(inf.disp == "tight") {
+  if(inf.disp == "thin") {
 
     fun.loc <- which(abs(dens.x.i - avg.line.fun(dv.i)) == min(abs(dens.x.i - avg.line.fun(dv.i))))
 
@@ -1206,6 +1285,21 @@ if(inf.disp == "bean") {
              summary$avg[bean.i],
              x.loc.i + dens.y.i[fun.loc],
              summary$avg[bean.i],
+             col = transparent(colors.df$avg.line.col[bean.i],
+                               trans.val = 1 - opac.df$avg.line.o[bean.i]),
+             lwd = avg.line.lwd[bean.i],
+             lend = 3
+    )
+  }
+
+  if(inf.disp == "rect") {
+
+    fun.loc <- which(abs(dens.x.i - avg.line.fun(dv.i)) == min(abs(dens.x.i - avg.line.fun(dv.i))))
+
+    segments(x.loc.i - .8 * width.max,
+             avg.line.fun(dv.i),
+             x.loc.i + .8 * width.max,
+             avg.line.fun(dv.i),
              col = transparent(colors.df$avg.line.col[bean.i],
                                trans.val = 1 - opac.df$avg.line.o[bean.i]),
              lwd = avg.line.lwd[bean.i],
