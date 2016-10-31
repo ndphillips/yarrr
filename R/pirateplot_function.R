@@ -1230,9 +1230,9 @@ if(inf.disp == "line") {
 
 if(inf.disp == "rect") {
 
-rect(x.loc.i - width.max * .8,
+rect(x.loc.i - width.max * .7,
      summary$inf.lb[bean.i],
-     x.loc.i + width.max * .8,
+     x.loc.i + width.max * .7,
      summary$inf.ub[bean.i],
      col = transparent(colors.df$inf.f.col[bean.i],
                        trans.val = 1 - opac.df$inf.f.o[bean.i]),
@@ -1265,7 +1265,7 @@ if(inf.disp == "bean") {
 # AVERAGE LINE
 {
 
-  if(inf.disp == "bean") {
+  if(inf.disp %in% c("bean", "rect")) {
     segments(x0 = x.loc.i - width.max,
              y0 = summary$avg[bean.i],
              x1 = x.loc.i + width.max,
@@ -1292,20 +1292,6 @@ if(inf.disp == "bean") {
     )
   }
 
-  if(inf.disp == "rect") {
-
-    fun.loc <- which(abs(dens.x.i - avg.line.fun(dv.i)) == min(abs(dens.x.i - avg.line.fun(dv.i))))
-
-    segments(x.loc.i - .8 * width.max,
-             avg.line.fun(dv.i),
-             x.loc.i + .8 * width.max,
-             avg.line.fun(dv.i),
-             col = transparent(colors.df$avg.line.col[bean.i],
-                               trans.val = 1 - opac.df$avg.line.o[bean.i]),
-             lwd = avg.line.lwd[bean.i],
-             lend = 3
-    )
-  }
 
 }
 
