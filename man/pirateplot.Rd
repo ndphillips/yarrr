@@ -25,7 +25,7 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
   inf = NULL, inf.type = NULL, inf.band = NULL, ...)
 }
 \arguments{
-\item{formula}{formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent varaibles}
+\item{formula}{formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent variables}
 
 \item{data}{dataframe. A dataframe containing the variables specified in formula.}
 
@@ -49,7 +49,7 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
 
 \item{bean.lwd, bean.lty, inf.lwd, avg.line.lwd, bar.lwd}{numeric. Vectors of numbers customizing the look of beans and lines.}
 
-\item{at}{integer. Locations of the beans. Especially helpful when adding beans to an existing plot with add = T}
+\item{at}{integer. Locations of the beans. Especially helpful when adding beans to an existing plot with add = TRUE}
 
 \item{bw, adjust}{Arguments passed to density calculations for beans (see ?density)}
 
@@ -75,7 +75,7 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
 
 \item{hdi.iter}{integer. Number of iterations to run when calculating the HDI. Larger values lead to better estimates, but can be more time consuming.}
 
-\item{inf.disp}{string. How should inference ranges be displayed? \code{"thin"} creates a classic vertical line, \code{"rect"} creates a rectangle, \code{"bean"} forms the inference around the bean.}
+\item{inf.disp}{string. How should inference ranges be displayed? \code{"line"} creates a classic vertical line, \code{"rect"} creates a rectangle, \code{"bean"} forms the inference around the bean.}
 
 \item{cut.min, cut.max}{numeric. Optional minimum and maximum values of the beans.}
 

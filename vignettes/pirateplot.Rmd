@@ -324,7 +324,7 @@ If you include the `plot = FALSE` argument to a pirateplot, the function will re
 times.pp <- pirateplot(formula = time ~ sequel + genre,
                        data = subset(movies, 
                          genre %in% c("Action", "Adventure", "Comedy", "Horror") &
-                           ating %in% c("G", "PG", "PG-13", "R") &
+                         rating %in% c("G", "PG", "PG-13", "R") &
                          time > 0),
                          plot = FALSE)
 ```
