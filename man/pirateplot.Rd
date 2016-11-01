@@ -84,8 +84,6 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
 \item{gl.lwd, gl.lty}{Customization for grid lines.}
 
 \item{bar.b.lwd, line.fun, inf.o, bean.o, inf.col, theme.o, inf, inf.type, inf.band}{depricated arguments}
-
-\item{...}{other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)}
 }
 \description{
 The pirateplot function creates an RDI (Raw data, Descriptive and Inferential statistic) plot showing the relationship between 1 to 3 categorical independent variables and 1 continuous dependent variable.

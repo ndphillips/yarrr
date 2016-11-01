@@ -32,7 +32,6 @@
 #' @param bty,xlim,ylim,xlab,ylab,main,yaxt,xaxt General plotting arguments
 #' @param quant numeric. Adds horizontal lines representing custom quantiles.
 #' @param bar.b.lwd,line.fun,inf.o,bean.o,inf.col,theme.o,inf,inf.type,inf.band depricated arguments
-#' @param ... other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)
 #' @keywords plot
 #' @importFrom BayesFactor ttestBF
 #' @importFrom grDevices col2rgb gray rgb
