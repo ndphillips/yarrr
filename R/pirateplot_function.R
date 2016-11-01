@@ -58,6 +58,18 @@
 #'           main = "Chicken weight by time",
 #'           theme = 2) # theme 2
 #'
+#'# theme 3
+#'pirateplot(formula = weight ~ Time,
+#'           data = ChickWeight,
+#'           main = "Chicken weight by time",
+#'           theme = 3) # theme 3
+#'
+#'# theme 4
+#'pirateplot(formula = weight ~ Time,
+#'           data = ChickWeight,
+#'           main = "Chicken weight by time",
+#'           theme = 4) # theme 4
+#'
 #'# Start with theme 2, but then customise!
 #'pirateplot(formula = weight ~ Time,
 #'           data = ChickWeight,
@@ -177,8 +189,7 @@ pirateplot <- function(
   theme.o = NULL,
   inf = NULL,
   inf.type = NULL,
-  inf.band = NULL,
-  ...
+  inf.band = NULL
 ) {
 #
 #
