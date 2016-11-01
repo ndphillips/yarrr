@@ -13,18 +13,19 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
   bean.b.col = NULL, bean.f.col = NULL, inf.f.col = NULL,
   inf.b.col = NULL, avg.line.col = NULL, bar.b.col = NULL,
   quant.col = NULL, avg.line.lwd = 4, bean.lwd = 1, bean.lty = 1,
-  inf.lwd = 1, bar.lwd = 1, at = NULL, bw = "nrd0", adjust = 1,
+  inf.lwd = NULL, bar.lwd = 1, at = NULL, bw = "nrd0", adjust = 1,
   add = FALSE, sortx = "alphabetical", cex.lab = 1, cex.axis = 1,
   quant = NULL, quant.length = NULL, quant.lwd = NULL, bty = "o",
-  evidence = FALSE, family = NULL, inf = "hdi", inf.p = 0.95,
-  hdi.iter = 1000, inf.band = "wide", cut.min = NULL, cut.max = NULL,
+  evidence = FALSE, family = NULL, inf.method = "hdi", inf.p = 0.95,
+  hdi.iter = 1000, inf.disp = NULL, cut.min = NULL, cut.max = NULL,
   width.min = 0.3, width.max = NA, ylim = NULL, xlim = NULL,
   xlab = NULL, ylab = NULL, main = NULL, yaxt = NULL, xaxt = NULL,
   gl.lwd = NULL, gl.lty = NULL, bar.b.lwd = NULL, line.fun = NULL,
-  inf.o = NULL, bean.o = NULL, inf.col = NULL, theme.o = NULL, ...)
+  inf.o = NULL, bean.o = NULL, inf.col = NULL, theme.o = NULL,
+  inf = NULL, inf.type = NULL, inf.band = NULL, ...)
 }
 \arguments{
-\item{formula}{formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent varaibles}
+\item{formula}{formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent variables}
 
 \item{data}{dataframe. A dataframe containing the variables specified in formula.}
 
@@ -48,7 +49,7 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
 
 \item{bean.lwd, bean.lty, inf.lwd, avg.line.lwd, bar.lwd}{numeric. Vectors of numbers customizing the look of beans and lines.}
 
-\item{at}{integer. Locations of the beans. Especially helpful when adding beans to an existing plot with add = T}
+\item{at}{integer. Locations of the beans. Especially helpful when adding beans to an existing plot with add = TRUE}
 
 \item{bw, adjust}{Arguments passed to density calculations for beans (see ?density)}
 
@@ -68,13 +69,13 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
 
 \item{family}{a font family (Not currently in use)}
 
-\item{inf}{string. A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range.}
+\item{inf.method}{string. A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range.}
 
 \item{inf.p}{numeric. A number between 0 and 1 indicating the level of confidence to use in calculating inferences for either confidence intervals or HDIs. The default is 0.95}
 
 \item{hdi.iter}{integer. Number of iterations to run when calculating the HDI. Larger values lead to better estimates, but can be more time consuming.}
 
-\item{inf.band}{string. Either \code{"wide"} to indicate a fixed width band, or \code{"tight"} to indicate a band constrained by the bean}
+\item{inf.disp}{string. How should inference ranges be displayed? \code{"line"} creates a classic vertical line, \code{"rect"} creates a rectangle, \code{"bean"} forms the inference around the bean.}
 
 \item{cut.min, cut.max}{numeric. Optional minimum and maximum values of the beans.}
 
@@ -82,9 +83,7 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
 
 \item{gl.lwd, gl.lty}{Customization for grid lines.}
 
-\item{bar.b.lwd, line.fun, inf.o, bean.o, inf.col, theme.o}{depricated arguments}
-
-\item{...}{other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)}
+\item{bar.b.lwd, line.fun, inf.o, bean.o, inf.col, theme.o, inf, inf.type, inf.band}{depricated arguments}
 }
 \description{
 The pirateplot function creates an RDI (Raw data, Descriptive and Inferential statistic) plot showing the relationship between 1 to 3 categorical independent variables and 1 continuous dependent variable.

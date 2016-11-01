@@ -122,6 +122,20 @@ pirateplot(formula = weight ~ Time,
 ```
 
 
+## Theme 4
+
+`theme = 4` tries to maintain a classic barplot look (but with added raw data).
+
+```{r fig.align='center', fig.width = 6, fig.height = 4}
+# Theme 4
+pirateplot(formula = weight ~ Time,
+           data = ChickWeight,
+           theme = 4,
+           main = "theme = 4")
+```
+
+
+
 ## Theme 0
 
 `theme = 0` allows you to start a pirateplot from scratch -- that is, it turns of *all* elements. You can then selectively turn elements on with individual arguments (e.g.; `bean.f.o`, `point.o`)
@@ -245,15 +259,15 @@ pirateplot(formula = weight ~ Time,
 There are several more arguments that you can use to customize your plot:
 
 ```{r, echo = FALSE}
-pp.elements <- data.frame('element' = c("Background color", "Gridlines", "Quantiles", "Average line"),
+pp.elements <- data.frame('element' = c("Background color", "Gridlines", "Quantiles", "Average line", "Inference Calculation", "Inference Display"),
                           'arguments' = c("back.col", 
                                       "gl.col, gl.lwd, gl.lty",
-                                      "quant, quant.lwd, quant.col", "avg.line.fun"
+                                      "quant, quant.lwd, quant.col", "avg.line.fun", "inf.method", "inf.disp"
                                       ),
                           "examples" = c("back.col = 'gray(.9, .9)'", 
                                         "gl.col = 'gray', gl.lwd = c(.75, 0), gl.lty = 1", 
                                         "quant = c(.1, .9), quant.lwd = 1, quant.col = 'black'",
-                                        "avg.line.fun = median")
+                                        "avg.line.fun = median", "inf.method = 'hdi', inf.method = 'ci'", "inf.disp = 'line', inf.disp = 'bean', inf.disp = 'rect'")
                           )
 
 knitr::kable(pp.elements, caption = "Additonal pirateplot elements")
@@ -270,6 +284,7 @@ pirateplot(formula = weight ~ Time,
            gl.col = "gray", # Gray gridlines
            gl.lwd = c(.75, 0),
            inf.f.o = .6, # Turn up inf filling
+           inf.disp = "bean", # Wrap inference around bean
            bean.b.o = .4, # Turn down bean borders
            quant = c(.1, .9), # 10th and 90th quantiles
            quant.col = "black" # Black quantile lines
@@ -284,18 +299,20 @@ You can use up to 3 categorical IVs in your plot. Here are some examples:
 pirateplot(formula = height ~ sex + eyepatch + headband,
            data = pirates,
            theme = 2,
-           main = "Pirate Heights")
+           inf.disp = "bean")
 ```
 
 Here's a pirateplot with showing the relationship between movie running times based on movie genre and whether the movie is a sequel or not.
 
-```{r fig.width = 7, fig.height = 4, fig.align = "center"}
+```{r fig.width = 8, fig.height = 8, fig.align = "center"}
 pirateplot(formula = time ~ sequel + genre + rating,
            data = subset(movies, 
                          genre %in% c("Action", "Adventure", "Comedy", "Horror") &
+                         rating %in% c("G", "PG", "PG-13", "R") &
                          time > 0),
-           main = "Movie running times",
            theme = 3,
+           cex.lab = .8,
+           inf.disp = "rect",
            pal = "up")
 ```
 
@@ -303,10 +320,11 @@ pirateplot(formula = time ~ sequel + genre + rating,
 
 If you include the `plot = FALSE` argument to a pirateplot, the function will return some values associated with the plot.
 
-```{r}
+```{r fig.width = 10, fig.height = 7, fig.align = "center"}
 times.pp <- pirateplot(formula = time ~ sequel + genre,
                        data = subset(movies, 
                          genre %in% c("Action", "Adventure", "Comedy", "Horror") &
+                         rating %in% c("G", "PG", "PG-13", "R") &
                          time > 0),
                          plot = FALSE)
 ```

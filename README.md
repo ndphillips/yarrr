@@ -12,19 +12,26 @@ The `yarrr` package contains a mixture of data, functions and tutorials supporti
 To install the (stable) version from CRAN, run the following code
 
 ``` r
-install.packages("yarrr") # install yarrr
-library("yarrr") # load yarrr
-yarrr.guide() # run main package guide
+# Install yarrr from CRAN
+install.packages("yarrr")
 ```
 
-To install the latest developer version from CRAN, run the following code
+To install the latest developer version from GitHub, run the following code
 
 ``` r
-install.packages("devtools") # install yarrr
-devtools::install_github("ndphillips/yarrr", build_vignettes = TRUE)
+# Install developer version from GitHub
+install.packages("devtools")
+devtools::install_github("ndphillips/yarrr", 
+                         build_vignettes = TRUE)
+```
+
+Once you've installed the `yarrr` package, you can load it and open the main package guide as follows:
+
+``` r
 library("yarrr") # load yarrr
 yarrr.guide() # run main package guide
 ```
+
 
 Here are the most important parts of the package:
 
