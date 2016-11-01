@@ -16,7 +16,7 @@
 #' @param width.min,width.max numeric. The minimum/maximum width of the beans.
 #' @param cut.min,cut.max numeric. Optional minimum and maximum values of the beans.
 #' @param inf.method string. A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range.
-#' @param inf.disp string. How should inference ranges be displayed? \code{"thin"} creates a classic vertical line, \code{"rect"} creates a rectangle, \code{"bean"} forms the inference around the bean.
+#' @param inf.disp string. How should inference ranges be displayed? \code{"line"} creates a classic vertical line, \code{"rect"} creates a rectangle, \code{"bean"} forms the inference around the bean.
 #' @param inf.p numeric. A number between 0 and 1 indicating the level of confidence to use in calculating inferences for either confidence intervals or HDIs. The default is 0.95
 #' @param hdi.iter integer. Number of iterations to run when calculating the HDI. Larger values lead to better estimates, but can be more time consuming.
 #' @param bw,adjust Arguments passed to density calculations for beans (see ?density)
@@ -185,85 +185,85 @@ pirateplot <- function(
 #
 #
 #
-#   formula = NULL
-#   data = NULL
-#   plot = TRUE
-#   avg.line.fun = mean
-#   pal = "basel"
-#   back.col = NULL
-#   point.cex = NULL
-#   point.pch = NULL
-#   point.lwd = 1
-#   jitter.val = .03
-#   theme = 1
-#   bean.b.o = NULL
-#   bean.f.o = NULL
-#   point.o = NULL
-#   bar.f.o = NULL
-#   bar.b.o = NULL
-#   inf.f.o = NULL
-#   inf.b.o = NULL
-#   avg.line.o = NULL
-#   gl.col = NULL
-#   point.col = NULL
-#   point.bg = NULL
-#   bar.f.col = NULL
-#   bean.b.col = NULL
-#   bean.f.col = NULL
-#   inf.f.col = NULL
-#   inf.b.col = NULL
-#   avg.line.col = NULL
-#   bar.b.col = NULL
-#   quant.col = NULL
-#   avg.line.lwd = 4
-#   bean.lwd = 1
-#   bean.lty = 1
-#   inf.lwd = NULL
-#   bar.lwd = 1
-#   at = NULL
-#   bw = "nrd0"
-#   adjust = 1
-#   add = FALSE
-#   sortx = "alphabetical"
-#   cex.lab = 1
-#   cex.axis = 1
-#   quant = NULL
-#   quant.length = NULL
-#   quant.lwd = NULL
-#   bty = "o"
-#   evidence = FALSE
-#   family = NULL
-#   inf.method = "hdi"
-#   inf.p = .95
-#   hdi.iter = 1e3
-#   inf.disp = NULL
-#   cut.min = NULL
-#   cut.max = NULL
-#   width.min = .3
-#   width.max = NA
-#   ylim = NULL
-#   xlim = NULL
-#   xlab = NULL
-#   ylab = NULL
-#   main = NULL
-#   yaxt = NULL
-#   xaxt = NULL
-#   gl.lwd = NULL
-#   gl.lty = NULL
-#   bar.b.lwd = NULL
-#   line.fun = NULL
-#   inf.o = NULL
-#   bean.o = NULL
-#   inf.col = NULL
-#   theme.o = NULL
-#   inf = NULL
-#   inf.type = NULL
-#   inf.band = NULL
-#
-#   formula = weight ~ Time
-#   data = ChickWeight
-#   theme = 2
-#   main = "theme = 2"
+  # formula = weight ~ Time
+  # data = ChickWeight
+  # plot = TRUE
+  # avg.line.fun = mean
+  # pal = "basel"
+  # back.col = NULL
+  # point.cex = NULL
+  # point.pch = NULL
+  # point.lwd = 1
+  # jitter.val = .03
+  # theme = 1
+  # bean.b.o = NULL
+  # bean.f.o = NULL
+  # point.o = NULL
+  # bar.f.o = NULL
+  # bar.b.o = NULL
+  # inf.f.o = NULL
+  # inf.b.o = NULL
+  # avg.line.o = NULL
+  # gl.col = NULL
+  # point.col = NULL
+  # point.bg = NULL
+  # bar.f.col = NULL
+  # bean.b.col = NULL
+  # bean.f.col = NULL
+  # inf.f.col = NULL
+  # inf.b.col = NULL
+  # avg.line.col = NULL
+  # bar.b.col = NULL
+  # quant.col = NULL
+  # avg.line.lwd = 4
+  # bean.lwd = 1
+  # bean.lty = 1
+  # inf.lwd = NULL
+  # bar.lwd = 1
+  # at = NULL
+  # bw = "nrd0"
+  # adjust = 1
+  # add = FALSE
+  # sortx = "alphabetical"
+  # cex.lab = 1
+  # cex.axis = 1
+  # quant = NULL
+  # quant.length = NULL
+  # quant.lwd = NULL
+  # bty = "o"
+  # evidence = FALSE
+  # family = NULL
+  # inf.method = "hdi"
+  # inf.p = .95
+  # hdi.iter = 1e3
+  # inf.disp = "line"
+  # cut.min = NULL
+  # cut.max = NULL
+  # width.min = .3
+  # width.max = NA
+  # ylim = NULL
+  # xlim = NULL
+  # xlab = NULL
+  # ylab = NULL
+  # main = NULL
+  # yaxt = NULL
+  # xaxt = NULL
+  # gl.lwd = NULL
+  # gl.lty = NULL
+  # bar.b.lwd = NULL
+  # line.fun = NULL
+  # inf.o = NULL
+  # bean.o = NULL
+  # inf.col = NULL
+  # theme.o = NULL
+  # inf = NULL
+  # inf.type = NULL
+  # inf.band = NULL
+  #
+  # formula = weight ~ Time
+  # data = ChickWeight
+  # theme = 2
+  # main = "theme = 2"
 
 # -----
 #  SETUP
@@ -1205,7 +1205,6 @@ dens.inf.y <- dens.y.i[dens.x.i >= summary$inf.lb[bean.i] & dens.x.i <= summary$
 
 # Draw inf band
 
-
 if(inf.disp == "line") {
 
   segments(x.loc.i, summary$inf.lb[bean.i],
@@ -1265,7 +1264,7 @@ if(inf.disp == "bean") {
 # AVERAGE LINE
 {
 
-  if(inf.disp %in% c("bean", "rect")) {
+  if(inf.disp %in% c("line", "rect")) {
     segments(x0 = x.loc.i - width.max,
              y0 = summary$avg[bean.i],
              x1 = x.loc.i + width.max,
@@ -1277,7 +1276,7 @@ if(inf.disp == "bean") {
     )
   }
 
-  if(inf.disp == "thin") {
+  if(inf.disp == "bean") {
 
     fun.loc <- which(abs(dens.x.i - avg.line.fun(dv.i)) == min(abs(dens.x.i - avg.line.fun(dv.i))))
 
