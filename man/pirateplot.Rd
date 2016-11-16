@@ -16,13 +16,13 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
   inf.lwd = NULL, bar.lwd = 1, at = NULL, bw = "nrd0", adjust = 1,
   add = FALSE, sortx = "alphabetical", cex.lab = 1, cex.axis = 1,
   quant = NULL, quant.length = NULL, quant.lwd = NULL, bty = "o",
-  evidence = FALSE, family = NULL, inf.method = "hdi", inf.p = 0.95,
+  evidence = FALSE, family = NULL, inf.method = "hdi", inf.p = NULL,
   hdi.iter = 1000, inf.disp = NULL, cut.min = NULL, cut.max = NULL,
   width.min = 0.3, width.max = NA, ylim = NULL, xlim = NULL,
   xlab = NULL, ylab = NULL, main = NULL, yaxt = NULL, xaxt = NULL,
   gl.lwd = NULL, gl.lty = NULL, bar.b.lwd = NULL, line.fun = NULL,
   inf.o = NULL, bean.o = NULL, inf.col = NULL, theme.o = NULL,
-  inf = NULL, inf.type = NULL, inf.band = NULL, ...)
+  inf = NULL, inf.type = NULL, inf.band = NULL)
 }
 \arguments{
 \item{formula}{formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent variables}
@@ -69,9 +69,9 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
 
 \item{family}{a font family (Not currently in use)}
 
-\item{inf.method}{string. A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range.}
+\item{inf.method}{string. A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range, "sd" means standard deviation, "se" means standard error}
 
-\item{inf.p}{numeric. A number between 0 and 1 indicating the level of confidence to use in calculating inferences for either confidence intervals or HDIs. The default is 0.95}
+\item{inf.p}{numeric. A number adjusting how inference ranges are calculated. for \code{"ci"} and \code{"hdi"}, a number between 0 and 1 indicating the level of confidence (default is .95). For \code{"sd"} and \code{"se"}, the number of standard deviations / standard errors added to or subtracted from the mean (default is 2).}
 
 \item{hdi.iter}{integer. Number of iterations to run when calculating the HDI. Larger values lead to better estimates, but can be more time consuming.}
 
@@ -106,6 +106,18 @@ pirateplot(formula = weight ~ Time,
           data = ChickWeight,
           main = "Chicken weight by time",
           theme = 2) # theme 2
+
+# theme 3
+pirateplot(formula = weight ~ Time,
+          data = ChickWeight,
+          main = "Chicken weight by time",
+          theme = 3) # theme 3
+
+# theme 4
+pirateplot(formula = weight ~ Time,
+          data = ChickWeight,
+          main = "Chicken weight by time",
+          theme = 4) # theme 4
 
 # Start with theme 2, but then customise!
 pirateplot(formula = weight ~ Time,

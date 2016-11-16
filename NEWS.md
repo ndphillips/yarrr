@@ -1,3 +1,7 @@
+# yarrr 0.1.3
+
+* Added two new `inf.method` values: `sd` for standard deviation, and `se` for standard error
+
 # yarrr 0.1.2
 
 * Minor updates to themes. Added `theme = 3`

@@ -15,9 +15,9 @@
 #' @param bean.lwd,bean.lty,inf.lwd,avg.line.lwd,bar.lwd numeric. Vectors of numbers customizing the look of beans and lines.
 #' @param width.min,width.max numeric. The minimum/maximum width of the beans.
 #' @param cut.min,cut.max numeric. Optional minimum and maximum values of the beans.
-#' @param inf.method string. A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range.
+#' @param inf.method string. A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range, "sd" means standard deviation, "se" means standard error
 #' @param inf.disp string. How should inference ranges be displayed? \code{"line"} creates a classic vertical line, \code{"rect"} creates a rectangle, \code{"bean"} forms the inference around the bean.
-#' @param inf.p numeric. A number between 0 and 1 indicating the level of confidence to use in calculating inferences for either confidence intervals or HDIs. The default is 0.95
+#' @param inf.p numeric. A number adjusting how inference ranges are calculated. for \code{"ci"} and \code{"hdi"}, a number between 0 and 1 indicating the level of confidence (default is .95). For \code{"sd"} and \code{"se"}, the number of standard deviations / standard errors added to or subtracted from the mean (default is 1).
 #' @param hdi.iter integer. Number of iterations to run when calculating the HDI. Larger values lead to better estimates, but can be more time consuming.
 #' @param bw,adjust Arguments passed to density calculations for beans (see ?density)
 #' @param jitter.val numeric. Amount of jitter added to points horizontally. Defaults to 0.05.
@@ -165,7 +165,7 @@ pirateplot <- function(
   evidence = FALSE,
   family = NULL,
   inf.method = "hdi",
-  inf.p = .95,
+  inf.p = NULL,
   hdi.iter = 1e3,
   inf.disp = NULL,
   cut.min = NULL,
@@ -352,6 +352,21 @@ if(is.null(data)) {stop("You must specify a dataframe in the data argument!")}
 if(is.null(formula) | class(formula) != "formula") {stop("You must specify a valid formula in the formula argument!")}
 }
 
+# Set some defaults
+
+if(inf.method %in% c("hdi", "ci") & is.null(inf.p)) {
+
+  inf.p <- .95
+
+}
+
+if(inf.method %in% c("sd", "se") & is.null(inf.p)) {
+
+  inf.p <- 1
+
+}
+
+
 # Reshape dataframe to include relevant variables
 {
 data <- model.frame(formula = formula,
@@ -504,6 +519,27 @@ for(bean.i in 1:n.beans) {
       if(inf.lb > 1) {inf.ub <- 1}
 
     }
+
+    if(inf.method == "sd") {
+
+      inf.lb <- mean(dv.i) - sd(dv.i) * inf.p
+      inf.ub <- mean(dv.i) + sd(dv.i) * inf.p
+
+      if(inf.lb < 0) {inf.lb <- 0}
+      if(inf.lb > 1) {inf.ub <- 1}
+
+    }
+
+    if(inf.method == "se") {
+
+      inf.lb <- mean(dv.i) - sd(dv.i) / sqrt(length(dv.i)) * inf.p
+      inf.ub <- mean(dv.i) + sd(dv.i) / sqrt(length(dv.i)) * inf.p
+
+      if(inf.lb < 0) {inf.lb <- 0}
+      if(inf.lb > 1) {inf.ub <- 1}
+
+    }
+
   }
 
   # Non-Binary data.i
@@ -536,6 +572,22 @@ for(bean.i in 1:n.beans) {
       inf.ub <- ci.i[2]
 
     }
+
+    if(inf.method == "sd") {
+
+      inf.lb <- mean(dv.i) - sd(dv.i) * inf.p
+      inf.ub <- mean(dv.i) + sd(dv.i) * inf.p
+
+    }
+
+    if(inf.method == "se") {
+
+      inf.lb <- mean(dv.i) - sd(dv.i) / sqrt(length(dv.i)) * inf.p
+      inf.ub <- mean(dv.i) + sd(dv.i) / sqrt(length(dv.i)) * inf.p
+
+    }
+
+
   }
 
   summary$inf.lb[bean.i] <- inf.lb
@@ -776,7 +828,7 @@ if(mean(pal %in% piratepal("names")) != 1) {
 colors.df$point.col <- rep(pal, length.out = n.beans)
 colors.df$point.bg <- rep(pal, length.out = n.beans)
 colors.df$bean.b.col <- rep(pal, length.out = n.beans)
-colors.df$bean.f.col <- rep("pal", length.out = n.beans)
+colors.df$bean.f.col <- rep(pal, length.out = n.beans)
 colors.df$inf.f.col <- rep(pal, length.out = n.beans)
 colors.df$inf.b.col <- rep(pal, length.out = n.beans)
 colors.df$avg.line.col <- rep(pal, length.out = n.beans)
