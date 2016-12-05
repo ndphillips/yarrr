@@ -15,7 +15,8 @@
 #' @param bean.lwd,bean.lty,inf.lwd,avg.line.lwd,bar.lwd numeric. Vectors of numbers customizing the look of beans and lines.
 #' @param width.min,width.max numeric. The minimum/maximum width of the beans.
 #' @param cut.min,cut.max numeric. Optional minimum and maximum values of the beans.
-#' @param inf.method string. A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range, "sd" means standard deviation, "se" means standard error
+#' @param inf.method string. A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range, "sd" means standard deviation, "se" means standard error, "withinci" means frequentist confidence intervals in a within design (Morey, 2008).
+#' @param inf.within string. The variable which serves as an ID variable in a within design.
 #' @param inf.disp string. How should inference ranges be displayed? \code{"line"} creates a classic vertical line, \code{"rect"} creates a rectangle, \code{"bean"} forms the inference around the bean.
 #' @param inf.p numeric. A number adjusting how inference ranges are calculated. for \code{"ci"} and \code{"hdi"}, a number between 0 and 1 indicating the level of confidence (default is .95). For \code{"sd"} and \code{"se"}, the number of standard deviations / standard errors added to or subtracted from the mean (default is 1).
 #' @param hdi.iter integer. Number of iterations to run when calculating the HDI. Larger values lead to better estimates, but can be more time consuming.
@@ -165,6 +166,7 @@ pirateplot <- function(
   evidence = FALSE,
   family = NULL,
   inf.method = "hdi",
+  inf.within = NULL,
   inf.p = NULL,
   hdi.iter = 1e3,
   inf.disp = NULL,
@@ -354,7 +356,7 @@ if(is.null(formula) | class(formula) != "formula") {stop("You must specify a val
 
 # Set some defaults
 
-if(inf.method %in% c("hdi", "ci") & is.null(inf.p)) {
+if(inf.method %in% c("hdi", "ci", "withinci") & is.null(inf.p)) {
 
   inf.p <- .95
 
@@ -369,6 +371,8 @@ if(inf.method %in% c("sd", "se") & is.null(inf.p)) {
 
 # Reshape dataframe to include relevant variables
 {
+
+withindata <- data
 data <- model.frame(formula = formula,
                       data = data)
 
@@ -585,6 +589,31 @@ for(bean.i in 1:n.beans) {
       inf.lb <- mean(dv.i) - sd(dv.i) / sqrt(length(dv.i)) * inf.p
       inf.ub <- mean(dv.i) + sd(dv.i) / sqrt(length(dv.i)) * inf.p
 
+    }
+    
+    if(inf.method == "withinci") {
+      
+      grandMean <- mean(dv.v)
+      Groups <- unique(withindata[inf.within])[[1]]
+      groupMean <- c()
+      dv.within <- c()
+
+      for(group in 1:length(Groups)){ 
+        #get the participant/group mean for each participant/group
+        groupMean[group] <- mean(dv.v[which(withindata[inf.within] == Groups[group])])
+      }
+      
+      for(datum in 1:length(dv.i)){ 
+        #substitute group mean with grand mean, which removes between subject variance
+        dv.within[datum] <- dv.i[datum] - groupMean[datum] + grandMean
+      } 
+      
+      ci.i <- t.test(dv.within, conf.level = inf.p)$conf.int
+      
+      ci.width <- (ci.i[2] - ci.i[1]) 
+      inf.lb <- mean(dv.i) - (ci.width/2) * sqrt(n.beans/(n.beans-1)) #with Morey correction
+      inf.ub <- mean(dv.i) + (ci.width/2) * sqrt(n.beans/(n.beans-1)) #with Morey correction
+      
     }
 
 
