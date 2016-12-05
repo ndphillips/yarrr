@@ -1,8 +1,8 @@
 #' pirateplot
 #'
-#' The pirateplot function creates an RDI (Raw data, Descriptive and Inferential statistic) plot showing the relationship between 1 - 3 categorical independent variables and 1 continuous dependent variable. The plot shows all raw data (shown as points), smoothed densities (shown as beans), and inferential statistics such as 95% Bayesian Highest Density Intervals (shown as bands).
+#' The pirateplot function creates an RDI (Raw data, Descriptive and Inferential statistic) plot showing the relationship between 1 to 3 categorical independent variables and 1 continuous dependent variable.
 #'
-#' @param formula formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent varaibles
+#' @param formula formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent variables
 #' @param data dataframe. A dataframe containing the variables specified in formula.
 #' @param plot logical. If \code{TRUE} (the default), thent the pirateplot is produced. If \code{FALSE}, the data summaries created in the plot are returned as a list.
 #' @param pal string. The color palette of the plot. Can be a single color, a vector of colors, or the name of a palette in the piratepal() function (e.g.; "basel", "google", "southpark"). To see all the palettes, run \code{piratepal(palette = "all", action = "show")}
@@ -15,13 +15,13 @@
 #' @param bean.lwd,bean.lty,inf.lwd,avg.line.lwd,bar.lwd numeric. Vectors of numbers customizing the look of beans and lines.
 #' @param width.min,width.max numeric. The minimum/maximum width of the beans.
 #' @param cut.min,cut.max numeric. Optional minimum and maximum values of the beans.
-#' @param inf string. A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range.
-#' @param inf.band string. Either \code{"wide"} to indicate a fixed width band, or \code{"tight"} to indicate a band constrained by the bean
+#' @param inf.method string. A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range.
+#' @param inf.disp string. How should inference ranges be displayed? \code{"line"} creates a classic vertical line, \code{"rect"} creates a rectangle, \code{"bean"} forms the inference around the bean.
 #' @param inf.p numeric. A number between 0 and 1 indicating the level of confidence to use in calculating inferences for either confidence intervals or HDIs. The default is 0.95
 #' @param hdi.iter integer. Number of iterations to run when calculating the HDI. Larger values lead to better estimates, but can be more time consuming.
 #' @param bw,adjust Arguments passed to density calculations for beans (see ?density)
 #' @param jitter.val numeric. Amount of jitter added to points horizontally. Defaults to 0.05.
-#' @param at integer. Locations of the beans. Especially helpful when adding beans to an existing plot with add = T
+#' @param at integer. Locations of the beans. Especially helpful when adding beans to an existing plot with add = TRUE
 #' @param sortx string. How to sort the x values. Can be "sequential" (as they are found in the original dataframe), "alphabetical", or a string indicating a function (i.e.; "mean")
 #' @param add logical. Whether to add the pirateplot to an existing plotting space or not.
 #' @param evidence logical. Should Bayesian evidence be shown? (currently ignored)
@@ -31,8 +31,7 @@
 #' @param gl.lwd,gl.lty Customization for grid lines.
 #' @param bty,xlim,ylim,xlab,ylab,main,yaxt,xaxt General plotting arguments
 #' @param quant numeric. Adds horizontal lines representing custom quantiles.
-#' @param bar.b.lwd,line.fun,inf.o,bean.o,inf.col,theme.o depricated arguments
-#' @param ... other arguments passed on to the plot function (e.g.; main, xlab, ylab, ylim, cex.axis, cex.main, cex.lab)
+#' @param bar.b.lwd,line.fun,inf.o,bean.o,inf.col,theme.o,inf,inf.type,inf.band depricated arguments
 #' @keywords plot
 #' @importFrom BayesFactor ttestBF
 #' @importFrom grDevices col2rgb gray rgb
@@ -47,14 +46,29 @@
 #'pirateplot(formula = weight ~ Time,
 #'           data = ChickWeight)
 #'
+#'# Same but in grayscale
+#'pirateplot(formula = weight ~ Time,
+#'           data = ChickWeight,
+#'           pal = "gray")
+#'
 #'
 #'# Now using theme 2
 #'pirateplot(formula = weight ~ Time,
 #'           data = ChickWeight,
 #'           main = "Chicken weight by time",
-#'           theme = 2, # Turn off all elements
-#'           gl.col = "gray") # gray gridlines
+#'           theme = 2) # theme 2
 #'
+#'# theme 3
+#'pirateplot(formula = weight ~ Time,
+#'           data = ChickWeight,
+#'           main = "Chicken weight by time",
+#'           theme = 3) # theme 3
+#'
+#'# theme 4
+#'pirateplot(formula = weight ~ Time,
+#'           data = ChickWeight,
+#'           main = "Chicken weight by time",
+#'           theme = 4) # theme 4
 #'
 #'# Start with theme 2, but then customise!
 #'pirateplot(formula = weight ~ Time,
@@ -71,7 +85,7 @@
 #'           gl.col = "gray", # gridlines
 #'           gl.lwd = c(.5, 0)) # turn off minor grid lines
 #'
-#'# Theme 2 with 2 IVs
+#'# 2 IVs
 #'pirateplot(formula = len ~ dose + supp,
 #'           data = ToothGrowth,
 #'           main = "Guinea pig tooth length by supplement",
@@ -109,7 +123,7 @@ pirateplot <- function(
   pal = "basel",
   back.col = NULL,
   point.cex = NULL,
-  point.pch = 16,
+  point.pch = NULL,
   point.lwd = 1,
   jitter.val = .03,
   theme = 1,
@@ -135,25 +149,26 @@ pirateplot <- function(
   avg.line.lwd = 4,
   bean.lwd = 1,
   bean.lty = 1,
-  inf.lwd = 1,
+  inf.lwd = NULL,
   bar.lwd = 1,
   at = NULL,
   bw = "nrd0",
   adjust = 1,
   add = FALSE,
   sortx = "alphabetical",
-  cex.lab = NULL,
+  cex.lab = 1,
   cex.axis = 1,
   quant = NULL,
   quant.length = NULL,
   quant.lwd = NULL,
-  bty = "n",
+  quant.boxplot = FALSE,
+  bty = "o",
   evidence = FALSE,
   family = NULL,
-  inf = "hdi",
+  inf.method = "hdi",
   inf.p = .95,
   hdi.iter = 1e3,
-  inf.band = "wide",
+  inf.disp = NULL,
   cut.min = NULL,
   cut.max = NULL,
   width.min = .3,
@@ -173,12 +188,93 @@ pirateplot <- function(
   bean.o = NULL,
   inf.col = NULL,
   theme.o = NULL,
-  ...
+  inf = NULL,
+  inf.type = NULL,
+  inf.band = NULL
 ) {
 #
 #
-
-
+#
+#
+  # formula = weight ~ Time
+  # data = ChickWeight
+  # plot = TRUE
+  # avg.line.fun = mean
+  # pal = "basel"
+  # back.col = NULL
+  # point.cex = NULL
+  # point.pch = NULL
+  # point.lwd = 1
+  # jitter.val = .03
+  # theme = 1
+  # bean.b.o = NULL
+  # bean.f.o = NULL
+  # point.o = NULL
+  # bar.f.o = NULL
+  # bar.b.o = NULL
+  # inf.f.o = NULL
+  # inf.b.o = NULL
+  # avg.line.o = NULL
+  # gl.col = NULL
+  # point.col = NULL
+  # point.bg = NULL
+  # bar.f.col = NULL
+  # bean.b.col = NULL
+  # bean.f.col = NULL
+  # inf.f.col = NULL
+  # inf.b.col = NULL
+  # avg.line.col = NULL
+  # bar.b.col = NULL
+  # quant.col = NULL
+  # avg.line.lwd = 4
+  # bean.lwd = 1
+  # bean.lty = 1
+  # inf.lwd = NULL
+  # bar.lwd = 1
+  # at = NULL
+  # bw = "nrd0"
+  # adjust = 1
+  # add = FALSE
+  # sortx = "alphabetical"
+  # cex.lab = 1
+  # cex.axis = 1
+  # quant = NULL
+  # quant.length = NULL
+  # quant.lwd = NULL
+  # bty = "o"
+  # evidence = FALSE
+  # family = NULL
+  # inf.method = "hdi"
+  # inf.p = .95
+  # hdi.iter = 1e3
+  # inf.disp = "line"
+  # cut.min = NULL
+  # cut.max = NULL
+  # width.min = .3
+  # width.max = NA
+  # ylim = NULL
+  # xlim = NULL
+  # xlab = NULL
+  # ylab = NULL
+  # main = NULL
+  # yaxt = NULL
+  # xaxt = NULL
+  # gl.lwd = NULL
+  # gl.lty = NULL
+  # bar.b.lwd = NULL
+  # line.fun = NULL
+  # inf.o = NULL
+  # bean.o = NULL
+  # inf.col = NULL
+  # theme.o = NULL
+  # inf = NULL
+  # inf.type = NULL
+  # inf.band = NULL
+  #
+  # formula = weight ~ Time
+  # data = ChickWeight
+  # theme = 2
+  # main = "theme = 2"
 
 # -----
 #  SETUP
@@ -232,6 +328,23 @@ if(is.null(theme.o) == FALSE) {
   theme <- theme.o
 
 }
+
+if(is.null(inf) == FALSE) {
+
+  message("inf is depricated. Use inf.method instead")
+
+  inf.method <- inf
+
+}
+
+if(is.null(inf.band) == FALSE) {
+
+  message("inf.band is depricated. Use inf.disp instead")
+
+  inf.disp <- inf.band
+
+}
+
 }
 
 # Look for missing critical inputs
@@ -272,9 +385,6 @@ if(n.iv == 3) {
 
 n.subplots <- ncol(selection.mtx)
 
-
-
-
 # Loop over subplots (only relevant when there is a third IV)
 if(n.subplots == 2) {par(mfrow = c(1, 2))}
 if(n.subplots == 3) {par(mfrow = c(1, 3))}
@@ -283,7 +393,6 @@ if(n.subplots %in% c(5, 6)) {par(mfrow = c(2, 3))}
 if(n.subplots > 7) {par(mfrow = c(ceiling(sqrt(n.subplots)), ceiling(sqrt(n.subplots))))}
 
 }
-
 
 # Setup outputs
 summary.ls <- vector("list", length = n.subplots)
@@ -351,9 +460,8 @@ data.i <- merge(data.i, bean.mtx)
 
 }
 
-
-# Calculate summary statistics in summary
-
+# Calculate summary statistics for each bean
+{
 summary <- data.frame("n" = rep(NA, n.beans),
                       "avg" = rep(NA, n.beans),
                       "inf.lb" = rep(NA, n.beans),
@@ -364,6 +472,7 @@ summary <- cbind(bean.mtx[,(1:ncol(bean.mtx) - 1)], summary)
 if(n.subplots > 1) {summary[iv3.name] <- iv3.levels[subplot.i]}
 
 
+# Loop over beans in subplot
 for(bean.i in 1:n.beans) {
 
   dv.i <- data.i[data.i$bean.num == bean.i, dv.name]
@@ -378,7 +487,7 @@ for(bean.i in 1:n.beans) {
 
   if(length(setdiff(dv.i, c(0, 1))) == 0) {
 
-    if(inf == "hdi") {
+    if(inf.method == "hdi") {
 
       # Calculate HDI from beta(Success + 1, Failure + 1)
       inf.lb <- qbeta(.025, shape1 = sum(dv.i) + 1, shape2 = sum(dv.i == 0) + 1)
@@ -386,7 +495,7 @@ for(bean.i in 1:n.beans) {
 
     }
 
-    if(inf == "ci") {
+    if(inf.method == "ci") {
 
       # Calculate 95% CI with Normal distribution approximation to binomial
       inf.lb <- mean(dv.i) - 1.96 * sqrt(mean(dv.i) * (1 - mean(dv.i)) / length(dv.i)) - .5 / length(dv.i)
@@ -401,7 +510,7 @@ for(bean.i in 1:n.beans) {
   # Non-Binary data.i
   if(length(setdiff(dv.i, c(0, 1))) > 0) {
 
-    if(inf == "hdi") {
+    if(inf.method == "hdi") {
 
       ttest.bf <- BayesFactor::ttestBF(dv.i, posterior = T, iterations = hdi.iter, progress = F)
       samples <- ttest.bf[,1]
@@ -413,14 +522,14 @@ for(bean.i in 1:n.beans) {
 
     }
 
-    if(inf == "iqr") {
+    if(inf.method == "iqr") {
 
       inf.lb <- quantile(dv.i, probs = .25)
       inf.ub <- quantile(dv.i, probs = .75)
 
     }
 
-    if(inf == "ci") {
+    if(inf.method == "ci") {
 
       ci.i <- t.test(dv.i, conf.level = inf.p)$conf.int
 
@@ -434,6 +543,7 @@ for(bean.i in 1:n.beans) {
   summary$inf.ub[bean.i] <- inf.ub
 
 }
+}
 
 if(plot == TRUE) {
 
@@ -444,15 +554,16 @@ n.cols <- iv.lengths[1]
 
 # DEFINE THEMES
 {
-if((theme %in% 0:2) == FALSE) {
+if((theme %in% 0:4) == FALSE) {
 
-  print("theme must be an integer between 0 and 2. I'll set it to 1 for now.")
+  print("theme must be an integer between 0 and 4. I'll set it to 1 for now.")
   theme <- 1
 
 }
 
 if(theme == 0) {
 
+  if(is.null(point.pch)) {point.pch <- 16}
   if(is.null(point.o)) {point.o <- 0}
   if(is.null(bean.b.o)) {bean.b.o <- 0}
   if(is.null(bean.f.o)) {bean.f.o <- 0}
@@ -462,15 +573,76 @@ if(theme == 0) {
   if(is.null(bar.f.o)) {bar.f.o <- 0}
   if(is.null(bar.b.o)) {bar.b.o <- 0}
   if(is.null(point.cex)) {point.cex <- 1}
+  if(is.null(gl.col)) {gl.col <- "white"}
+
+  if(is.null(inf.disp)) {inf.disp <- "rect"}
+
+
 
 }
 
 if(theme == 1) {
 
+  if(is.null(point.o)) {point.o <- .2}
+  if(is.null(bean.b.o)) {bean.b.o <- .2}
+  if(is.null(bean.f.o)) {bean.f.o <- .2}
+  if(is.null(inf.f.o)) {inf.f.o <- .8}
+  if(is.null(inf.b.o)) {inf.b.o <- .8}
+  if(is.null(avg.line.o)) {avg.line.o <- 1}
+  if(is.null(bar.f.o)) {bar.f.o <- 0}
+  if(is.null(bar.b.o)) {bar.b.o <- 0}
+  if(is.null(bean.b.col)) {bean.b.col <- "black"}
+  if(is.null(point.cex)) {point.cex <- .7}
+  if(is.null(point.col)) {point.col <- "black"}
+  if(is.null(bean.lwd)) {bean.lwd <- 2}
+  if(is.null(avg.line.col)) {avg.line.col <- "black"}
+
+
+  if(is.null(gl.col)) {gl.col <- "gray"}
+  if(is.null(gl.lwd)) {gl.lwd <- c(.5, 0)}
+
+  if(is.null(point.col)) {point.col <- "black"}
+  if(is.null(point.bg)) {point.bg <- "white"}
+  if(is.null(point.pch)) {point.pch <- 16}
+
+  if(is.null(inf.disp)) {inf.disp <- "rect"}
+
+
+}
+
+if(theme == 2) {
+
+  if(is.null(point.pch)) {point.pch <- 16}
+  if(is.null(point.o)) {point.o <- .1}
+  if(is.null(bean.b.o)) {bean.b.o <- .5}
+  if(is.null(bean.f.o)) {bean.f.o <- 1}
+  if(is.null(inf.f.o)) {inf.f.o <- .6}
+  if(is.null(inf.b.o)) {inf.b.o <- .8}
+  if(is.null(avg.line.o)) {avg.line.o <- 1}
+  if(is.null(bar.f.o)) {bar.f.o <- 0}
+  if(is.null(bar.b.o)) {bar.b.o <- 0}
+  if(is.null(bean.b.col)) {bean.b.col <- "black"}
+  if(is.null(point.cex)) {point.cex <- .7}
+  if(is.null(point.col)) {point.col <- "black"}
+  if(is.null(bean.lwd)) {bean.lwd <- 2}
+  if(is.null(avg.line.col)) {avg.line.col <- "black"}
+  if(is.null(bean.f.col)) {bean.f.col <- "white"}
+
+  if(is.null(inf.disp)) {inf.disp <- "rect"}
+
+  if(is.null(gl.col)) {gl.col <- "gray"}
+  if(is.null(gl.lwd)) {gl.lwd <- c(.5, 0)}
+
+
+
+}
+
+if(theme == 3) {
+  if(is.null(point.pch)) {point.pch <- 16}
   if(is.null(point.o)) {point.o <- .3}
-  if(is.null(bean.b.o)) {bean.b.o <- 0}
+  if(is.null(bean.b.o)) {bean.b.o <- .5}
   if(is.null(bean.f.o)) {bean.f.o <- .5}
-  if(is.null(inf.f.o))  {inf.f.o <- .5}
+  if(is.null(inf.f.o))  {inf.f.o <- .9}
   if(is.null(inf.b.o)) {inf.b.o <- 1}
   if(is.null(avg.line.o))  {avg.line.o <- 1}
   if(is.null(bar.f.o))  {bar.f.o <- 0}
@@ -481,28 +653,54 @@ if(theme == 1) {
   if(is.null(avg.line.col)) {avg.line.col <- "black"}
   if(is.null(point.col)) {point.col <- "black"}
   if(is.null(point.cex)) {point.cex <- .5}
+  #
+  #  if(is.null(back.col)) {back.col <- gray(.97)}
+  if(is.null(inf.disp)) {inf.disp <- "bean"}
 
-  if(is.null(back.col)) {back.col <- gray(.97)}
-  if(is.null(gl.col)) {gl.col <- gray(.5)}
+  if(is.null(gl.col)) {gl.col <- "gray"}
+  if(is.null(gl.lwd)) {gl.lwd <- c(.5, 0)}
+
+
 
 }
 
-if(theme == 2) {
+if(theme == 4) {
 
-  if(is.null(point.o)) {point.o <- .1}
-  if(is.null(bean.b.o)) {bean.b.o <- .2}
+  if(is.null(point.pch)) {point.pch <- 16}
+  if(is.null(point.o)) {point.o <- .3}
+  if(is.null(bean.b.o)) {bean.b.o <- 0}
   if(is.null(bean.f.o)) {bean.f.o <- 0}
-  if(is.null(inf.f.o)) {inf.f.o <- .2}
-  if(is.null(inf.b.o)) {inf.b.o <- .8}
-  if(is.null(avg.line.o)) {avg.line.o <- 1}
-  if(is.null(bar.f.o)) {bar.f.o <- 0}
-  if(is.null(bar.b.o)) {bar.b.o <- 0}
-  if(is.null(bean.b.col)) {bean.b.col <- "black"}
-  if(is.null(point.cex)) {point.cex <- .7}
+  if(is.null(inf.f.o))  {inf.f.o <- 1}
+  if(is.null(inf.b.o)) {inf.b.o <- .5}
+  if(is.null(avg.line.o))  {avg.line.o <- 1}
+  if(is.null(bar.f.o))  {bar.f.o <- 1}
+  if(is.null(bar.b.o))  {bar.b.o <- 1}
+
+  if(is.null(inf.f.col)) {inf.f.col <- "black"}
+  if(is.null(inf.b.col)) {inf.b.col <-  "black"}
+  if(is.null(avg.line.col)) {avg.line.col <- "black"}
+  if(is.null(bar.f.col)) {bar.f.col <- "white"}
+  if(is.null(bar.b.col)) {bar.b.col <- "black"}
+
   if(is.null(point.col)) {point.col <- "black"}
-  if(is.null(gl.col)) {gl.col <- gray(.7)}
-  if(is.null(bean.lwd)) {bean.lwd <- 2}
-  if(is.null(avg.line.col)) {avg.line.col <- gray(.4)}
+  if(is.null(point.cex)) {point.cex <- .5}
+  #
+  #  if(is.null(back.col)) {back.col <- gray(.97)}
+
+  if(is.null(gl.col)) {gl.col <- "gray"}
+  if(is.null(gl.lwd)) {gl.lwd <- c(.5, 0)}
+
+  if(is.null(inf.disp)) {inf.disp <- "line"}
+
+}
+
+
+# Inference lwd depends on inf.disp...
+if(is.null(inf.lwd)) {
+
+
+  if(inf.disp == "line") {inf.lwd <- 2}
+  if(inf.disp %in% c("rect", "bean")) {inf.lwd <- 1}
 
 
 }
@@ -609,7 +807,7 @@ if(is.null(quant.col) == FALSE) {colors.df$quant.col <- rep(quant.col, length.ou
 
 # Determine margins
 if(n.subplots == 1) {
-  par(mar = c(5, 4, 4, 1) + .1)
+ # par(mar = c(5, 4, 4, 1) + .1)
   add.yaxt <- TRUE
   }
 if(n.subplots %in% c(2, 3)) {
@@ -619,12 +817,13 @@ if(n.subplots %in% c(2, 3)) {
     par(mar = c(5, 4, 4, 1) + .1)
     add.yaxt <- TRUE
 
-    }
+  }
+
   if(subplot.i > 1) {
 
-    par(mar = c(5, 2, 4, 1) + .1)
-
+    par(mar = c(5, 3, 4, 1) + .1)
     add.yaxt <- FALSE
+
     }
 
 
@@ -634,7 +833,7 @@ if(n.subplots == c(4)) {
   if(subplot.i %in% c(1, 3)) {
 
     par(mar = c(5, 4, 4, 1) + .1)} else {
-    par(mar = c(5, 2, 4, 1) + .1)
+    par(mar = c(5, 3, 4, 1) + .1)
 
   }
 
@@ -644,7 +843,7 @@ if(n.subplots %in% c(5, 6)) {
   if(subplot.i %in% c(1, 4)) {
 
     par(mar = c(5, 4, 4, 1) + .1)} else {
-      par(mar = c(5, 2, 4, 1) + .1)
+      par(mar = c(5, 3, 4, 1) + .1)
 
     }
 
@@ -657,7 +856,7 @@ if(n.subplots > 6) {
 
     par(mar = c(5, 4, 4, 1) + .1)} else {
 
-      par(mar = c(5, 2, 4, 1) + .1)
+      par(mar = c(5, 3, 4, 1) + .1)
 
     }
 
@@ -738,8 +937,6 @@ if(is.null(ylim) == FALSE) {
 
 }
 
-if(is.null(xlim)) {xlim <- c(min(bean.loc) - .5, max(bean.loc) + .5)}
-
 # Determine x and y labels
 
 if(subplot.n.iv == 1 & is.null(xlab)) {my.xlab <- iv.names[1]}
@@ -750,8 +947,14 @@ if(subplot.n.iv > 1) {my.xlab <- ""}
 if(is.null(ylab)) {ylab <- dv.name}
 }
 
+
+
 # PLOTTING SPACE
-if(add == F) {
+if(add == FALSE) {
+
+# X-Axis
+
+if(is.null(xlim)) {xlim <- c(min(bean.loc) - .5, max(bean.loc) + .5)}
 
   plot(1,
        xlim = xlim,
@@ -763,8 +966,8 @@ if(add == F) {
        ylab = ylab,
        main = main,
        yaxt = yaxt,
-       bty = bty,
-       ...
+       bty = bty#,
+    #   ...
   )
 
 
@@ -773,9 +976,11 @@ if(add == F) {
 if(n.iv > 2) {
 
   top.text <- paste(names(data)[4], " = ", iv3.levels[subplot.i], sep = "")
-  mtext(text = top.text, side = 3)
+  mtext(text = top.text, side = 3, line = 1)
 
 }
+
+
 
 # Y-AXIS
 {
@@ -785,11 +990,14 @@ axis(side = 2,
      at = y.levels,
      labels = prettyNum(y.levels, big.mark = ","),
      las = 1,
-     lwd = 1,
+     lwd = 0,
      lwd.ticks = 1,
      cex.axis = cex.axis)
 
 }
+
+
+
 }
 
 # BACKGROUND
@@ -812,7 +1020,7 @@ rect(xleft = par("usr")[1],
 if(is.null(gl.col) == F) {
 
   if(is.null(gl.lwd)) {gl.lwd <- c(1, .5)}
-  if(is.null(gl.lty)) {gl.lty <- 3}
+  if(is.null(gl.lty)) {gl.lty <- 1}
 
   abline(h = seq(min(y.levels), max(y.levels), length.out = length(y.levels) * 2 - 1),
          lwd = gl.lwd,
@@ -820,6 +1028,7 @@ if(is.null(gl.col) == F) {
          lty = gl.lty)
 }
 }
+
 }
 
 # PIRATEPLOT ELEMENTS
@@ -957,6 +1166,9 @@ points(x = rep(x.loc.i, length(dv.i)) + rnorm(length(dv.i), mean = 0, sd = jitte
 
 }
 
+if (quant.boxplot) {
+  quant <- c(0.25, 0.75)
+}
 # QUANTILES
 if (!is.null(quant)) {
 
@@ -968,27 +1180,42 @@ if (!is.null(quant)) {
     quant.lwd <- c(rep(0.75, length(quant)))
   } else {quant.lwd <- rep(quant.lwd, length.out = length(quant))}
 
-  for (i in 1:length(quant)) {
-
-    # draw lines
-    segments(x.loc.i + (quant.length[i] - width.max), # left end
-             quantile(dv.i, probs = quant[i]),
-             x.loc.i - (quant.length[i] - width.max), # right end
-             quantile(dv.i, probs = quant[i]),
-             col =  colors.df$quant.col[bean.i],
-             lwd = quant.lwd[i],
-             lend = 3
-    )
+  if (quant.boxplot) {
+    for (i in 1:length(quant)) {
+      if (i == 1) {
+        segments(x.loc.i + (quant.length[i] - width.max),
+                 quantile(dv.i, probs = quant[i]) - (1.5*IQR(dv.i)),
+                 x.loc.i - (quant.length[i] - width.max),
+                 quantile(dv.i,probs = quant[i]) - (1.5*IQR(dv.i)),
+                 col = colors.df$quant.col[bean.i],
+                 lwd = quant.lwd[i], lend = 3)
+      } else {
+        segments(x.loc.i + (quant.length[i] - width.max),
+                 quantile(dv.i, probs = quant[i]) + (1.5*IQR(dv.i)),
+                 x.loc.i - (quant.length[i] - width.max),
+                 quantile(dv.i,probs = quant[i]) + (1.5*IQR(dv.i)),
+                 col = colors.df$quant.col[bean.i],
+                 lwd = quant.lwd[i], lend = 3)
+      }
+    }
+    segments(x.loc.i, quantile(dv.i, probs = min(quant)) - (1.5*IQR(dv.i)),
+             x.loc.i, quantile(dv.i, probs = max(quant)) + (1.5*IQR(dv.i)),
+             col = colors.df$quant.col[bean.i], lwd = quant.lwd[1],
+             lend = 3, lty = 1)
   }
-
-  # Vertical quant line
-
-  segments(x.loc.i,
-           quantile(dv.i, probs = min(quant)),
-           x.loc.i,
-           quantile(dv.i, probs = max(quant)), col = colors.df$quant.col[bean.i],
-           lwd = quant.lwd[1], lend = 3, lty = 2)
-
+  else {
+    for (i in 1:length(quant)) {
+      segments(x.loc.i + (quant.length[i] - width.max),
+               quantile(dv.i, probs = quant[i]),
+               x.loc.i - (quant.length[i] - width.max),
+               quantile(dv.i, probs = quant[i]), col = colors.df$quant.col[bean.i],
+               lwd = quant.lwd[i], lend = 3)
+    }
+    segments(x.loc.i, quantile(dv.i, probs = min(quant)),
+             x.loc.i, quantile(dv.i, probs = max(quant)),
+             col = colors.df$quant.col[bean.i], lwd = quant.lwd[1],
+             lend = 3, lty = 1)
+  }
 }
 
 # INFERENCE BAND
@@ -1007,11 +1234,33 @@ dens.inf.y <- dens.y.i[dens.x.i >= summary$inf.lb[bean.i] & dens.x.i <= summary$
 
 # Draw inf band
 
-if(inf.band == "wide") {
+if(inf.disp == "line") {
 
-rect(x.loc.i - width.max * .8,
+  segments(x.loc.i, summary$inf.lb[bean.i],
+           x.loc.i, summary$inf.ub[bean.i],
+           col = transparent(colors.df$inf.f.col[bean.i],
+                             trans.val = 1 - opac.df$inf.f.o[bean.i]),
+           lwd = inf.lwd[bean.i])
+
+  # Add whiskers
+
+  segments(rep(x.loc.i - width.max * .2, 2),
+           c(summary$inf.lb[bean.i], summary$inf.ub[bean.i]),
+           rep(x.loc.i + width.max * .2, 2),
+           c(summary$inf.lb[bean.i], summary$inf.ub[bean.i]),
+           col = transparent(colors.df$inf.f.col[bean.i],
+                             trans.val = 1 - opac.df$inf.f.o[bean.i]),
+           lwd = inf.lwd[bean.i])
+
+
+}
+
+
+if(inf.disp == "rect") {
+
+rect(x.loc.i - width.max * .7,
      summary$inf.lb[bean.i],
-     x.loc.i + width.max * .8,
+     x.loc.i + width.max * .7,
      summary$inf.ub[bean.i],
      col = transparent(colors.df$inf.f.col[bean.i],
                        trans.val = 1 - opac.df$inf.f.o[bean.i]),
@@ -1022,7 +1271,7 @@ rect(x.loc.i - width.max * .8,
 
 }
 
-if(inf.band == "tight") {
+if(inf.disp == "bean") {
 
   polygon(c(x.loc.i - dens.inf.y[1:(length(dens.inf.x))],
             x.loc.i + rev(dens.inf.y[1:(length(dens.inf.x))])),
@@ -1031,7 +1280,7 @@ if(inf.band == "tight") {
           col = transparent(colors.df$inf.f.col[bean.i],
                             trans.val = 1 - opac.df$inf.f.o[bean.i]),
           border = transparent(colors.df$inf.b.col[bean.i],
-                               trans.val = 1 - colors.df$inf.b.o[bean.i]),
+                               trans.val = 1 - opac.df$inf.b.o[bean.i]),
           lwd = bean.lwd[bean.i]
   )
 }
@@ -1044,7 +1293,7 @@ if(inf.band == "tight") {
 # AVERAGE LINE
 {
 
-  if(inf.band == "wide") {
+  if(inf.disp %in% c("line", "rect")) {
     segments(x0 = x.loc.i - width.max,
              y0 = summary$avg[bean.i],
              x1 = x.loc.i + width.max,
@@ -1056,7 +1305,7 @@ if(inf.band == "tight") {
     )
   }
 
-  if(inf.band == "tight") {
+  if(inf.disp == "bean") {
 
     fun.loc <- which(abs(dens.x.i - avg.line.fun(dv.i)) == min(abs(dens.x.i - avg.line.fun(dv.i))))
 
@@ -1071,16 +1320,17 @@ if(inf.band == "tight") {
     )
   }
 
+
 }
 
 }
 
 # Add bean names for IV 1
 
-if(subplot.n.iv == 1) {line.t <- .5}
-if(subplot.n.iv == 2) {line.t <- 2}
+# if(subplot.n.iv == 1) {line.t <- .7}
+# if(subplot.n.iv == 2) {line.t <- 2}
 
-if(is.null(xaxt) == T) {
+if(is.null(xaxt) == TRUE) {
 
   if(is.null(cex.lab)) {
 
@@ -1088,26 +1338,40 @@ if(is.null(xaxt) == T) {
 
   }
 
+
+if(is.null(xaxt)) {
+
+  axis(side = 1,
+       at = bean.loc,
+       labels = rep("", n.beans),
+       lwd = 0,
+       lwd.ticks = 1,
+       cex.axis = cex.axis)
+
+}
+
+  # IV 1 Labels
+
   mtext(bean.mtx[,1],
         side = 1,
         at = bean.mtx$x.loc,
-        line = line.t,
+        line = 1,
         cex = cex.lab)
 
 
-  # Add names for IV 2
+  # IV 2 labels
 
   if(subplot.n.iv == 2) {
 
-    mtext(iv.names[1], side = 1, line = 2, at = par("usr")[1], adj = 1, cex = cex.lab)
+    mtext(iv.names[2], side = 1, line = 2.5, at = par("usr")[1], adj = 1, cex = cex.lab)
 
-    mtext(iv.names[2], side = 1, line = .5, at = par("usr")[1], adj = 1, cex = cex.lab)
+    mtext(iv.names[1], side = 1, line = 1, at = par("usr")[1], adj = 1, cex = cex.lab)
 
     text.loc <- (iv.lengths[1] + 1) / 2 * (2 *(1:iv.lengths[2]) - 1)
 
     mtext(text = unique(bean.mtx[,2]),
           side = 1,
-          line = .5,
+          line = 2.5,
           at = text.loc,
           cex = cex.lab
     )
