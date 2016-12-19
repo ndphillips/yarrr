@@ -21,9 +21,9 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
   inf.disp = NULL, cut.min = NULL, cut.max = NULL, width.min = 0.3,
   width.max = NA, ylim = NULL, xlim = NULL, xlab = NULL, ylab = NULL,
   main = NULL, yaxt = NULL, xaxt = NULL, gl.lwd = NULL, gl.lty = NULL,
-  bar.b.lwd = NULL, line.fun = NULL, inf.o = NULL, bean.o = NULL,
-  inf.col = NULL, theme.o = NULL, inf = NULL, inf.type = NULL,
-  inf.band = NULL)
+  bar.b.lwd = NULL, line.fun = NULL, line.o = NULL, inf.o = NULL,
+  bean.o = NULL, inf.col = NULL, theme.o = NULL, bar.o = NULL,
+  inf = NULL, hdi.o = NULL, inf.type = NULL, inf.band = NULL)
 }
 \arguments{
 \item{formula}{formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent variables}
@@ -88,7 +88,7 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
 
 \item{gl.lwd, gl.lty}{Customization for grid lines.}
 
-\item{bar.b.lwd, line.fun, inf.o, bean.o, inf.col, theme.o, inf, inf.type, inf.band}{depricated arguments}
+\item{bar.b.lwd, line.fun, inf.o, bean.o, inf.col, theme.o, inf, inf.type, inf.band, bar.o, line.o, hdi.o}{depricated arguments}
 }
 \description{
 The pirateplot function creates an RDI (Raw data, Descriptive and Inferential statistic) plot showing the relationship between 1 to 3 categorical independent variables and 1 continuous dependent variable.

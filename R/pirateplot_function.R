@@ -33,12 +33,12 @@
 #' @param gl.lwd,gl.lty Customization for grid lines.
 #' @param bty,xlim,ylim,xlab,ylab,main,yaxt,xaxt General plotting arguments
 #' @param quant numeric. Adds horizontal lines representing custom quantiles.
-#' @param bar.b.lwd,line.fun,inf.o,bean.o,inf.col,theme.o,inf,inf.type,inf.band depricated arguments
+#' @param bar.b.lwd,line.fun,inf.o,bean.o,inf.col,theme.o,inf,inf.type,inf.band,bar.o,line.o,hdi.o depricated arguments
 #' @keywords plot
 #' @importFrom BayesFactor ttestBF
 #' @importFrom grDevices col2rgb gray rgb
 #' @importFrom graphics abline axis layout mtext par plot points polygon rasterImage rect segments text
-#' @importFrom stats density model.frame optimize rnorm t.test qbeta sd quantile
+#' @importFrom stats density model.frame optimize rnorm t.test qbeta sd quantile IQR
 #' @importFrom utils vignette
 #' @export
 #' @examples
@@ -187,11 +187,14 @@ pirateplot <- function(
   gl.lty = NULL,
   bar.b.lwd = NULL,
   line.fun = NULL,
+  line.o = NULL,
   inf.o = NULL,
   bean.o = NULL,
   inf.col = NULL,
   theme.o = NULL,
+  bar.o = NULL,
   inf = NULL,
+  hdi.o = NULL,
   inf.type = NULL,
   inf.band = NULL
 ) {
@@ -308,6 +311,15 @@ if(is.null(inf.o) == FALSE) {
 
 }
 
+if(is.null(line.o) == FALSE) {
+
+  message("line.o is depricated. Use avg.line.o instead")
+
+  avg.line.o <- line.o
+
+}
+
+
 if(is.null(bean.o) == FALSE) {
 
   message("bean.o is depricated. Use bean.b.o instead")
@@ -347,6 +359,16 @@ if(is.null(inf.band) == FALSE) {
   inf.disp <- inf.band
 
 }
+
+if(is.null(bar.o) == FALSE) {
+
+  message("bar.o is depricated. Use bar.f.o (for filling), and bar.b.o (for border) instead")
+
+  bar.f.o <- bar.o
+
+}
+
+
 
 }
 
