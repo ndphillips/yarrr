@@ -161,6 +161,7 @@ pirateplot <- function(
   quant = NULL,
   quant.length = NULL,
   quant.lwd = NULL,
+  quant.boxplot = FALSE,
   bty = "o",
   evidence = FALSE,
   family = NULL,
@@ -1217,6 +1218,9 @@ points(x = rep(x.loc.i, length(dv.i)) + rnorm(length(dv.i), mean = 0, sd = jitte
 
 }
 
+if (quant.boxplot) {
+  quant <- c(0.25, 0.75)
+}
 # QUANTILES
 if (!is.null(quant)) {
 
@@ -1228,27 +1232,42 @@ if (!is.null(quant)) {
     quant.lwd <- c(rep(0.75, length(quant)))
   } else {quant.lwd <- rep(quant.lwd, length.out = length(quant))}
 
-  for (i in 1:length(quant)) {
-
-    # draw lines
-    segments(x.loc.i + (quant.length[i] - width.max), # left end
-             quantile(dv.i, probs = quant[i]),
-             x.loc.i - (quant.length[i] - width.max), # right end
-             quantile(dv.i, probs = quant[i]),
-             col =  colors.df$quant.col[bean.i],
-             lwd = quant.lwd[i],
-             lend = 3
-    )
+  if (quant.boxplot) {
+    for (i in 1:length(quant)) {
+      if (i == 1) {
+        segments(x.loc.i + (quant.length[i] - width.max),
+                 quantile(dv.i, probs = quant[i]) - (1.5*IQR(dv.i)),
+                 x.loc.i - (quant.length[i] - width.max),
+                 quantile(dv.i,probs = quant[i]) - (1.5*IQR(dv.i)),
+                 col = colors.df$quant.col[bean.i],
+                 lwd = quant.lwd[i], lend = 3)
+      } else {
+        segments(x.loc.i + (quant.length[i] - width.max),
+                 quantile(dv.i, probs = quant[i]) + (1.5*IQR(dv.i)),
+                 x.loc.i - (quant.length[i] - width.max),
+                 quantile(dv.i,probs = quant[i]) + (1.5*IQR(dv.i)),
+                 col = colors.df$quant.col[bean.i],
+                 lwd = quant.lwd[i], lend = 3)
+      }
+    }
+    segments(x.loc.i, quantile(dv.i, probs = min(quant)) - (1.5*IQR(dv.i)),
+             x.loc.i, quantile(dv.i, probs = max(quant)) + (1.5*IQR(dv.i)),
+             col = colors.df$quant.col[bean.i], lwd = quant.lwd[1],
+             lend = 3, lty = 1)
   }
-
-  # Vertical quant line
-
-  segments(x.loc.i,
-           quantile(dv.i, probs = min(quant)),
-           x.loc.i,
-           quantile(dv.i, probs = max(quant)), col = colors.df$quant.col[bean.i],
-           lwd = quant.lwd[1], lend = 3, lty = 1)
-
+  else {
+    for (i in 1:length(quant)) {
+      segments(x.loc.i + (quant.length[i] - width.max),
+               quantile(dv.i, probs = quant[i]),
+               x.loc.i - (quant.length[i] - width.max),
+               quantile(dv.i, probs = quant[i]), col = colors.df$quant.col[bean.i],
+               lwd = quant.lwd[i], lend = 3)
+    }
+    segments(x.loc.i, quantile(dv.i, probs = min(quant)),
+             x.loc.i, quantile(dv.i, probs = max(quant)),
+             col = colors.df$quant.col[bean.i], lwd = quant.lwd[1],
+             lend = 3, lty = 1)
+  }
 }
 
 # INFERENCE BAND
