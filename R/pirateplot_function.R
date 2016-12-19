@@ -25,7 +25,9 @@
 #' @param sortx string. How to sort the x values. Can be "sequential" (as they are found in the original dataframe), "alphabetical", or a string indicating a function (i.e.; "mean")
 #' @param add logical. Whether to add the pirateplot to an existing plotting space or not.
 #' @param evidence logical. Should Bayesian evidence be shown? (currently ignored)
+#' @param cap.beans logical. Should maximum and minimum values of the bean densities be capped at the limits found in the data?
 #' @param quant.length,quant.lwd numeric. Specifies line lengths/widths of \code{quant}.
+#' @param quant.boxplot logical. Should standard values be included?
 #' @param family a font family (Not currently in use)
 #' @param cex.lab,cex.axis Size of the labels and axes.
 #' @param gl.lwd,gl.lty Customization for grid lines.
@@ -164,6 +166,7 @@ pirateplot <- function(
   quant.boxplot = FALSE,
   bty = "o",
   evidence = FALSE,
+  cap.beans = FALSE,
   family = NULL,
   inf.method = "hdi",
   inf.p = NULL,
@@ -1136,7 +1139,7 @@ if(length(dv.i) > 3) {  # only if n > 5
   dens.x.plot.i <- dens.x.i
   dens.y.plot.i <- dens.y.i
 
-  if(is.null(cut.min) == F) {
+  if(is.null(cut.min) == FALSE) {
 
     dens.x.plot.i <- dens.x.i[dens.x.i > cut.min]
     dens.y.plot.i <- dens.y.i[dens.x.i > cut.min]
@@ -1144,12 +1147,21 @@ if(length(dv.i) > 3) {  # only if n > 5
   }
 
 
-  if(is.null(cut.max) == F) {
+  if(is.null(cut.max) == FALSE) {
 
     dens.x.plot.i <- dens.x.i[dens.x.i < cut.max]
     dens.y.plot.i <- dens.y.i[dens.x.i < cut.max]
 
   }
+
+
+  if(cap.beans == TRUE) {
+
+    dens.x.plot.i <- dens.x.i[dens.x.i < max(dv.i) & dens.x.i > min(dv.i)]
+    dens.y.plot.i <- dens.y.i[dens.x.i < max(dv.i) & dens.x.i > min(dv.i)]
+
+  }
+
 }
 
 # BAR

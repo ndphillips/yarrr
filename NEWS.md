@@ -1,5 +1,7 @@
 # yarrr 0.1.3
 
+* Added `cap.beans` argument to `pirateplot()`. When `cap.beans = TRUE`, beans will be cut at the maximum and minimum values of the data.
+
 * Added two new `inf.method` values: `sd` for standard deviation, and `se` for standard error
 
 # yarrr 0.1.2
