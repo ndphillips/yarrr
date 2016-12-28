@@ -26,18 +26,20 @@
 #' @param sortx string. How to sort the x values. Can be "sequential" (as they are found in the original dataframe), "alphabetical", or a string indicating a function (i.e.; "mean")
 #' @param add logical. Whether to add the pirateplot to an existing plotting space or not.
 #' @param evidence logical. Should Bayesian evidence be shown? (currently ignored)
+#' @param cap.beans logical. Should maximum and minimum values of the bean densities be capped at the limits found in the data?
 #' @param quant.length,quant.lwd numeric. Specifies line lengths/widths of \code{quant}.
+#' @param quant.boxplot logical. Should standard values be included?
 #' @param family a font family (Not currently in use)
 #' @param cex.lab,cex.axis Size of the labels and axes.
 #' @param gl.lwd,gl.lty Customization for grid lines.
 #' @param bty,xlim,ylim,xlab,ylab,main,yaxt,xaxt General plotting arguments
 #' @param quant numeric. Adds horizontal lines representing custom quantiles.
-#' @param bar.b.lwd,line.fun,inf.o,bean.o,inf.col,theme.o,inf,inf.type,inf.band depricated arguments
+#' @param bar.b.lwd,line.fun,inf.o,bean.o,inf.col,theme.o,inf,inf.type,inf.band,bar.o,line.o,hdi.o depricated arguments
 #' @keywords plot
 #' @importFrom BayesFactor ttestBF
 #' @importFrom grDevices col2rgb gray rgb
 #' @importFrom graphics abline axis layout mtext par plot points polygon rasterImage rect segments text
-#' @importFrom stats density model.frame optimize rnorm t.test qbeta sd quantile
+#' @importFrom stats density model.frame optimize rnorm t.test qbeta sd quantile IQR
 #' @importFrom utils vignette
 #' @export
 #' @examples
@@ -162,8 +164,10 @@ pirateplot <- function(
   quant = NULL,
   quant.length = NULL,
   quant.lwd = NULL,
+  quant.boxplot = FALSE,
   bty = "o",
   evidence = FALSE,
+  cap.beans = FALSE,
   family = NULL,
   inf.method = "hdi",
   inf.within = NULL,
@@ -185,11 +189,14 @@ pirateplot <- function(
   gl.lty = NULL,
   bar.b.lwd = NULL,
   line.fun = NULL,
+  line.o = NULL,
   inf.o = NULL,
   bean.o = NULL,
   inf.col = NULL,
   theme.o = NULL,
+  bar.o = NULL,
   inf = NULL,
+  hdi.o = NULL,
   inf.type = NULL,
   inf.band = NULL
 ) {
@@ -306,6 +313,15 @@ if(is.null(inf.o) == FALSE) {
 
 }
 
+if(is.null(line.o) == FALSE) {
+
+  message("line.o is depricated. Use avg.line.o instead")
+
+  avg.line.o <- line.o
+
+}
+
+
 if(is.null(bean.o) == FALSE) {
 
   message("bean.o is depricated. Use bean.b.o instead")
@@ -345,6 +361,16 @@ if(is.null(inf.band) == FALSE) {
   inf.disp <- inf.band
 
 }
+
+if(is.null(bar.o) == FALSE) {
+
+  message("bar.o is depricated. Use bar.f.o (for filling), and bar.b.o (for border) instead")
+
+  bar.f.o <- bar.o
+
+}
+
+
 
 }
 
@@ -1164,7 +1190,7 @@ if(length(dv.i) > 3) {  # only if n > 5
   dens.x.plot.i <- dens.x.i
   dens.y.plot.i <- dens.y.i
 
-  if(is.null(cut.min) == F) {
+  if(is.null(cut.min) == FALSE) {
 
     dens.x.plot.i <- dens.x.i[dens.x.i > cut.min]
     dens.y.plot.i <- dens.y.i[dens.x.i > cut.min]
@@ -1172,12 +1198,21 @@ if(length(dv.i) > 3) {  # only if n > 5
   }
 
 
-  if(is.null(cut.max) == F) {
+  if(is.null(cut.max) == FALSE) {
 
     dens.x.plot.i <- dens.x.i[dens.x.i < cut.max]
     dens.y.plot.i <- dens.y.i[dens.x.i < cut.max]
 
   }
+
+
+  if(cap.beans == TRUE) {
+
+    dens.x.plot.i <- dens.x.i[dens.x.i < max(dv.i) & dens.x.i > min(dv.i)]
+    dens.y.plot.i <- dens.y.i[dens.x.i < max(dv.i) & dens.x.i > min(dv.i)]
+
+  }
+
 }
 
 # BAR
@@ -1246,6 +1281,9 @@ points(x = rep(x.loc.i, length(dv.i)) + rnorm(length(dv.i), mean = 0, sd = jitte
 
 }
 
+if (quant.boxplot) {
+  quant <- c(0.25, 0.75)
+}
 # QUANTILES
 if (!is.null(quant)) {
 
@@ -1257,27 +1295,42 @@ if (!is.null(quant)) {
     quant.lwd <- c(rep(0.75, length(quant)))
   } else {quant.lwd <- rep(quant.lwd, length.out = length(quant))}
 
-  for (i in 1:length(quant)) {
-
-    # draw lines
-    segments(x.loc.i + (quant.length[i] - width.max), # left end
-             quantile(dv.i, probs = quant[i]),
-             x.loc.i - (quant.length[i] - width.max), # right end
-             quantile(dv.i, probs = quant[i]),
-             col =  colors.df$quant.col[bean.i],
-             lwd = quant.lwd[i],
-             lend = 3
-    )
+  if (quant.boxplot) {
+    for (i in 1:length(quant)) {
+      if (i == 1) {
+        segments(x.loc.i + (quant.length[i] - width.max),
+                 quantile(dv.i, probs = quant[i]) - (1.5*IQR(dv.i)),
+                 x.loc.i - (quant.length[i] - width.max),
+                 quantile(dv.i,probs = quant[i]) - (1.5*IQR(dv.i)),
+                 col = colors.df$quant.col[bean.i],
+                 lwd = quant.lwd[i], lend = 3)
+      } else {
+        segments(x.loc.i + (quant.length[i] - width.max),
+                 quantile(dv.i, probs = quant[i]) + (1.5*IQR(dv.i)),
+                 x.loc.i - (quant.length[i] - width.max),
+                 quantile(dv.i,probs = quant[i]) + (1.5*IQR(dv.i)),
+                 col = colors.df$quant.col[bean.i],
+                 lwd = quant.lwd[i], lend = 3)
+      }
+    }
+    segments(x.loc.i, quantile(dv.i, probs = min(quant)) - (1.5*IQR(dv.i)),
+             x.loc.i, quantile(dv.i, probs = max(quant)) + (1.5*IQR(dv.i)),
+             col = colors.df$quant.col[bean.i], lwd = quant.lwd[1],
+             lend = 3, lty = 1)
   }
-
-  # Vertical quant line
-
-  segments(x.loc.i,
-           quantile(dv.i, probs = min(quant)),
-           x.loc.i,
-           quantile(dv.i, probs = max(quant)), col = colors.df$quant.col[bean.i],
-           lwd = quant.lwd[1], lend = 3, lty = 1)
-
+  else {
+    for (i in 1:length(quant)) {
+      segments(x.loc.i + (quant.length[i] - width.max),
+               quantile(dv.i, probs = quant[i]),
+               x.loc.i - (quant.length[i] - width.max),
+               quantile(dv.i, probs = quant[i]), col = colors.df$quant.col[bean.i],
+               lwd = quant.lwd[i], lend = 3)
+    }
+    segments(x.loc.i, quantile(dv.i, probs = min(quant)),
+             x.loc.i, quantile(dv.i, probs = max(quant)),
+             col = colors.df$quant.col[bean.i], lwd = quant.lwd[1],
+             lend = 3, lty = 1)
+  }
 }
 
 # INFERENCE BAND

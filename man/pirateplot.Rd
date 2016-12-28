@@ -15,14 +15,15 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
   quant.col = NULL, avg.line.lwd = 4, bean.lwd = 1, bean.lty = 1,
   inf.lwd = NULL, bar.lwd = 1, at = NULL, bw = "nrd0", adjust = 1,
   add = FALSE, sortx = "alphabetical", cex.lab = 1, cex.axis = 1,
-  quant = NULL, quant.length = NULL, quant.lwd = NULL, bty = "o",
-  evidence = FALSE, family = NULL, inf.method = "hdi", inf.p = NULL,
-  hdi.iter = 1000, inf.disp = NULL, cut.min = NULL, cut.max = NULL,
-  width.min = 0.3, width.max = NA, ylim = NULL, xlim = NULL,
-  xlab = NULL, ylab = NULL, main = NULL, yaxt = NULL, xaxt = NULL,
-  gl.lwd = NULL, gl.lty = NULL, bar.b.lwd = NULL, line.fun = NULL,
-  inf.o = NULL, bean.o = NULL, inf.col = NULL, theme.o = NULL,
-  inf = NULL, inf.type = NULL, inf.band = NULL)
+  quant = NULL, quant.length = NULL, quant.lwd = NULL,
+  quant.boxplot = FALSE, bty = "o", evidence = FALSE, cap.beans = FALSE,
+  family = NULL, inf.method = "hdi", inf.p = NULL, hdi.iter = 1000,
+  inf.disp = NULL, cut.min = NULL, cut.max = NULL, width.min = 0.3,
+  width.max = NA, ylim = NULL, xlim = NULL, xlab = NULL, ylab = NULL,
+  main = NULL, yaxt = NULL, xaxt = NULL, gl.lwd = NULL, gl.lty = NULL,
+  bar.b.lwd = NULL, line.fun = NULL, line.o = NULL, inf.o = NULL,
+  bean.o = NULL, inf.col = NULL, theme.o = NULL, bar.o = NULL,
+  inf = NULL, hdi.o = NULL, inf.type = NULL, inf.band = NULL)
 }
 \arguments{
 \item{formula}{formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent variables}
@@ -63,15 +64,19 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
 
 \item{quant.length, quant.lwd}{numeric. Specifies line lengths/widths of \code{quant}.}
 
+\item{quant.boxplot}{logical. Should standard values be included?}
+
 \item{bty, xlim, ylim, xlab, ylab, main, yaxt, xaxt}{General plotting arguments}
 
 \item{evidence}{logical. Should Bayesian evidence be shown? (currently ignored)}
+
+\item{cap.beans}{logical. Should maximum and minimum values of the bean densities be capped at the limits found in the data?}
 
 \item{family}{a font family (Not currently in use)}
 
 \item{inf.method}{string. A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range, "sd" means standard deviation, "se" means standard error}
 
-\item{inf.p}{numeric. A number adjusting how inference ranges are calculated. for \code{"ci"} and \code{"hdi"}, a number between 0 and 1 indicating the level of confidence (default is .95). For \code{"sd"} and \code{"se"}, the number of standard deviations / standard errors added to or subtracted from the mean (default is 2).}
+\item{inf.p}{numeric. A number adjusting how inference ranges are calculated. for \code{"ci"} and \code{"hdi"}, a number between 0 and 1 indicating the level of confidence (default is .95). For \code{"sd"} and \code{"se"}, the number of standard deviations / standard errors added to or subtracted from the mean (default is 1).}
 
 \item{hdi.iter}{integer. Number of iterations to run when calculating the HDI. Larger values lead to better estimates, but can be more time consuming.}
 
@@ -83,7 +88,7 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
 
 \item{gl.lwd, gl.lty}{Customization for grid lines.}
 
-\item{bar.b.lwd, line.fun, inf.o, bean.o, inf.col, theme.o, inf, inf.type, inf.band}{depricated arguments}
+\item{bar.b.lwd, line.fun, inf.o, bean.o, inf.col, theme.o, inf, inf.type, inf.band, bar.o, line.o, hdi.o}{depricated arguments}
 }
 \description{
 The pirateplot function creates an RDI (Raw data, Descriptive and Inferential statistic) plot showing the relationship between 1 to 3 categorical independent variables and 1 continuous dependent variable.
