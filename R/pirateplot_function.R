@@ -616,30 +616,30 @@ for(bean.i in 1:n.beans) {
       inf.ub <- mean(dv.i) + sd(dv.i) / sqrt(length(dv.i)) * inf.p
 
     }
-    
+
     if(inf.method == "withinci") {
-      
+
       grandMean <- mean(dv.v)
       Groups <- unique(withindata[inf.within])[[1]]
       groupMean <- c()
       dv.within <- c()
 
-      for(group in 1:length(Groups)){ 
+      for(group in 1:length(Groups)){
         #get the participant/group mean for each participant/group
         groupMean[group] <- mean(dv.v[which(withindata[inf.within] == Groups[group])])
       }
-      
-      for(datum in 1:length(dv.i)){ 
+
+      for(datum in 1:length(dv.i)){
         #substitute group mean with grand mean, which removes between subject variance
         dv.within[datum] <- dv.i[datum] - groupMean[datum] + grandMean
-      } 
-      
+      }
+
       ci.i <- t.test(dv.within, conf.level = inf.p)$conf.int
-      
-      ci.width <- (ci.i[2] - ci.i[1]) 
+
+      ci.width <- (ci.i[2] - ci.i[1])
       inf.lb <- mean(dv.i) - (ci.width/2) * sqrt(n.beans/(n.beans-1)) #with Morey correction
       inf.ub <- mean(dv.i) + (ci.width/2) * sqrt(n.beans/(n.beans-1)) #with Morey correction
-      
+
     }
 
 
@@ -696,7 +696,7 @@ if(theme == 1) {
   if(is.null(inf.b.o)) {inf.b.o <- .8}
   if(is.null(avg.line.o)) {avg.line.o <- 1}
   if(is.null(bar.f.o)) {bar.f.o <- 0}
-  if(is.null(bar.b.o)) {bar.b.o <- 0}
+  if(is.null(bar.b.o)) {bar.b.o <- 1}
   if(is.null(bean.b.col)) {bean.b.col <- "black"}
   if(is.null(point.cex)) {point.cex <- .7}
   if(is.null(point.col)) {point.col <- "black"}
@@ -726,7 +726,7 @@ if(theme == 2) {
   if(is.null(inf.b.o)) {inf.b.o <- .8}
   if(is.null(avg.line.o)) {avg.line.o <- 1}
   if(is.null(bar.f.o)) {bar.f.o <- 0}
-  if(is.null(bar.b.o)) {bar.b.o <- 0}
+  if(is.null(bar.b.o)) {bar.b.o <- 1}
   if(is.null(bean.b.col)) {bean.b.col <- "black"}
   if(is.null(point.cex)) {point.cex <- .7}
   if(is.null(point.col)) {point.col <- "black"}
@@ -744,6 +744,7 @@ if(theme == 2) {
 }
 
 if(theme == 3) {
+
   if(is.null(point.pch)) {point.pch <- 16}
   if(is.null(point.o)) {point.o <- .3}
   if(is.null(bean.b.o)) {bean.b.o <- .5}
@@ -752,7 +753,7 @@ if(theme == 3) {
   if(is.null(inf.b.o)) {inf.b.o <- 1}
   if(is.null(avg.line.o))  {avg.line.o <- 1}
   if(is.null(bar.f.o))  {bar.f.o <- 0}
-  if(is.null(bar.b.o))  {bar.b.o <- 0}
+  if(is.null(bar.b.o))  {bar.b.o <- 1}
 
   if(is.null(inf.f.col)) {inf.f.col <- "white"}
   if(is.null(inf.b.col)) {inf.b.col <-  "black"}
