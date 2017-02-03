@@ -26,7 +26,7 @@
 #' @param sortx string. How to sort the x values. Can be "sequential" (as they are found in the original dataframe), "alphabetical", or a string indicating a function (i.e.; "mean")
 #' @param add logical. Whether to add the pirateplot to an existing plotting space or not.
 #' @param evidence logical. Should Bayesian evidence be shown? (currently ignored)
-#' @param cap.beans logical. Should maximum and minimum values of the bean densities be capped at the limits found in the data?
+#' @param cap.beans logical. Should maximum and minimum values of the bean densities be capped at the limits found in the data? Default is FALSE.
 #' @param quant.length,quant.lwd numeric. Specifies line lengths/widths of \code{quant}.
 #' @param quant.boxplot logical. Should standard values be included?
 #' @param family a font family (Not currently in use)

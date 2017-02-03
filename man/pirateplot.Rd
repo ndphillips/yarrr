@@ -17,13 +17,14 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
   add = FALSE, sortx = "alphabetical", cex.lab = 1, cex.axis = 1,
   quant = NULL, quant.length = NULL, quant.lwd = NULL,
   quant.boxplot = FALSE, bty = "o", evidence = FALSE, cap.beans = FALSE,
-  family = NULL, inf.method = "hdi", inf.p = NULL, hdi.iter = 1000,
-  inf.disp = NULL, cut.min = NULL, cut.max = NULL, width.min = 0.3,
-  width.max = NA, ylim = NULL, xlim = NULL, xlab = NULL, ylab = NULL,
-  main = NULL, yaxt = NULL, xaxt = NULL, gl.lwd = NULL, gl.lty = NULL,
-  bar.b.lwd = NULL, line.fun = NULL, line.o = NULL, inf.o = NULL,
-  bean.o = NULL, inf.col = NULL, theme.o = NULL, bar.o = NULL,
-  inf = NULL, hdi.o = NULL, inf.type = NULL, inf.band = NULL)
+  family = NULL, inf.method = "hdi", inf.within = NULL, inf.p = NULL,
+  hdi.iter = 1000, inf.disp = NULL, cut.min = NULL, cut.max = NULL,
+  width.min = 0.3, width.max = NA, ylim = NULL, xlim = NULL,
+  xlab = NULL, ylab = NULL, main = NULL, yaxt = NULL, xaxt = NULL,
+  gl.lwd = NULL, gl.lty = NULL, bar.b.lwd = NULL, line.fun = NULL,
+  line.o = NULL, inf.o = NULL, bean.o = NULL, inf.col = NULL,
+  theme.o = NULL, bar.o = NULL, inf = NULL, hdi.o = NULL,
+  inf.type = NULL, inf.band = NULL)
 }
 \arguments{
 \item{formula}{formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent variables}
@@ -70,11 +71,13 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
 
 \item{evidence}{logical. Should Bayesian evidence be shown? (currently ignored)}
 
-\item{cap.beans}{logical. Should maximum and minimum values of the bean densities be capped at the limits found in the data?}
+\item{cap.beans}{logical. Should maximum and minimum values of the bean densities be capped at the limits found in the data? Default is FALSE.}
 
 \item{family}{a font family (Not currently in use)}
 
-\item{inf.method}{string. A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range, "sd" means standard deviation, "se" means standard error}
+\item{inf.method}{string. A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range, "sd" means standard deviation, "se" means standard error, "withinci" means frequentist confidence intervals in a within design (Morey, 2008).}
+
+\item{inf.within}{string. The variable which serves as an ID variable in a within design.}
 
 \item{inf.p}{numeric. A number adjusting how inference ranges are calculated. for \code{"ci"} and \code{"hdi"}, a number between 0 and 1 indicating the level of confidence (default is .95). For \code{"sd"} and \code{"se"}, the number of standard deviations / standard errors added to or subtracted from the mean (default is 1).}
 

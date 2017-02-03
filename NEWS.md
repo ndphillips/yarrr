@@ -1,5 +1,7 @@
 # yarrr 0.1.3
 
+* Some minor changes to default plotting parameters that I think make the default plots look a bit nicer.
+
 * Added `cap.beans` argument to `pirateplot()`. When `cap.beans = TRUE`, beans will be cut at the maximum and minimum values of the data.
 
 * Added two new `inf.method` values: `sd` for standard deviation, and `se` for standard error
