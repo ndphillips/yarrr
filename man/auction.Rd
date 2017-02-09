@@ -25,4 +25,3 @@ auction
 A dataframe containing data from 1000 ships sold at a pirate auction.
 }
 \keyword{datasets}
-

@@ -173,4 +173,3 @@ pirateplot(formula = height ~ headband + eyepatch + sex,
 
 }
 \keyword{plot}
-

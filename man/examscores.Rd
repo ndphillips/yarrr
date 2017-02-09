@@ -21,4 +21,3 @@ examscores
 A dataframe containing the results of 4 exams given to 100 students. Each row represents a student, each column is a score on an exam
 }
 \keyword{datasets}
-

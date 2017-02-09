@@ -31,4 +31,3 @@ pirateserrors
 A dataset containing the results of a survey of 1,000 pirates. This dataset is identical to the pirates dataset - except that it has many errors!
 }
 \keyword{datasets}
-

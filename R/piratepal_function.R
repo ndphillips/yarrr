@@ -89,6 +89,16 @@ if(trans < 0 | trans > 1) {stop("Problem: trans must be a number between 0 and 1
         "yellow" = rgb(238, 194, 41, alpha = (1 - trans) * 255, maxColorValue = 255),
         stringsAsFactors = F),
 
+      "decision.pal" = data.frame(
+        "red" = rgb(213, 122, 109, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "yellow" = rgb(232, 183, 98, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "blue" = rgb(156, 205, 223, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "tan" = rgb(230, 206, 175, alpha = (1- trans) * 255, maxColorValue = 255),
+        "gray" = rgb(82, 80, 82, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "brown" = rgb(186, 149, 112, alpha = (1- trans) * 255, maxColorValue = 255),
+        stringsAsFactors = F),
+
+
       "southpark.pal" = data.frame(
         "blue" = rgb(47, 134, 255, alpha = (1 - trans) * 255, maxColorValue = 255),
         "yellow" = rgb(235, 171, 22, alpha = (1- trans) * 255, maxColorValue = 255),

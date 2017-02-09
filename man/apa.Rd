@@ -33,4 +33,3 @@ apa(chisq.test(table(a, b)))
 
 }
 \keyword{apa}
-

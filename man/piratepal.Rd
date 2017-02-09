@@ -51,4 +51,3 @@ plot(x = x, y = y, col = nemo.cols,
 
 }
 \keyword{colors}
-
