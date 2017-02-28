@@ -2,6 +2,8 @@
 
 * New palettes in `piratepal()`: `decision`.
 
+* Fixed bug in `sortx` in `pirateplot()`. Sorting data by functions (e.g. `sortx = "mean"`) should now work.
+
 # yarrr 0.1.4
 
 * Some minor changes to default plotting parameters that I think make the default plots look a bit nicer.
