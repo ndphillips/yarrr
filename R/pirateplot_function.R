@@ -23,9 +23,9 @@
 #' @param bw,adjust Arguments passed to density calculations for beans (see ?density)
 #' @param jitter.val numeric. Amount of jitter added to points horizontally. Defaults to 0.05.
 #' @param at integer. Locations of the beans. Especially helpful when adding beans to an existing plot with add = TRUE
-#' @param sortx string. How to sort the x values. Can be "sequential" (as they are found in the original dataframe), "alphabetical", or a string indicating a function (i.e.; "mean")
-#' @param add logical. Whether to add the pirateplot to an existing plotting space or not.
-#' @param evidence logical. Should Bayesian evidence be shown? (currently ignored)
+#' @param sortx string. How to sort the x values. Can be "sequential" (as they are found in the original dataframe), "alphabetical", or a string in the set ("mean", "median", "min", "max") indicating a function
+#' @param decreasing logical. If sortx is a named function, should values be sorted in decreasing order?
+#' @param add logical. Should the pirateplot elements be added to an existing plotting space?
 #' @param cap.beans logical. Should maximum and minimum values of the bean densities be capped at the limits found in the data? Default is FALSE.
 #' @param quant.length,quant.lwd numeric. Specifies line lengths/widths of \code{quant}.
 #' @param quant.boxplot logical. Should standard values be included?
@@ -39,7 +39,7 @@
 #' @importFrom BayesFactor ttestBF
 #' @importFrom grDevices col2rgb gray rgb
 #' @importFrom graphics abline axis layout mtext par plot points polygon rasterImage rect segments text
-#' @importFrom stats density model.frame optimize rnorm t.test qbeta sd quantile IQR
+#' @importFrom stats density model.frame optimize rnorm t.test qbeta sd quantile IQR aggregate as.formula
 #' @importFrom utils vignette
 #' @export
 #' @examples
@@ -159,6 +159,7 @@ pirateplot <- function(
   adjust = 1,
   add = FALSE,
   sortx = "alphabetical",
+  decreasing = FALSE,
   cex.lab = 1,
   cex.axis = 1,
   quant = NULL,
@@ -166,7 +167,6 @@ pirateplot <- function(
   quant.lwd = NULL,
   quant.boxplot = FALSE,
   bty = "o",
-  evidence = FALSE,
   cap.beans = FALSE,
   family = NULL,
   inf.method = "hdi",
@@ -203,9 +203,9 @@ pirateplot <- function(
 #
 #
 #
-#
-  # formula = weight ~ Time
-  # data = ChickWeight
+# #
+  # formula = len ~ dose + supp
+  # data = ToothGrowth
   # plot = TRUE
   # avg.line.fun = mean
   # pal = "basel"
@@ -216,6 +216,7 @@ pirateplot <- function(
   # jitter.val = .03
   # theme = 1
   # bean.b.o = NULL
+  # quant.boxplot = FALSE
   # bean.f.o = NULL
   # point.o = NULL
   # bar.f.o = NULL
@@ -243,7 +244,8 @@ pirateplot <- function(
   # bw = "nrd0"
   # adjust = 1
   # add = FALSE
-  # sortx = "alphabetical"
+  # sortx = "mean"
+  # decreasing = TRUE
   # cex.lab = 1
   # cex.axis = 1
   # quant = NULL
@@ -278,11 +280,12 @@ pirateplot <- function(
   # inf = NULL
   # inf.type = NULL
   # inf.band = NULL
+  # cap.beans = TRUE
   #
-  # formula = weight ~ Time
-  # data = ChickWeight
-  # theme = 2
-  # main = "theme = 2"
+  # formula = len ~ supp + dose
+  # data = ToothGrowth
+  # sortx = "mean"
+
 
 # -----
 #  SETUP
@@ -452,22 +455,56 @@ data.i <- data.i[,1:min(ncol(data.i), 3)]
 
 # Determine levels of each IV
 {
-if(substr(sortx, 1, 1) == "a") {
+if(sortx == "alphabetical") {
 
   iv.levels <- lapply(2:ncol(data.i),
                       FUN = function(x) {sort(unique(data.i[,x]))})
 
 }
 
-if(substr(sortx, 1, 1) == "s") {
+if(sortx == "sequential") {
 
   iv.levels <- lapply(2:ncol(data.i), FUN = function(x) {unique(data.i[,x])})
 
 }
 
+if(sortx %in% c("mean", "median", "min", "max")) {
+
+
+  if(ncol(agg) == 2) {
+
+    agg <- aggregate(formula, data = data.i, FUN = get(sortx))
+    agg <- agg[order(agg[,2], decreasing = decreasing),]
+    iv.levels <- list(paste(agg[,1]))
+
+  }
+
+  if(ncol(agg) == 3) {
+
+  agg.1 <- aggregate(as.formula(paste(dv.name, "~", all.iv.names[1])),
+                     data = data.i, FUN = get(sortx))
+
+  agg.1 <- agg.1[order(agg.1[,2], decreasing = decreasing),]
+  iv.levels <- list(paste(agg.1[,1]))
+
+  agg.2 <- aggregate(as.formula(paste(dv.name, "~", all.iv.names[2])),
+                     data = data.i, FUN = get(sortx))
+
+  agg.2 <- agg.2[order(agg.2[,2], decreasing = decreasing),]
+  iv.levels[2] <- list(paste(agg.2[,1]))
+
+
+    }
+
+
+
+}
+
+
 iv.lengths <- sapply(1:length(iv.levels), FUN = function(x) {length(iv.levels[[x]])})
 iv.names <- names(data.i)[2:ncol(data.i)]
 subplot.n.iv <- length(iv.levels)
+
 }
 
 # Set up bean info

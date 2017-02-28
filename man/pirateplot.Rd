@@ -14,17 +14,16 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
   inf.b.col = NULL, avg.line.col = NULL, bar.b.col = NULL,
   quant.col = NULL, avg.line.lwd = 4, bean.lwd = 1, bean.lty = 1,
   inf.lwd = NULL, bar.lwd = 1, at = NULL, bw = "nrd0", adjust = 1,
-  add = FALSE, sortx = "alphabetical", cex.lab = 1, cex.axis = 1,
-  quant = NULL, quant.length = NULL, quant.lwd = NULL,
-  quant.boxplot = FALSE, bty = "o", evidence = FALSE, cap.beans = FALSE,
-  family = NULL, inf.method = "hdi", inf.within = NULL, inf.p = NULL,
-  hdi.iter = 1000, inf.disp = NULL, cut.min = NULL, cut.max = NULL,
-  width.min = 0.3, width.max = NA, ylim = NULL, xlim = NULL,
-  xlab = NULL, ylab = NULL, main = NULL, yaxt = NULL, xaxt = NULL,
-  gl.lwd = NULL, gl.lty = NULL, bar.b.lwd = NULL, line.fun = NULL,
-  line.o = NULL, inf.o = NULL, bean.o = NULL, inf.col = NULL,
-  theme.o = NULL, bar.o = NULL, inf = NULL, hdi.o = NULL,
-  inf.type = NULL, inf.band = NULL)
+  add = FALSE, sortx = "alphabetical", decreasing = FALSE, cex.lab = 1,
+  cex.axis = 1, quant = NULL, quant.length = NULL, quant.lwd = NULL,
+  quant.boxplot = FALSE, bty = "o", cap.beans = FALSE, family = NULL,
+  inf.method = "hdi", inf.within = NULL, inf.p = NULL, hdi.iter = 1000,
+  inf.disp = NULL, cut.min = NULL, cut.max = NULL, width.min = 0.3,
+  width.max = NA, ylim = NULL, xlim = NULL, xlab = NULL, ylab = NULL,
+  main = NULL, yaxt = NULL, xaxt = NULL, gl.lwd = NULL, gl.lty = NULL,
+  bar.b.lwd = NULL, line.fun = NULL, line.o = NULL, inf.o = NULL,
+  bean.o = NULL, inf.col = NULL, theme.o = NULL, bar.o = NULL,
+  inf = NULL, hdi.o = NULL, inf.type = NULL, inf.band = NULL)
 }
 \arguments{
 \item{formula}{formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent variables}
@@ -55,9 +54,11 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
 
 \item{bw, adjust}{Arguments passed to density calculations for beans (see ?density)}
 
-\item{add}{logical. Whether to add the pirateplot to an existing plotting space or not.}
+\item{add}{logical. Should the pirateplot elements be added to an existing plotting space?}
 
-\item{sortx}{string. How to sort the x values. Can be "sequential" (as they are found in the original dataframe), "alphabetical", or a string indicating a function (i.e.; "mean")}
+\item{sortx}{string. How to sort the x values. Can be "sequential" (as they are found in the original dataframe), "alphabetical", or a string in the set ("mean", "median", "min", "max") indicating a function}
+
+\item{decreasing}{logical. If sortx is a named function, should values be sorted in decreasing order?}
 
 \item{cex.lab, cex.axis}{Size of the labels and axes.}
 
@@ -68,8 +69,6 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
 \item{quant.boxplot}{logical. Should standard values be included?}
 
 \item{bty, xlim, ylim, xlab, ylab, main, yaxt, xaxt}{General plotting arguments}
-
-\item{evidence}{logical. Should Bayesian evidence be shown? (currently ignored)}
 
 \item{cap.beans}{logical. Should maximum and minimum values of the bean densities be capped at the limits found in the data? Default is FALSE.}
 
