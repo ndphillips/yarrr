@@ -275,17 +275,21 @@ pirateplot <- function(
   # line.fun = NULL
   # inf.o = NULL
   # bean.o = NULL
+  # bar.o = NULL
+  # line.o = NULL
   # inf.col = NULL
   # theme.o = NULL
   # inf = NULL
   # inf.type = NULL
   # inf.band = NULL
   # cap.beans = TRUE
+  # #
   #
-  # formula = len ~ supp + dose
-  # data = ToothGrowth
-  # sortx = "mean"
-
+  #
+  #
+  # formula = DV~IV1+IV2
+  # data = dat
+  # inf.method="ci"
 
 # -----
 #  SETUP
@@ -564,6 +568,8 @@ for(bean.i in 1:n.beans) {
 
   # Calculate inference
 
+  if(length(dv.i) > 0) {
+
   # Binary data.i
 
   if(length(setdiff(dv.i, c(0, 1))) == 0) {
@@ -684,6 +690,16 @@ for(bean.i in 1:n.beans) {
 
   summary$inf.lb[bean.i] <- inf.lb
   summary$inf.ub[bean.i] <- inf.ub
+
+  }
+
+  if(length(dv.i) == 0) {
+
+    summary$inf.lb[bean.i] <- NA
+    summary$inf.ub[bean.i] <- NA
+
+  }
+
 
 }
 }
