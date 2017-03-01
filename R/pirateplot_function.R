@@ -460,14 +460,19 @@ data.i <- data.i[,1:min(ncol(data.i), 3)]
 
 # Determine levels of each IV
 {
-if(sortx == "alphabetical") {
+
+  if((substr(sortx, 1, 1) %in% c("a", "s") |
+     sortx %in% c("mean", "median", "min", "max")) == FALSE
+     ) {stop("sortx argument is invalid. use 'alphabetical', 'sequential', 'mean', 'median', 'min', or 'max'")}
+
+if(substr(sortx, 1, 1) == "a") {
 
   iv.levels <- lapply(2:ncol(data.i),
                       FUN = function(x) {sort(unique(data.i[,x]))})
 
 }
 
-if(sortx == "sequential") {
+if(substr(sortx, 1, 1) == "s") {
 
   iv.levels <- lapply(2:ncol(data.i), FUN = function(x) {unique(data.i[,x])})
 
