@@ -287,9 +287,10 @@ pirateplot <- function(
   #
   #
   #
-  # formula = DV~IV1+IV2
-  # data = dat
-  # inf.method="ci"
+  # weight ~ Diet
+  # data = ChickWeight
+  # ylab = ""
+  # sortx = "mean"
 
 # -----
 #  SETUP
@@ -474,10 +475,11 @@ if(sortx == "sequential") {
 
 if(sortx %in% c("mean", "median", "min", "max")) {
 
+  agg <- aggregate(formula, data = data.i, FUN = get(sortx))
+
 
   if(ncol(agg) == 2) {
 
-    agg <- aggregate(formula, data = data.i, FUN = get(sortx))
     agg <- agg[order(agg[,2], decreasing = decreasing),]
     iv.levels <- list(paste(agg[,1]))
 
