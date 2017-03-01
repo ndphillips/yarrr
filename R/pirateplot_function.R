@@ -1563,7 +1563,7 @@ summary.df <- summary.df[,c(all.iv.names, setdiff(names(summary.df), all.iv.name
 
 output.ls <- list("summary" = summary.df,
                   "avg.line.fun" =  deparse(substitute(avg.line.fun)),
-                  "inf" = inf,
+                  "inf.method" = inf.method,
                   "inf.p" = inf.p)
 
 if(plot == FALSE) {
