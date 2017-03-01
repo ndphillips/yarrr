@@ -867,8 +867,8 @@ if(theme == 4) {
 if(is.null(inf.lwd)) {
 
 
-  if(inf.disp == "line") {inf.lwd <- 2}
-  if(inf.disp %in% c("rect", "bean")) {inf.lwd <- 1}
+  if(inf.disp == "line") {inf.lwd <- 3}
+  if(inf.disp %in% c("rect", "bean")) {inf.lwd <- 3}
 
 
 }
