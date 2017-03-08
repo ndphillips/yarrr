@@ -10,7 +10,7 @@
 #' @param theme integer. An integer in the set 0, 1, 2 specifying a theme (that is, new default values for opacities and colors). \code{theme = 0} turns off all opacities which can then be individually specified individually.
 #' @param bar.f.o,point.o,inf.f.o,inf.b.o,avg.line.o,bean.b.o,bean.f.o,bar.b.o numeric. A number between 0 and 1 indicating how opaque to make the bars, points, inference band, average line, and beans respectively. These values override whatever is in the specified theme
 #' @param avg.line.fun function. A function that determines how average lines and bar heights are determined (default is mean).
-#' @param gl.col,back.col string. The color of the horizontal gridlines and plotting background.
+#' @param back.col string. Color of the plotting background.
 #' @param point.cex,point.pch,point.lwd numeric.  The size, pch type, and line width of raw data points.
 #' @param bean.lwd,bean.lty,inf.lwd,avg.line.lwd,bar.lwd numeric. Vectors of numbers customizing the look of beans and lines.
 #' @param width.min,width.max numeric. The minimum/maximum width of the beans.
@@ -31,7 +31,8 @@
 #' @param quant.boxplot logical. Should standard values be included?
 #' @param family a font family (Not currently in use)
 #' @param cex.lab,cex.axis Size of the labels and axes.
-#' @param gl.lwd,gl.lty Customization for grid lines.
+#' @param gl numeric. Locations of the horizontal grid lines
+#' @param gl.lwd,gl.lty,gl.col Customization for grid lines. Can be entered as vectors for alternating gridline types
 #' @param bty,xlim,ylim,xlab,ylab,main,yaxt,xaxt General plotting arguments
 #' @param quant numeric. Adds horizontal lines representing custom quantiles.
 #' @param bar.b.lwd,line.fun,inf.o,bean.o,inf.col,theme.o,inf,inf.type,inf.band,bar.o,line.o,hdi.o depricated arguments
@@ -185,6 +186,7 @@ pirateplot <- function(
   main = NULL,
   yaxt = NULL,
   xaxt = NULL,
+  gl = NULL,
   gl.lwd = NULL,
   gl.lty = NULL,
   bar.b.lwd = NULL,
@@ -765,7 +767,7 @@ if(theme == 1) {
 
 
   if(is.null(gl.col)) {gl.col <- "gray"}
-  if(is.null(gl.lwd)) {gl.lwd <- c(.5, 0)}
+  if(is.null(gl.lwd)) {gl.lwd <- c(.25, .5)}
 
   if(is.null(point.col)) {point.col <- "black"}
   if(is.null(point.bg)) {point.bg <- "white"}
@@ -797,7 +799,7 @@ if(theme == 2) {
   if(is.null(inf.disp)) {inf.disp <- "rect"}
 
   if(is.null(gl.col)) {gl.col <- "gray"}
-  if(is.null(gl.lwd)) {gl.lwd <- c(.5, 0)}
+  if(is.null(gl.lwd)) {gl.lwd <- c(.25, .5)}
 
 
 
@@ -826,7 +828,7 @@ if(theme == 3) {
   if(is.null(inf.disp)) {inf.disp <- "bean"}
 
   if(is.null(gl.col)) {gl.col <- "gray"}
-  if(is.null(gl.lwd)) {gl.lwd <- c(.5, 0)}
+  if(is.null(gl.lwd)) {gl.lwd <- c(.25, .5)}
 
 
 
@@ -856,7 +858,7 @@ if(theme == 4) {
   #  if(is.null(back.col)) {back.col <- gray(.97)}
 
   if(is.null(gl.col)) {gl.col <- "gray"}
-  if(is.null(gl.lwd)) {gl.lwd <- c(.5, 0)}
+  if(is.null(gl.lwd)) {gl.lwd <- c(.25, .5)}
 
   if(is.null(inf.disp)) {inf.disp <- "line"}
 
@@ -1108,7 +1110,7 @@ if(is.null(ylim) == FALSE) {
 # Determine x and y labels
 
 if(subplot.n.iv == 1 & is.null(xlab)) {my.xlab <- iv.names[1]}
-if(subplot.n.iv == 1 & is.null(xlab) == F) {my.xlab <- xlab}
+if(subplot.n.iv == 1 & is.null(xlab) == FALSE) {my.xlab <- xlab}
 
 if(subplot.n.iv > 1) {my.xlab <- ""}
 
@@ -1185,12 +1187,13 @@ rect(xleft = par("usr")[1],
 
 # GRIDLINES
 {
-if(is.null(gl.col) == F) {
+if(is.null(gl.col) == FALSE) {
 
-  if(is.null(gl.lwd)) {gl.lwd <- c(1, .5)}
+  if(is.null(gl.lwd)) {gl.lwd <- c(.5)}
   if(is.null(gl.lty)) {gl.lty <- 1}
+  if(is.null(gl)) {gl <- seq(min(y.levels), max(y.levels), length.out = length(y.levels))}
 
-  abline(h = seq(min(y.levels), max(y.levels), length.out = length(y.levels) * 2 - 1),
+  abline(h = gl,
          lwd = gl.lwd,
          col = gl.col,
          lty = gl.lty)
