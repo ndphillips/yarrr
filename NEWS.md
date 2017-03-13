@@ -6,6 +6,8 @@
 
 * Added `gl` argument to `pirateplot()` to specify locations of gridlines
 
+* Added `cex.names` argument to control size of bean names (currently this was controlled by `cex.lab`, which now controls the size of the axis names.)
+
 # yarrr 0.1.4
 
 * Some minor changes to default plotting parameters that I think make the default plots look a bit nicer.

@@ -30,7 +30,7 @@
 #' @param quant.length,quant.lwd numeric. Specifies line lengths/widths of \code{quant}.
 #' @param quant.boxplot logical. Should standard values be included?
 #' @param family a font family (Not currently in use)
-#' @param cex.lab,cex.axis Size of the labels and axes.
+#' @param cex.lab,cex.axis,cex.names Size of the labels, axes, and bean names.
 #' @param gl numeric. Locations of the horizontal grid lines
 #' @param gl.lwd,gl.lty,gl.col Customization for grid lines. Can be entered as vectors for alternating gridline types
 #' @param bty,xlim,ylim,xlab,ylab,main,yaxt,xaxt General plotting arguments
@@ -163,6 +163,7 @@ pirateplot <- function(
   decreasing = FALSE,
   cex.lab = 1,
   cex.axis = 1,
+  cex.names = 1,
   quant = NULL,
   quant.length = NULL,
   quant.lwd = NULL,
@@ -1134,6 +1135,7 @@ if(is.null(xlim)) {xlim <- c(min(bean.loc) - .5, max(bean.loc) + .5)}
        yaxt = "n",
        xlab = my.xlab,
        ylab = ylab,
+       cex.lab = cex.lab,
        main = main,
        yaxt = yaxt,
        bty = bty#,
@@ -1536,16 +1538,16 @@ if(is.null(xaxt)) {
         side = 1,
         at = bean.mtx$x.loc,
         line = 1,
-        cex = cex.lab)
+        cex = cex.names)
 
 
   # IV 2 labels
 
   if(subplot.n.iv == 2) {
 
-    mtext(iv.names[2], side = 1, line = 2.5, at = par("usr")[1], adj = 1, cex = cex.lab)
+    mtext(iv.names[2], side = 1, line = 2.5, at = par("usr")[1], adj = 1, cex = cex.names)
 
-    mtext(iv.names[1], side = 1, line = 1, at = par("usr")[1], adj = 1, cex = cex.lab)
+    mtext(iv.names[1], side = 1, line = 1, at = par("usr")[1], adj = 1, cex = cex.names)
 
     text.loc <- (iv.lengths[1] + 1) / 2 * (2 *(1:iv.lengths[2]) - 1)
 
