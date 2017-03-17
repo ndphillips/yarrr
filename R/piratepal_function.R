@@ -243,7 +243,6 @@ if(trans < 0 | trans > 1) {stop("Problem: trans must be a number between 0 and 1
       # Taken from a cellphone photo of espresso cups in the ARC kitchen
 
       espresso.pal=data.frame(
-        "purple" = rgb(39, 27, 48, alpha = (1 - trans) * 255, maxColorValue = 255),
         "blue" = rgb(35, 102, 192, alpha = (1 - trans) * 255, maxColorValue = 255),
         "yellow" = rgb(233, 215, 56, alpha = (1 - trans) * 255, maxColorValue = 255),
         "red" = rgb(185, 18, 38, alpha = (1 - trans) * 255, maxColorValue = 255),
