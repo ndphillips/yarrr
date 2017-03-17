@@ -426,6 +426,10 @@ if(!(palette %in% c(palette.names, "random", "all", "names"))) {
 
 }
 
+# Save original margins
+
+margin.o <- par("mar")
+
 
 # if palette == "all", show all palettes
 if(palette == "all") {
@@ -583,13 +587,14 @@ segments(locations.to.use, text.heights + .05, locations.to.use, point.heights, 
 
   # Reset margins
 
-  par("mar" = c(5, 4, 4, 1) + .1)
-
 }
 
 if(is.null(output) == F & plot.result == F) {
 return(output)
 }
+
+# reset margins
+par("mar" = margin.o)
 
 }
 
