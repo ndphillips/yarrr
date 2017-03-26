@@ -16,20 +16,20 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
   inf.lwd = NULL, bar.lwd = 1, at = NULL, bw = "nrd0", adjust = 1,
   add = FALSE, sortx = "alphabetical", decreasing = FALSE, cex.lab = 1,
   cex.axis = 1, cex.names = 1, quant = NULL, quant.length = NULL,
-  quant.lwd = NULL, quant.boxplot = FALSE, bty = "o", evidence = FALSE,
-  cap.beans = FALSE, family = NULL, inf.method = "hdi",
-  inf.within = NULL, inf.p = NULL, hdi.iter = 1000, inf.disp = NULL,
-  cut.min = NULL, cut.max = NULL, width.min = 0.3, width.max = NA,
-  ylim = NULL, xlim = NULL, xlab = NULL, ylab = NULL, main = NULL,
-  yaxt = NULL, xaxt = NULL, gl = NULL, gl.lwd = NULL, gl.lty = NULL,
-  bar.b.lwd = NULL, line.fun = NULL, line.o = NULL, inf.o = NULL,
-  bean.o = NULL, inf.col = NULL, theme.o = NULL, bar.o = NULL,
-  inf = NULL, hdi.o = NULL, inf.type = NULL, inf.band = NULL)
+  quant.lwd = NULL, quant.boxplot = FALSE, bty = "o", cap.beans = FALSE,
+  family = NULL, inf.method = "hdi", inf.within = NULL, inf.p = NULL,
+  hdi.iter = 1000, inf.disp = NULL, cut.min = NULL, cut.max = NULL,
+  width.min = 0.3, width.max = NA, ylim = NULL, xlim = NULL,
+  xlab = NULL, ylab = NULL, main = NULL, yaxt = NULL, xaxt = NULL,
+  gl = NULL, gl.lwd = NULL, gl.lty = NULL, bar.b.lwd = NULL,
+  line.fun = NULL, line.o = NULL, inf.o = NULL, bean.o = NULL,
+  inf.col = NULL, theme.o = NULL, bar.o = NULL, inf = NULL,
+  hdi.o = NULL, inf.type = NULL, inf.band = NULL)
 }
 \arguments{
 \item{formula}{formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent variables}
 
-\item{data}{dataframe. A dataframe containing the variables specified in formula.}
+\item{data}{Either a dataframe containing the variables specified in formula, a list of numeric vectors, or a numeric dataframe / matrix.}
 
 \item{plot}{logical. If \code{TRUE} (the default), thent the pirateplot is produced. If \code{FALSE}, the data summaries created in the plot are returned as a list.}
 

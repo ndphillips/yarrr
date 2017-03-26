@@ -3,7 +3,7 @@
 #' The pirateplot function creates an RDI (Raw data, Descriptive and Inferential statistic) plot showing the relationship between 1 to 3 categorical independent variables and 1 continuous dependent variable.
 #'
 #' @param formula formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent variables
-#' @param data dataframe. A dataframe containing the variables specified in formula.
+#' @param data Either a dataframe containing the variables specified in formula, a list of numeric vectors, or a numeric dataframe / matrix.
 #' @param plot logical. If \code{TRUE} (the default), thent the pirateplot is produced. If \code{FALSE}, the data summaries created in the plot are returned as a list.
 #' @param pal string. The color palette of the plot. Can be a single color, a vector of colors, or the name of a palette in the piratepal() function (e.g.; "basel", "google", "southpark"). To see all the palettes, run \code{piratepal(palette = "all", action = "show")}
 #' @param point.col,bar.f.col,bean.b.col,bean.f.col,inf.f.col,inf.b.col,avg.line.col,bar.b.col,quant.col,point.bg string. Vectors of colors specifying the colors of the plotting elements. This will override values in the palette. f stands for filling, b stands for border.
@@ -290,8 +290,8 @@ pirateplot <- function(
   #
   #
   #
-  # weight ~ Diet
-  # data = ChickWeight
+  # formula = NULL
+  # data = list(rnorm(100),rnorm(20))
   # ylab = ""
   # sortx = "mean"
 
@@ -387,8 +387,7 @@ if(is.null(bar.o) == FALSE) {
 
 # Look for missing critical inputs
 {
-if(is.null(data)) {stop("You must specify a dataframe in the data argument!")}
-if(is.null(formula) | class(formula) != "formula") {stop("You must specify a valid formula in the formula argument!")}
+if(is.null(data)) {stop("You must specify data in the data argument")}
 }
 
 # Set some defaults
@@ -405,6 +404,56 @@ if(inf.method %in% c("sd", "se") & is.null(inf.p)) {
 
 }
 
+
+# If no formula, than reshape data
+if(is.null(formula)) {
+
+  if(class(data) %in% c("data.frame", "matrix")) {
+
+    # data <- data.frame(a = rnorm(100), b = rnorm(100), c = rnorm(100))
+    # data <- matrix(rnorm(100), nrow = 20, ncol = 5)
+    #
+
+    data <- as.data.frame(data)
+    iv.levels <- names(data)
+
+    data <- stats::reshape(data, direction = "long", varying = list(1:ncol(data)))
+    data <- data[,1:2]
+    names(data) <- c("group", "y")
+
+    for(i in 1:length(iv.levels)) {
+
+      data$group[data$y == i] <- iv.levels[i]
+
+    }
+
+
+    formula <- y ~ group
+
+  }
+
+  if(class(data) == "list") {
+
+    if(is.null(names(data))) {names(data) <- paste0("V", 1:length(data))}
+
+    iv.levels <- names(data)
+
+    # Convert list to dataframe
+
+    data.df <- do.call("rbind", lapply(1:length(data), FUN = function(x) {
+
+      data.frame(group = rep(iv.levels[x], length(data[[x]])),
+                 y = unlist(data[[x]]))
+
+    }))
+
+    data <- data.df
+    formula <- y ~ group
+
+  }
+
+
+}
 
 # Reshape dataframe to include relevant variables
 {
