@@ -61,4 +61,3 @@ for(trans.val.i in seq(0, .1, length.out = 9)) {
 }
 }
 \keyword{colors}
-

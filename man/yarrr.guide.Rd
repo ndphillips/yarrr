@@ -10,4 +10,3 @@ yarrr.guide()
 Opens the HTML manual for the yarrr package
 }
 \keyword{misc}
-

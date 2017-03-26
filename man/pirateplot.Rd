@@ -14,13 +14,14 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
   inf.b.col = NULL, avg.line.col = NULL, bar.b.col = NULL,
   quant.col = NULL, avg.line.lwd = 4, bean.lwd = 1, bean.lty = 1,
   inf.lwd = NULL, bar.lwd = 1, at = NULL, bw = "nrd0", adjust = 1,
-  add = FALSE, sortx = "alphabetical", cex.lab = 1, cex.axis = 1,
-  quant = NULL, quant.length = NULL, quant.lwd = NULL,
-  quant.boxplot = FALSE, bty = "o", evidence = FALSE, cap.beans = FALSE,
-  family = NULL, inf.method = "hdi", inf.p = NULL, hdi.iter = 1000,
-  inf.disp = NULL, cut.min = NULL, cut.max = NULL, width.min = 0.3,
-  width.max = NA, ylim = NULL, xlim = NULL, xlab = NULL, ylab = NULL,
-  main = NULL, yaxt = NULL, xaxt = NULL, gl.lwd = NULL, gl.lty = NULL,
+  add = FALSE, sortx = "alphabetical", decreasing = FALSE, cex.lab = 1,
+  cex.axis = 1, cex.names = 1, quant = NULL, quant.length = NULL,
+  quant.lwd = NULL, quant.boxplot = FALSE, bty = "o", evidence = FALSE,
+  cap.beans = FALSE, family = NULL, inf.method = "hdi",
+  inf.within = NULL, inf.p = NULL, hdi.iter = 1000, inf.disp = NULL,
+  cut.min = NULL, cut.max = NULL, width.min = 0.3, width.max = NA,
+  ylim = NULL, xlim = NULL, xlab = NULL, ylab = NULL, main = NULL,
+  yaxt = NULL, xaxt = NULL, gl = NULL, gl.lwd = NULL, gl.lty = NULL,
   bar.b.lwd = NULL, line.fun = NULL, line.o = NULL, inf.o = NULL,
   bean.o = NULL, inf.col = NULL, theme.o = NULL, bar.o = NULL,
   inf = NULL, hdi.o = NULL, inf.type = NULL, inf.band = NULL)
@@ -36,6 +37,8 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
 
 \item{pal}{string. The color palette of the plot. Can be a single color, a vector of colors, or the name of a palette in the piratepal() function (e.g.; "basel", "google", "southpark"). To see all the palettes, run \code{piratepal(palette = "all", action = "show")}}
 
+\item{back.col}{string. Color of the plotting background.}
+
 \item{point.cex, point.pch, point.lwd}{numeric.  The size, pch type, and line width of raw data points.}
 
 \item{jitter.val}{numeric. Amount of jitter added to points horizontally. Defaults to 0.05.}
@@ -43,8 +46,6 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
 \item{theme}{integer. An integer in the set 0, 1, 2 specifying a theme (that is, new default values for opacities and colors). \code{theme = 0} turns off all opacities which can then be individually specified individually.}
 
 \item{bar.f.o, point.o, inf.f.o, inf.b.o, avg.line.o, bean.b.o, bean.f.o, bar.b.o}{numeric. A number between 0 and 1 indicating how opaque to make the bars, points, inference band, average line, and beans respectively. These values override whatever is in the specified theme}
-
-\item{gl.col, back.col}{string. The color of the horizontal gridlines and plotting background.}
 
 \item{point.col, bar.f.col, bean.b.col, bean.f.col, inf.f.col, inf.b.col, avg.line.col, bar.b.col, quant.col, point.bg}{string. Vectors of colors specifying the colors of the plotting elements. This will override values in the palette. f stands for filling, b stands for border.}
 
@@ -54,11 +55,13 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
 
 \item{bw, adjust}{Arguments passed to density calculations for beans (see ?density)}
 
-\item{add}{logical. Whether to add the pirateplot to an existing plotting space or not.}
+\item{add}{logical. Should the pirateplot elements be added to an existing plotting space?}
 
-\item{sortx}{string. How to sort the x values. Can be "sequential" (as they are found in the original dataframe), "alphabetical", or a string indicating a function (i.e.; "mean")}
+\item{sortx}{string. How to sort the x values. Can be "sequential" (as they are found in the original dataframe), "alphabetical", or a string in the set ("mean", "median", "min", "max") indicating a function}
 
-\item{cex.lab, cex.axis}{Size of the labels and axes.}
+\item{decreasing}{logical. If sortx is a named function, should values be sorted in decreasing order?}
+
+\item{cex.lab, cex.axis, cex.names}{Size of the labels, axes, and bean names.}
 
 \item{quant}{numeric. Adds horizontal lines representing custom quantiles.}
 
@@ -68,13 +71,13 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
 
 \item{bty, xlim, ylim, xlab, ylab, main, yaxt, xaxt}{General plotting arguments}
 
-\item{evidence}{logical. Should Bayesian evidence be shown? (currently ignored)}
-
-\item{cap.beans}{logical. Should maximum and minimum values of the bean densities be capped at the limits found in the data?}
+\item{cap.beans}{logical. Should maximum and minimum values of the bean densities be capped at the limits found in the data? Default is FALSE.}
 
 \item{family}{a font family (Not currently in use)}
 
-\item{inf.method}{string. A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range, "sd" means standard deviation, "se" means standard error}
+\item{inf.method}{string. A string indicating what types of inference bands to calculate. "ci" means frequentist confidence intervals, "hdi" means Bayesian Highest Density Intervals (HDI), "iqr" means interquartile range, "sd" means standard deviation, "se" means standard error, "withinci" means frequentist confidence intervals in a within design (Morey, 2008).}
+
+\item{inf.within}{string. The variable which serves as an ID variable in a within design.}
 
 \item{inf.p}{numeric. A number adjusting how inference ranges are calculated. for \code{"ci"} and \code{"hdi"}, a number between 0 and 1 indicating the level of confidence (default is .95). For \code{"sd"} and \code{"se"}, the number of standard deviations / standard errors added to or subtracted from the mean (default is 1).}
 
@@ -86,7 +89,9 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
 
 \item{width.min, width.max}{numeric. The minimum/maximum width of the beans.}
 
-\item{gl.lwd, gl.lty}{Customization for grid lines.}
+\item{gl}{numeric. Locations of the horizontal grid lines}
+
+\item{gl.lwd, gl.lty, gl.col}{Customization for grid lines. Can be entered as vectors for alternating gridline types}
 
 \item{bar.b.lwd, line.fun, inf.o, bean.o, inf.col, theme.o, inf, inf.type, inf.band, bar.o, line.o, hdi.o}{depricated arguments}
 }
@@ -170,4 +175,3 @@ pirateplot(formula = height ~ headband + eyepatch + sex,
 
 }
 \keyword{plot}
-

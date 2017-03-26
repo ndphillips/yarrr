@@ -21,4 +21,3 @@ poopdeck
 A dataframe containing the amount of time it took to clean both pirate and shark poop from the poop deck using one of three different cleaning solutions
 }
 \keyword{datasets}
-

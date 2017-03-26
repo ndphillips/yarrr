@@ -89,6 +89,16 @@ if(trans < 0 | trans > 1) {stop("Problem: trans must be a number between 0 and 1
         "yellow" = rgb(238, 194, 41, alpha = (1 - trans) * 255, maxColorValue = 255),
         stringsAsFactors = F),
 
+      "decision.pal" = data.frame(
+        "red" = rgb(213, 122, 109, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "yellow" = rgb(232, 183, 98, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "blue" = rgb(156, 205, 223, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "gray" = rgb(82, 80, 82, alpha = (1 - trans) * 255, maxColorValue = 255),
+        "tan" = rgb(230, 206, 175, alpha = (1- trans) * 255, maxColorValue = 255),
+        "brown" = rgb(186, 149, 112, alpha = (1- trans) * 255, maxColorValue = 255),
+        stringsAsFactors = F),
+
+
       "southpark.pal" = data.frame(
         "blue" = rgb(47, 134, 255, alpha = (1 - trans) * 255, maxColorValue = 255),
         "yellow" = rgb(235, 171, 22, alpha = (1- trans) * 255, maxColorValue = 255),
@@ -129,35 +139,6 @@ if(trans < 0 | trans > 1) {stop("Problem: trans must be a number between 0 and 1
         "tan" = rgb(150, 142, 76, alpha = (1 - trans) * 255, maxColorValue = 255),
         stringsAsFactors = F),
 
-      # "monalisa.pal" = data.frame(
-      #   "tan" = rgb(187, 163, 112, alpha = (1 - trans) * 255, maxColorValue = 255),
-      #   "yellow" = rgb(202, 162, 65, alpha = (1 - trans) * 255, maxColorValue = 255),
-      #   "green1" = rgb(187, 190, 112, alpha = (1 - trans) * 255, maxColorValue = 255),
-      #   "green2" = rgb(89, 89, 41, alpha = (1 - trans) * 255, maxColorValue = 255),
-      #   "brown" = rgb(42, 20, 1, alpha = (1 - trans) * 255, maxColorValue = 255),
-      #   stringsAsFactors = F),
-
-      # malcovich.pal =data.frame(
-      #   "gray1" = rgb(5, 5, 5, alpha = (1 - trans) * 255, maxColorValue = 255),
-      #   "blue1" = rgb(20, 24, 27, alpha = (1 - trans) * 255, maxColorValue = 255),
-      #   "green" = rgb(46, 77, 73, alpha = (1 - trans) * 255, maxColorValue = 255),
-      #   "brown" = rgb(77, 64, 57, alpha = (1 - trans) * 255, maxColorValue = 255),
-      #   "blue2" = rgb(48, 92, 110, alpha = (1 - trans) * 255, maxColorValue = 255),
-      #   "blue3" = rgb(117, 125, 139, alpha = (1 - trans) * 255, maxColorValue = 255),
-      #   "gray" = rgb(164, 160, 159, alpha = (1 - trans) * 255, maxColorValue = 255),
-      #
-      #   stringsAsFactors = F),
-
-      # toystory.pal =data.frame(
-      #   "gray1" = rgb(15, 10, 10, alpha = (1 - trans) * 255, maxColorValue = 255),
-      #   "blue1" = rgb(36, 24, 40, alpha = (1 - trans) * 255, maxColorValue = 255),
-      #   "red" = rgb(251, 27, 34, alpha = (1 - trans) * 255, maxColorValue = 255),
-      #   "brown" = rgb(94, 72, 57, alpha = (1 - trans) * 255, maxColorValue = 255),
-      #   "green" = rgb(125, 153, 58, alpha = (1 - trans) * 255, maxColorValue = 255),
-      #   "yellow" = rgb(227, 191, 71, alpha = (1 - trans) * 255, maxColorValue = 255),
-      #   "blue2" = rgb(167, 208, 235, alpha = (1 - trans) * 255, maxColorValue = 255),
-      #
-      #   stringsAsFactors = F),
 
       usualsuspects.pal =data.frame(
         "gray1" = rgb(50, 51, 55, alpha = (1 - trans) * 255, maxColorValue = 255),
@@ -262,7 +243,6 @@ if(trans < 0 | trans > 1) {stop("Problem: trans must be a number between 0 and 1
       # Taken from a cellphone photo of espresso cups in the ARC kitchen
 
       espresso.pal=data.frame(
-        "purple" = rgb(39, 27, 48, alpha = (1 - trans) * 255, maxColorValue = 255),
         "blue" = rgb(35, 102, 192, alpha = (1 - trans) * 255, maxColorValue = 255),
         "yellow" = rgb(233, 215, 56, alpha = (1 - trans) * 255, maxColorValue = 255),
         "red" = rgb(185, 18, 38, alpha = (1 - trans) * 255, maxColorValue = 255),
@@ -407,14 +387,18 @@ if(trans < 0 | trans > 1) {stop("Problem: trans must be a number between 0 and 1
 
   }
 
-palette.names <- unlist(strsplit(names(piratepal.ls), ".pal", T))
+palette.names <- unlist(strsplit(names(piratepal.ls), ".pal", TRUE))
 n.palettes <- length(palette.names)
 
 if(!(palette %in% c(palette.names, "random", "all", "names"))) {
 
-  stop(c("You did not specify a valid palette. Please try one of the following: ", palette.names))
+  stop(c("You did not specify a valid palette. Run piratepal('names') to see all of the palette names."))
 
 }
+
+# Save original margins
+
+margin.o <- par("mar")
 
 
 # if palette == "all", show all palettes
@@ -573,13 +557,14 @@ segments(locations.to.use, text.heights + .05, locations.to.use, point.heights, 
 
   # Reset margins
 
-  par("mar" = c(5, 4, 4, 1) + .1)
-
 }
 
 if(is.null(output) == F & plot.result == F) {
 return(output)
 }
+
+# reset margins
+par("mar" = margin.o)
 
 }
 

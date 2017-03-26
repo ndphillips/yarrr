@@ -30,4 +30,3 @@ movies
 A dataframe containing information about the top 5000 grossing movies of all time.
 }
 \keyword{datasets}
-

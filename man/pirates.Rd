@@ -34,4 +34,3 @@ pirates
 A dataset containing the results of a survey of 1,000 pirates.
 }
 \keyword{datasets}
-

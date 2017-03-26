@@ -19,4 +19,3 @@ BeardLengths
 A dataframe containing the lengths of beards on 3 different pirate ships
 }
 \keyword{datasets}
-

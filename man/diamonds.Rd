@@ -21,4 +21,3 @@ diamonds
 A dataframe containing information about 150 diamonds sold at auction.
 }
 \keyword{datasets}
-

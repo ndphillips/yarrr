@@ -1,4 +1,18 @@
-# yarrr 0.1.3
+# yarrr 0.1.5
+
+* New palettes in `piratepal()`: `decision`.
+
+* Fixed bug in `sortx` in `pirateplot()`. Sorting data by functions (e.g. `sortx = "mean"`) should now work.
+
+* Added `gl` argument to `pirateplot()` to specify locations of gridlines
+
+* Added `cex.names` argument to control size of bean names (currently this was controlled by `cex.lab`, which now controls the size of the axis names.)
+
+# yarrr 0.1.4
+
+* Some minor changes to default plotting parameters that I think make the default plots look a bit nicer.
+
+* Added `cap.beans` argument to `pirateplot()`. When `cap.beans = TRUE`, beans will be cut at the maximum and minimum values of the data.
 
 * Added `cap.beans` argument to `pirateplot()`. When `cap.beans = TRUE`, beans will be cut at the maximum and minimum values of the data.
 
@@ -31,8 +45,7 @@ Levels of the third IV are shown in separate plots in a grid.
 
 Minor and Bug-fixes
 
-- The `inf.p` parameter in `pirateplot()` was prevously not being passed to the Bayesian HDIs, rendering all inference bands to be the default of 95% (thanks to Roman Pahl for catching this). 
-This has now been fixed.
+- The `inf.p` parameter in `pirateplot()` was prevously not being passed to the Bayesian HDIs, rendering all inference bands to be the default of 95% (thanks to Roman Pahl for catching this). This has now been fixed.
 
 # yarrr 0.0.6
 
