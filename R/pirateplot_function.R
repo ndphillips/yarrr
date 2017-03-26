@@ -169,7 +169,6 @@ pirateplot <- function(
   quant.lwd = NULL,
   quant.boxplot = FALSE,
   bty = "o",
-  evidence = FALSE,
   cap.beans = FALSE,
   family = NULL,
   inf.method = "hdi",
