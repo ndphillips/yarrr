@@ -1,10 +1,12 @@
 # yarrr 0.1.5
 
+* Added the option to specify data in `pirateplot()` as a list of numeric vectors, or as a numeric dataframe or matrix without specifying a formula. Each column / element will be taken as a new group.
+
 * New palettes in `piratepal()`: `decision`.
 
 * Fixed bug in `sortx` in `pirateplot()`. Sorting data by functions (e.g. `sortx = "mean"`) should now work.
 
-* Added `gl` argument to `pirateplot()` to specify locations of gridlines
+* Added `gl` argument to `pirateplot()` to specify locations of gridlines (e.g.; `gl = seq(0, 10, 1)`)
 
 * Added `cex.names` argument to control size of bean names (currently this was controlled by `cex.lab`, which now controls the size of the axis names.)
 
