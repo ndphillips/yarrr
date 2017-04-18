@@ -5,26 +5,27 @@
 \title{pirateplot}
 \usage{
 pirateplot(formula = NULL, data = NULL, plot = TRUE,
-  avg.line.fun = mean, pal = "basel", back.col = NULL, point.cex = NULL,
-  point.pch = NULL, point.lwd = 1, jitter.val = 0.03, theme = 1,
-  bean.b.o = NULL, bean.f.o = NULL, point.o = NULL, bar.f.o = NULL,
-  bar.b.o = NULL, inf.f.o = NULL, inf.b.o = NULL, avg.line.o = NULL,
-  gl.col = NULL, point.col = NULL, point.bg = NULL, bar.f.col = NULL,
-  bean.b.col = NULL, bean.f.col = NULL, inf.f.col = NULL,
-  inf.b.col = NULL, avg.line.col = NULL, bar.b.col = NULL,
-  quant.col = NULL, avg.line.lwd = 4, bean.lwd = 1, bean.lty = 1,
-  inf.lwd = NULL, bar.lwd = 1, at = NULL, bw = "nrd0", adjust = 1,
-  add = FALSE, sortx = "alphabetical", decreasing = FALSE, cex.lab = 1,
-  cex.axis = 1, cex.names = 1, quant = NULL, quant.length = NULL,
-  quant.lwd = NULL, quant.boxplot = FALSE, bty = "o", cap.beans = FALSE,
-  family = NULL, inf.method = "hdi", inf.within = NULL, inf.p = NULL,
-  hdi.iter = 1000, inf.disp = NULL, cut.min = NULL, cut.max = NULL,
-  width.min = 0.3, width.max = NA, ylim = NULL, xlim = NULL,
-  xlab = NULL, ylab = NULL, main = NULL, yaxt = NULL, xaxt = NULL,
-  gl = NULL, gl.lwd = NULL, gl.lty = NULL, bar.b.lwd = NULL,
-  line.fun = NULL, line.o = NULL, inf.o = NULL, bean.o = NULL,
-  inf.col = NULL, theme.o = NULL, bar.o = NULL, inf = NULL,
-  hdi.o = NULL, inf.type = NULL, inf.band = NULL)
+  avg.line.fun = mean, pal = "basel", mix.col = "white", mix.p = 0,
+  back.col = NULL, point.cex = NULL, point.pch = NULL, point.lwd = 1,
+  jitter.val = 0.03, theme = 1, bean.b.o = NULL, bean.f.o = NULL,
+  point.o = NULL, bar.f.o = NULL, bar.b.o = NULL, inf.f.o = NULL,
+  inf.b.o = NULL, avg.line.o = NULL, gl.col = NULL, point.col = NULL,
+  point.bg = NULL, bar.f.col = NULL, bean.b.col = NULL,
+  bean.f.col = NULL, inf.f.col = NULL, inf.b.col = NULL,
+  avg.line.col = NULL, bar.b.col = NULL, quant.col = NULL,
+  avg.line.lwd = 4, bean.lwd = 1, bean.lty = 1, inf.lwd = NULL,
+  bar.lwd = 1, at = NULL, bw = "nrd0", adjust = 1, add = FALSE,
+  sortx = "alphabetical", decreasing = FALSE, cex.lab = 1, cex.axis = 1,
+  cex.names = 1, quant = NULL, quant.length = NULL, quant.lwd = NULL,
+  quant.boxplot = FALSE, bty = "o", cap.beans = TRUE, family = NULL,
+  inf.method = "hdi", inf.within = NULL, inf.p = NULL, hdi.iter = 1000,
+  inf.disp = NULL, cut.min = NULL, cut.max = NULL, width.min = 0.3,
+  width.max = NA, ylim = NULL, xlim = NULL, xlab = NULL, ylab = NULL,
+  main = NULL, yaxt = NULL, xaxt = NULL, gl = NULL, gl.lwd = NULL,
+  gl.lty = NULL, bar.b.lwd = NULL, line.fun = NULL, line.o = NULL,
+  inf.o = NULL, bean.o = NULL, inf.col = NULL, theme.o = NULL,
+  bar.o = NULL, inf = NULL, hdi.o = NULL, inf.type = NULL,
+  inf.band = NULL)
 }
 \arguments{
 \item{formula}{formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent variables}
@@ -36,6 +37,8 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
 \item{avg.line.fun}{function. A function that determines how average lines and bar heights are determined (default is mean).}
 
 \item{pal}{string. The color palette of the plot. Can be a single color, a vector of colors, or the name of a palette in the piratepal() function (e.g.; "basel", "google", "southpark"). To see all the palettes, run \code{piratepal(palette = "all", action = "show")}}
+
+\item{mix.col, mix.p}{Optional color mixing arguments to be passed to \code{piratepal}. See \code{?piratepal} for examples.}
 
 \item{back.col}{string. Color of the plotting background.}
 

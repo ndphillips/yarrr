@@ -1,5 +1,9 @@
 # yarrr 0.1.5
 
+* Minor changes to `theme = 1` in `pirateplot()`. Changed default value of `cap.beans` to `TRUE`
+
+* Added color mixing arguments `mix.col` and `mix.p` to `piratepal()`. These allow you to mix the default palettes with a specified color (e.g.; `"white"`)
+
 * Added the option to specify data in `pirateplot()` as a list of numeric vectors, or as a numeric dataframe or matrix without specifying a formula. Each column / element will be taken as a new group.
 
 * New palettes in `piratepal()`: `decision`.

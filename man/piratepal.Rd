@@ -4,13 +4,17 @@
 \alias{piratepal}
 \title{piratepal}
 \usage{
-piratepal(palette = "all", trans = 0, plot.result = FALSE,
-  length.out = NULL)
+piratepal(palette = "all", trans = 0, mix.col = "white", mix.p = 0,
+  plot.result = FALSE, length.out = NULL)
 }
 \arguments{
 \item{palette}{A string defining the color palette to use (see examples). To use a random palette, use "random". To plot all palettes, use "all". To see all palette names, use "names"}
 
 \item{trans}{A number in the interval [0, 1] indicating how transparent to make the colors. A value of 0 means no transparency and a value of 1 means completely transparency.}
+
+\item{mix.col}{string. An optional string representing a color to mix all colors in the palette with.}
+
+\item{mix.p}{numeric. A number in the interval [0, 1] indicating how much to mix the palette colors with the color in \code{mix.col}}
 
 \item{plot.result}{A logical value indicating whether or not to display the colors.}
 

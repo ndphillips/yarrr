@@ -6,6 +6,7 @@
 #' @param data Either a dataframe containing the variables specified in formula, a list of numeric vectors, or a numeric dataframe / matrix.
 #' @param plot logical. If \code{TRUE} (the default), thent the pirateplot is produced. If \code{FALSE}, the data summaries created in the plot are returned as a list.
 #' @param pal string. The color palette of the plot. Can be a single color, a vector of colors, or the name of a palette in the piratepal() function (e.g.; "basel", "google", "southpark"). To see all the palettes, run \code{piratepal(palette = "all", action = "show")}
+#' @param mix.col,mix.p Optional color mixing arguments to be passed to \code{piratepal}. See \code{?piratepal} for examples.
 #' @param point.col,bar.f.col,bean.b.col,bean.f.col,inf.f.col,inf.b.col,avg.line.col,bar.b.col,quant.col,point.bg string. Vectors of colors specifying the colors of the plotting elements. This will override values in the palette. f stands for filling, b stands for border.
 #' @param theme integer. An integer in the set 0, 1, 2 specifying a theme (that is, new default values for opacities and colors). \code{theme = 0} turns off all opacities which can then be individually specified individually.
 #' @param bar.f.o,point.o,inf.f.o,inf.b.o,avg.line.o,bean.b.o,bean.f.o,bar.b.o numeric. A number between 0 and 1 indicating how opaque to make the bars, points, inference band, average line, and beans respectively. These values override whatever is in the specified theme
@@ -125,6 +126,8 @@ pirateplot <- function(
   plot = TRUE,
   avg.line.fun = mean,
   pal = "basel",
+  mix.col = "white",
+  mix.p = 0,
   back.col = NULL,
   point.cex = NULL,
   point.pch = NULL,
@@ -169,7 +172,7 @@ pirateplot <- function(
   quant.lwd = NULL,
   quant.boxplot = FALSE,
   bty = "o",
-  cap.beans = FALSE,
+  cap.beans = TRUE,
   family = NULL,
   inf.method = "hdi",
   inf.within = NULL,
@@ -803,7 +806,7 @@ if(theme == 1) {
 
   if(is.null(point.o)) {point.o <- .2}
   if(is.null(bean.b.o)) {bean.b.o <- 1}
-  if(is.null(bean.f.o)) {bean.f.o <- .2}
+  if(is.null(bean.f.o)) {bean.f.o <- .3}
   if(is.null(inf.f.o)) {inf.f.o <- .8}
   if(is.null(inf.b.o)) {inf.b.o <- .8}
   if(is.null(avg.line.o)) {avg.line.o <- 1}
@@ -812,6 +815,8 @@ if(theme == 1) {
   if(is.null(bean.b.col)) {bean.b.col <- "black"}
   if(is.null(point.cex)) {point.cex <- .7}
   if(is.null(point.col)) {point.col <- "black"}
+  if(is.null(inf.b.col)) {inf.b.col <- "black"}
+  if(is.null(inf.f.col)) {inf.f.col <- "white"}
   if(is.null(bean.lwd)) {bean.lwd <- 2}
   if(is.null(avg.line.col)) {avg.line.col <- "black"}
 
@@ -977,16 +982,16 @@ rownames(colors.df) <- 1:n.beans
 # If palette is in piratepal()...
 if(mean(pal %in% piratepal("names")) == 1) {
 
-colors.df$point.col <- rep(piratepal(palette = pal, length.out = n.cols), length.out = n.beans)
-colors.df$point.bg <- rep(piratepal(palette = pal, length.out = n.cols), length.out = n.beans)
-colors.df$bean.b.col <- rep(piratepal(palette = pal, length.out = n.cols), length.out = n.beans)
-colors.df$bean.f.col <- rep(piratepal(palette = pal, length.out = n.cols), length.out = n.beans)
-colors.df$inf.f.col <- rep(piratepal(palette = pal, length.out = n.cols), length.out = n.beans)
-colors.df$inf.b.col <- rep(piratepal(palette = pal, length.out = n.cols), length.out = n.beans)
-colors.df$avg.line.col <- rep(piratepal(palette = pal, length.out = n.cols), length.out = n.beans)
-colors.df$bar.f.col <- rep(piratepal(palette = pal, length.out = n.cols), length.out = n.beans)
-colors.df$bar.b.col <- rep(piratepal(palette = pal, length.out = n.cols), length.out = n.beans)
-colors.df$quant.col <- rep(piratepal(palette = pal, length.out = n.cols), length.out = n.beans)
+colors.df$point.col <- rep(piratepal(palette = pal, length.out = n.cols, mix.col = mix.col, mix.p = mix.p), length.out = n.beans)
+colors.df$point.bg <- rep(piratepal(palette = pal, length.out = n.cols, mix.col = mix.col, mix.p = mix.p), length.out = n.beans)
+colors.df$bean.b.col <- rep(piratepal(palette = pal, length.out = n.cols, mix.col = mix.col, mix.p = mix.p), length.out = n.beans)
+colors.df$bean.f.col <- rep(piratepal(palette = pal, length.out = n.cols, mix.col = mix.col, mix.p = mix.p), length.out = n.beans)
+colors.df$inf.f.col <- rep(piratepal(palette = pal, length.out = n.cols, mix.col = mix.col, mix.p = mix.p), length.out = n.beans)
+colors.df$inf.b.col <- rep(piratepal(palette = pal, length.out = n.cols, mix.col = mix.col, mix.p = mix.p), length.out = n.beans)
+colors.df$avg.line.col <- rep(piratepal(palette = pal, length.out = n.cols, mix.col = mix.col, mix.p = mix.p), length.out = n.beans)
+colors.df$bar.f.col <- rep(piratepal(palette = pal, length.out = n.cols, mix.col = mix.col, mix.p = mix.p), length.out = n.beans)
+colors.df$bar.b.col <- rep(piratepal(palette = pal, length.out = n.cols, mix.col = mix.col, mix.p = mix.p), length.out = n.beans)
+colors.df$quant.col <- rep(piratepal(palette = pal, length.out = n.cols, mix.col = mix.col, mix.p = mix.p), length.out = n.beans)
 
 }
 
