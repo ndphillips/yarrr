@@ -424,9 +424,11 @@ if(is.null(formula)) {
     data <- data[,1:2]
     names(data) <- c("group", "y")
 
+    group.num <- data$group
+
     for(i in 1:length(iv.levels)) {
 
-      data$group[data$y == i] <- iv.levels[i]
+      data$group[group.num == i] <- iv.levels[i]
 
     }
 
