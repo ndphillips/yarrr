@@ -1,3 +1,7 @@
+# yarrr 0.1.6
+
+* You can now enter data as a wide dataframe or matrix in `pirateplot()`
+
 # yarrr 0.1.5
 
 * Minor changes to `theme = 1` in `pirateplot()`. Changed default value of `cap.beans` to `TRUE`

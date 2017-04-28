@@ -1,6 +1,6 @@
 Package: yarrr
 Title: A Companion to the e-Book "YaRrr!: The Pirate's Guide to R"
-Version: 0.1.5
+Version: 0.1.6
 Date: 2017-4-18
 Authors@R: person("Nathaniel", "Phillips", email = "yarrr.book@gmail.com",
                   role = c("aut", "cre"))
