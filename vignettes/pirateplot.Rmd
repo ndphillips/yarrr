@@ -295,6 +295,26 @@ pirateplot(formula = weight ~ Time,
 
 You can use up to 3 categorical IVs in your plot. Here are some examples:
 
+
+```{r fig.width = 10, fig.height = 5, fig.align = "center"}
+pirateplot(formula = height ~ sex + eyepatch,
+           data = pirates,
+           theme = 2,
+           inf.disp = "bean")
+```
+
+
+```{r fig.width = 10, fig.height = 5, fig.align = "center"}
+# Same as before, but with second IV on different plots by including beside = FALSE
+pirateplot(formula = height ~ sex + eyepatch,
+           data = pirates,
+           theme = 2,
+           beside = FALSE,
+           inf.disp = "bean")
+```
+
+3 IVs...
+
 ```{r fig.width = 10, fig.height = 5, fig.align = "center"}
 pirateplot(formula = height ~ sex + eyepatch + headband,
            data = pirates,
@@ -302,19 +322,7 @@ pirateplot(formula = height ~ sex + eyepatch + headband,
            inf.disp = "bean")
 ```
 
-Here's a pirateplot with showing the relationship between movie running times based on movie genre and whether the movie is a sequel or not.
 
-```{r fig.width = 8, fig.height = 8, fig.align = "center"}
-pirateplot(formula = time ~ sequel + genre + rating,
-           data = subset(movies, 
-                         genre %in% c("Action", "Adventure", "Comedy", "Horror") &
-                         rating %in% c("G", "PG", "PG-13", "R") &
-                         time > 0),
-           theme = 3,
-           cex.lab = .8,
-           inf.disp = "rect",
-           pal = "up")
-```
 
 # Output
 
