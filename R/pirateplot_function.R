@@ -817,7 +817,7 @@ if(theme == 1) {
   if(is.null(bean.b.col)) {bean.b.col <- "black"}
   if(is.null(point.cex)) {point.cex <- .7}
   if(is.null(point.col)) {point.col <- "black"}
-  if(is.null(inf.b.col)) {inf.b.col <- "black"}
+  if(is.null(inf.b.col)) {inf.b.col <- gray(0)}
   if(is.null(inf.f.col)) {inf.f.col <- "white"}
   if(is.null(bean.lwd)) {bean.lwd <- 2}
   if(is.null(avg.line.col)) {avg.line.col <- "black"}
@@ -843,6 +843,7 @@ if(theme == 2) {
   if(is.null(bean.f.o)) {bean.f.o <- 1}
   if(is.null(inf.f.o)) {inf.f.o <- .6}
   if(is.null(inf.b.o)) {inf.b.o <- .8}
+  if(is.null(inf.b.col)) {inf.b.col <- gray(0)}
   if(is.null(avg.line.o)) {avg.line.o <- 1}
   if(is.null(bar.f.o)) {bar.f.o <- 0}
   if(is.null(bar.b.o)) {bar.b.o <- 0}
@@ -876,7 +877,7 @@ if(theme == 3) {
 
   if(is.null(bean.b.col)) {bean.b.col <- "black"}
   if(is.null(inf.f.col)) {inf.f.col <- "white"}
-  if(is.null(inf.b.col)) {inf.b.col <-  "black"}
+  if(is.null(inf.b.col)) {inf.b.col <-  gray(0)}
   if(is.null(avg.line.col)) {avg.line.col <- "black"}
   if(is.null(point.col)) {point.col <- "black"}
   if(is.null(point.cex)) {point.cex <- .5}
@@ -904,7 +905,7 @@ if(theme == 4) {
   if(is.null(bar.b.o))  {bar.b.o <- 1}
 
   if(is.null(inf.f.col)) {inf.f.col <- "black"}
-  if(is.null(inf.b.col)) {inf.b.col <-  "black"}
+  if(is.null(inf.b.col)) {inf.b.col <-  gray(0)}
   if(is.null(avg.line.col)) {avg.line.col <- "black"}
   if(is.null(bar.f.col)) {bar.f.col <- "white"}
   if(is.null(bar.b.col)) {bar.b.col <- "black"}
