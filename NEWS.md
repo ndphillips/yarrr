@@ -1,5 +1,7 @@
 # yarrr 0.1.6
 
+* Added `beside` argument to `pirateplot()`. When `beside = TRUE` values of second independent variables are shown in separate plots rather than beside each other.
+
 * You can now enter data as a wide dataframe or matrix in `pirateplot()`
 
 # yarrr 0.1.5
