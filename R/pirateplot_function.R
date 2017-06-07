@@ -9,6 +9,7 @@
 #' @param mix.col,mix.p Optional color mixing arguments to be passed to \code{piratepal}. See \code{?piratepal} for examples.
 #' @param point.col,bar.f.col,bean.b.col,bean.f.col,inf.f.col,inf.b.col,avg.line.col,bar.b.col,quant.col,point.bg string. Vectors of colors specifying the colors of the plotting elements. This will override values in the palette. f stands for filling, b stands for border.
 #' @param theme integer. An integer in the set 0, 1, 2 specifying a theme (that is, new default values for opacities and colors). \code{theme = 0} turns off all opacities which can then be individually specified individually.
+#' @param beside logical. If FALSE, then the second independent variable is spread over separate plots, rather than separated in the samep lot.
 #' @param bar.f.o,point.o,inf.f.o,inf.b.o,avg.line.o,bean.b.o,bean.f.o,bar.b.o numeric. A number between 0 and 1 indicating how opaque to make the bars, points, inference band, average line, and beans respectively. These values override whatever is in the specified theme
 #' @param avg.line.fun function. A function that determines how average lines and bar heights are determined (default is mean).
 #' @param back.col string. Color of the plotting background.
@@ -32,11 +33,11 @@
 #' @param quant.boxplot logical. Should standard values be included?
 #' @param family a font family (Not currently in use)
 #' @param cex.lab,cex.axis,cex.names Size of the labels, axes, and bean names.
-#' @param gl numeric. Locations of the horizontal grid lines
+#' @param gl.y numeric. Locations of the horizontal grid lines
 #' @param gl.lwd,gl.lty,gl.col Customization for grid lines. Can be entered as vectors for alternating gridline types
 #' @param bty,xlim,ylim,xlab,ylab,main,yaxt,xaxt General plotting arguments
 #' @param quant numeric. Adds horizontal lines representing custom quantiles.
-#' @param bar.b.lwd,line.fun,inf.o,bean.o,inf.col,theme.o,inf,inf.type,inf.band,bar.o,line.o,hdi.o depricated arguments
+#' @param bar.b.lwd,line.fun,inf.o,bean.o,inf.col,theme.o,inf,inf.type,inf.band,bar.o,line.o,hdi.o,gl depricated arguments
 #' @keywords plot
 #' @importFrom BayesFactor ttestBF
 #' @importFrom grDevices col2rgb gray rgb
@@ -134,6 +135,7 @@ pirateplot <- function(
   point.lwd = 1,
   jitter.val = .03,
   theme = 1,
+  beside = TRUE,
   bean.b.o = NULL,
   bean.f.o = NULL,
   point.o = NULL,
@@ -190,7 +192,7 @@ pirateplot <- function(
   main = NULL,
   yaxt = NULL,
   xaxt = NULL,
-  gl = NULL,
+  gl.y = NULL,
   gl.lwd = NULL,
   gl.lty = NULL,
   bar.b.lwd = NULL,
@@ -204,7 +206,8 @@ pirateplot <- function(
   inf = NULL,
   hdi.o = NULL,
   inf.type = NULL,
-  inf.band = NULL
+  inf.band = NULL,
+  gl = NULL
 ) {
 #
 #
@@ -221,6 +224,7 @@ pirateplot <- function(
   # point.lwd = 1
   # jitter.val = .03
   # theme = 1
+  # beside = TRUE
   # bean.b.o = NULL
   # quant.boxplot = FALSE
   # bean.f.o = NULL
@@ -254,10 +258,12 @@ pirateplot <- function(
   # decreasing = TRUE
   # cex.lab = 1
   # cex.axis = 1
+  # cex.names = 1
   # quant = NULL
   # quant.length = NULL
   # quant.lwd = NULL
   # bty = "o"
+  # mix.p <- 0
   # evidence = FALSE
   # family = NULL
   # inf.method = "hdi"
@@ -297,11 +303,22 @@ pirateplot <- function(
   # data = list(rnorm(100),rnorm(20))
   # ylab = ""
   # sortx = "mean"
-
+  #
+  #
+  # formula = height ~ sex + eyepatch
+  # data = pirates
+  # theme = 2
+  # beside = FALSE
+  # inf.disp = "bean"
+  #
+  #
+  # formula = len ~ supp + dose
+  # data = ToothGrowth
+  # beside = TRUE
 # -----
 #  SETUP
 # ------
-
+{
 # Check for depricated arguments
 {
 if(is.null(bar.b.lwd) == FALSE) {
@@ -478,9 +495,17 @@ n.iv <- ncol(data) - 1
 if(n.iv > 3) {stop("Currently only 1, 2, or 3 IVs are supported in pirateplot(). Please reduce.")}
 
 # selection.mtx dictates which values are in each sub-plot
-if(n.iv %in% 1:2) {
+if(n.iv %in% 1:2 & beside == TRUE) {
 
 selection.mtx <- matrix(TRUE, nrow = nrow(data), ncol = 1)
+
+}
+
+if(n.iv %in% 1:2 & beside == FALSE) {
+
+  iv2.name <- names(data)[3]
+  iv2.levels <- sort(unique(data[,3]))
+  selection.mtx <- matrix(unlist(lapply(iv2.levels, FUN = function(x) {data[,3] == x})), nrow = nrow(data), ncol = length(iv2.levels), byrow = FALSE)
 
 }
 
@@ -505,6 +530,7 @@ if(n.subplots > 7) {par(mfrow = c(ceiling(sqrt(n.subplots)), ceiling(sqrt(n.subp
 
 # Setup outputs
 summary.ls <- vector("list", length = n.subplots)
+}
 
 # Loop over subplots
 for(subplot.i in 1:n.subplots) {
@@ -618,7 +644,7 @@ summary <- data.frame("n" = rep(NA, n.beans),
 
 summary <- cbind(bean.mtx[,(1:ncol(bean.mtx) - 1)], summary)
 
-if(n.subplots > 1) {summary[iv3.name] <- iv3.levels[subplot.i]}
+if(n.subplots > 1 & beside == TRUE) {summary[iv3.name] <- iv3.levels[subplot.i]}
 
 
 # Loop over beans in subplot
@@ -771,7 +797,7 @@ for(bean.i in 1:n.beans) {
 if(plot == TRUE) {
 
 # COLORS AND TRANSPARENCIES
-
+{
 # Set number of colors to number of levels of the first IV
 n.cols <- iv.lengths[1]
 
@@ -1028,6 +1054,7 @@ if(is.null(bar.b.col) == FALSE) {colors.df$bar.b.col <- rep(bar.b.col, length.ou
 if(is.null(quant.col) == FALSE) {colors.df$quant.col <- rep(quant.col, length.out = n.beans)}
 
 }
+}
 
 # SETUP PLOTTING SPACE
 {
@@ -1095,6 +1122,7 @@ if(n.subplots > 6) {
 
 if(is.null(ylim) == TRUE) {
 
+
   # Determine best step size
 
   steps.p <- c(
@@ -1127,42 +1155,45 @@ if(is.null(ylim) == TRUE) {
   plot.height <- plot.max - plot.min
 
   ylim <- c(plot.min, plot.max)
-  y.levels <- seq(plot.min, plot.max, by = best.step.size)
+
+
+
+  # y.levels <- seq(plot.min, plot.max, by = best.step.size)
 
 }
-
-if(is.null(ylim) == FALSE) {
-
-  steps.p <- c(
-    seq(1e-3, 1e-2, 1e-3),
-    seq(1e-4, 1e-3, 1e-3),
-    seq(1e-5, 1e-4, 1e-4),
-    seq(1e-6, 1e-5, 1e-5),
-    seq(1e-7, 1e-6, 1e-6),
-    seq(1e-8, 1e-7, 1e-7),
-    seq(1e-9, 1e-8, 1e-8),
-    1/2, 1/5, 1/10, 1/25, 1/50, 1/100,
-    1, 2, 5, 10, 25, 50, 100,
-    seq(1e2, 1e3, 1e2),
-    seq(1e3, 1e4, 1e3),
-    seq(1e4, 1e5, 1e4),
-    seq(1e5, 1e6, 1e5),
-    seq(1e6, 1e7, 1e6),
-    seq(1e7, 1e8, 1e7),
-    seq(1e8, 1e9, 1e8)
-  )
-
-  range <- ylim[2] - ylim[1]
-
-  steps.p.m <- range / steps.p
-  best.step.size <- min(steps.p[which(abs(steps.p.m - 10) == min(abs(steps.p.m - 10)))])
-
-  plot.min <- floor(ylim[1] / best.step.size) * best.step.size
-  plot.max <- ceiling((max(dv.v) - plot.min)/  best.step.size) * best.step.size
-
-  y.levels <- seq(ylim[1], ylim[2], by = best.step.size)
-
-}
+#
+# if(is.null(ylim) == FALSE) {
+#
+#   steps.p <- c(
+#     seq(1e-3, 1e-2, 1e-3),
+#     seq(1e-4, 1e-3, 1e-3),
+#     seq(1e-5, 1e-4, 1e-4),
+#     seq(1e-6, 1e-5, 1e-5),
+#     seq(1e-7, 1e-6, 1e-6),
+#     seq(1e-8, 1e-7, 1e-7),
+#     seq(1e-9, 1e-8, 1e-8),
+#     1/2, 1/5, 1/10, 1/25, 1/50, 1/100,
+#     1, 2, 5, 10, 25, 50, 100,
+#     seq(1e2, 1e3, 1e2),
+#     seq(1e3, 1e4, 1e3),
+#     seq(1e4, 1e5, 1e4),
+#     seq(1e5, 1e6, 1e5),
+#     seq(1e6, 1e7, 1e6),
+#     seq(1e7, 1e8, 1e7),
+#     seq(1e8, 1e9, 1e8)
+#   )
+#
+#   range <- ylim[2] - ylim[1]
+#
+#   steps.p.m <- range / steps.p
+#   best.step.size <- min(steps.p[which(abs(steps.p.m - 10) == min(abs(steps.p.m - 10)))])
+#
+#   plot.min <- floor(ylim[1] / best.step.size) * best.step.size
+#   plot.max <- ceiling((max(dv.v) - plot.min)/  best.step.size) * best.step.size
+#
+#   y.levels <- seq(ylim[1], ylim[2], by = best.step.size)
+#
+# }
 
 # Determine x and y labels
 
@@ -1175,11 +1206,9 @@ if(is.null(ylab)) {ylab <- dv.name}
 }
 
 
-
 # PLOTTING SPACE
 if(add == FALSE) {
 
-# X-Axis
 
 if(is.null(xlim)) {xlim <- c(min(bean.loc) - .5, max(bean.loc) + .5)}
 
@@ -1198,6 +1227,9 @@ if(is.null(xlim)) {xlim <- c(min(bean.loc) - .5, max(bean.loc) + .5)}
     #   ...
   )
 
+# Get axis locations
+
+  y.levels <- axTicks(2)
 
 # Add title for iv3
 
@@ -1249,9 +1281,9 @@ if(is.null(gl.col) == FALSE) {
 
   if(is.null(gl.lwd)) {gl.lwd <- c(.5)}
   if(is.null(gl.lty)) {gl.lty <- 1}
-  if(is.null(gl)) {gl <- seq(min(y.levels), max(y.levels), length.out = length(y.levels))}
+  if(is.null(gl.y)) {gl.y <- seq(min(y.levels), max(y.levels), length.out = length(y.levels))}
 
-  abline(h = gl,
+  abline(h = gl.y,
          lwd = gl.lwd,
          col = gl.col,
          lty = gl.lty)
@@ -1562,11 +1594,9 @@ if(inf.disp == "bean") {
 }
 
 }
+}
 
-# Add bean names for IV 1
-
-# if(subplot.n.iv == 1) {line.t <- .7}
-# if(subplot.n.iv == 2) {line.t <- 2}
+# LABELS
 
 if(is.null(xaxt) == TRUE) {
 
@@ -1599,28 +1629,47 @@ if(is.null(xaxt)) {
 
   # IV 2 labels
 
-  if(subplot.n.iv == 2) {
+if(beside == TRUE) {
 
-    mtext(iv.names[2], side = 1, line = 2.5, at = par("usr")[1], adj = 1, cex = cex.names)
+  mtext(iv.names[2], side = 1, line = 2.5, at = par("usr")[1], adj = 1, cex = cex.names)
 
-    mtext(iv.names[1], side = 1, line = 1, at = par("usr")[1], adj = 1, cex = cex.names)
+  mtext(iv.names[1], side = 1, line = 1, at = par("usr")[1], adj = 1, cex = cex.names)
 
-    text.loc <- (iv.lengths[1] + 1) / 2 * (2 *(1:iv.lengths[2]) - 1)
+  text.loc <- (iv.lengths[1] + 1) / 2 * (2 *(1:iv.lengths[2]) - 1)
 
-    mtext(text = unique(bean.mtx[,2]),
-          side = 1,
-          line = 2.5,
-          at = text.loc,
-          cex = cex.lab
-    )
+  mtext(text = unique(bean.mtx[,2]),
+        side = 1,
+        line = 2.5,
+        at = text.loc,
+        cex = cex.lab
+  )
 
 
-  }
+}
+
+if(beside == FALSE) {
+
+  # mtext(iv.names[2], side = 1, line = 2.5, at = par("usr")[1], adj = 1, cex = cex.names)
+
+  text.loc <- (iv.lengths[1] + 1) / 2 * (2 *(1:iv.lengths[2]) - 1)
+
+  mtext(iv.names[1], side = 1, line = 2.5, at = text.loc, cex = cex.names)
+
+
+  mtext(text = paste(iv.names[2], "=", unique(bean.mtx[,2])),
+        side = 3,
+        line = 1,
+        at = text.loc,
+        cex = cex.lab
+  )
+
 
 }
 
 }
+
 }
+
 
 summary.ls[[subplot.i]] <- summary
 
