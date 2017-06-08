@@ -254,7 +254,7 @@ pirateplot <- function(
   # bw = "nrd0"
   # adjust = 1
   # add = FALSE
-  # sortx = "mean"
+  # sortx = "sequential"
   # decreasing = TRUE
   # cex.lab = 1
   # cex.axis = 1
@@ -299,22 +299,10 @@ pirateplot <- function(
   #
   #
   #
-  # formula = NULL
-  # data = list(rnorm(100),rnorm(20))
-  # ylab = ""
-  # sortx = "mean"
-  #
-  #
-  # formula = height ~ sex + eyepatch
-  # data = pirates
-  # theme = 2
-  # beside = FALSE
-  # inf.disp = "bean"
-  #
   #
   # formula = len ~ supp + dose
   # data = ToothGrowth
-  # beside = TRUE
+  # beside = FALSE
 # -----
 #  SETUP
 # ------
@@ -1629,7 +1617,7 @@ if(is.null(xaxt)) {
 
   # IV 2 labels
 
-if(beside == TRUE) {
+if(beside == TRUE & n.iv > 1) {
 
   mtext(iv.names[2], side = 1, line = 2.5, at = par("usr")[1], adj = 1, cex = cex.names)
 
@@ -1647,7 +1635,7 @@ if(beside == TRUE) {
 
 }
 
-if(beside == FALSE) {
+if(beside == FALSE & n.iv > 1) {
 
   # mtext(iv.names[2], side = 1, line = 2.5, at = par("usr")[1], adj = 1, cex = cex.names)
 

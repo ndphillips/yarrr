@@ -7,25 +7,25 @@
 pirateplot(formula = NULL, data = NULL, plot = TRUE,
   avg.line.fun = mean, pal = "basel", mix.col = "white", mix.p = 0,
   back.col = NULL, point.cex = NULL, point.pch = NULL, point.lwd = 1,
-  jitter.val = 0.03, theme = 1, bean.b.o = NULL, bean.f.o = NULL,
-  point.o = NULL, bar.f.o = NULL, bar.b.o = NULL, inf.f.o = NULL,
-  inf.b.o = NULL, avg.line.o = NULL, gl.col = NULL, point.col = NULL,
-  point.bg = NULL, bar.f.col = NULL, bean.b.col = NULL,
-  bean.f.col = NULL, inf.f.col = NULL, inf.b.col = NULL,
-  avg.line.col = NULL, bar.b.col = NULL, quant.col = NULL,
-  avg.line.lwd = 4, bean.lwd = 1, bean.lty = 1, inf.lwd = NULL,
-  bar.lwd = 1, at = NULL, bw = "nrd0", adjust = 1, add = FALSE,
-  sortx = "alphabetical", decreasing = FALSE, cex.lab = 1, cex.axis = 1,
-  cex.names = 1, quant = NULL, quant.length = NULL, quant.lwd = NULL,
-  quant.boxplot = FALSE, bty = "o", cap.beans = TRUE, family = NULL,
-  inf.method = "hdi", inf.within = NULL, inf.p = NULL, hdi.iter = 1000,
-  inf.disp = NULL, cut.min = NULL, cut.max = NULL, width.min = 0.3,
-  width.max = NA, ylim = NULL, xlim = NULL, xlab = NULL, ylab = NULL,
-  main = NULL, yaxt = NULL, xaxt = NULL, gl = NULL, gl.lwd = NULL,
-  gl.lty = NULL, bar.b.lwd = NULL, line.fun = NULL, line.o = NULL,
-  inf.o = NULL, bean.o = NULL, inf.col = NULL, theme.o = NULL,
-  bar.o = NULL, inf = NULL, hdi.o = NULL, inf.type = NULL,
-  inf.band = NULL)
+  jitter.val = 0.03, theme = 1, beside = TRUE, bean.b.o = NULL,
+  bean.f.o = NULL, point.o = NULL, bar.f.o = NULL, bar.b.o = NULL,
+  inf.f.o = NULL, inf.b.o = NULL, avg.line.o = NULL, gl.col = NULL,
+  point.col = NULL, point.bg = NULL, bar.f.col = NULL,
+  bean.b.col = NULL, bean.f.col = NULL, inf.f.col = NULL,
+  inf.b.col = NULL, avg.line.col = NULL, bar.b.col = NULL,
+  quant.col = NULL, avg.line.lwd = 4, bean.lwd = 1, bean.lty = 1,
+  inf.lwd = NULL, bar.lwd = 1, at = NULL, bw = "nrd0", adjust = 1,
+  add = FALSE, sortx = "alphabetical", decreasing = FALSE, cex.lab = 1,
+  cex.axis = 1, cex.names = 1, quant = NULL, quant.length = NULL,
+  quant.lwd = NULL, quant.boxplot = FALSE, bty = "o", cap.beans = TRUE,
+  family = NULL, inf.method = "hdi", inf.within = NULL, inf.p = NULL,
+  hdi.iter = 1000, inf.disp = NULL, cut.min = NULL, cut.max = NULL,
+  width.min = 0.3, width.max = NA, ylim = NULL, xlim = NULL,
+  xlab = NULL, ylab = NULL, main = NULL, yaxt = NULL, xaxt = NULL,
+  gl.y = NULL, gl.lwd = NULL, gl.lty = NULL, bar.b.lwd = NULL,
+  line.fun = NULL, line.o = NULL, inf.o = NULL, bean.o = NULL,
+  inf.col = NULL, theme.o = NULL, bar.o = NULL, inf = NULL,
+  hdi.o = NULL, inf.type = NULL, inf.band = NULL, gl = NULL)
 }
 \arguments{
 \item{formula}{formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent variables}
@@ -47,6 +47,8 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
 \item{jitter.val}{numeric. Amount of jitter added to points horizontally. Defaults to 0.05.}
 
 \item{theme}{integer. An integer in the set 0, 1, 2 specifying a theme (that is, new default values for opacities and colors). \code{theme = 0} turns off all opacities which can then be individually specified individually.}
+
+\item{beside}{logical. If FALSE, then the second independent variable is spread over separate plots, rather than separated in the samep lot.}
 
 \item{bar.f.o, point.o, inf.f.o, inf.b.o, avg.line.o, bean.b.o, bean.f.o, bar.b.o}{numeric. A number between 0 and 1 indicating how opaque to make the bars, points, inference band, average line, and beans respectively. These values override whatever is in the specified theme}
 
@@ -92,11 +94,11 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
 
 \item{width.min, width.max}{numeric. The minimum/maximum width of the beans.}
 
-\item{gl}{numeric. Locations of the horizontal grid lines}
+\item{gl.y}{numeric. Locations of the horizontal grid lines}
 
 \item{gl.lwd, gl.lty, gl.col}{Customization for grid lines. Can be entered as vectors for alternating gridline types}
 
-\item{bar.b.lwd, line.fun, inf.o, bean.o, inf.col, theme.o, inf, inf.type, inf.band, bar.o, line.o, hdi.o}{depricated arguments}
+\item{bar.b.lwd, line.fun, inf.o, bean.o, inf.col, theme.o, inf, inf.type, inf.band, bar.o, line.o, hdi.o, gl}{depricated arguments}
 }
 \description{
 The pirateplot function creates an RDI (Raw data, Descriptive and Inferential statistic) plot showing the relationship between 1 to 3 categorical independent variables and 1 continuous dependent variable.
