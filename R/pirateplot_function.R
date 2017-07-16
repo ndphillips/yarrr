@@ -42,7 +42,7 @@
 #' @keywords plot
 #' @importFrom BayesFactor ttestBF
 #' @importFrom grDevices col2rgb gray rgb
-#' @importFrom graphics abline axis layout mtext par plot points polygon rasterImage rect segments text
+#' @importFrom graphics abline axis layout mtext par plot points polygon rasterImage rect segments text axTicks
 #' @importFrom stats density model.frame optimize rnorm t.test qbeta sd quantile IQR aggregate as.formula
 #' @importFrom utils vignette
 #' @export
