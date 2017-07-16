@@ -22,10 +22,11 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
   hdi.iter = 1000, inf.disp = NULL, cut.min = NULL, cut.max = NULL,
   width.min = 0.3, width.max = NA, ylim = NULL, xlim = NULL,
   xlab = NULL, ylab = NULL, main = NULL, yaxt = NULL, xaxt = NULL,
-  gl.y = NULL, gl.lwd = NULL, gl.lty = NULL, bar.b.lwd = NULL,
-  line.fun = NULL, line.o = NULL, inf.o = NULL, bean.o = NULL,
-  inf.col = NULL, theme.o = NULL, bar.o = NULL, inf = NULL,
-  hdi.o = NULL, inf.type = NULL, inf.band = NULL, gl = NULL)
+  yaxt.y = NULL, gl.y = NULL, gl.lwd = NULL, gl.lty = NULL,
+  bar.b.lwd = NULL, line.fun = NULL, line.o = NULL, inf.o = NULL,
+  bean.o = NULL, inf.col = NULL, theme.o = NULL, bar.o = NULL,
+  inf = NULL, hdi.o = NULL, inf.type = NULL, inf.band = NULL,
+  gl = NULL)
 }
 \arguments{
 \item{formula}{formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent variables}
@@ -93,6 +94,8 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
 \item{cut.min, cut.max}{numeric. Optional minimum and maximum values of the beans.}
 
 \item{width.min, width.max}{numeric. The minimum/maximum width of the beans.}
+
+\item{yaxt.y}{numeric. Locations of tick marks on the y-axis}
 
 \item{gl.y}{numeric. Locations of the horizontal grid lines}
 

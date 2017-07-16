@@ -259,13 +259,13 @@ pirateplot(formula = weight ~ Time,
 There are several more arguments that you can use to customize your plot:
 
 ```{r, echo = FALSE}
-pp.elements <- data.frame('element' = c("Background color", "Gridlines", "Quantiles", "Average line", "Inference Calculation", "Inference Display"),
+pp.elements <- data.frame('element' = c("Background color", "Gridlines", "y-axis Locations", "Quantiles", "Average line", "Inference Calculation", "Inference Display"),
                           'arguments' = c("back.col", 
-                                      "gl.col, gl.lwd, gl.lty",
+                                      "gl.col, gl.lwd, gl.lty", "yaxt.y",
                                       "quant, quant.lwd, quant.col", "avg.line.fun", "inf.method", "inf.disp"
                                       ),
                           "examples" = c("back.col = 'gray(.9, .9)'", 
-                                        "gl.col = 'gray', gl.lwd = c(.75, 0), gl.lty = 1", 
+                                        "gl.col = 'gray', gl.lwd = c(.75, 0), gl.lty = 1", "yaxt.y = seq(0, 400, 50)",
                                         "quant = c(.1, .9), quant.lwd = 1, quant.col = 'black'",
                                         "avg.line.fun = median", "inf.method = 'hdi', inf.method = 'ci'", "inf.disp = 'line', inf.disp = 'bean', inf.disp = 'rect'")
                           )
@@ -280,14 +280,15 @@ pirateplot(formula = weight ~ Time,
            data = ChickWeight,
            main = "Adding quantile lines and background colors",
            theme = 2, 
-           back.col = gray(.98), # Add light gray background
-           gl.col = "gray", # Gray gridlines
-           gl.lwd = c(.75, 0),
-           inf.f.o = .6, # Turn up inf filling
-           inf.disp = "bean", # Wrap inference around bean
-           bean.b.o = .4, # Turn down bean borders
-           quant = c(.1, .9), # 10th and 90th quantiles
-           quant.col = "black" # Black quantile lines
+           back.col = gray(.98),      # Add light gray background
+           gl.col = "gray",           # Gray gridlines
+           gl.lwd = c(.75, 0),        # Gridline widths (alternating)
+           inf.f.o = .6,              # Turn up inf filling
+           inf.disp = "bean",         # Wrap inference around bean
+           bean.b.o = .4,             # Turn down bean borders
+           quant = c(.1, .9),         # 10th and 90th quantiles
+           quant.col = "black",       # Black quantile lines
+           yaxt.y = seq(0, 400, 50)   # Locations of y-axis tick marks
            )
 ```
 
@@ -303,6 +304,7 @@ pirateplot(formula = height ~ sex + eyepatch,
            inf.disp = "bean")
 ```
 
+## beside = FALSE
 
 ```{r fig.width = 10, fig.height = 5, fig.align = "center"}
 # Same as before, but with second IV on different plots by including beside = FALSE
@@ -313,7 +315,17 @@ pirateplot(formula = height ~ sex + eyepatch,
            inf.disp = "bean")
 ```
 
-3 IVs...
+
+```{r fig.width = 10, fig.height = 10, fig.align = "center"}
+# Same as before, but with second IV on different plots by including beside = FALSE
+pirateplot(formula = weight ~ Time + Diet,
+           data = ChickWeight,
+           theme = 2,
+           beside = FALSE)
+```
+
+
+If you use 3 ivs, values of the second iv will be beside each other.
 
 ```{r fig.width = 10, fig.height = 5, fig.align = "center"}
 pirateplot(formula = height ~ sex + eyepatch + headband,
@@ -321,7 +333,6 @@ pirateplot(formula = height ~ sex + eyepatch + headband,
            theme = 2,
            inf.disp = "bean")
 ```
-
 
 
 # Output

@@ -1,8 +1,10 @@
 # yarrr 0.1.6
 
+* Added `yaxt.y` argument to `pirateplot()` that allows you to specify where yaxis tick marks are located.
+
 * Added `beside` argument to `pirateplot()`. When `beside = TRUE` values of second independent variables are shown in separate plots rather than beside each other.
 
-* You can now enter data as a wide dataframe or matrix in `pirateplot()`
+* You can now enter data as a wide dataframe or matrix in `pirateplot()` without specifying a formula. Each column will be shown in a different bean.
 
 # yarrr 0.1.5
 
