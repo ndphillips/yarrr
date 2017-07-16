@@ -33,6 +33,7 @@
 #' @param quant.boxplot logical. Should standard values be included?
 #' @param family a font family (Not currently in use)
 #' @param cex.lab,cex.axis,cex.names Size of the labels, axes, and bean names.
+#' @param yaxt.y numeric. Locations of tick marks on the y-axis
 #' @param gl.y numeric. Locations of the horizontal grid lines
 #' @param gl.lwd,gl.lty,gl.col Customization for grid lines. Can be entered as vectors for alternating gridline types
 #' @param bty,xlim,ylim,xlab,ylab,main,yaxt,xaxt General plotting arguments
@@ -41,7 +42,7 @@
 #' @keywords plot
 #' @importFrom BayesFactor ttestBF
 #' @importFrom grDevices col2rgb gray rgb
-#' @importFrom graphics abline axis layout mtext par plot points polygon rasterImage rect segments text
+#' @importFrom graphics abline axis layout mtext par plot points polygon rasterImage rect segments text axTicks
 #' @importFrom stats density model.frame optimize rnorm t.test qbeta sd quantile IQR aggregate as.formula
 #' @importFrom utils vignette
 #' @export
@@ -192,6 +193,7 @@ pirateplot <- function(
   main = NULL,
   yaxt = NULL,
   xaxt = NULL,
+  yaxt.y = NULL,
   gl.y = NULL,
   gl.lwd = NULL,
   gl.lty = NULL,
@@ -254,7 +256,7 @@ pirateplot <- function(
   # bw = "nrd0"
   # adjust = 1
   # add = FALSE
-  # sortx = "mean"
+  # sortx = "sequential"
   # decreasing = TRUE
   # cex.lab = 1
   # cex.axis = 1
@@ -315,6 +317,11 @@ pirateplot <- function(
   # formula = len ~ supp + dose
   # data = ToothGrowth
   # beside = TRUE
+
+  #
+  # formula = len ~ supp + dose
+  # data = ToothGrowth
+  # beside = FALSE
 # -----
 #  SETUP
 # ------
@@ -1117,7 +1124,7 @@ if(n.subplots > 6) {
 }
 
 # Determine y limits (y axis limits)
-# y axis breaks (y.levels)
+# y axis breaks (yaxt.y)
 
 
 if(is.null(ylim) == TRUE) {
@@ -1158,7 +1165,12 @@ if(is.null(ylim) == TRUE) {
 
 
 
+
   # y.levels <- seq(plot.min, plot.max, by = best.step.size)
+
+
+
+  # yaxt.y <- seq(plot.min, plot.max, by = best.step.size)
 
 }
 #
@@ -1192,6 +1204,7 @@ if(is.null(ylim) == TRUE) {
 #   plot.max <- ceiling((max(dv.v) - plot.min)/  best.step.size) * best.step.size
 #
 #   y.levels <- seq(ylim[1], ylim[2], by = best.step.size)
+#   yaxt.y <- seq(ylim[1], ylim[2], by = best.step.size)
 #
 # }
 
@@ -1231,6 +1244,13 @@ if(is.null(xlim)) {xlim <- c(min(bean.loc) - .5, max(bean.loc) + .5)}
 
   y.levels <- axTicks(2)
 
+if(is.null(yaxt.y)) {
+
+  yaxt.y <- axTicks(2)
+
+}
+
+
 # Add title for iv3
 
 if(n.iv > 2) {
@@ -1247,8 +1267,8 @@ if(n.iv > 2) {
 if(is.null(yaxt)) {
 
 axis(side = 2,
-     at = y.levels,
-     labels = prettyNum(y.levels, big.mark = ","),
+     at = yaxt.y,
+     labels = prettyNum(yaxt.y, big.mark = ","),
      las = 1,
      lwd = 0,
      lwd.ticks = 1,
@@ -1281,7 +1301,8 @@ if(is.null(gl.col) == FALSE) {
 
   if(is.null(gl.lwd)) {gl.lwd <- c(.5)}
   if(is.null(gl.lty)) {gl.lty <- 1}
-  if(is.null(gl.y)) {gl.y <- seq(min(y.levels), max(y.levels), length.out = length(y.levels))}
+
+  if(is.null(gl.y)) {gl.y <- yaxt.y}
 
   abline(h = gl.y,
          lwd = gl.lwd,
@@ -1629,7 +1650,8 @@ if(is.null(xaxt)) {
 
   # IV 2 labels
 
-if(beside == TRUE) {
+
+if(beside == TRUE & n.iv > 1) {
 
   mtext(iv.names[2], side = 1, line = 2.5, at = par("usr")[1], adj = 1, cex = cex.names)
 
@@ -1647,7 +1669,8 @@ if(beside == TRUE) {
 
 }
 
-if(beside == FALSE) {
+
+if(beside == FALSE & n.iv > 1) {
 
   # mtext(iv.names[2], side = 1, line = 2.5, at = par("usr")[1], adj = 1, cex = cex.names)
 
