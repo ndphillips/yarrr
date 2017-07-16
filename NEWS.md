@@ -1,5 +1,7 @@
 # yarrr 0.1.6
 
+* Added `pointpars` argument to `pirateplot()` that allows the user to specify plotting parameters for individual points (e.g.; colors, labels, pch). See the pirateplot vignette for details.
+
 * Added `yaxt.y` argument to `pirateplot()` that allows you to specify where yaxis tick marks are located.
 
 * Added `beside` argument to `pirateplot()`. When `beside = TRUE` values of second independent variables are shown in separate plots rather than beside each other.

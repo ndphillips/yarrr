@@ -354,6 +354,30 @@ Here's the result. The most interesting element is `$summary` which shows summar
 times.pp
 ```
 
+# Specifying individual point parameters
+
+If you want to customize the look of individual points in the plot, you can specify them with an additional `pointpars` argument. This should be a dataframe with the same number of rows as `data`, and column names in the set col, bg, pch, labels, jitter.
+
+For example, here is a plot with additional point labels and custom jitter values:
+
+```{r, eval = FALSE}
+# Create a smaller version of the ChickWeight data
+ChickWeight2 <- ChickWeight[sample(nrow(ChickWeight), size = 100),]
+
+# Define labels, jitter values, and colors for all individual points
+pointpars <- data.frame("labels" = 1:100,
+                        "jitter" = rep(c(-.1, .1), 
+                                      length.out = 100),
+                        "col" = sample(colors(),
+                                       size = 100, 
+                                       replace = TRUE))
+
+# Createpireatplot with custom point parameters
+pirateplot(formula = weight ~ Diet,
+           data = ChickWeight2,
+           pointpars = pointpars,
+           point.o = 1)
+```
 
 
 # Contribute!

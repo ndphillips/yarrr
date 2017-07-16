@@ -6,6 +6,7 @@
 #' @param data Either a dataframe containing the variables specified in formula, a list of numeric vectors, or a numeric dataframe / matrix.
 #' @param plot logical. If \code{TRUE} (the default), thent the pirateplot is produced. If \code{FALSE}, the data summaries created in the plot are returned as a list.
 #' @param pal string. The color palette of the plot. Can be a single color, a vector of colors, or the name of a palette in the piratepal() function (e.g.; "basel", "google", "southpark"). To see all the palettes, run \code{piratepal(palette = "all", action = "show")}
+#' @param pointpars dataframe A dataframe containing optional additional plotting parameters for points. The dataframe should have thee same number of rows as \code{data}, and have column names in the set \code{col, bg, pch, labels}.
 #' @param mix.col,mix.p Optional color mixing arguments to be passed to \code{piratepal}. See \code{?piratepal} for examples.
 #' @param point.col,bar.f.col,bean.b.col,bean.f.col,inf.f.col,inf.b.col,avg.line.col,bar.b.col,quant.col,point.bg string. Vectors of colors specifying the colors of the plotting elements. This will override values in the palette. f stands for filling, b stands for border.
 #' @param theme integer. An integer in the set 0, 1, 2 specifying a theme (that is, new default values for opacities and colors). \code{theme = 0} turns off all opacities which can then be individually specified individually.
@@ -128,6 +129,7 @@ pirateplot <- function(
   plot = TRUE,
   avg.line.fun = mean,
   pal = "basel",
+  pointpars = NULL,
   mix.col = "white",
   mix.p = 0,
   back.col = NULL,
@@ -297,14 +299,24 @@ pirateplot <- function(
   # inf.type = NULL
   # inf.band = NULL
   # cap.beans = TRUE
+  # yaxt.y <- NULL
+  # gl.y <- NULL
   # #
   #
   #
   #
   #
-  # formula = len ~ supp + dose
-  # data = ToothGrowth
+  # formula = weight ~ Diet
+  # data = ChickWeight
   # beside = FALSE
+  # #
+  # #
+  # #
+  # formula = weight ~ Diet
+  # data = ChickWeight2
+  # pointpars = data.frame("labels" = 1:100,
+  #                        "jitter" = rep(c(-.1, .1), length.out = 100))
+
 # -----
 #  SETUP
 # ------
@@ -479,19 +491,21 @@ dv.v <- data[,1]
 all.iv.names <- names(data)[2:ncol(data)]
 }
 
+
+
 # GET IV INFORMATION
 {
 n.iv <- ncol(data) - 1
 if(n.iv > 3) {stop("Currently only 1, 2, or 3 IVs are supported in pirateplot(). Please reduce.")}
 
 # selection.mtx dictates which values are in each sub-plot
-if(n.iv %in% 1:2 & beside == TRUE) {
+if(n.iv == 1 | (n.iv == 2 & beside == TRUE)) {
 
 selection.mtx <- matrix(TRUE, nrow = nrow(data), ncol = 1)
 
 }
 
-if(n.iv %in% 1:2 & beside == FALSE) {
+if(n.iv == 2 & beside == FALSE) {
 
   iv2.name <- names(data)[3]
   iv2.levels <- sort(unique(data[,3]))
@@ -527,6 +541,13 @@ for(subplot.i in 1:n.subplots) {
 
 # Select data for current subplot
 data.i <- data[selection.mtx[,subplot.i],]
+
+
+if(is.null(pointpars) == FALSE) {
+
+  pointpars.i <- pointpars[selection.mtx[,subplot.i],]
+
+}
 
 # Remove potential iv3 column
 data.i <- data.i[,1:min(ncol(data.i), 3)]
@@ -1305,7 +1326,15 @@ bar.lwd <- rep(bar.lwd, length.out = n.beans)
 # Loop over beans
 for (bean.i in 1:n.beans) {
 
-dv.i <- data.i[data.i$bean.num == bean.i, dv.name]
+bean.i.log <- data.i$bean.num == bean.i
+
+dv.i <- data.i[bean.i.log, dv.name]
+
+if(is.null(pointpars) == FALSE) {
+
+  pointpars.bean.i <- pointpars.i[bean.i.log,]
+
+}
 
 if(is.logical(dv.i)) {dv.i <- as.numeric(dv.i)}
 
@@ -1402,9 +1431,21 @@ if(length(setdiff(dv.i, c(0, 1))) > 0 & length(dv.i) > 3) {
 # POINTS
 {
 
+if(is.null(pointpars) == FALSE) {
+
+  if("jitter" %in% names(pointpars)) {
+
+  my.jitter <- pointpars.i$jitter[bean.i.log]
+
+  } else {my.jitter <- rnorm(length(dv.i), mean = 0, sd = jitter.val)}
+
+} else {my.jitter <- rnorm(length(dv.i), mean = 0, sd = jitter.val)}
+
+if(is.null(pointpars)) {
+
 # 1-color points
 if((point.pch %in% 21:25) == FALSE) {
-  points(x = rep(x.loc.i, length(dv.i)) + rnorm(length(dv.i), mean = 0, sd = jitter.val),
+  points(x = rep(x.loc.i, length(dv.i)) + my.jitter,
          y = dv.i,
          pch = point.pch,
          col = transparent(colors.df$point.col[bean.i],
@@ -1416,7 +1457,7 @@ if((point.pch %in% 21:25) == FALSE) {
 
 # 2-color points
 if(point.pch %in% 21:25) {
-points(x = rep(x.loc.i, length(dv.i)) + rnorm(length(dv.i), mean = 0, sd = jitter.val),
+points(x = rep(x.loc.i, length(dv.i)) + my.jitter,
        y = dv.i,
        pch = point.pch,
        col = transparent(colors.df$point.col[bean.i],
@@ -1427,6 +1468,69 @@ points(x = rep(x.loc.i, length(dv.i)) + rnorm(length(dv.i), mean = 0, sd = jitte
        lwd = point.lwd
 )
 }
+
+
+}
+
+if(is.null(pointpars) == FALSE) {
+
+  if("col" %in% names(pointpars)) {
+
+    point.col <- transparent(pointpars$col[bean.i.log],
+                             trans.val = 1 - opac.df$point.o[bean.i])
+
+  } else { point.col <- transparent(colors.df$point.col[bean.i],
+                                    trans.val = 1 - opac.df$point.o[bean.i])}
+
+  if("bg" %in% names(pointpars)) {
+
+    point.bg <- transparent(pointpars$bg[bean.i.log],
+                             trans.val = 1 - opac.df$point.o[bean.i])
+
+  } else {point.bg <- transparent(colors.df$point.bg[bean.i],
+                                    trans.val = 1 - opac.df$point.o[bean.i])}
+
+
+    if("pch" %in% names(pointpars)) {
+
+      point.pch.i <- pointpars$pch[bean.i.log]
+
+    } else {point.pch.i <- point.pch}
+
+
+  if(point.pch %in% 21:25) {
+
+    points(x = rep(x.loc.i, length(dv.i)) + my.jitter,
+           y = dv.i,
+           pch = point.pch.i,
+           col = point.col,
+           bg = point.bg,
+           cex = point.cex,
+           lwd = point.lwd
+    )
+
+  } else {
+    points(x = rep(x.loc.i, length(dv.i)) + my.jitter,
+           y = dv.i,
+           pch = point.pch.i,
+           col = point.col,
+           cex = point.cex,
+           lwd = point.lwd
+    )
+
+  }
+
+
+    if("labels" %in% names(pointpars)) {
+
+      text(x = rep(x.loc.i, length(dv.i)) + my.jitter,
+           y = dv.i,
+           labels = pointpars$labels[bean.i.log],
+           cex = point.cex)
+    }
+
+  }
+
 
 }
 
