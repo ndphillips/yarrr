@@ -1482,6 +1482,8 @@ if(is.null(pointpars) == FALSE) {
   } else { point.col <- transparent(colors.df$point.col[bean.i],
                                     trans.val = 1 - opac.df$point.o[bean.i])}
 
+
+
   if("bg" %in% names(pointpars)) {
 
     point.bg <- transparent(pointpars$bg[bean.i.log],
@@ -1523,10 +1525,36 @@ if(is.null(pointpars) == FALSE) {
 
     if("labels" %in% names(pointpars)) {
 
+
+      if("pos" %in% names(pointpars)) {
+
+        text.pos <- pointpars$pos[bean.i.log]
+
+      } else {text.pos <- NULL}
+
+      if("cex.labels" %in% names(pointpars)) {
+
+        cex.labels <- pointpars$cex[bean.i.log]
+
+      } else {cex.labels <- point.cex}
+
+      if(is.null(text.pos) == FALSE) {
+
       text(x = rep(x.loc.i, length(dv.i)) + my.jitter,
            y = dv.i,
            labels = pointpars$labels[bean.i.log],
-           cex = point.cex)
+           pos = text.pos,
+           cex = cex.labels)
+
+      } else {
+
+        text(x = rep(x.loc.i, length(dv.i)) + my.jitter,
+             y = dv.i,
+             labels = pointpars$labels[bean.i.log],
+             cex = cex.labels)
+      }
+
+
     }
 
   }
