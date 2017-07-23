@@ -16,17 +16,17 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
   bar.b.col = NULL, quant.col = NULL, avg.line.lwd = 4, bean.lwd = 1,
   bean.lty = 1, inf.lwd = NULL, bar.lwd = 1, at = NULL, bw = "nrd0",
   adjust = 1, add = FALSE, sortx = "alphabetical", decreasing = FALSE,
-  cex.lab = 1, cex.axis = 1, cex.names = 1, quant = NULL,
-  quant.length = NULL, quant.lwd = NULL, quant.boxplot = FALSE,
-  bty = "o", cap.beans = TRUE, family = NULL, inf.method = "hdi",
-  inf.within = NULL, inf.p = NULL, hdi.iter = 1000, inf.disp = NULL,
-  cut.min = NULL, cut.max = NULL, width.min = 0.3, width.max = NA,
-  ylim = NULL, xlim = NULL, xlab = NULL, ylab = NULL, main = NULL,
-  yaxt = NULL, xaxt = NULL, yaxt.y = NULL, gl.y = NULL, gl.lwd = NULL,
-  gl.lty = NULL, bar.b.lwd = NULL, line.fun = NULL, line.o = NULL,
-  inf.o = NULL, bean.o = NULL, inf.col = NULL, theme.o = NULL,
-  bar.o = NULL, inf = NULL, hdi.o = NULL, inf.type = NULL,
-  inf.band = NULL, gl = NULL)
+  cex.lab = 1, cex.axis = 1, cex.names = 1, force.layout = FALSE,
+  quant = NULL, quant.length = NULL, quant.lwd = NULL,
+  quant.boxplot = FALSE, bty = "o", cap.beans = TRUE, family = NULL,
+  inf.method = "hdi", inf.within = NULL, inf.p = NULL, hdi.iter = 1000,
+  inf.disp = NULL, cut.min = NULL, cut.max = NULL, width.min = 0.3,
+  width.max = NA, ylim = NULL, xlim = NULL, xlab = NULL, ylab = NULL,
+  main = NULL, yaxt = NULL, xaxt = NULL, yaxt.y = NULL, gl.y = NULL,
+  gl.lwd = NULL, gl.lty = NULL, bar.b.lwd = NULL, line.fun = NULL,
+  line.o = NULL, inf.o = NULL, bean.o = NULL, inf.col = NULL,
+  theme.o = NULL, bar.o = NULL, inf = NULL, hdi.o = NULL,
+  inf.type = NULL, inf.band = NULL, gl = NULL)
 }
 \arguments{
 \item{formula}{formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent variables}
@@ -70,6 +70,8 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
 \item{decreasing}{logical. If sortx is a named function, should values be sorted in decreasing order?}
 
 \item{cex.lab, cex.axis, cex.names}{Size of the labels, axes, and bean names.}
+
+\item{force.layout}{logical. If TRUE, then all internal plotting formatting functions (e.g.; mfrow, mar) are turned off.}
 
 \item{quant}{numeric. Adds horizontal lines representing custom quantiles.}
 

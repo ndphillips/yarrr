@@ -34,6 +34,7 @@
 #' @param quant.boxplot logical. Should standard values be included?
 #' @param family a font family (Not currently in use)
 #' @param cex.lab,cex.axis,cex.names Size of the labels, axes, and bean names.
+#' @param force.layout logical. If TRUE, then all internal plotting formatting functions (e.g.; mfrow, mar) are turned off.
 #' @param yaxt.y numeric. Locations of tick marks on the y-axis
 #' @param gl.y numeric. Locations of the horizontal grid lines
 #' @param gl.lwd,gl.lty,gl.col Customization for grid lines. Can be entered as vectors for alternating gridline types
@@ -172,6 +173,7 @@ pirateplot <- function(
   cex.lab = 1,
   cex.axis = 1,
   cex.names = 1,
+  force.layout = FALSE,
   quant = NULL,
   quant.length = NULL,
   quant.lwd = NULL,
@@ -524,11 +526,15 @@ if(n.iv == 3) {
 n.subplots <- ncol(selection.mtx)
 
 # Loop over subplots (only relevant when there is a third IV)
+if(force.layout == FALSE) {
+
 if(n.subplots == 2) {par(mfrow = c(1, 2))}
 if(n.subplots == 3) {par(mfrow = c(1, 3))}
 if(n.subplots == 4) {par(mfrow = c(2, 2))}
 if(n.subplots %in% c(5, 6)) {par(mfrow = c(2, 3))}
 if(n.subplots > 7) {par(mfrow = c(ceiling(sqrt(n.subplots)), ceiling(sqrt(n.subplots))))}
+
+  }
 
 }
 
@@ -1070,6 +1076,8 @@ if(is.null(quant.col) == FALSE) {colors.df$quant.col <- rep(quant.col, length.ou
 # SETUP PLOTTING SPACE
 {
 
+  if(force.layout == FALSE) {
+
 # Determine margins
 if(n.subplots == 1) {
  # par(mar = c(5, 4, 4, 1) + .1)
@@ -1126,6 +1134,8 @@ if(n.subplots > 6) {
     }
 
 }
+
+  }
 
 # Determine y limits (y axis limits)
 # y axis breaks (yaxt.y)
