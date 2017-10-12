@@ -1819,6 +1819,10 @@ output.ls <- list("summary" = summary.df,
                   "inf.method" = inf.method,
                   "inf.p" = inf.p)
 
+## Reset plotting space
+par(mfrow = c(1, 1))
+
+
 if(plot == FALSE) {
 return(output.ls)
 }
