@@ -458,6 +458,22 @@ if(is.null(formula)) {
 
   }
 
+  if(class(data) %in% c("numeric", "integer")) {
+
+    data <- data.frame(y = data, group = rep(1, length(data)))
+
+    formula <- y ~ group
+    xlab <- ""
+    if(is.null(xaxt)) {xaxt <- "n"}
+    if(is.null(ylab)) {ylab <- ""}
+
+    }
+
+
+
+
+
+
   if(class(data) == "list") {
 
     if(is.null(names(data))) {names(data) <- paste0("V", 1:length(data))}
