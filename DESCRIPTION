@@ -1,7 +1,7 @@
 Package: yarrr
 Title: A Companion to the e-Book "YaRrr!: The Pirate's Guide to R"
 Version: 0.1.6
-Date: 2017-4-18
+Date: 2017-10-30
 Authors@R: person("Nathaniel", "Phillips", email = "yarrr.book@gmail.com",
                   role = c("aut", "cre"))
 Description: Contains a mixture of functions and data sets referred to in the introductory e-book "YaRrr!: The Pirate's Guide to R". The latest version of the e-book is available for free at <https://www.thepiratesguidetor.com>.
