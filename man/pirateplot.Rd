@@ -17,16 +17,16 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
   bean.lty = 1, inf.lwd = NULL, bar.lwd = 1, at = NULL, bw = "nrd0",
   adjust = 1, add = FALSE, sortx = "alphabetical", decreasing = FALSE,
   cex.lab = 1, cex.axis = 1, cex.names = 1, force.layout = FALSE,
-  quant = NULL, quant.length = NULL, quant.lwd = NULL,
-  quant.boxplot = FALSE, bty = "o", cap.beans = TRUE, family = NULL,
-  inf.method = "hdi", inf.within = NULL, inf.p = NULL, hdi.iter = 1000,
-  inf.disp = NULL, cut.min = NULL, cut.max = NULL, width.min = 0.3,
-  width.max = NA, ylim = NULL, xlim = NULL, xlab = NULL, ylab = NULL,
-  main = NULL, yaxt = NULL, xaxt = NULL, yaxt.y = NULL, gl.y = NULL,
-  gl.lwd = NULL, gl.lty = NULL, bar.b.lwd = NULL, line.fun = NULL,
-  line.o = NULL, inf.o = NULL, bean.o = NULL, inf.col = NULL,
-  theme.o = NULL, bar.o = NULL, inf = NULL, hdi.o = NULL,
-  inf.type = NULL, inf.band = NULL, gl = NULL)
+  quant = NULL, quant.length = NULL, quant.lwd = NULL, bty = "o",
+  cap.beans = TRUE, family = NULL, inf.method = "hdi",
+  inf.within = NULL, inf.p = NULL, hdi.iter = 1000, inf.disp = NULL,
+  cut.min = NULL, cut.max = NULL, width.min = 0.3, width.max = NA,
+  ylim = NULL, xlim = NULL, xlab = NULL, ylab = NULL, main = NULL,
+  yaxt = NULL, xaxt = NULL, yaxt.y = NULL, gl.y = NULL, gl.lwd = NULL,
+  gl.lty = NULL, bar.b.lwd = NULL, line.fun = NULL, line.o = NULL,
+  inf.o = NULL, bean.o = NULL, inf.col = NULL, theme.o = NULL,
+  bar.o = NULL, inf = NULL, hdi.o = NULL, inf.type = NULL,
+  inf.band = NULL, gl = NULL)
 }
 \arguments{
 \item{formula}{formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent variables}
@@ -76,8 +76,6 @@ pirateplot(formula = NULL, data = NULL, plot = TRUE,
 \item{quant}{numeric. Adds horizontal lines representing custom quantiles.}
 
 \item{quant.length, quant.lwd}{numeric. Specifies line lengths/widths of \code{quant}.}
-
-\item{quant.boxplot}{logical. Should standard values be included?}
 
 \item{bty, xlim, ylim, xlab, ylab, main, yaxt, xaxt}{General plotting arguments}
 
