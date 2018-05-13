@@ -31,7 +31,6 @@
 #' @param add logical. Should the pirateplot elements be added to an existing plotting space?
 #' @param cap.beans logical. Should maximum and minimum values of the bean densities be capped at the limits found in the data? Default is FALSE.
 #' @param quant.length,quant.lwd numeric. Specifies line lengths/widths of \code{quant}.
-#' @param quant.boxplot logical. Should standard values be included?
 #' @param family a font family (Not currently in use)
 #' @param cex.lab,cex.axis,cex.names Size of the labels, axes, and bean names.
 #' @param force.layout logical. If TRUE, then all internal plotting formatting functions (e.g.; mfrow, mar) are turned off.
@@ -177,7 +176,6 @@ pirateplot <- function(
   quant = NULL,
   quant.length = NULL,
   quant.lwd = NULL,
-  quant.boxplot = FALSE,
   bty = "o",
   cap.beans = TRUE,
   family = NULL,
@@ -219,105 +217,94 @@ pirateplot <- function(
 #
 #
 # #
-  # formula = len ~ dose + supp
-  # data = ToothGrowth
-  # plot = TRUE
-  # avg.line.fun = mean
-  # pal = "basel"
-  # back.col = NULL
-  # point.cex = NULL
-  # point.pch = NULL
-  # point.lwd = 1
-  # jitter.val = .03
-  # theme = 1
-  # beside = TRUE
-  # bean.b.o = NULL
-  # quant.boxplot = FALSE
-  # bean.f.o = NULL
-  # point.o = NULL
-  # bar.f.o = NULL
-  # bar.b.o = NULL
-  # inf.f.o = NULL
-  # inf.b.o = NULL
-  # avg.line.o = NULL
-  # gl.col = NULL
-  # point.col = NULL
-  # point.bg = NULL
-  # bar.f.col = NULL
-  # bean.b.col = NULL
-  # bean.f.col = NULL
-  # inf.f.col = NULL
-  # inf.b.col = NULL
-  # avg.line.col = NULL
-  # bar.b.col = NULL
-  # quant.col = NULL
-  # avg.line.lwd = 4
-  # bean.lwd = 1
-  # bean.lty = 1
-  # inf.lwd = NULL
-  # bar.lwd = 1
-  # at = NULL
-  # bw = "nrd0"
-  # adjust = 1
-  # add = FALSE
-  # sortx = "sequential"
-  # decreasing = TRUE
-  # cex.lab = 1
-  # cex.axis = 1
-  # cex.names = 1
-  # quant = NULL
-  # quant.length = NULL
-  # quant.lwd = NULL
-  # bty = "o"
-  # mix.p <- 0
-  # evidence = FALSE
-  # family = NULL
-  # inf.method = "hdi"
-  # inf.p = .95
-  # hdi.iter = 1e3
-  # inf.disp = "line"
-  # cut.min = NULL
-  # cut.max = NULL
-  # width.min = .3
-  # width.max = NA
-  # ylim = NULL
-  # xlim = NULL
-  # xlab = NULL
-  # ylab = NULL
-  # main = NULL
-  # yaxt = NULL
-  # xaxt = NULL
-  # gl.lwd = NULL
-  # gl.lty = NULL
-  # bar.b.lwd = NULL
-  # line.fun = NULL
-  # inf.o = NULL
-  # bean.o = NULL
-  # bar.o = NULL
-  # line.o = NULL
-  # inf.col = NULL
-  # theme.o = NULL
-  # inf = NULL
-  # inf.type = NULL
-  # inf.band = NULL
-  # cap.beans = TRUE
-  # yaxt.y <- NULL
-  # gl.y <- NULL
+  formula = len ~ dose + supp
+  data = ToothGrowth
+  plot = TRUE
+  avg.line.fun = mean
+  pal = "basel"
+  back.col = NULL
+  point.cex = NULL
+  point.pch = NULL
+  point.lwd = 1
+  jitter.val = .03
+  theme = 1
+  beside = TRUE
+  bean.b.o = NULL
+  bean.f.o = NULL
+  point.o = NULL
+  bar.f.o = NULL
+  bar.b.o = NULL
+  inf.f.o = NULL
+  inf.b.o = NULL
+  force.layout = FALSE
+  avg.line.o = NULL
+  gl.col = NULL
+  point.col = NULL
+  point.bg = NULL
+  bar.f.col = NULL
+  bean.b.col = NULL
+  bean.f.col = NULL
+  inf.f.col = NULL
+  inf.b.col = NULL
+  avg.line.col = NULL
+  bar.b.col = NULL
+  quant.col = NULL
+  avg.line.lwd = 4
+  bean.lwd = 1
+  bean.lty = 1
+  inf.lwd = NULL
+  bar.lwd = 1
+  at = NULL
+  bw = "nrd0"
+  adjust = 1
+  add = FALSE
+  sortx = "sequential"
+  decreasing = TRUE
+  cex.lab = 1
+  cex.axis = 1
+  cex.names = 1
+  quant = NULL
+  quant.length = NULL
+  quant.lwd = NULL
+  bty = "o"
+  mix.p <- 0
+  evidence = FALSE
+  family = NULL
+  inf.method = "hdi"
+  inf.p = .95
+  hdi.iter = 1e3
+  inf.disp = "line"
+  cut.min = NULL
+  cut.max = NULL
+  width.min = .3
+  width.max = NA
+  ylim = NULL
+  xlim = NULL
+  xlab = NULL
+  ylab = NULL
+  main = NULL
+  yaxt = NULL
+  xaxt = NULL
+  gl.lwd = NULL
+  gl.lty = NULL
+  bar.b.lwd = NULL
+  line.fun = NULL
+  inf.o = NULL
+  bean.o = NULL
+  bar.o = NULL
+  line.o = NULL
+  inf.col = NULL
+  theme.o = NULL
+  inf = NULL
+  inf.type = NULL
+  inf.band = NULL
+  cap.beans = TRUE
+  yaxt.y <- NULL
+  gl.y <- NULL
+  pointpars = NULL
   # #
   #
   #
-  #
-  #
-  # formula = weight ~ Diet
-  # data = ChickWeight
-  # beside = FALSE
-  # #
-  # #
-  # #
-  # formula = weight ~ Diet
-  # data = ChickWeight2
-  # pointpars = data.frame("labels" = 1:100,
-  #                        "jitter" = rep(c(-.1, .1), length.out = 100))
 
 # -----
 #  SETUP
@@ -1588,9 +1575,7 @@ if(is.null(pointpars) == FALSE) {
 
 }
 
-if (quant.boxplot) {
-  quant <- c(0.25, 0.75)
-}
+
 # QUANTILES
 if (!is.null(quant)) {
 
@@ -1602,30 +1587,7 @@ if (!is.null(quant)) {
     quant.lwd <- c(rep(0.75, length(quant)))
   } else {quant.lwd <- rep(quant.lwd, length.out = length(quant))}
 
-  if (quant.boxplot) {
-    for (i in 1:length(quant)) {
-      if (i == 1) {
-        segments(x.loc.i + (quant.length[i] - width.max),
-                 quantile(dv.i, probs = quant[i]) - (1.5*IQR(dv.i)),
-                 x.loc.i - (quant.length[i] - width.max),
-                 quantile(dv.i,probs = quant[i]) - (1.5*IQR(dv.i)),
-                 col = colors.df$quant.col[bean.i],
-                 lwd = quant.lwd[i], lend = 3)
-      } else {
-        segments(x.loc.i + (quant.length[i] - width.max),
-                 quantile(dv.i, probs = quant[i]) + (1.5*IQR(dv.i)),
-                 x.loc.i - (quant.length[i] - width.max),
-                 quantile(dv.i,probs = quant[i]) + (1.5*IQR(dv.i)),
-                 col = colors.df$quant.col[bean.i],
-                 lwd = quant.lwd[i], lend = 3)
-      }
-    }
-    segments(x.loc.i, quantile(dv.i, probs = min(quant)) - (1.5*IQR(dv.i)),
-             x.loc.i, quantile(dv.i, probs = max(quant)) + (1.5*IQR(dv.i)),
-             col = colors.df$quant.col[bean.i], lwd = quant.lwd[1],
-             lend = 3, lty = 1)
-  }
-  else {
+
     for (i in 1:length(quant)) {
       segments(x.loc.i + (quant.length[i] - width.max),
                quantile(dv.i, probs = quant[i]),
@@ -1637,7 +1599,7 @@ if (!is.null(quant)) {
              x.loc.i, quantile(dv.i, probs = max(quant)),
              col = colors.df$quant.col[bean.i], lwd = quant.lwd[1],
              lend = 3, lty = 1)
-  }
+
 }
 
 # INFERENCE BAND
