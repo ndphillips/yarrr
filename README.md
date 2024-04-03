@@ -12,7 +12,7 @@ YaRrr Package
 
 The `yarrr` package contains a mixture of data, functions and tutorials
 supporting the e-book “YaRrr! The Pirate’s Guide to R”
-(www.thepiratesguidetor.com).
+(<https://bookdown.org/ndphillips/YaRrr/>).
 
 To install the (stable) version from CRAN, run the following code
 
