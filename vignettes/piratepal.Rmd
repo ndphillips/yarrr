@@ -152,4 +152,4 @@ par(mar = c(5, 4, 4, 1) + .1)
 
 ### Have a favorite palette?
 
-If you have a favorite palette that you'd like me to add, just contact me at yarrr.book@gmail.com and I'll see what I can do :)
+If you have a favorite palette that you'd like me to add, just contact me at nathaniel.d.phillips.is@gmail.com and I'll see what I can do :)

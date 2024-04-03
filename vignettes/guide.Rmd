@@ -1,6 +1,6 @@
 ---
 title: "yarrr package guide"
-author: "Nathaniel Phillips (yarrr.book@gmail.com)"
+author: "Nathaniel Phillips (nathaniel.d.phillips.is@gmail.com)"
 date: "`r Sys.Date()`"
 csl: apa.csl
 bibliography: yarrr.bib
@@ -69,9 +69,8 @@ plot(
 )
 ```
 
-
 # Questions
 
-If you have any questions, comments, or suggestions, write me at yarrr.book@gmail.com
+If you have any questions, comments, or suggestions, write me at nathaniel.d.phillips.is@gmail.com
 
 ### References

@@ -8,8 +8,6 @@ Status](https://travis-ci.org/ndphillips/yarrr.svg?branch=master)](https://travi
 
 # yarrr
 
-YaRrr Package
-
 The `yarrr` package contains a mixture of data, functions and tutorials
 supporting the e-book “YaRrr! The Pirate’s Guide to R”
 (<https://bookdown.org/ndphillips/YaRrr/>).
