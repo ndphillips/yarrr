@@ -1,7 +1,7 @@
 #' pirateserrors
 #'
 #' A dataset containing the results of a survey of 1,000 pirates. This dataset is identical to the pirates dataset - except that it has many errors!
-#' 
+#'
 #'
 #' @format A data frame containing 1,000 rows and 14 columns
 #' \describe{
@@ -21,7 +21,7 @@
 #'   \item{fav.pixar}{A string indicating Pirate's favorite pixar movie}
 #' }
 #' @source 2015 annual international pirate meeting at the Bodensee in Konstanz, Germany
-#' 
-#' 
-#' 
+#'
+#'
+#'
 "pirateserrors"

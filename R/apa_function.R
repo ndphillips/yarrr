@@ -19,47 +19,40 @@
 #' apa(cor.test(x, y))
 #' apa(chisq.test(table(a, b)))
 #'
-#'
-#'
-
-
 apa <- function(test.object, tails = 2, sig.digits = 2, p.lb = .01) {
-
   statistic.id <- substr(names(test.object$statistic), start = 1, stop = 1)
   p.value <- test.object$p.value
 
-  if(tails == 1) {p.value <- p.value / 2}
+  if (tails == 1) {
+    p.value <- p.value / 2
+  }
 
-  if (p.value < p.lb) {p.display <- paste("p < ", p.lb, " (", tails, "-tailed)", sep = "")}
-  if (p.value > p.lb) {p.display <- paste("p = ", round(p.value, sig.digits), " (", tails, "-tailed)", sep = "")}
+  if (p.value < p.lb) {
+    p.display <- paste("p < ", p.lb, " (", tails, "-tailed)", sep = "")
+  }
+  if (p.value > p.lb) {
+    p.display <- paste("p = ", round(p.value, sig.digits), " (", tails, "-tailed)", sep = "")
+  }
 
 
   add.par <- ""
 
-  if(grepl("product-moment", test.object$method)) {
-
+  if (grepl("product-moment", test.object$method)) {
     estimate.display <- paste("r = ", round(test.object$estimate, sig.digits), ", ", sep = "")
-
   }
 
-  if(grepl("Chi", test.object$method)) {
-
+  if (grepl("Chi", test.object$method)) {
     estimate.display <- ""
 
     add.par <- paste(", N = ", sum(test.object$observed), sep = "")
-
   }
 
-  if(grepl("One Sample t-test", test.object$method)) {
-
+  if (grepl("One Sample t-test", test.object$method)) {
     estimate.display <- paste("mean = ", round(test.object$estimate, sig.digits), ", ", sep = "")
-
   }
 
-  if(grepl("Two Sample t-test", test.object$method)) {
-
+  if (grepl("Two Sample t-test", test.object$method)) {
     estimate.display <- paste("mean difference = ", round(test.object$estimate[2] - test.object$estimate[1], sig.digits), ", ", sep = "")
-
   }
 
 
@@ -69,14 +62,12 @@ apa <- function(test.object, tails = 2, sig.digits = 2, p.lb = .01) {
     estimate.display,
     statistic.id,
     "(",
-               round(test.object$parameter, sig.digits),
-               add.par,
-               ") = ",
-               round(test.object$statistic, sig.digits),
-               ", ",
-               p.display,
-               sep = ""
-  )
-  )
-
+    round(test.object$parameter, sig.digits),
+    add.par,
+    ") = ",
+    round(test.object$statistic, sig.digits),
+    ", ",
+    p.display,
+    sep = ""
+  ))
 }
