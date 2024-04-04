@@ -4,13 +4,15 @@
 \name{diamonds}
 \alias{diamonds}
 \title{diamonds}
-\format{A data frame containing 300 rows and 4 columns
+\format{
+A data frame containing 300 rows and 4 columns
 \describe{
   \item{weight}{(numeric) - The weight of the diamond}
   \item{clarity}{(numeric) - The clarity of the diamond}
   \item{color}{(numeric) - The color shading of the diamond}
   \item{value}{The value of the diamond}
- }}
+ }
+}
 \source{
 2015 annual international pirate meeting at the Bodensee in Konstanz, Germany
 }

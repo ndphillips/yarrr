@@ -281,8 +281,6 @@ pirateplot(
 ) # Just turn on the bars
 ```
 
-
-
 # Additional arguments
 
 There are several more arguments that you can use to customize your plot:
@@ -308,7 +306,7 @@ knitr::kable(pp.elements, caption = "Additonal pirateplot elements")
 
 Here's an example using a background color, and quantile lines.
 
-```{r fig.width = 6, fig.height = 4, fig.align = "center"}
+```{r fig.width = 8, fig.height = 5, fig.align = "center", out.width = "100%"}
 pirateplot(
   formula = weight ~ Time,
   data = ChickWeight,
@@ -330,8 +328,7 @@ pirateplot(
 
 You can use up to 3 categorical IVs in your plot. Here are some examples:
 
-
-```{r fig.width = 10, fig.height = 5, fig.align = "center"}
+```{r fig.width = 10, fig.height = 5, fig.align = "center", out.width = "100%"}
 pirateplot(
   formula = height ~ sex + eyepatch,
   data = pirates,
@@ -342,7 +339,7 @@ pirateplot(
 
 ## beside = FALSE
 
-```{r fig.width = 10, fig.height = 5, fig.align = "center"}
+```{r fig.width = 10, fig.height = 5, fig.align = "center", out.width = "100%"}
 # Same as before, but with second IV on different plots by including beside = FALSE
 pirateplot(
   formula = height ~ sex + eyepatch,
@@ -354,7 +351,7 @@ pirateplot(
 ```
 
 
-```{r fig.width = 10, fig.height = 10, fig.align = "center"}
+```{r fig.width = 10, fig.height = 10, fig.align = "center", out.width = "100%"}
 # Same as before, but with second IV on different plots by including beside = FALSE
 pirateplot(
   formula = weight ~ Time + Diet,
@@ -367,7 +364,7 @@ pirateplot(
 
 If you use 3 ivs, values of the second iv will be beside each other.
 
-```{r fig.width = 10, fig.height = 5, fig.align = "center"}
+```{r fig.width = 10, fig.height = 5, fig.align = "center", out.width = "100%"}
 pirateplot(
   formula = height ~ sex + eyepatch + headband,
   data = pirates,
@@ -430,7 +427,6 @@ pirateplot(
   point.o = 1
 )
 ```
-
 
 # Contribute!
 

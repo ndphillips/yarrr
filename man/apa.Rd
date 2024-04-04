@@ -29,7 +29,5 @@ apa(t.test(x, y))
 apa(cor.test(x, y))
 apa(chisq.test(table(a, b)))
 
-
-
 }
 \keyword{apa}

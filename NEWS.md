@@ -1,3 +1,7 @@
+# develop
+
+* Minor vignette and documentation updates.
+
 # yarrr 0.1.6
 
 * Added `pointpars` argument to `pirateplot()` that allows the user to specify plotting parameters for individual points (e.g.; colors, labels, pch). See the pirateplot vignette for details.

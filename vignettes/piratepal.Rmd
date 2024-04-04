@@ -96,7 +96,7 @@ plot(
 
 Let's use the basel palette to draw the house from Up [Up Trailer](https://www.youtube.com/watch?v=pkqzFUhGPJg)
 
-```{r, fig.width = 8, fig.height = 6, fig.align='center', results='hold'}
+```{r, fig.width = 8, fig.height = 6, fig.align='center', out.width = "100%", results='hold'}
 # Set up balloons
 balloon.colors <- piratepal("basel", trans = .2)
 balloon.x <- rnorm(500, 0)

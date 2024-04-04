@@ -4,7 +4,8 @@
 \name{capture}
 \alias{capture}
 \title{capture}
-\format{A data frame containing 1000 rows and 10 columns
+\format{
+A data frame containing 1000 rows and 10 columns
 \describe{
   \item{size}{(integer) - The size (length) of the ship (maybe in meters?)}
   \item{cannons}{(integer) - The number of cannons on the ship}
@@ -16,7 +17,8 @@
   \item{daysfromshore}{(integer) - How many days from the nearest land was the ship when it was found?}
   \item{speed}{(integer) - How fast was the ship going when it was caught?}
   \item{treasure}{(numeric) - How much treasure was found on the ship when it was captured?}
- }}
+ }
+}
 \source{
 2015 annual international pirate meeting at the Bodensee in Konstanz, Germany
 }

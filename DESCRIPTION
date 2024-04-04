@@ -10,7 +10,7 @@ License: GPL-2
 LazyData: true
 URL: www.thepiratesguidetor.com
 BugReports: https://github.com/ndphillips/yarrr/issues
-RoxygenNote: 6.0.1
+RoxygenNote: 7.2.3
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr

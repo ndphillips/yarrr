@@ -4,8 +4,14 @@
 \alias{piratepal}
 \title{piratepal}
 \usage{
-piratepal(palette = "all", trans = 0, mix.col = "white", mix.p = 0,
-  plot.result = FALSE, length.out = NULL)
+piratepal(
+  palette = "all",
+  trans = 0,
+  mix.col = "white",
+  mix.p = 0,
+  plot.result = FALSE,
+  length.out = NULL
+)
 }
 \arguments{
 \item{palette}{A string defining the color palette to use (see examples). To use a random palette, use "random". To plot all palettes, use "all". To see all palette names, use "names"}
@@ -41,17 +47,18 @@ piratepal(palette = "basel", trans = .5, plot.result = TRUE)
 
 # Using a palette in a scatterplot
 
-nemo.cols <- piratepal(palette = "nemo",  trans = .5)
+nemo.cols <- piratepal(palette = "nemo", trans = .5)
 
 set.seed(100) # For reproducibility
 x <- rnorm(100)
 y <- x + rnorm(100)
 
-plot(x = x, y = y, col = nemo.cols,
-    pch = 16,
-    cex = runif(100, min = 0, max = 2),
-    main = "piratepal('nemo', trans = .5)")
-
+plot(
+  x = x, y = y, col = nemo.cols,
+  pch = 16,
+  cex = runif(100, min = 0, max = 2),
+  main = "piratepal('nemo', trans = .5)"
+)
 
 }
 \keyword{colors}
