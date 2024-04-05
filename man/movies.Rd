@@ -4,7 +4,8 @@
 \name{movies}
 \alias{movies}
 \title{movies}
-\format{A data frame containing 5000 rows and 13 columns
+\format{
+A data frame containing 5000 rows and 13 columns
 \describe{
   \item{name}{Movie name}
   \item{rating}{MPAA rating}
@@ -19,7 +20,8 @@
   \item{revenue.dom}{Domestic revenue in $USD millions}
   \item{revenue.int}{International revenue in $USD millions}
   \item{revenue.inf}{Inflation adjusted worldwide revenue in $USD millions}
- }}
+ }
+}
 \source{
 www.the-numbers.com
 }

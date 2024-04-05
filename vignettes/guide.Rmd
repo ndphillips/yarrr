@@ -1,6 +1,6 @@
 ---
 title: "yarrr package guide"
-author: "Nathaniel Phillips (yarrr.book@gmail.com)"
+author: "Nathaniel Phillips (nathaniel.d.phillips.is@gmail.com)"
 date: "`r Sys.Date()`"
 csl: apa.csl
 bibliography: yarrr.bib
@@ -34,9 +34,11 @@ library(yarrr)
 ```
 
 ```{r, fig.width = 6, fig.height = 6, fig.align='center'}
-pirateplot(formula = weight ~ Time,
-           data = ChickWeight,
-           main = "Chicken weights by Time (week)")
+pirateplot(
+  formula = weight ~ Time,
+  data = ChickWeight,
+  main = "Chicken weights by Time (week)"
+)
 ```
 
 ## piratepal()
@@ -50,23 +52,25 @@ piratepal("all")
 You can then use specific palettes in your plots by specifying the named palette. I'll create a scatterplot using the google palette with `piratepal('google', trans = .5)`:
 
 ```{r, fig.width = 6, fig.height = 6, fig.align = 'center'}
-
-my.cols <- piratepal(palette = "google",  
-                     trans = .5)
+my.cols <- piratepal(
+  palette = "google",
+  trans = .5
+)
 
 set.seed(100) # For reproducibility
 x <- rnorm(100)
 y <- x + rnorm(100)
 
-plot(x = x, y = y, col =  my.cols,
-     pch = 16,
-     cex = runif(100, min = 0, max = 2),
-     main = "piratepal('google', trans = .5)")
+plot(
+  x = x, y = y, col = my.cols,
+  pch = 16,
+  cex = runif(100, min = 0, max = 2),
+  main = "piratepal('google', trans = .5)"
+)
 ```
-
 
 # Questions
 
-If you have any questions, comments, or suggestions, write me at yarrr.book@gmail.com
+If you have any questions, comments, or suggestions, write me at nathaniel.d.phillips.is@gmail.com
 
 ### References

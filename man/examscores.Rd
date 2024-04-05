@@ -4,13 +4,15 @@
 \name{examscores}
 \alias{examscores}
 \title{examscores}
-\format{A data frame containing 100 rows and 4 columns
+\format{
+A data frame containing 100 rows and 4 columns
 \describe{
   \item{a}{(numeric) - Score on exam a}
   \item{b}{(numeric) - ...exam b}
   \item{c}{(numeric) - ...exam c}
   \item{d}{(numeric) - ...exam d}
- }}
+ }
+}
 \source{
 2015 annual international pirate meeting at the Bodensee in Konstanz, Germany
 }

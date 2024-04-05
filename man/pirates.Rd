@@ -4,7 +4,8 @@
 \name{pirates}
 \alias{pirates}
 \title{pirates}
-\format{A data frame containing 1,000 rows and 14 columns
+\format{
+A data frame containing 1,000 rows and 14 columns
 \describe{
   \item{id}{An integer giving the pirate's id number}
   \item{sex}{A string with the pirate's self reported sex}
@@ -23,7 +24,8 @@
   \item{beard.length}{A number indicating length of the pirate's beard in centimeters}
   \item{fav.pixar}{A string indicating Pirate's favorite pixar movie}
   \item{grogg}{How many mugs of grogg the pirate drinks a day on average.}
-}}
+}
+}
 \source{
 2015 annual international pirate meeting at the Bodensee in Konstanz, Germany
 }

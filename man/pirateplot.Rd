@@ -4,29 +4,96 @@
 \alias{pirateplot}
 \title{pirateplot}
 \usage{
-pirateplot(formula = NULL, data = NULL, plot = TRUE,
-  avg.line.fun = mean, pal = "basel", pointpars = NULL,
-  mix.col = "white", mix.p = 0, back.col = NULL, point.cex = NULL,
-  point.pch = NULL, point.lwd = 1, jitter.val = 0.03, theme = 1,
-  beside = TRUE, bean.b.o = NULL, bean.f.o = NULL, point.o = NULL,
-  bar.f.o = NULL, bar.b.o = NULL, inf.f.o = NULL, inf.b.o = NULL,
-  avg.line.o = NULL, gl.col = NULL, point.col = NULL, point.bg = NULL,
-  bar.f.col = NULL, bean.b.col = NULL, bean.f.col = NULL,
-  inf.f.col = NULL, inf.b.col = NULL, avg.line.col = NULL,
-  bar.b.col = NULL, quant.col = NULL, avg.line.lwd = 4, bean.lwd = 1,
-  bean.lty = 1, inf.lwd = NULL, bar.lwd = 1, at = NULL, bw = "nrd0",
-  adjust = 1, add = FALSE, sortx = "alphabetical", decreasing = FALSE,
-  cex.lab = 1, cex.axis = 1, cex.names = 1, force.layout = FALSE,
-  quant = NULL, quant.length = NULL, quant.lwd = NULL, bty = "o",
-  cap.beans = TRUE, family = NULL, inf.method = "hdi",
-  inf.within = NULL, inf.p = NULL, hdi.iter = 1000, inf.disp = NULL,
-  cut.min = NULL, cut.max = NULL, width.min = 0.3, width.max = NA,
-  ylim = NULL, xlim = NULL, xlab = NULL, ylab = NULL, main = NULL,
-  yaxt = NULL, xaxt = NULL, yaxt.y = NULL, gl.y = NULL, gl.lwd = NULL,
-  gl.lty = NULL, bar.b.lwd = NULL, line.fun = NULL, line.o = NULL,
-  inf.o = NULL, bean.o = NULL, inf.col = NULL, theme.o = NULL,
-  bar.o = NULL, inf = NULL, hdi.o = NULL, inf.type = NULL,
-  inf.band = NULL, gl = NULL)
+pirateplot(
+  formula = NULL,
+  data = NULL,
+  plot = TRUE,
+  avg.line.fun = mean,
+  pal = "basel",
+  pointpars = NULL,
+  mix.col = "white",
+  mix.p = 0,
+  back.col = NULL,
+  point.cex = NULL,
+  point.pch = NULL,
+  point.lwd = 1,
+  jitter.val = 0.03,
+  theme = 1,
+  beside = TRUE,
+  bean.b.o = NULL,
+  bean.f.o = NULL,
+  point.o = NULL,
+  bar.f.o = NULL,
+  bar.b.o = NULL,
+  inf.f.o = NULL,
+  inf.b.o = NULL,
+  avg.line.o = NULL,
+  gl.col = NULL,
+  point.col = NULL,
+  point.bg = NULL,
+  bar.f.col = NULL,
+  bean.b.col = NULL,
+  bean.f.col = NULL,
+  inf.f.col = NULL,
+  inf.b.col = NULL,
+  avg.line.col = NULL,
+  bar.b.col = NULL,
+  quant.col = NULL,
+  avg.line.lwd = 4,
+  bean.lwd = 1,
+  bean.lty = 1,
+  inf.lwd = NULL,
+  bar.lwd = 1,
+  at = NULL,
+  bw = "nrd0",
+  adjust = 1,
+  add = FALSE,
+  sortx = "alphabetical",
+  decreasing = FALSE,
+  cex.lab = 1,
+  cex.axis = 1,
+  cex.names = 1,
+  force.layout = FALSE,
+  quant = NULL,
+  quant.length = NULL,
+  quant.lwd = NULL,
+  bty = "o",
+  cap.beans = TRUE,
+  family = NULL,
+  inf.method = "hdi",
+  inf.within = NULL,
+  inf.p = NULL,
+  hdi.iter = 1000,
+  inf.disp = NULL,
+  cut.min = NULL,
+  cut.max = NULL,
+  width.min = 0.3,
+  width.max = NA,
+  ylim = NULL,
+  xlim = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  main = NULL,
+  yaxt = NULL,
+  xaxt = NULL,
+  yaxt.y = NULL,
+  gl.y = NULL,
+  gl.lwd = NULL,
+  gl.lty = NULL,
+  bar.b.lwd = NULL,
+  line.fun = NULL,
+  line.o = NULL,
+  inf.o = NULL,
+  bean.o = NULL,
+  inf.col = NULL,
+  theme.o = NULL,
+  bar.o = NULL,
+  inf = NULL,
+  hdi.o = NULL,
+  inf.type = NULL,
+  inf.band = NULL,
+  gl = NULL
+)
 }
 \arguments{
 \item{formula}{formula. A formula in the form \code{y ~ x1 + x2 + x3} indicating the vertical response variable (y) and up to three independent variables}
@@ -112,76 +179,91 @@ The pirateplot function creates an RDI (Raw data, Descriptive and Inferential st
 
 
 # Default pirateplot of weight by Time
-pirateplot(formula = weight ~ Time,
-          data = ChickWeight)
+pirateplot(
+  formula = weight ~ Time,
+  data = ChickWeight
+)
 
 # Same but in grayscale
-pirateplot(formula = weight ~ Time,
-          data = ChickWeight,
-          pal = "gray")
+pirateplot(
+  formula = weight ~ Time,
+  data = ChickWeight,
+  pal = "gray"
+)
 
 
 # Now using theme 2
-pirateplot(formula = weight ~ Time,
-          data = ChickWeight,
-          main = "Chicken weight by time",
-          theme = 2) # theme 2
+pirateplot(
+  formula = weight ~ Time,
+  data = ChickWeight,
+  main = "Chicken weight by time",
+  theme = 2
+) # theme 2
 
 # theme 3
-pirateplot(formula = weight ~ Time,
-          data = ChickWeight,
-          main = "Chicken weight by time",
-          theme = 3) # theme 3
+pirateplot(
+  formula = weight ~ Time,
+  data = ChickWeight,
+  main = "Chicken weight by time",
+  theme = 3
+) # theme 3
 
 # theme 4
-pirateplot(formula = weight ~ Time,
-          data = ChickWeight,
-          main = "Chicken weight by time",
-          theme = 4) # theme 4
+pirateplot(
+  formula = weight ~ Time,
+  data = ChickWeight,
+  main = "Chicken weight by time",
+  theme = 4
+) # theme 4
 
 # Start with theme 2, but then customise!
-pirateplot(formula = weight ~ Time,
-          data = ChickWeight,
-          theme = 2, # theme 2
-          pal = "xmen", # xmen palette
-          main = "Chicken weights by Time",
-          point.o = .4, # Add points
-          point.col = "black",
-          point.bg = "white",
-          point.pch = 21,
-          bean.f.o = .2, # Turn down bean filling
-          inf.f.o = .8, # Turn up inf filling
-          gl.col = "gray", # gridlines
-          gl.lwd = c(.5, 0)) # turn off minor grid lines
+pirateplot(
+  formula = weight ~ Time,
+  data = ChickWeight,
+  theme = 2, # theme 2
+  pal = "xmen", # xmen palette
+  main = "Chicken weights by Time",
+  point.o = .4, # Add points
+  point.col = "black",
+  point.bg = "white",
+  point.pch = 21,
+  bean.f.o = .2, # Turn down bean filling
+  inf.f.o = .8, # Turn up inf filling
+  gl.col = "gray", # gridlines
+  gl.lwd = c(.5, 0)
+) # turn off minor grid lines
 
 # 2 IVs
-pirateplot(formula = len ~ dose + supp,
-          data = ToothGrowth,
-          main = "Guinea pig tooth length by supplement",
-          point.pch = 16,  # Point specifications...
-          point.col = "black",
-          point.o = .7,
-          inf.f.o = .9, # inference band opacity
-          gl.col = "gray")
+pirateplot(
+  formula = len ~ dose + supp,
+  data = ToothGrowth,
+  main = "Guinea pig tooth length by supplement",
+  point.pch = 16, # Point specifications...
+  point.col = "black",
+  point.o = .7,
+  inf.f.o = .9, # inference band opacity
+  gl.col = "gray"
+)
 
 
 # Build everything from scratch with theme 0
 #  And use 3 IVs
-pirateplot(formula = height ~ headband + eyepatch + sex,
-          data = pirates,
-          pal = gray(.1), # Dark gray palette
-          theme = 0, # Start from scratch
-          inf.f.o = .7, # Band opacity
-          inf.f.col = piratepal("basel"), # Add color to bands
-          point.o = .1, # Point opacity
-          avg.line.o = .8, # Average line opacity
-          gl.col = gray(.6), # Gridline specifications
-          gl.lty = 1,
-          gl.lwd = c(.5, 0))
+pirateplot(
+  formula = height ~ headband + eyepatch + sex,
+  data = pirates,
+  pal = gray(.1), # Dark gray palette
+  theme = 0, # Start from scratch
+  inf.f.o = .7, # Band opacity
+  inf.f.col = piratepal("basel"), # Add color to bands
+  point.o = .1, # Point opacity
+  avg.line.o = .8, # Average line opacity
+  gl.col = gray(.6), # Gridline specifications
+  gl.lty = 1,
+  gl.lwd = c(.5, 0)
+)
 
-  # See the vignette for more details
- vignette("pirateplot", package = "yarrr")
-
+# See the vignette for more details
+vignette("pirateplot", package = "yarrr")
 
 }
 \keyword{plot}

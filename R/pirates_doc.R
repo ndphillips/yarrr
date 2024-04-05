@@ -1,7 +1,7 @@
 #' pirates
 #'
 #' A dataset containing the results of a survey of 1,000 pirates.
-#' 
+#'
 #'
 #' @format A data frame containing 1,000 rows and 14 columns
 #' \describe{
@@ -24,7 +24,7 @@
 #'   \item{grogg}{How many mugs of grogg the pirate drinks a day on average.}
 #' }
 #' @source 2015 annual international pirate meeting at the Bodensee in Konstanz, Germany
-#' 
-#' 
-#' 
+#'
+#'
+#'
 "pirates"

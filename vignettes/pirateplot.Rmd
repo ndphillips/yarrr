@@ -26,20 +26,22 @@ A pirateplot has 4 main elements
 4. inf, a rectangle representing an inference interval (e.g.; Bayesian Highest Density Interval or frequentist confidence interval)
 
 ```{r, fig.width = 6, fig.height = 5, echo = F, fig.align='center'}
-pirateplot(formula = weight ~ Diet,
-           data = ChickWeight,
-           theme = 1,
-           back.col = "white",
-           gl.col = "white",
-           bean.f.o = c(0, .1, .7, .1),
-        #   bean.b.o = c(0, .1, 1, .1),
-           point.o = c(.4, .1, .1, .1),
-           avg.line.o = c(.3, 1, .3, .3),
-           inf.f.o = c(.1, .1, .1, .9),
-           bar.f.o = c(.1, .8, .1, .1),
-           inf.f.col = c("white", "white", "white", piratepal("xmen")[4]),
-           main = "4 Elements of a pirateplot", 
-           pal = "xmen")
+pirateplot(
+  formula = weight ~ Diet,
+  data = ChickWeight,
+  theme = 1,
+  back.col = "white",
+  gl.col = "white",
+  bean.f.o = c(0, .1, .7, .1),
+  #   bean.b.o = c(0, .1, 1, .1),
+  point.o = c(.4, .1, .1, .1),
+  avg.line.o = c(.3, 1, .3, .3),
+  inf.f.o = c(.1, .1, .1, .9),
+  bar.f.o = c(.1, .8, .1, .1),
+  inf.f.col = c("white", "white", "white", piratepal("xmen")[4]),
+  main = "4 Elements of a pirateplot",
+  pal = "xmen"
+)
 
 
 text(.7, 350, labels = "Points")
@@ -65,17 +67,21 @@ arrows(3.55, 240, 3.8, 150, length = .1)
 Here are the main arguments to `pirateplot()`
 
 ```{r, echo = FALSE}
-pp.elements <- data.frame('Argument' = c("formula", "data", "main", "pal", "theme", "inf"),
-                          'Description' = c("A formula", "A dataframe",
-                                            "Plot title", "A color palette", "A plotting theme", "Type of inference"),
-                          'Examples' = c("height ~ sex + eyepatch, weight ~ Time", 
-                                      "pirates, ChickWeight", 
-                                      "'Pirate heights', 'Chicken Weights",
-                                      "'xmen', 'black'",
-                                      "0, 1, 2",
-                                      "'ci', 'hdi', 'iqr'"
-                                      )
-                          )
+pp.elements <- data.frame(
+  "Argument" = c("formula", "data", "main", "pal", "theme", "inf"),
+  "Description" = c(
+    "A formula", "A dataframe",
+    "Plot title", "A color palette", "A plotting theme", "Type of inference"
+  ),
+  "Examples" = c(
+    "height ~ sex + eyepatch, weight ~ Time",
+    "pirates, ChickWeight",
+    "'Pirate heights', 'Chicken Weights",
+    "'xmen', 'black'",
+    "0, 1, 2",
+    "'ci', 'hdi', 'iqr'"
+  )
+)
 knitr::kable(pp.elements, caption = "Main Pirateplot Arguments")
 ```
 
@@ -90,10 +96,12 @@ knitr::kable(pp.elements, caption = "Main Pirateplot Arguments")
 
 ```{r fig.align='center', fig.width = 6, fig.height = 4}
 # Theme 1 (the default)
-pirateplot(formula = weight ~ Time,
-           data = ChickWeight,
-           theme = 1,
-           main = "theme = 1")
+pirateplot(
+  formula = weight ~ Time,
+  data = ChickWeight,
+  theme = 1,
+  main = "theme = 1"
+)
 ```
 
 ## Theme 2
@@ -102,10 +110,12 @@ Here is `theme = 2`
 
 ```{r fig.align='center', fig.width = 6, fig.height = 4}
 # Theme 2
-pirateplot(formula = weight ~ Time,
-           data = ChickWeight,
-           theme = 2,
-           main = "theme = 2")
+pirateplot(
+  formula = weight ~ Time,
+  data = ChickWeight,
+  theme = 2,
+  main = "theme = 2"
+)
 ```
 
 
@@ -115,10 +125,12 @@ And now...`theme = 3`!
 
 ```{r fig.align='center', fig.width = 6, fig.height = 4}
 # Theme 3
-pirateplot(formula = weight ~ Time,
-           data = ChickWeight,
-           theme = 3,
-           main = "theme = 3")
+pirateplot(
+  formula = weight ~ Time,
+  data = ChickWeight,
+  theme = 3,
+  main = "theme = 3"
+)
 ```
 
 
@@ -128,10 +140,12 @@ pirateplot(formula = weight ~ Time,
 
 ```{r fig.align='center', fig.width = 6, fig.height = 4}
 # Theme 4
-pirateplot(formula = weight ~ Time,
-           data = ChickWeight,
-           theme = 4,
-           main = "theme = 4")
+pirateplot(
+  formula = weight ~ Time,
+  data = ChickWeight,
+  theme = 4,
+  main = "theme = 4"
+)
 ```
 
 
@@ -142,10 +156,12 @@ pirateplot(formula = weight ~ Time,
 
 ```{r fig.align='center', fig.width = 6, fig.height = 4}
 # Default theme
-pirateplot(formula = weight ~ Time,
-           data = ChickWeight,
-           theme = 0,
-           main = "theme = 0\nStart from scratch")
+pirateplot(
+  formula = weight ~ Time,
+  data = ChickWeight,
+  theme = 0,
+  main = "theme = 0\nStart from scratch"
+)
 ```
 
 # Color palettes
@@ -161,21 +177,25 @@ piratepal("all")
 For example, here is a pirateplot using the `"pony"` palette
 
 ```{r fig.width = 6, fig.height = 4, fig.align = "center"}
-pirateplot(formula = weight ~ Time,
-           data = ChickWeight,
-           pal = "pony", 
-           theme = 1,
-           main = "pony color palette")
+pirateplot(
+  formula = weight ~ Time,
+  data = ChickWeight,
+  pal = "pony",
+  theme = 1,
+  main = "pony color palette"
+)
 ```
 
 The second method is to simply enter a vector of one or more colors. Here, I'll create a black and white pirateplot from theme 2 by specifying `pal = 'black'`
 
 ```{r fig.width = 6, fig.height = 4, fig.align = "center"}
-pirateplot(formula = weight ~ Time,
-           data = ChickWeight,
-           theme = 2,
-           pal = "black",
-           main = "pal = 'black")
+pirateplot(
+  formula = weight ~ Time,
+  data = ChickWeight,
+  theme = 2,
+  pal = "black",
+  main = "pal = 'black"
+)
 ```
 
 
@@ -184,18 +204,22 @@ pirateplot(formula = weight ~ Time,
 Regardless of the theme you use, you can always customize the color and opacity of graphical elements. To do this, specify one of the following arguments. Note: Arguments with `.f.` correspond to the *filling* of an element, while `.b.` correspond to the *border* of an element:
 
 ```{r, echo = FALSE}
-pp.elements <- data.frame('element' = c("points", "beans", "bar", "inf", "avg.line"),
-                          'color' = c("point.col, point.bg", 
-                                      "bean.f.col, bean.b.col", 
-                                      "bar.f.col, bar.b.col",
-                                      "inf.f.col, inf.b.col",
-                                      "avg.line.col"
-                                      ),
-                          "opacity" = c("point.o", 
-                                        "bean.f.o, bean.b.o", 
-                                        "bar.f.o, bar.b.o",
-                                        "inf.f.o, inf.b.o", "avg.line.o")
-                          )
+pp.elements <- data.frame(
+  "element" = c("points", "beans", "bar", "inf", "avg.line"),
+  "color" = c(
+    "point.col, point.bg",
+    "bean.f.col, bean.b.col",
+    "bar.f.col, bar.b.col",
+    "inf.f.col, inf.b.col",
+    "avg.line.col"
+  ),
+  "opacity" = c(
+    "point.o",
+    "bean.f.o, bean.b.o",
+    "bar.f.o, bar.b.o",
+    "inf.f.o, inf.b.o", "avg.line.o"
+  )
+)
 
 knitr::kable(pp.elements, caption = "Customising plotting elements")
 ```
@@ -203,135 +227,150 @@ knitr::kable(pp.elements, caption = "Customising plotting elements")
 For example, I could create the following pirateplots using `theme = 0` and specifying elements explicitly:
 
 ```{r fig.width = 6, fig.height = 4, fig.align = "center"}
-pirateplot(formula = weight ~ Time,
-           data = ChickWeight,
-           theme = 0,
-           main = "Fully customized pirateplot",
-           pal = "southpark", # southpark color palette
-           bean.f.o = .6, # Bean fill
-           point.o = .3, # Points
-           inf.f.o = .7, # Inference fill
-           inf.b.o = .8, # Inference border
-           avg.line.o = 1, # Average line
-           bar.f.o = .5, # Bar
-           inf.f.col = "white", # Inf fill col
-           inf.b.col = "black", # Inf border col
-           avg.line.col = "black", # avg line col
-           bar.f.col = gray(.8), # bar filling color
-           point.pch = 21,
-           point.bg = "white",
-           point.col = "black",
-           point.cex = .7)
+pirateplot(
+  formula = weight ~ Time,
+  data = ChickWeight,
+  theme = 0,
+  main = "Fully customized pirateplot",
+  pal = "southpark", # southpark color palette
+  bean.f.o = .6, # Bean fill
+  point.o = .3, # Points
+  inf.f.o = .7, # Inference fill
+  inf.b.o = .8, # Inference border
+  avg.line.o = 1, # Average line
+  bar.f.o = .5, # Bar
+  inf.f.col = "white", # Inf fill col
+  inf.b.col = "black", # Inf border col
+  avg.line.col = "black", # avg line col
+  bar.f.col = gray(.8), # bar filling color
+  point.pch = 21,
+  point.bg = "white",
+  point.col = "black",
+  point.cex = .7
+)
 ```
 
 If you don't want to start from scratch, you can also start with a theme, and then make selective adjustments:
 
 ```{r fig.width = 6, fig.height = 4, fig.align = "center"}
-pirateplot(formula = weight ~ Time,
-           data = ChickWeight,
-           main = "Adjusting an existing theme",
-           theme = 2,  # Start with theme 2
-           inf.f.o = 0, # Turn off inf fill
-           inf.b.o = 0, # Turn off inf border
-           point.o = .2,   # Turn up points
-           bar.f.o = .5, # Turn up bars
-           bean.f.o = .4, # Light bean filling
-           bean.b.o = .2, # Light bean border
-           avg.line.o = 0, # Turn off average line
-           point.col = "black" # Black points
-           )
+pirateplot(
+  formula = weight ~ Time,
+  data = ChickWeight,
+  main = "Adjusting an existing theme",
+  theme = 2, # Start with theme 2
+  inf.f.o = 0, # Turn off inf fill
+  inf.b.o = 0, # Turn off inf border
+  point.o = .2, # Turn up points
+  bar.f.o = .5, # Turn up bars
+  bean.f.o = .4, # Light bean filling
+  bean.b.o = .2, # Light bean border
+  avg.line.o = 0, # Turn off average line
+  point.col = "black" # Black points
+)
 ```
 
 Just to drive the point home, as a barplot is a special case of a pirateplot, you can even reduce a pirateplot into a horrible barplot:
 
 ```{r fig.width = 6, fig.height = 4, fig.align = "center"}
-pirateplot(formula = weight ~ Time,
-           data = ChickWeight,
-           main = "Reducing a pirateplot to a barplot",
-           theme = 0, # Start from scratch
-           bar.f.o = .7) # Just turn on the bars
+pirateplot(
+  formula = weight ~ Time,
+  data = ChickWeight,
+  main = "Reducing a pirateplot to a barplot",
+  theme = 0, # Start from scratch
+  bar.f.o = .7
+) # Just turn on the bars
 ```
-
-
 
 # Additional arguments
 
 There are several more arguments that you can use to customize your plot:
 
 ```{r, echo = FALSE}
-pp.elements <- data.frame('element' = c("Background color", "Gridlines", "y-axis Locations", "Quantiles", "Average line", "Inference Calculation", "Inference Display"),
-                          'arguments' = c("back.col", 
-                                      "gl.col, gl.lwd, gl.lty", "yaxt.y",
-                                      "quant, quant.lwd, quant.col", "avg.line.fun", "inf.method", "inf.disp"
-                                      ),
-                          "examples" = c("back.col = 'gray(.9, .9)'", 
-                                        "gl.col = 'gray', gl.lwd = c(.75, 0), gl.lty = 1", "yaxt.y = seq(0, 400, 50)",
-                                        "quant = c(.1, .9), quant.lwd = 1, quant.col = 'black'",
-                                        "avg.line.fun = median", "inf.method = 'hdi', inf.method = 'ci'", "inf.disp = 'line', inf.disp = 'bean', inf.disp = 'rect'")
-                          )
+pp.elements <- data.frame(
+  "element" = c("Background color", "Gridlines", "y-axis Locations", "Quantiles", "Average line", "Inference Calculation", "Inference Display"),
+  "arguments" = c(
+    "back.col",
+    "gl.col, gl.lwd, gl.lty", "yaxt.y",
+    "quant, quant.lwd, quant.col", "avg.line.fun", "inf.method", "inf.disp"
+  ),
+  "examples" = c(
+    "back.col = 'gray(.9, .9)'",
+    "gl.col = 'gray', gl.lwd = c(.75, 0), gl.lty = 1", "yaxt.y = seq(0, 400, 50)",
+    "quant = c(.1, .9), quant.lwd = 1, quant.col = 'black'",
+    "avg.line.fun = median", "inf.method = 'hdi', inf.method = 'ci'", "inf.disp = 'line', inf.disp = 'bean', inf.disp = 'rect'"
+  )
+)
 
 knitr::kable(pp.elements, caption = "Additonal pirateplot elements")
 ```
 
 Here's an example using a background color, and quantile lines.
 
-```{r fig.width = 6, fig.height = 4, fig.align = "center"}
-pirateplot(formula = weight ~ Time, 
-           data = ChickWeight,
-           main = "Adding quantile lines and background colors",
-           theme = 2, 
-           back.col = gray(.98),      # Add light gray background
-           gl.col = "gray",           # Gray gridlines
-           gl.lwd = c(.75, 0),        # Gridline widths (alternating)
-           inf.f.o = .6,              # Turn up inf filling
-           inf.disp = "bean",         # Wrap inference around bean
-           bean.b.o = .4,             # Turn down bean borders
-           quant = c(.1, .9),         # 10th and 90th quantiles
-           quant.col = "black",       # Black quantile lines
-           yaxt.y = seq(0, 400, 50)   # Locations of y-axis tick marks
-           )
+```{r fig.width = 8, fig.height = 5, fig.align = "center", out.width = "100%"}
+pirateplot(
+  formula = weight ~ Time,
+  data = ChickWeight,
+  main = "Adding quantile lines and background colors",
+  theme = 2,
+  back.col = gray(.98), # Add light gray background
+  gl.col = "gray", # Gray gridlines
+  gl.lwd = c(.75, 0), # Gridline widths (alternating)
+  inf.f.o = .6, # Turn up inf filling
+  inf.disp = "bean", # Wrap inference around bean
+  bean.b.o = .4, # Turn down bean borders
+  quant = c(.1, .9), # 10th and 90th quantiles
+  quant.col = "black", # Black quantile lines
+  yaxt.y = seq(0, 400, 50) # Locations of y-axis tick marks
+)
 ```
 
 # Multiple IVs
 
 You can use up to 3 categorical IVs in your plot. Here are some examples:
 
-
-```{r fig.width = 10, fig.height = 5, fig.align = "center"}
-pirateplot(formula = height ~ sex + eyepatch,
-           data = pirates,
-           theme = 2,
-           inf.disp = "bean")
+```{r fig.width = 10, fig.height = 5, fig.align = "center", out.width = "100%"}
+pirateplot(
+  formula = height ~ sex + eyepatch,
+  data = pirates,
+  theme = 2,
+  inf.disp = "bean"
+)
 ```
 
 ## beside = FALSE
 
-```{r fig.width = 10, fig.height = 5, fig.align = "center"}
+```{r fig.width = 10, fig.height = 5, fig.align = "center", out.width = "100%"}
 # Same as before, but with second IV on different plots by including beside = FALSE
-pirateplot(formula = height ~ sex + eyepatch,
-           data = pirates,
-           theme = 2,
-           beside = FALSE,
-           inf.disp = "bean")
+pirateplot(
+  formula = height ~ sex + eyepatch,
+  data = pirates,
+  theme = 2,
+  beside = FALSE,
+  inf.disp = "bean"
+)
 ```
 
 
-```{r fig.width = 10, fig.height = 10, fig.align = "center"}
+```{r fig.width = 10, fig.height = 10, fig.align = "center", out.width = "100%"}
 # Same as before, but with second IV on different plots by including beside = FALSE
-pirateplot(formula = weight ~ Time + Diet,
-           data = ChickWeight,
-           theme = 2,
-           beside = FALSE)
+pirateplot(
+  formula = weight ~ Time + Diet,
+  data = ChickWeight,
+  theme = 2,
+  beside = FALSE
+)
 ```
 
 
 If you use 3 ivs, values of the second iv will be beside each other.
 
-```{r fig.width = 10, fig.height = 5, fig.align = "center"}
-pirateplot(formula = height ~ sex + eyepatch + headband,
-           data = pirates,
-           theme = 2,
-           inf.disp = "bean")
+```{r fig.width = 10, fig.height = 5, fig.align = "center", out.width = "100%"}
+pirateplot(
+  formula = height ~ sex + eyepatch + headband,
+  data = pirates,
+  theme = 2,
+  inf.disp = "bean"
+)
 ```
 
 
@@ -340,12 +379,16 @@ pirateplot(formula = height ~ sex + eyepatch + headband,
 If you include the `plot = FALSE` argument to a pirateplot, the function will return some values associated with the plot.
 
 ```{r fig.width = 10, fig.height = 7, fig.align = "center"}
-times.pp <- pirateplot(formula = time ~ sequel + genre,
-                       data = subset(movies, 
-                         genre %in% c("Action", "Adventure", "Comedy", "Horror") &
-                         rating %in% c("G", "PG", "PG-13", "R") &
-                         time > 0),
-                         plot = FALSE)
+times.pp <- pirateplot(
+  formula = time ~ sequel + genre,
+  data = subset(
+    movies,
+    genre %in% c("Action", "Adventure", "Comedy", "Horror") &
+      rating %in% c("G", "PG", "PG-13", "R") &
+      time > 0
+  ),
+  plot = FALSE
+)
 ```
 
 Here's the result. The most interesting element is `$summary` which shows summary statistics for each bean:
@@ -362,27 +405,32 @@ For example, here is a plot with additional point labels and custom jitter value
 
 ```{r, eval = FALSE}
 # Create a smaller version of the ChickWeight data
-ChickWeight2 <- ChickWeight[sample(nrow(ChickWeight), size = 100),]
+ChickWeight2 <- ChickWeight[sample(nrow(ChickWeight), size = 100), ]
 
 # Define labels, jitter values, and colors for all individual points
-pointpars <- data.frame("labels" = 1:100,
-                        "jitter" = rep(c(-.1, .1), 
-                                      length.out = 100),
-                        "col" = sample(colors(),
-                                       size = 100, 
-                                       replace = TRUE))
+pointpars <- data.frame(
+  "labels" = 1:100,
+  "jitter" = rep(c(-.1, .1),
+    length.out = 100
+  ),
+  "col" = sample(colors(),
+    size = 100,
+    replace = TRUE
+  )
+)
 
 # Createpireatplot with custom point parameters
-pirateplot(formula = weight ~ Diet,
-           data = ChickWeight2,
-           pointpars = pointpars,
-           point.o = 1)
+pirateplot(
+  formula = weight ~ Diet,
+  data = ChickWeight2,
+  pointpars = pointpars,
+  point.o = 1
+)
 ```
-
 
 # Contribute!
 
-I am very happy to receive new contributions and suggestions to improve the pirateplot. If you come up a new theme (i.e.; customization) that you like, or have a favorite color palette that you'd like to have implemented, please contact me (yarrr.book@gmail.com) or post an issue at [www.github.com/ndphillips/yarrr/issues](www.github.com/ndphillips/yarrr/issues) and I might include it in a future update.
+I am very happy to receive new contributions and suggestions to improve the pirateplot. If you come up a new theme (i.e.; customization) that you like, or have a favorite color palette that you'd like to have implemented, please contact me (nathaniel.d.phillips.is@gmail.com) or post an issue at [www.github.com/ndphillips/yarrr/issues](www.github.com/ndphillips/yarrr/issues) and I might include it in a future update.
 
 # References
 
