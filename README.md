@@ -55,7 +55,7 @@ pirateplot(
 )
 ```
 
-![](README-unnamed-chunk-3-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-3-1.png)<!-- -->
 
 The `pirateplot` function creates a pirateplot, a transparent (both
 literally and figuratively) plot for displaying continuous data as a
@@ -86,7 +86,7 @@ To see all of the palettes, run `piratepal("all")`
 piratepal(palette = "all")
 ```
 
-<img src="README-unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
 
 Once you find a palette you’d like to use, you can return the colors as
 a vector by specifying the name of the palette in the `palette`
@@ -100,7 +100,7 @@ piratepal(
 )
 ```
 
-<img src="README-unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
 
 Let’s use the basel palette to draw the house from the Pixar film
 [Up](https://www.youtube.com/watch?v=pkqzFUhGPJg)
@@ -154,4 +154,4 @@ points(balloon.x, balloon.y,
 )
 ```
 
-<img src="README-unnamed-chunk-6-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" style="display: block; margin: auto;" />
