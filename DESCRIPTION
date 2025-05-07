@@ -1,6 +1,6 @@
 Package: yarrr
 Title: A Companion to the e-Book "YaRrr!: The Pirate's Guide to R"
-Version: 0.1.6.9000
+Version: 0.1.7
 Date: 2024-04-03
 Authors@R: person("Nathaniel", "Phillips", email = "nathaniel.d.phillips.is@gmail.com",
                   role = c("aut", "cre"))
@@ -8,9 +8,9 @@ Description: Contains a mixture of functions and data sets referred to in the in
 Depends: jpeg,BayesFactor,circlize
 License: GPL-2
 LazyData: true
-URL: www.thepiratesguidetor.com
+URL: https://bookdown.org/ndphillips/YaRrr/
 BugReports: https://github.com/ndphillips/yarrr/issues
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
