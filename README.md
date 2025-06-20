@@ -6,7 +6,7 @@ Status](https://travis-ci.org/ndphillips/yarrr.svg?branch=master)](https://travi
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/yarrr)](https://CRAN.R-project.org/package=yarrr)
 [![Downloads](http://cranlogs.r-pkg.org/badges/yarrr?color=brightgreen)](http://www.r-pkg.org/pkg/yarrr)
 
-# yarrr 0.1.6.9000
+# yarrr 0.1.5
 
 The `yarrr` package contains a mixture of data, functions and tutorials
 supporting the e-book “YaRrr! The Pirate’s Guide to R”
