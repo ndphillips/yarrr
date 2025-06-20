@@ -6,7 +6,7 @@ Status](https://travis-ci.org/ndphillips/yarrr.svg?branch=master)](https://travi
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/yarrr)](https://CRAN.R-project.org/package=yarrr)
 [![Downloads](http://cranlogs.r-pkg.org/badges/yarrr?color=brightgreen)](http://www.r-pkg.org/pkg/yarrr)
 
-# yarrr 0.1.5
+# yarrr 0.1.9
 
 The `yarrr` package contains a mixture of data, functions and tutorials
 supporting the e-book “YaRrr! The Pirate’s Guide to R”
@@ -32,6 +32,7 @@ devtools::install_github("ndphillips/yarrr", build_vignettes = TRUE)
 
 ``` r
 library(yarrr)
+#> Warning: package 'jpeg' was built under R version 4.3.3
 ```
 
 Once you have installed the package, you can run the main package guide
