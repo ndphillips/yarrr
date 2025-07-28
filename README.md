@@ -1,12 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-[![Build
-Status](https://travis-ci.org/ndphillips/yarrr.svg?branch=master)](https://travis-ci.org/ndphillips/yarrr)
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/yarrr)](https://CRAN.R-project.org/package=yarrr)
-[![Downloads](http://cranlogs.r-pkg.org/badges/yarrr?color=brightgreen)](http://www.r-pkg.org/pkg/yarrr)
-
-# yarrr 0.1.9
+# yarrr 0.1.13
 
 The `yarrr` package contains a mixture of data, functions and tutorials
 supporting the e-book “YaRrr! The Pirate’s Guide to R”
@@ -70,16 +65,10 @@ using additional arguments.
 
 ![](inst/ppelements.png)
 
-See `?pirateplot` or
-<https://cran.r-project.org/web/packages/yarrr/vignettes/pirateplot.html>
-for more details
-
 ## piratepal()
 
 `piratepal()` is a function that returns color palettes. See
-`?piratepal` or
-<https://cran.r-project.org/web/packages/yarrr/vignettes/piratepal.html>
-for more details
+`?piratepal` for more details
 
 To see all of the palettes, run `piratepal("all")`
 
