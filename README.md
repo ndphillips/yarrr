@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# yarrr 0.1.13
+# yarrr 0.1.14
 
 The `yarrr` package contains a mixture of data, functions and tutorials
 supporting the e-book “YaRrr! The Pirate’s Guide to R”
