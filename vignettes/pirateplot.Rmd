@@ -428,9 +428,6 @@ pirateplot(
 )
 ```
 
-# Contribute!
-
-I am very happy to receive new contributions and suggestions to improve the pirateplot. If you come up a new theme (i.e.; customization) that you like, or have a favorite color palette that you'd like to have implemented, please contact me (nathaniel.d.phillips.is@gmail.com) or post an issue at [github.com/ndphillips/yarrr/issues](https://www.github.com/ndphillips/yarrr/issues) and I might include it in a future update.
 
 # References
 
